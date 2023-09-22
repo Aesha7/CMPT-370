@@ -14,7 +14,7 @@ if(__name__ == "__main__"):
 # Set-ExecutionPolicy Unrestricted -Scope Process
 # (Allows you to run the script to start the venv)
 
-# .\venv\Scripts\activate
+# .\windowsVenv\Scripts\activate
 # to actually start the venv
 
 # py server.py
@@ -28,5 +28,5 @@ if(__name__ == "__main__"):
 
 ######### TO RUN THE FRONT END ##########
 
-# cd into react-app
-# npm run dev
+# cd into flask-app
+# npm start
