@@ -9,7 +9,7 @@ if(__name__ == "__main__"):
     app.run(debug=True)
 
 
-# To run: cd into the flask-server directory
+# To run: cd into the back-end directory
 
 # Set-ExecutionPolicy Unrestricted -Scope Process
 # (Allows you to run the script to start the venv)
@@ -28,5 +28,5 @@ if(__name__ == "__main__"):
 
 ######### TO RUN THE FRONT END ##########
 
-# cd into flask-app
+# cd into front-end
 # npm start
