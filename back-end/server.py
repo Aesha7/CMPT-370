@@ -20,6 +20,10 @@ if(__name__ == "__main__"):
 # py server.py
 # to actually run the back end server
 
+# Kiran: When I tried to run the front end I got an error: 'error:03000086:digital envelope routines::initialization error'
+#Fix was to run the following in the terminal 
+#set NODE_OPTIONS=--openssl-legacy-provider
+
 
 #CTRL + c to stop the local server
 
