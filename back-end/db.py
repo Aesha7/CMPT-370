@@ -9,7 +9,7 @@ class DB_Connection(object):
         self.uri = "mongodb+srv://CMPT370Team25DB:CPj0i24mLlKvkskt@cmpt370db.godfxkb.mongodb.net/?retryWrites=true&w=majority"
         
         # Create a new client and connect to the server
-        self.client = MongoClient(uri, server_api=ServerApi('1'))
+        self.client = MongoClient(self.uri, server_api=ServerApi('1'))
         
         # Send a ping to confirm a successful connection
         try:
