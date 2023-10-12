@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "create-react-app": "^5.0.1"
+    "@material-ui/core": "^4.12.4",
+    "create-react-app": "^5.0.1",
+    "react-scripts": "^5.0.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.3"
   }
 }
