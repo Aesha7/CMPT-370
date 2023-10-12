@@ -29,6 +29,11 @@ const HomePage = () => {
   navigate(path);
  }
 
+ const viewAccountPageRouteChange = () =>{
+  let path = '/my-account';
+  navigate(path)
+ }
+
 
 /**
  * Handling form submittion
@@ -41,8 +46,8 @@ const HomePage = () => {
     else{
       setSubmitted(true);
       setError(false);
-      // navigating
-      // navigate;
+      viewAccountPageRouteChange();
+      
     }
   }
 
