@@ -1,8 +1,8 @@
-.account-views-page  {
-    font-family: Arial, Helvetica, sans-serif;
-  }
+.account-views-page {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-.view-account-top-bar{
+.view-account-top-bar {
   background-color: gray;
   color: white;
   padding: 30px;
@@ -11,22 +11,21 @@
   font-weight: bolder;
 }
 
-.view-account-settingsButton{
-    padding: 5px 10px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-    transition-duration: 0.4s;
-    background-color: white;
-    border: 2px solid darkgray;
-    color: black;
-    margin-left: auto;
-    margin-right: 0px;
-    margin-top: auto;
-    float: right;
-    max-width: 100%;
+.view-account-settingsButton {
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid darkgray;
+  color: black;
+  margin-left: auto;
+  margin-right: 0px;
+  margin-top: auto;
+  float: right;
+  max-width: 100%;
 }
-
 
 .view-account-container {
   background-color: lightgrey;
@@ -35,39 +34,46 @@
   width: auto;
   margin: 50px;
   padding: 5px;
+  display: flex;
+  flex-direction: row; 
 }
 
-.view-account-container-toprow {
+
+.view-user-info-1 {
+  flex: 0.25;
   display: flex;
-  flex-direction: column; 
-  justify-content: space-between;
+  flex-direction: column;
+  margin: 25px;
+  background-color: darkgray;
+}
+
+
+.view-account-column-entry .info-label {
+  background-color: white;
+  padding: 7px;
 }
 
 .view-account-column-entry {
+  background-color: blue;
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin: 25px;
-}
-.view-account-subcolumn-entry {
-  flex: 1;
-  display: inline;
-  flex-direction: column;
-  margin: 25px;
-}
-.view-account-row-entry {
-  flex: 1;
-  display: flex;
-  flex-direction: row;
   margin: 25px;
 }
 
-.view-account-label {
-  font-size: 26px;
+.account-label {
+  font-size: 22px;
   font-weight: bold;
   text-align: left;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   max-width: 100%;
+}
+
+.info-label {
+  font-size: 16px;
+  text-align: left;
+  max-width: 100%;
+  border: 2px solid darkgray;
 }
 
 .view-account-text-field {
@@ -75,22 +81,104 @@
   margin-bottom: 10px;
   font-size: 16px;
   border: 2px solid darkgray;
-
 }
 
-.button3 {
-  padding: 15px 32px;
+.view-user-info-2 {
+  flex: 0.4;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  background-color: darkgray;
+}
+
+
+
+
+.add-family-bar{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.family-button{
+  padding: 10px 10px;
   text-align: center;
-  font-size: 24px;
+  font-size: 15px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
-  border: 2px solid darkgray;
+  border: 2px solid blue;
   color: black;
-  display: block;
-  margin: 30px auto;
+  margin: auto;
+  float:right;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 0px;
 }
 
+.family-button:hover{
+  background-color: blue;
+  color: white;
+}
+
+.family-label{
+  font-size: 22px;
+  font-weight: bold;
+  vertical-align: middle;
+  text-align: left;
+  margin: auto;
+  margin: auto;
+  max-width: 100%;
+}
+
+
+
+
+.buttons-row {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+}
+
+.register-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid green;
+  color: black;
+  margin-top: 20px;
+}
+
+.register-button:hover {
+  background-color: green;
+  color: white;
+}
+
+.family-member-name {
+  margin: auto;
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+.info-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid blue;
+  color: black;
+  margin-top: 20px;
+}
+
+.info-button:hover {
+  background-color: blue;
+  color: white;
+}
 
 
 /* Media query for smaller screens */
@@ -100,17 +188,20 @@
     margin: 10px 0;
   }
 
-  .button1, .button2, .button3 {
+  .button1,
+  .button2,
+  .button3 {
     margin: 10px auto;
     display: block;
   }
 
-  .label, .button2 {
+  .label,
+  .button2 {
     width: 100%;
     padding: 15px 20px;
     box-sizing: border-box;
   }
 }
 
-
-.container-toprow{}
+.container-toprow {
+}

@@ -18,7 +18,7 @@ const HomePage = () => {
 
  // going to account
  const routeChange = () =>{ 
-   let path = `/account-page`; 
+   let path = `/my-account`; 
    navigate(path);
  }
 
