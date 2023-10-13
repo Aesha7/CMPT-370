@@ -7,7 +7,7 @@ import './ViewAccountPage.css';
 
 const AccountView = () => {
 
-    return(<h1>accountView</h1>);
+    return(<button className="settingsButton">&#x26ED;</button>);
 }
 
 export default AccountView

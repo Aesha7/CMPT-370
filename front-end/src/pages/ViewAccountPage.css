@@ -1,0 +1,19 @@
+.account-views-page  {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+.settingsButton{
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: white;
+    border: 2px solid darkgray;
+    color: black;
+    margin-left: auto;
+    margin-right: 20px;
+    margin-top: 20px;
+    float: right;
+    max-width: 100%;
+}
