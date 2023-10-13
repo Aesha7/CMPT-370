@@ -105,8 +105,8 @@
   }
 
   
-  .button1:hover {
-    background-color: green;
+  .waiver-button:hover {
+    background-color: darkgray;
     color: white;
   }
   

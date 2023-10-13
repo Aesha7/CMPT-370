@@ -50,7 +50,16 @@ const AccountCreatePage = () => {
    */
   const handleWaiver = (e) =>{
     e.preventDefault();
+    if(!waiver){
+    e.target.style.backgroundColor = 'green';
+    e.target.style.color = 'white';
     setWaiver(true);
+  }
+    else{
+      e.target.style.backgroundColor = 'white';
+      e.target.style.color = 'black';
+      setWaiver(false); 
+    }
   }
 
 /**
@@ -105,7 +114,7 @@ const handleBirthDay = (e) => {
         <div className="account-create-container-toprow">
         <div className="column-entry">
             <label className="account-create-label" for="name">Name:</label>
-            <input onChange={handleName} className="text-field" value={name} type="name" id="name" />
+            <input onChange={handleName} className="text-field" value={name} type="name" id="name" placeholder="First Last"/>
           </div>
 
           <div className="account-create-column-entry">
@@ -121,19 +130,19 @@ const handleBirthDay = (e) => {
 
           <div className="account-create-column-entry">
             <label className="account-create-label" for="phone-number">Phone Number:</label>
-            <input onChange={handlePhone} className="text-field" value={phone} type="phone" id="phone" />
+            <input onChange={handlePhone} className="text-field" value={phone} type="phone" id="phone" placeholder="(123) 456-6789"/>
           </div>
 
           <div className="account-create-column-entry">
             <label className="account-create-label" for="birthday">Birthday:</label>
-            <input onChange={handleBirthDay} className="text-field" value={birthday} type="birthday" id="birthday" />
+            <input onChange={handleBirthDay} className="text-field" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/>
           </div>
 
           <div className="account-create-row-entry">
             <label className="account-create-label" for="waiver">Waiver</label>
             <div className="account-create-row-entry">
                 <label className='account-create-label' for='waiverPDF'>waiver pdf</label>
-                <button className="waiver-button" onClick={handleWaiver}>I agree</button>
+                <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button>
             </div>
           </div>
 
