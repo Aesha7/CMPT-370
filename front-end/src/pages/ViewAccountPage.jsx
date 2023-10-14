@@ -68,9 +68,9 @@ const AccountView = () => {
             <button className="family-button" onClick={addFamilyMember}>Add Family Member</button>
           </div>
 
-            
+            {/* have to loop through children? */}
             <div className="buttons-row">    
-              <label className="family-member-name" for="family"> John Doe </label>        
+              <label className="family-member-name" for="family"> {name} </label>        
               <button className="register-button" type="button">Register</button>          
               <button className="info-button" type="button">Info</button>
             </div>
