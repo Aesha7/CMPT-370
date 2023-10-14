@@ -92,8 +92,6 @@
 }
 
 
-
-
 .family-bar{
   display: flex;
   align-items: center;
@@ -185,8 +183,8 @@
   align-items: center;
   justify-content: center;
   padding-top: 8px;
-  margin-top: auto; /* Push to the bottom */
-  bottom: 0; /* Align to the bottom */
+  margin-top: auto;
+  bottom: 0;
 }
 
 .schedule-button{
@@ -209,25 +207,26 @@
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
-  .container {
+  .view-account-container {
     flex-direction: column;
-    margin: 10px 0;
+    margin: 10px;
   }
 
-  .button1,
-  .button2,
-  .button3 {
-    margin: 10px auto;
-    display: block;
+  .view-account-column-entry,
+  .view-user-info-2 {
+    flex: 1;
+    margin: 10px;
   }
 
-  .label,
-  .button2 {
-    width: 100%;
-    padding: 15px 20px;
-    box-sizing: border-box;
+  .register-button,
+  .info-button,
+  .schedule-button {
+    margin-left: 10px;
   }
-}
 
-.container-toprow {
+  .family-schedule {
+    padding-top: 0;
+    margin-top: 10px;
+    justify-content: center;
+  }
 }

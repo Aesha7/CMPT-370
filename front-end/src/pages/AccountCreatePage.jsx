@@ -139,9 +139,9 @@ const handleBirthDay = (e) => {
           </div>
 
           <div className="account-create-row-entry">
-            <label className="account-create-label" for="waiver">Waiver</label>
-            <div className="account-create-row-entry">
-                <label className='account-create-label' for='waiverPDF'>waiver pdf</label>
+            <label className="account-create-label" htmlFor="waiver">Waiver:</label>
+            <div className="waiver-entry">
+                <a className='waiver-pdf' href='Waiver_Form.pdf' target='_blank'>Click Here To Open</a>
                 <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button>
             </div>
           </div>

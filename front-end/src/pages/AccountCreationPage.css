@@ -41,7 +41,7 @@
   .account-create-row-entry {
     flex: 1;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin: 25px;
   }
   
@@ -60,6 +60,21 @@
     border: 2px solid darkgray;
   
   }
+
+  .waiver-entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: auto;
+  }
+
+  .waiver-pdf {
+    float: left;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: italic;
+  }
   
   .waiver-button {
     padding: 15px 32px;
@@ -71,9 +86,13 @@
     border: 2px solid darkgray;
     color: black;
     margin: auto;
-    /* float: right; */
-    margin-top: 20px;
+    margin-left: 49px;
     max-width: 100%;
+  }
+
+  .waiver-button:hover {
+    background-color: darkgray;
+    color: white;
   }
   
   .account-create-submit-button {
@@ -90,6 +109,11 @@
     margin-top: 20px;
     max-width: 100%;
   }
+
+  .account-create-submit-button:hover {
+    background-color: green;
+    color: white;
+  }
   
   .button3 {
     padding: 15px 32px;
@@ -102,17 +126,6 @@
     color: black;
     display: block;
     margin: 30px auto;
-  }
-
-  
-  .waiver-button:hover {
-    background-color: darkgray;
-    color: white;
-  }
-  
-  .account-create-submit-button:hover {
-    background-color: green;
-    color: white;
   }
   
   .button3:hover {
