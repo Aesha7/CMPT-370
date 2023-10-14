@@ -63,18 +63,40 @@ const AccountView = () => {
 
         <div className="view-account-column-entry">
           
-          <div className="add-family-bar">
+          <div className="family-bar">
             <label className="family-label" for="family">Family</label>
             <button className="family-button" onClick={addFamilyMember}>Add Family Member</button>
           </div>
 
             {/* have to loop through children? */}
-            <div className="buttons-row">    
-              <label className="family-member-name" for="family"> {name} </label>        
+            <div className="family-member-row">    
+              <label className="family-member-name" for="family"> John Doe </label>        
+              <button className="register-button" type="button">Register</button>          
+              <button className="info-button" type="button">Info</button>
+            </div>
+
+            <div className="family-member-row">    
+              <label className="family-member-name" for="family"> John Jr. </label>        
+              <button className="register-button" type="button">Register</button>          
+              <button className="info-button" type="button">Info</button>
+            </div>
+
+            <div className="family-member-row">    
+              <label className="family-member-name" for="family"> James </label>        
+              <button className="register-button" type="button">Register</button>          
+              <button className="info-button" type="button">Info</button>
+            </div>
+
+            <div className="family-member-row">    
+              <label className="family-member-name" for="family"> Stacey </label>        
               <button className="register-button" type="button">Register</button>          
               <button className="info-button" type="button">Info</button>
             </div>
       
+          <div className="family-schedule">
+            <button className="schedule-button" onClick={addFamilyMember}>View Family Schedule</button>
+          </div>
+
         </div>
 
 

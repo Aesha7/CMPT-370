@@ -58,6 +58,7 @@
   display: flex;
   flex-direction: column;
   margin: 25px;
+  position: relative;
 }
 
 .account-label {
@@ -93,10 +94,11 @@
 
 
 
-.add-family-bar{
+.family-bar{
   display: flex;
   align-items: center;
   flex-direction: row;
+  padding-bottom: 15px;
 }
 
 .family-button{
@@ -106,35 +108,33 @@
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
-  border: 2px solid blue;
+  border: 2px solid purple;
   color: black;
   margin: auto;
-  float:right;
-  margin-top: 10px;
-  margin-bottom: 10px;
   margin-right: 0px;
 }
 
 .family-button:hover{
-  background-color: blue;
+  background-color: purple;
   color: white;
 }
 
 .family-label{
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
-  vertical-align: middle;
-  text-align: left;
   margin-left: 0px;
   float: left;
   max-width: 100%;
 }
 
 
-.buttons-row {
+.family-member-row {
   display: flex;
   flex-direction: row; 
   justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .register-button{
@@ -146,7 +146,7 @@
   background-color: white;
   border: 2px solid green;
   color: black;
-  margin-top: 20px;
+  margin-left: 10px;
 }
 
 .register-button:hover {
@@ -156,10 +156,8 @@
 
 .family-member-name {
   margin: auto;
-  font-size: 20px;
-  float: left;
+  font-size: 18px;
   margin-left: 0px;
-  padding-top: 10px;
 }
 
 .info-button{
@@ -171,7 +169,8 @@
   background-color: white;
   border: 2px solid blue;
   color: black;
-  margin-top: 20px;
+  margin-left: 10px;
+
 }
 
 .info-button:hover {
@@ -179,6 +178,34 @@
   color: white;
 }
 
+
+.family-schedule {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+  margin-top: auto; /* Push to the bottom */
+  bottom: 0; /* Align to the bottom */
+}
+
+.schedule-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid orange;
+  color: black;
+  margin-left: 10px;
+
+}
+
+.schedule-button:hover {
+  background-color: orange;
+  color: white;
+}
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
