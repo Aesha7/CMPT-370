@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "completed login page"
+git commit -m "created account details page"
 
 git push
