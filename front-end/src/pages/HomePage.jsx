@@ -18,7 +18,7 @@ const HomePage = () => {
 
  // going to account
  const routeChange = () =>{ 
-   let path = `/account-page`; 
+   let path = `/my-account`; 
    navigate(path);
  }
 
@@ -27,6 +27,11 @@ const HomePage = () => {
  const createAccountRouteChange = () =>{
   let path = '/create-account';
   navigate(path);
+ }
+
+ const viewAccountPageRouteChange = () =>{
+  let path = '/my-account';
+  navigate(path)
  }
 
 
@@ -41,8 +46,8 @@ const HomePage = () => {
     else{
       setSubmitted(true);
       setError(false);
-      // navigating
-      // navigate;
+      viewAccountPageRouteChange();
+      
     }
   }
 
