@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Route, Routes, useNavigate } from "react-router";
 import './HomePage.css';
+import { createSearchParams } from "react-router-dom";
 
 
 const HomePage = () => {
@@ -16,12 +17,6 @@ const HomePage = () => {
 
  let navigate = useNavigate(); 
 
- // going to account
- const routeChange = () =>{ 
-   let path = `/my-account`; 
-   navigate(path);
- }
-
 
 //  // going to create account
  const createAccountRouteChange = () =>{
@@ -29,9 +24,11 @@ const HomePage = () => {
   navigate(path);
  }
 
+ // going to account
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
-  navigate(path)
+
+  navigate(path);
  }
 
 

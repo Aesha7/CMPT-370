@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
-import { Route, Routes, useNavigate} from "react-router";
+import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "./ViewAccountPage.css";
+import { useSearchParams } from "react-router-dom";
 
 const AccountView = () => {
   // use these variables to set proper data
   const [name] = useState("John Doe");
   const [phone] = useState("(306) 123-4567");
-  const [email] = useState("abc123@domain.ca");
+  const [email, setEmail] = useState("email");
   const [birthday] = useState("month/day/year");
 
 
@@ -22,6 +23,10 @@ const AccountView = () => {
   const addFamilyMember = (e) =>{
     addFamilyMemberRouteChange();
   }
+
+
+  // getting the email
+  
 
   return (
     <div className="view-account-page">
