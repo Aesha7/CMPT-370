@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import Container from "@material-ui/core/Container";
-import Typography from "@material-ui/core/Typography";
-import { Route, Routes, useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import "./ViewFamilySchedule.css";

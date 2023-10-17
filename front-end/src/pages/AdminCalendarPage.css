@@ -1,0 +1,83 @@
+.view-family-schedule{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.admin-schedule-top-bar {
+    background-color: gray;
+    color: white;
+    padding: 30px;
+    text-align: left;
+    font-size: 40px;
+    font-weight: bolder;
+  }
+
+.add-event-button{
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: white;
+    border: 2px solid green;
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0px;
+    float: right;
+  }
+
+  .add-event-button:hover{
+    background-color: green;
+    color: white;
+  }
+
+
+  
+/* The popup form - hidden by default */
+.form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+  .form-container input[type=title], .form-container input[type=description], .form-container input[type=startTime], .form-container input[type=endTime] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* When the inputs get focus, do something */
+  .form-container input[type=title]:focus, .form-container input[type=description]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* Set a style for the submit/login button */
+  .form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+  }
+
+  /* Add a red background color to the cancel button */
+.form-container .cancel {
+    background-color: red;
+  }

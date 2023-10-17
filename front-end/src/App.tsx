@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage.jsx';
 import AccountCreatePage from './pages/AccountCreatePage';
 import ViewAccountPage from './pages/ViewAccountPage'
 import ViewFamilySchedule from './pages/ViewFamilySchedule';
+import AdminCalendarPage from './pages/AdminCalendarPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
@@ -17,6 +18,8 @@ function App() {
         <Route path='/create-account' element={<AccountCreatePage/>}/>
         <Route path='/my-account' element={<ViewAccountPage/>}/>
         <Route path='/family-schedule' element={<ViewFamilySchedule/>}/>
+        <Route path='/admin-schedule' element={<AdminCalendarPage/>}/>
+
       </Routes>
 
   );
