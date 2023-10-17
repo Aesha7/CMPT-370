@@ -10,8 +10,12 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 const ViewFamilySchedule = () => {
 
     const localizer = momentLocalizer(moment);
-    
 
+    let [email] = useState('');
+    const location = useLocation()
+    email = location.state;
+
+    // get relevant info from 'email'
     //JSON, needs to be dynamic (backend)
 
     // months index starting at 0 (october is 9, january is 0...)

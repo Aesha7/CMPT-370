@@ -3,32 +3,50 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "./ViewAccountPage.css";
-import { useSearchParams } from "react-router-dom";
 
 const AccountView = () => {
+
+  const location = useLocation();
+
   // use these variables to set proper data
-  const [name] = useState("John Doe");
-  const [phone] = useState("(306) 123-4567");
-  const [email, setEmail] = useState("email");
-  const [birthday] = useState("month/day/year");
+  let [name] = useState("John Doe");
+  let [phone] = useState("(306) 123-4567");
+  let [email] = useState('email@domain.com');
+  let [birthday] = useState("month/day/year");
 
+  console.log(location.state)
+  email = location.state;
 
+  // use email to look up other info on db and modify varaibles (also to get kids)
+
+  /**
+   phone = ___;
+   birthday = ___;
+   name = ___;
+   */
   let navigate = useNavigate();
 
   const addFamilyMemberRouteChange = () =>{
     let path = '/add-family';
-    navigate(path)
+    navigate(path, {state:email})
    }
+
+  const viewFamilyScheduleRouteChange = () =>{
+    let path = '/family-schedule';
+    navigate(path, {state:email})
+  }
 
   const addFamilyMember = (e) =>{
     addFamilyMemberRouteChange();
   }
 
 
+
   // getting the email
   
 
   return (
+
     <div className="view-account-page">
       <div className="view-account-top-bar">
         My Account
@@ -99,7 +117,7 @@ const AccountView = () => {
             </div>
       
           <div className="family-schedule">
-            <button className="schedule-button" onClick={addFamilyMember}>View Family Schedule</button>
+            <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>View Family Schedule</button>
           </div>
 
         </div>

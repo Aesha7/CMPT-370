@@ -28,7 +28,7 @@ const HomePage = () => {
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
 
-  navigate(path);
+  navigate(path, {state:email});
  }
 
 
