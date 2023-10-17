@@ -76,7 +76,6 @@ const AdminCalendarPage = () => {
             // create a new event and add to list
             // close pop-up
             // re render calendar if necessary
-
         }
 
     }
