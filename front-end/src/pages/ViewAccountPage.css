@@ -1,0 +1,232 @@
+.account-views-page {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.view-account-top-bar {
+  background-color: gray;
+  color: white;
+  padding: 30px;
+  text-align: left;
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+.view-account-settingsButton {
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid darkgray;
+  color: black;
+  margin-left: auto;
+  margin-right: 0px;
+  margin-top: auto;
+  float: right;
+  max-width: 100%;
+}
+
+.view-account-container {
+  background-color: lightgrey;
+  border-color: black;
+  height: auto;
+  width: auto;
+  margin: 50px;
+  padding: 5px;
+  display: flex;
+  flex-direction: row; 
+}
+
+
+.view-user-info-1 {
+  flex: 0.25;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  background-color: darkgray;
+}
+
+
+.view-account-column-entry .info-label {
+  background-color: white;
+  padding: 7px;
+}
+
+.view-account-column-entry {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  position: relative;
+}
+
+.account-label {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: left;
+  margin-bottom: 10px;
+  max-width: 100%;
+}
+
+.info-label {
+  font-size: 16px;
+  text-align: left;
+  max-width: 100%;
+  border: 2px solid darkgray;
+}
+
+.view-account-text-field {
+  padding: 15px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 2px solid darkgray;
+}
+
+.view-user-info-2 {
+  flex: 0.4;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  background-color: darkgray;
+}
+
+
+.family-bar{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 15px;
+}
+
+.family-button{
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid purple;
+  color: black;
+  margin: auto;
+  margin-right: 0px;
+}
+
+.family-button:hover{
+  background-color: purple;
+  color: white;
+}
+
+.family-label{
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 0px;
+  float: left;
+  max-width: 100%;
+}
+
+
+.family-member-row {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.register-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid green;
+  color: black;
+  margin-left: 10px;
+}
+
+.register-button:hover {
+  background-color: green;
+  color: white;
+}
+
+.family-member-name {
+  margin: auto;
+  font-size: 18px;
+  margin-left: 0px;
+}
+
+.info-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid blue;
+  color: black;
+  margin-left: 10px;
+
+}
+
+.info-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+
+.family-schedule {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+  margin-top: auto;
+  bottom: 0;
+}
+
+.schedule-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid orange;
+  color: black;
+  margin-left: 10px;
+
+}
+
+.schedule-button:hover {
+  background-color: orange;
+  color: white;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .view-account-container {
+    flex-direction: column;
+    margin: 10px;
+  }
+
+  .view-account-column-entry,
+  .view-user-info-2 {
+    flex: 1;
+    margin: 10px;
+  }
+
+  .register-button,
+  .info-button,
+  .schedule-button {
+    margin-left: 10px;
+  }
+
+  .family-schedule {
+    padding-top: 0;
+    margin-top: 10px;
+    justify-content: center;
+  }
+}

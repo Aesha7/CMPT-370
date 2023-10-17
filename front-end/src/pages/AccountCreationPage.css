@@ -1,0 +1,155 @@
+.account-create-page  {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .account-create-top-bar  {
+    background-color: gray;
+    color: white;
+    padding: 30px;
+    text-align: left;
+    font-size: 40px;
+    font-weight: bolder;
+  }
+  
+  .account-create-container {
+    background-color: lightgrey;
+    border-color: black;
+    height: auto;
+    width: auto;
+    margin: 50px;
+    padding: 5px;
+  }
+  
+  .account-create-container-toprow {
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between;
+  }
+  
+  .account-create-column-entry {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+  }
+  .account-create-subcolumn-entry {
+    flex: 1;
+    display: inline;
+    flex-direction: column;
+    margin: 25px;
+  }
+  .account-create-row-entry {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+  }
+  
+  .account-create-label {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+  
+  .text-field {
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 2px solid darkgray;
+  
+  }
+
+  .waiver-entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: auto;
+  }
+
+  .waiver-pdf {
+    float: left;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  .waiver-button {
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: white;
+    border: 2px solid darkgray;
+    color: black;
+    margin: auto;
+    margin-left: 49px;
+    max-width: 100%;
+  }
+
+  .waiver-button:hover {
+    background-color: darkgray;
+    color: white;
+  }
+  
+  .account-create-submit-button {
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: white;
+    border: 2px solid darkgray;
+    color: black;
+    margin-left: auto;
+    float: right;
+    margin-top: 20px;
+    max-width: 100%;
+  }
+
+  .account-create-submit-button:hover {
+    background-color: green;
+    color: white;
+  }
+  
+  .button3 {
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: white;
+    border: 2px solid darkgray;
+    color: black;
+    display: block;
+    margin: 30px auto;
+  }
+  
+  .button3:hover {
+    background-color: orange;
+    color: white;
+  }
+  
+  
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      margin: 10px 0;
+    }
+  
+    .button1, .button2, .button3 {
+      margin: 10px auto;
+      display: block;
+    }
+  
+    .label, .button2 {
+      width: 100%;
+      padding: 15px 20px;
+      box-sizing: border-box;
+    }
+  }
+  
