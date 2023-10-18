@@ -11,20 +11,23 @@
   font-weight: bolder;
 }
 
-.view-account-settingsButton {
-  padding: 5px 10px;
+.logout-button {
+  padding: 15px 32px;
   text-align: center;
-  font-size: 28px;
+  font-size: 18px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid darkgray;
-  color: black;
-  margin-left: auto;
-  margin-right: 0px;
-  margin-top: auto;
-  float: right;
+  background-color: gray;
+  border: 4px solid white;
+  color: white;
+  margin: auto;
   max-width: 100%;
+  float: right;
+}
+
+.back-button:hover {
+  background-color: white;
+  color: black;
 }
 
 .view-account-container {
@@ -49,6 +52,11 @@
 
 
 .view-account-column-entry .info-label {
+  background-color: white;
+  padding: 7px;
+}
+
+.view-account-column-entry .edit-label {
   background-color: white;
   padding: 7px;
 }
@@ -117,13 +125,17 @@
   color: white;
 }
 
-.family-label{
+.heading{
   font-size: 24px;
   font-weight: bold;
   margin-left: 0px;
   float: left;
   max-width: 100%;
 }
+
+.heading[type="emailList"]{
+  margin-bottom: 25px;
+} 
 
 
 .family-member-row {
@@ -197,7 +209,6 @@
   border: 2px solid orange;
   color: black;
   margin-left: 10px;
-
 }
 
 .schedule-button:hover {
@@ -230,3 +241,140 @@
     justify-content: center;
   }
 }
+
+.view-user-info-3 {
+  flex: 0.45;
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+}
+
+.view-user-info-3 .edit-family-info {
+  background-color: darkgray;
+  flex: 0.45;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.view-user-info-3 .email-list {
+  background-color: darkgray;
+  flex: 0.45;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.family-info {
+  display: flex;
+  flex-direction: row; 
+  justify-content: right;
+  align-items: center;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px;
+}
+
+.edit-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid red;
+  color: black;
+  margin-left: 10px;
+}
+
+.edit-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.save-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid green;
+  color: black;
+  margin-left: 10px;
+
+}
+
+.save-button:hover {
+  background-color: green;
+  color: white;
+}
+
+ .checklist {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+  /* -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; */
+  padding-left: 40px;
+  font-size: 18px;
+}
+
+/* Hide the browser's default checkbox */
+ .checklist input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checklist:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checklist input:checked ~ .checkmark {
+  background-color: blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checklist input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checklist .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}   

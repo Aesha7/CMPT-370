@@ -31,6 +31,10 @@
     color: white;
   }
 
+  .timeDrop{
+    float: right;
+  }
+
 
   
 /* The popup form - hidden by default */
@@ -45,7 +49,7 @@
   
   /* Add styles to the form container */
   .form-container {
-    max-width: 300px;
+    max-width: 400px;
     padding: 10px;
     background-color: white;
   }
@@ -56,6 +60,7 @@
     padding: 15px;
     margin: 5px 0 22px 0;
     margin-right: 10px;
+    max-width: 100%;
     border: none;
     background: #f1f1f1;
   }
@@ -68,14 +73,15 @@
   
   /* Set a style for the submit/login button */
   .form-container .btn {
-    background-color: #04AA6D;
+    background-color: green;
     color: white;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
     width: 100%;
-    margin-bottom:10px;
-    opacity: 0.8;
+    margin-bottom:0px;
+    margin-top: 22px;
+    opacity: 1;
   }
 
   /* Add a red background color to the cancel button */
