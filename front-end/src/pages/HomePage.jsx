@@ -31,7 +31,7 @@ const HomePage = () => {
 
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
-  navigate(path)
+  navigate(path, {state:email})
  }
 
 
@@ -47,7 +47,6 @@ const HomePage = () => {
       setSubmitted(true);
       setError(false);
       viewAccountPageRouteChange();
-      
     }
   }
 

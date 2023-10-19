@@ -23,7 +23,7 @@ const AccountCreatePage = () => {
 
  const viewAccountPageRouteChange = () =>{
     let path = '/my-account';
-    navigate(path);
+    navigate(path, {state:email});
    }
 
   const backToLogin = () =>{

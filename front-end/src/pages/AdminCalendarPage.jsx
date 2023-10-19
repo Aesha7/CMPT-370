@@ -54,6 +54,7 @@ const AdminCalendarPage = () => {
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
     console.log(calEvent)
+    alert(calEvent.description)
   }
     
 
@@ -82,6 +83,7 @@ const AdminCalendarPage = () => {
     if (title == "" || description == "" || startHr == "" || endHr == "") {
       // error pop up
       // alert("This is not a valid event.");
+      console.log("HERE")
     } else {
       // create a new event and add to list
       let startDate = new Date(parseInt(startYear), parseInt(startMonth), parseInt(startDate), parseInt(startHr), parseInt(startMin), 0);
@@ -95,13 +97,12 @@ const AdminCalendarPage = () => {
         end: endDate,
       };
 
-      myEventsList[myEventsList.length] = event;
-      console.log(myEventsList);
-
-      // close pop-up
-      // re render calendar if necessary
+      // myEventsList[myEventsList.length] = event;
+      // add event to the myEvents in the DB
+      
     }
   };
+
   const handleStartYear = (e) => {
     setStartYear(e.target.value)
   };
@@ -154,8 +155,8 @@ const AdminCalendarPage = () => {
       </div>
 
       <div className="">
-        <div class="form-popup" id="myForm">
-          <form class="form-container">
+        <div className="form-popup" id="myForm">
+          <form className="form-container">
             <h1>|Add Event</h1>
 
             <label for="title">
@@ -254,8 +255,9 @@ const AdminCalendarPage = () => {
                   <option value="21">9pm</option>
                 </select>
                 <select onChange={handleStartMin}>
-                  <option value="">min</option>
-                  <option value="05">:05</option>
+                  <option value="0">min</option>
+                  <option value="0">:00</option>
+                  <option value="5">:05</option>
                   <option value="10">:10</option>
                   <option value="15">:15</option>
                   <option value="20">:20</option>
@@ -345,8 +347,9 @@ const AdminCalendarPage = () => {
                   <option value="21">9pm</option>
                 </select>
                 <select onChange={handleEndMin}>
-                  <option value="">min</option>
-                  <option value="05">:05</option>
+                  <option value="0">min</option>
+                  <option value="0">:00</option>
+                  <option value="5">:05</option>
                   <option value="10">:10</option>
                   <option value="15">:15</option>
                   <option value="20">:20</option>
@@ -361,10 +364,10 @@ const AdminCalendarPage = () => {
               </div>
             </div>
 
-            <button type="submit" class="btn" onClick={submitEvent}>
+            <button type="submit" className="btn" onClick={submitEvent}>
               Create Event
             </button>
-            <button type="button" class="btn cancel" onClick={closeForm}>
+            <button type="button" className="btn cancel" onClick={closeForm}>
               Cancel
             </button>
           </form>
