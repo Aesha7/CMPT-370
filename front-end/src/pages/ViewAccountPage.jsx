@@ -15,6 +15,12 @@ const AccountView = () => {
   let [birthday] = useState("month/day/year");
   let [level] = useState("1");
 
+  let [currentName, setCurrentName] = useState(''); 
+  let [currentPhone, setCurrentPhone] = useState(''); 
+  let [currentLevel, setCurrentLevel] = useState(''); 
+  let [currentBirthday, setCurrentBirthday] = useState(''); 
+
+
   email = location.state;
 
   // use email to look up other info on db and modify varaibles (also to get kids)
@@ -37,33 +43,55 @@ const AccountView = () => {
 
   const registerChild = (e) =>{
     let path = '/class-registration'
-    navigate(path, {state: {email: email, name: e.target.value}})
+    navigate(path, {state: {email: email, child: e.target.value}})
+  }
+
+  const displayInfo = (e) =>{
+    setCurrentName(e.target.value);
+    console.log(e.target.value)
   }
 
   let children = [
     {
       'name': 'John Doe',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
     },
     {
       'name': 'Another Name',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
     },
     {
       'name': 'A third Name',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
     },
     {
       'name': 'A fourth Name',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
     },
     {
       'name': 'A third Name again',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
     },
   ]
 
   let renders = children.map(function (i) {
+    // console.log(i.name, i.birthday, i.phone, i.level)
+    console.log(i)
     return(
       <div className="family-member-row">    
         <label className="family-member-name" for="family"> {i.name} </label>        
         <button className="register-button" value={i.name} type="button" onClick={registerChild} >Register</button>          
-        <button className="info-button" type="button">Info</button>
+        <button className="info-button" value={i.name} type="button" onClick={displayInfo}>Info</button>
       </div>
     )
   })
@@ -200,25 +228,25 @@ const AccountView = () => {
           {/* name */}
           <div className="view-account-column-entry">
             <label className="account-label" for="name"> Name: </label>
-            <input className="edit-label" for="name" type="name" id="edit-name" disabled="true" placeholder={name}></input>
+            <input className="edit-label" for="name" type="name" id="edit-name" disabled="true" placeholder={currentName}></input>
           </div>
 
           {/* phone */}
           <div className="view-account-column-entry">
             <label className="account-label" for="phone"> Phone: </label>
-            <input className="edit-label" for="phone" type="phone" id="edit-phone" disabled="true" placeholder={phone}></input>
+            <input className="edit-label" for="phone" type="phone" id="edit-phone" disabled="true" placeholder={currentPhone}></input>
           </div>
 
           {/* birthday */}
           <div className="view-account-column-entry">
             <label className="account-label" for="birthday"> Birthday: </label>
-            <input className="edit-label" for="email" type="email" id="edit-birthday" disabled="true" placeholder={birthday}></input>
+            <input className="edit-label" for="email" type="email" id="edit-birthday" disabled="true" placeholder={currentBirthday}></input>
           </div>
 
           {/* level */}
           <div className="view-account-column-entry">
             <label className="account-label" for="level"> Level: </label>
-            <input className="edit-label" for="level" type="level" id="level" disabled="true" placeholder="1"></input>
+            <input className="edit-label" for="level" type="level" id="level" disabled="true" placeholder={currentLevel}></input>
           </div>
           {/* edit the routers !!! */}
           <div className="family-info">

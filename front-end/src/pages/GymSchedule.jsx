@@ -17,14 +17,14 @@ const GymSchedule = () => {
     const localizer = momentLocalizer(moment);
 
     let [email] = useState('');
-    let [registrationName] = useState('')
+    let [registrationChild] = useState('')
 
 
     const location = useLocation()
     email = location.state.email;
-    registrationName = location.state.name
+    registrationChild = location.state.value
 
-    console.log(email, registrationName)
+    console.log(email, registrationChild)
 
 
     // get relevant info from 'email'
