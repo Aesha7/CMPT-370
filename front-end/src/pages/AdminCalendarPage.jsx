@@ -86,20 +86,17 @@ const AdminCalendarPage = () => {
       console.log("HERE")
     } else {
       // create a new event and add to list
-      let startDate = new Date(parseInt(startYear), parseInt(startMonth), parseInt(startDate), parseInt(startHr), parseInt(startMin), 0);
+      let fullStartDate = new Date(parseInt(startYear), parseInt(startMonth), parseInt(startDate), parseInt(startHr), parseInt(startMin), 0);
 
-      let endDate = new Date(parseInt(endYear), parseInt(endMonth), parseInt(endDate), parseInt(endHr), parseInt(endMin), 0);
+      let fullEndDate = new Date(parseInt(endYear), parseInt(endMonth), parseInt(endDate), parseInt(endHr), parseInt(endMin), 0);
 
       let event = {
         title: title,
         description: description,
-        start: startDate,
-        end: endDate,
+        start: fullStartDate,
+        end: fullEndDate,
       };
-
-      // myEventsList[myEventsList.length] = event;
-      // add event to the myEvents in the DB
-      
+      console.log(event)
     }
   };
 
@@ -140,7 +137,7 @@ const AdminCalendarPage = () => {
   };
 
   const handleEndMin = (e) => {
-    setEndDate(e.target.value)
+    setEndMin(e.target.value)
   };
 
 

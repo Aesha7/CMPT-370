@@ -32,9 +32,6 @@ const AccountView = () => {
    */
   let navigate = useNavigate();
 
-
-
-
   // const displayChildren = () =>{
 
   // }
@@ -50,7 +47,7 @@ const AccountView = () => {
     setCurrentName(e.target.value);
     console.log(e.target.value)
   }
-  
+
 
   let children = [
     {
@@ -79,6 +76,12 @@ const AccountView = () => {
     },
     {
       'name': 'A third Name again',
+      'phone': '12345678',
+      'birthday': 'day/month/year',
+      'level': '999'
+    },
+    {
+      'name': 'John Don',
       'phone': '12345678',
       'birthday': 'day/month/year',
       'level': '999'
