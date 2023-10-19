@@ -183,35 +183,8 @@ const AccountView = () => {
             <button className="family-button" onClick={addFamilyMember}>Add Family Member</button>
           </div>
             {/* looping through children*/}
-            {/* <script type = "text/javascript"> */}
               {renders}
               
-            {/* </script> */}
-
-            {/* have to loop through children? */}
-            {/* <div className="family-member-row">    
-              <label className="family-member-name" for="family"> John Doe </label>        
-              <button className="register-button" type="button">Register</button>          
-              <button className="info-button" type="button">Info</button>
-            </div>
-
-            <div className="family-member-row">    
-              <label className="family-member-name" for="family"> John Jr. </label>        
-              <button className="register-button" type="button">Register</button>          
-              <button className="info-button" type="button">Info</button>
-            </div>
-
-            <div className="family-member-row">    
-              <label className="family-member-name" for="family"> James </label>        
-              <button className="register-button" type="button">Register</button>          
-              <button className="info-button" type="button">Info</button>
-            </div>
-
-            <div className="family-member-row">    
-              <label className="family-member-name" for="family"> Stacey </label>        
-              <button className="register-button" type="button">Register</button>          
-              <button className="info-button" type="button">Info</button>
-            </div> */}
       
           <div className="family-schedule">
             <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>View Family Schedule</button>
