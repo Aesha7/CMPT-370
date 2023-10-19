@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
 import { Route, Routes, useNavigate } from "react-router";
 import './HomePage.css';
 
