@@ -50,6 +50,7 @@ const AccountView = () => {
     setCurrentName(e.target.value);
     console.log(e.target.value)
   }
+  
 
   let children = [
     {
