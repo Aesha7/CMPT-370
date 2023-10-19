@@ -22,6 +22,7 @@ except Exception as e:
 #Access database and collection "db_1" (placeholder collection)
 db = client.CMPT370_Team25
 my_collection = db["db_1"]
+accounts_collection = db["accounts_collection"]
 
 
 def readDocuments(collection):
@@ -89,15 +90,31 @@ def SubmitAccount():
         Response
     """
     request_data = request.get_json()
+    account_details = {
+        "email": request_data["email"],
+        "waiver": request_data["waiver"],
+        "password": request_data["password"],
+        "phone": request_data["phone"],
+        "staffLevel": 0,
+        "users": [{
+            "name": request_data["name"],
+            "birthday": request_data["birthday"],
+            "isParent": True
+        }]
+    }
+    
+
+    # Response
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
-    if my_collection.find_one({"email": request_data["email"]}):
+    # Checks if email is already in database
+    if accounts_collection.find_one({"email": request_data["email"]}):
        resp.data = json.dumps("Email already in use!")
     
     else:
         # Adds document to collection 
-        my_collection.insert_one(request_data)
+        accounts_collection.insert_one(account_details)
         resp.data = json.dumps("Success")  
 
     return resp
