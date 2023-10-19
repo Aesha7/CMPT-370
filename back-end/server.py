@@ -83,18 +83,23 @@ def ViewAccountList():
 @app.route("/submit_application", methods=["POST"])
 @cross_origin(origins="*")
 def SubmitAccount():
-    #TODO: add check for if email already exists
     """Endpoint for account registration; registers an account with provided information. 
 
     Returns:
         Response
     """
     request_data = request.get_json()
-
-    # Adds document to collection 
-    my_collection.insert_one(request_data)
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    if my_collection.find_one({"email": request_data["email"]}):
+       resp.data = json.dumps("Email already in use!")
+    
+    else:
+        # Adds document to collection 
+        my_collection.insert_one(request_data)
+        resp.data = json.dumps("Success")  
+
     return resp
 
 if(__name__ == "__main__"):
