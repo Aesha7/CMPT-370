@@ -37,7 +37,7 @@ const AccountView = () => {
 
   const registerChild = (e) =>{
     let path = '/class-registration'
-    navigate(path, {state: {email: email, childName: e.target.value}})
+    navigate(path, {state: {email: email, name: e.target.value}})
   }
 
   let children = [
