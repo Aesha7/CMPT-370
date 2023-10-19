@@ -15,7 +15,6 @@ const AccountView = () => {
   let [birthday] = useState("month/day/year");
   let [level] = useState("1");
 
-  console.log(location.state)
   email = location.state;
 
   // use email to look up other info on db and modify varaibles (also to get kids)
@@ -26,6 +25,48 @@ const AccountView = () => {
    name = ___;
    */
   let navigate = useNavigate();
+
+
+
+
+  // const displayChildren = () =>{
+
+  // }
+
+  // the children that are listed
+
+  const registerChild = (e) =>{
+    let path = '/class-registration'
+    navigate(path, {state: {email: email, childName: e.target.value}})
+  }
+
+  let children = [
+    {
+      'name': 'John Doe',
+    },
+    {
+      'name': 'Another Name',
+    },
+    {
+      'name': 'A third Name',
+    },
+    {
+      'name': 'A fourth Name',
+    },
+    {
+      'name': 'A third Name again',
+    },
+  ]
+
+  let renders = children.map(function (i) {
+    return(
+      <div className="family-member-row">    
+        <label className="family-member-name" for="family"> {i.name} </label>        
+        <button className="register-button" value={i.name} type="button" onClick={registerChild} >Register</button>          
+        <button className="info-button" type="button">Info</button>
+      </div>
+    )
+  })
 
   const addFamilyMemberRouteChange = () =>{
     let path = '/add-family';
@@ -109,9 +150,14 @@ const AccountView = () => {
             <label className="heading" for="family">Family</label>
             <button className="family-button" onClick={addFamilyMember}>Add Family Member</button>
           </div>
+            {/* looping through children*/}
+            {/* <script type = "text/javascript"> */}
+              {renders}
+              
+            {/* </script> */}
 
             {/* have to loop through children? */}
-            <div className="family-member-row">    
+            {/* <div className="family-member-row">    
               <label className="family-member-name" for="family"> John Doe </label>        
               <button className="register-button" type="button">Register</button>          
               <button className="info-button" type="button">Info</button>
@@ -133,7 +179,7 @@ const AccountView = () => {
               <label className="family-member-name" for="family"> Stacey </label>        
               <button className="register-button" type="button">Register</button>          
               <button className="info-button" type="button">Info</button>
-            </div>
+            </div> */}
       
           <div className="family-schedule">
             <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>View Family Schedule</button>
