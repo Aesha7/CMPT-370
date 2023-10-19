@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import "./ViewFamilySchedule.css";
+import "./GymSchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
-const ViewFamilySchedule = () => {
+const GymSchedule = () => {
 
     const navigate = useNavigate();
     
@@ -17,8 +17,14 @@ const ViewFamilySchedule = () => {
     const localizer = momentLocalizer(moment);
 
     let [email] = useState('');
+    let [registrationChild] = useState('')
+
+
     const location = useLocation()
-    email = location.state;
+    email = location.state.email;
+    registrationChild = location.state.value
+
+    console.log(email, registrationChild)
 
 
     // get relevant info from 'email'
@@ -48,9 +54,9 @@ const ViewFamilySchedule = () => {
 
     return(
 
-        <div className="view-family-schedule">
-            <div className='family-schedule-top-bar'>Family Schedule
-                <button className="back-button" onClick={goBack}>Back</button>
+        <div className="view-gym-schedule">
+            <div className='gym-schedule-top-bar'>Gym Schedule
+                {/* <button className="back-button" onClick={goBack}>Back</button> */}
             </div>
 
             <div className="">
@@ -70,4 +76,4 @@ const ViewFamilySchedule = () => {
         </div>
         );
 }
-export default ViewFamilySchedule;
+export default GymSchedule;

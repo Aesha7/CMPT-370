@@ -23,8 +23,13 @@ const AccountCreatePage = () => {
 
  const viewAccountPageRouteChange = () =>{
     let path = '/my-account';
-    navigate(path)
+    navigate(path, {state:email});
    }
+
+  const backToLogin = () =>{
+    let path = '/';
+    navigate(path);
+  }
 
 
 /**
@@ -105,7 +110,9 @@ const handleBirthDay = (e) => {
   return (
     <div className="account-creation-page">
 
-    <div className="account-create-top-bar">Create Account</div>
+    <div className="account-create-top-bar">Create Account
+      <button className="back-button" onClick={backToLogin}>Back</button>
+    </div>
 
     <div className="account-create-container">
 
