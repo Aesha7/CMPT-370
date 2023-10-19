@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "./AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
+// big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
 
 const AdminCalendarPage = () => {
   const localizer = momentLocalizer(moment);
@@ -41,11 +43,19 @@ const AdminCalendarPage = () => {
     },
     {
       title: "example event2",
-      description: "description 1",
+      description: "description 2",
       start: new Date(2023, 9, 12),
       end: new Date(2023, 9, 13),
     },
   ];
+
+  const clickRef = useRef(null)
+
+  const onSelectEvent = (calEvent) => {
+    // what happens when an event is clicked
+    console.log(calEvent)
+  }
+    
 
   const openForm = () => {
     document.getElementById("myForm").style.display = "block";
@@ -366,8 +376,11 @@ const AdminCalendarPage = () => {
           startAccessor="start"
           endAccessor="end"
           defaultView="week"
+          views={['month', 'week', 'day']}
           popup={false}
           style={{ height: 700 }}
+          onSelectEvent={onSelectEvent}
+          // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
     </div>
