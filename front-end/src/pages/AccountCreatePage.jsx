@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Route, Routes, useNavigate } from "react-router";
 import './AccountCreationPage.css';
 
+const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
-const AccountCreatePage = () => {
+
+const AccountCreatePage = (props) => {
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
@@ -35,19 +37,64 @@ const AccountCreatePage = () => {
 /**
  * Handling form submittion
  */
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) =>{
+    console.log("Handle submit attempt");
     e.preventDefault();
     if(email === '' || password === '' || name === '' || phone === '' || birthday === '' ||!waiver ){
       setError(true);
     }
     else{
-      setSubmitted(true);
-      setError(false);
-// save backend stuff here
+      try {
+        // send request to backend and wait for the response
+        fetch((server_URL+"submit_application"), {
+            method: "POST",
+            // Data will be serialized and sent as json
+            body: JSON.stringify({
+                email: email,
+                password: password, //TODO: stores password in plain text! add proper password management
+                name: name,
+                phone: phone,
+                birthday: birthday,
+                waiver: waiver
+            }),
+            // tell the server we're sending JSON
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
+        })
+        .then(function(response) {
+          // The response is a Response instance.
+          // You parse the data into a useable format using `.json()`
+          return response.json();
+        }).then(function(data) {
+          // `data` is the parsed version of the JSON returned from the above endpoint.
 
-// navigate
-    viewAccountPageRouteChange();
+          // Checks for error/success messages sent by server
+          if (data == "Success") {
+            setSubmitted(true);
+            setError(false);
+            //navigate
+            viewAccountPageRouteChange();
+          }
+          else if (data == "Email already in use!") {
+            setSubmitted(false);
+            setError(true);
+            alert("Email already in use!")
+          }
+          else { //Unexpected message or error in response
+            setSubmitted(false);
+            setError(true);
+            alert("Invalid response!");
+          }
+          return data
+        })
+    } catch (error) {
+      console.log(error)
     }
+  }
   }
 
   /**
@@ -107,6 +154,7 @@ const handleBirthDay = (e) => {
     setSubmitted(false);
 };
 
+
   return (
     <div className="account-creation-page">
 
@@ -120,28 +168,28 @@ const handleBirthDay = (e) => {
 
         <div className="account-create-container-toprow">
         <div className="column-entry">
-            <label className="account-create-label" for="name">Name:</label>
+            <label className="account-create-label" htmlFor="name">Name:</label>
             <input onChange={handleName} className="text-field" value={name} type="name" id="name" placeholder="First Last"/>
           </div>
 
           <div className="account-create-column-entry">
-            <label className="account-create-label" for="email">Email:</label>
+            <label className="account-create-label" htmlFor="email">Email:</label>
             <input onChange={handleEmail} className="text-field" value={email} type="email" id="email" />
             {/* <button onClick={handleSubmit} className="button1" type="button">Login</button>           */}
           </div>
 
           <div className="account-create-column-entry">
-            <label className="account-create-label" for="password">Password:</label>
+            <label className="account-create-label" htmlFor="password">Password:</label>
             <input onChange={handlePassword} className="text-field" value={password} type="password" id="password" />
           </div>
 
           <div className="account-create-column-entry">
-            <label className="account-create-label" for="phone-number">Phone Number:</label>
+            <label className="account-create-label" htmlFor="phone-number">Phone Number:</label>
             <input onChange={handlePhone} className="text-field" value={phone} type="phone" id="phone" placeholder="(123) 456-6789"/>
           </div>
 
           <div className="account-create-column-entry">
-            <label className="account-create-label" for="birthday">Birthday:</label>
+            <label className="account-create-label" htmlFor="birthday">Birthday:</label>
             <input onChange={handleBirthDay} className="text-field" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/>
           </div>
 
@@ -169,5 +217,6 @@ const handleBirthDay = (e) => {
 
   );
 }
+
 
 export default AccountCreatePage;
