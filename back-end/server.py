@@ -28,6 +28,9 @@ db = client.CMPT370_Team25
 my_collection = db["db_1"]
 accounts_collection = db["accounts_collection"]
 
+app = Flask(__name__)
+CORS(app)
+
 
 def readDocuments(collection):
     """Example function for retrieving document. 
@@ -57,11 +60,9 @@ def addDocument(collection,doc):
 # newDocument = {"name":"John Doe", "email": "john@email.com", "age": 69}
 # addDocument(my_collection,newDocument)
 
-app = Flask(__name__)
-CORS(app)
-
 #app.config['CORS_HEADERS'] = 'Content-Type' # CORS setup
 
+#Routes 
 @app.route("/")
 @cross_origin(origins='*')
 def hello_world():
@@ -174,7 +175,11 @@ def AddFamily():
         Response
     """
     # TODO: untested! test when frontend has ability to add family member
-    # TODO: add any required error testing, response data (make sure name doesn't already exist in account)
+    # TODO: add any required error testing, response data
+
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
     request_data = request.get_json()
     account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
     user_details = {
@@ -183,12 +188,31 @@ def AddFamily():
         "isParent": False
     }
 
+    # Ensures account is found
+    if account_doc:
+        family_list = account_doc["users"]
+
+        # Searches through account's list of family members to find if name already used
+        name_exists = False
+        for user in family_list:
+            if user["name"] == request_data["name"]:
+                name_exists = True
+                break
+
+        if name_exists:
+            resp.status_code=400
+            resp.data=json.dumps("Error: name already in use")
+            return resp
+        else:
+            resp.data=json.dumps("Success")
+    
+    else:
+        resp.status_code=400
+        resp.data=json.dumps("Error: account not found")
+        return resp
+
     # Takes the existing list of family members and adds the new family member to it
     new_users_list = account_doc["users"].append(user_details)
-    
-    # Response
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
 
     # Updates users list to new list
     accounts_collection.update_one(account_doc,{"$set":{"users":new_users_list}})
@@ -224,16 +248,18 @@ def DeleteFamily():
         # Searches through account's list of family members to find one that matches name
         user_removed = False
         for user in family_list:
-            if user["name"] == request.data["name"]:
+            if user["name"] == request_data["name"]:
                 family_list.remove(user)
                 user_removed = True
                 break
         if user_removed:
             resp.data=json.dumps("User successfully removed")
         else:
+            resp.status_code=400
             resp.data=json.dumps("Error: user not found")
     
     else:
+        resp.status_code=400
         resp.data=json.dumps("Error: account not found")
 
     return resp
@@ -247,7 +273,21 @@ def RetrieveFamily():
     Returns:
         Response containing list of family members
     """
+    #TODO: untested
+
     resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    request_data = request.get_json()
+    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+
+    # Ensures account is found
+    if account_doc:
+        resp.data = json.dumps(account_doc["users"])
+
+    else:
+        resp.status_code=400
+        resp.data=json.dumps("Error: account not found")
     return resp
 
 if(__name__ == "__main__"):
