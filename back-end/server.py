@@ -1,9 +1,14 @@
 from flask import Flask
+from flask import request
+from flask import Response
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from flask_cors import CORS, cross_origin
+import json
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
+# DB API key: mCh55pfNYQJMiQbeVKaljoU5CqDOdQp9aaGvo9IA8jxLhr9G22UvtSuy8LdFF64U (probably don't need this)
 uri = "mongodb+srv://CMPT370Team25DB:CPj0i24mLlKvkskt@cmpt370db.godfxkb.mongodb.net/?retryWrites=true&w=majority"
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -48,12 +53,60 @@ def addDocument(collection,doc):
 # addDocument(my_collection,newDocument)
 
 app = Flask(__name__)
-@app.route("/members")
-def members():
-    return {"members": ["M1", "M2", "M3"]}
+CORS(app)
+
+#app.config['CORS_HEADERS'] = 'Content-Type' # CORS setup
+
+@app.route("/")
+@cross_origin(origins='*')
+def hello_world():
+    return "Hello, World!"
+
+
+@app.route('/view_account_list')
+@cross_origin(origins='*')
+def ViewAccountList():
+    """Returns a list of all account names.
+
+    Returns:
+        _type_: _description_
+    """
+    result = my_collection.find()
+    response_body = ""
+    if result:
+        for doc in result:
+            response_body = response_body +"\n" +((doc["name"]))
+    else:
+        print("Error: no documents found.")
+    return response_body
+
+@app.route("/submit_application", methods=["POST"])
+@cross_origin(origins="*")
+def SubmitAccount():
+    """Endpoint for account registration; registers an account with provided information. 
+
+    Returns:
+        Response
+    """
+    request_data = request.get_json()
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    if my_collection.find_one({"email": request_data["email"]}):
+       resp.data = json.dumps("Email already in use!")
+    
+    else:
+        # Adds document to collection 
+        my_collection.insert_one(request_data)
+        resp.data = json.dumps("Success")  
+
+    return resp
 
 if(__name__ == "__main__"):
     app.run(debug=True)
+
+# Connects to database
+database = db.DB_Connection()
 
 
 # To run: cd into the back-end directory

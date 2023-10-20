@@ -153,15 +153,15 @@ const AccountView = () => {
 
           {/* name */}
           <div className="view-account-column-entry">
-            <label className="account-label" for="name"> Name: </label>
-            <label className="info-label" for="name" type="name" id="name"> {name} </label>
+            <label className="account-label" htmlFor="name"> Name: </label>
+            <label className="info-label" htmlFor="name" type="name" id="name"> {name} </label>
           </div>
 
           {/* email */}
           <div className="view-account-column-entry">
-            <label className="account-label" for="email"> Email: </label>
+            <label className="account-label" htmlFor="email"> Email: </label>
             <label
-              className="info-label" for="email" type="email" id="email"> {email} </label>
+              className="info-label" htmlFor="email" type="email" id="email"> {email} </label>
           </div>
 
           {/* phone */}
@@ -172,8 +172,8 @@ const AccountView = () => {
 
           {/* birthday */}
           <div className="view-account-column-entry">
-            <label className="account-label" for="birthday"> Birthday: </label>
-            <label className="info-label" for="email" type="email" id="email"> {birthday} </label>
+            <label className="account-label" htmlFor="birthday"> Birthday: </label>
+            <label className="info-label" htmlFor="email" type="email" id="email"> {birthday} </label>
           </div>
         </div>
 
