@@ -20,19 +20,17 @@ const GymSchedule = () => {
     let [registrationChild, setRegistrationChild] = useState('')
 
 
-    
-
     const location = useLocation()
     email = location.state.email;
     registrationChild = location.state.value
 
     // console.log(email, registrationChild)
 
-    const handleChildChange = (e) =>{
-        console.log("here")
-        setRegistrationChild(e.target.value);
-        console.log(registrationChild)
-    }
+    // const handleChildChange = (e) =>{
+    //     console.log("here")
+    //     setRegistrationChild(e.target.value);
+    //     console.log(registrationChild)
+    // }
 
 
     // get relevant info from 'email'
@@ -110,8 +108,10 @@ const GymSchedule = () => {
 
         <div className="view-gym-schedule">
             <div className='gym-schedule-top-bar'>Gym Schedule
-            {/* dropdown of children names */}
-            <select className='childDropDown' onChange={handleChildChange}>{renders}</select>
+            <button className="gym-top-bar-button" onClick={goBack}>Back</button>
+
+            {/* dropdown of children names (does nothing right now)*/}
+            <select className='childDropDown'>{renders}</select>
             </div>
 
             <div className="">

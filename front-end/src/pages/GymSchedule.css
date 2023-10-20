@@ -10,6 +10,7 @@
     font-size: 40px;
     font-weight: bolder;
   }
+
 .childDropDown{
     padding: 10px 10px;
     text-align: center;
@@ -24,3 +25,24 @@
     margin-right: 0px;
     float: right;
 }
+
+.gym-top-bar-button {
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: grey;
+    border: 4px solid white;
+    color: white;
+    margin: auto;
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 40px;
+    float: right;
+  }
+  
+  .gym-top-bar-button:hover {
+    background-color: white;
+    color: black;
+  }
