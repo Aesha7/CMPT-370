@@ -1,6 +1,10 @@
+# General API note: when an invalid request is sent by the client (ex. trying an invalid password/email combination) the status code of the response is set to 400
+
 from flask import Flask
 from flask import request
 from flask import Response
+from flask import abort
+from flask import make_response
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask_cors import CORS, cross_origin
@@ -63,6 +67,46 @@ CORS(app)
 def hello_world():
     return "Hello, World!"
 
+@app.route('/get_id')
+@cross_origin(origins='*')
+def GetAccountID():
+    """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
+    Required request parameters: email, password
+
+
+
+    Returns:
+        Response: contains _id of database document with given email if successful, else has status_code 400 and data is an error message.
+    """
+    # TODO: assumes password is stored in plaintext 
+    # TODO: untested!
+    resp = Response()
+    request_data = request.get_json()
+    account = accounts_collection.find_one({"email": request_data["email"]})
+    if account:
+        if account["password"] == request_data["password"]:
+            resp.data = account["_id"]
+        else:
+            resp.data=json.dumps("Password incorrect")
+            resp.status_code=400
+    else:
+        resp.data=json.dumps("Email not found")
+        resp.status_code=400
+    
+    return resp
+
+# Test function - returns response with status_code 400 and an error message in resp.data
+@app.route('/test_error')
+@cross_origin(origins='*')
+def resource():
+    error_message = json.dumps({'Message': 'error message'})
+    resp = Response()
+    resp.status_code=400
+    resp.data=error_message
+    return resp
+
+
+
 
 @app.route('/view_account_list')
 @cross_origin(origins='*')
@@ -110,6 +154,7 @@ def SubmitAccount():
 
     # Checks if email is already in database
     if accounts_collection.find_one({"email": request_data["email"]}):
+       resp.status_code=400
        resp.data = json.dumps("Email already in use!")
     
     else:
@@ -191,6 +236,18 @@ def DeleteFamily():
     else:
         resp.data=json.dumps("Error: account not found")
 
+    return resp
+
+@app.route("/retrieve_family", methods=["GET"])
+@cross_origin(origins="*")
+def RetrieveFamily():
+    """Endpoint for getting list of family members associated with account. 
+    Required request parameters: account_ID
+
+    Returns:
+        Response containing list of family members
+    """
+    resp = Response()
     return resp
 
 if(__name__ == "__main__"):
