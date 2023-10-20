@@ -119,6 +119,36 @@ def SubmitAccount():
 
     return resp
 
+@app.route("/add_family", methods=["POST"])
+@cross_origin(origins="*")
+def AddFamily():
+    """Endpoint for adding family member; adds a family member to account. 
+    Required request parameters: name, birthday, account_ID
+
+    Returns:
+        Response
+    """
+    # TODO: untested! test when frontend has ability to add family member
+    # TODO: add any required error testing, response data (make sure name doesn't already exist in account)
+    request_data = request.get_json()
+    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    user_details = {
+        "name": request_data["name"],
+        "birthday": request_data["birthday"],
+        "isParent": False
+    }
+
+    # Takes the existing list of family members and adds the new family member to it
+    new_users_list = account_doc["users"].append(user_details)
+    
+    # Response
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    # Updates users list to new list
+    accounts_collection.update_one(account_doc,{"$set":{"users":new_users_list}})
+    return resp
+
 if(__name__ == "__main__"):
     app.run(debug=True)
 
