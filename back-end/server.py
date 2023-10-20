@@ -149,7 +149,7 @@ def AddFamily():
     accounts_collection.update_one(account_doc,{"$set":{"users":new_users_list}})
     return resp
 
-@app.route("/add_family", methods=["POST"])
+@app.route("/remove_family", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteFamily():
     """Endpoint for deleting family member; deletes a family member to account. 
