@@ -149,6 +149,50 @@ def AddFamily():
     accounts_collection.update_one(account_doc,{"$set":{"users":new_users_list}})
     return resp
 
+@app.route("/add_family", methods=["POST"])
+@cross_origin(origins="*")
+def DeleteFamily():
+    """Endpoint for deleting family member; deletes a family member to account. 
+    Required request parameters: name, account_ID
+
+    Returns:
+        Response
+    
+    Possible Responses (frontend should handle): 
+        "User successfully removed"
+        "Error: account not found"
+        "Error: user not found"
+    """
+    # TODO: untested! test when frontend has ability to delete member
+
+    # Response
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    request_data = request.get_json()
+    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+
+    # Ensures account is found
+    if account_doc:
+        family_list = account_doc["users"]
+
+        # Searches through account's list of family members to find one that matches name
+        user_removed = False
+        for user in family_list:
+            if user["name"] == request.data["name"]:
+                family_list.remove(user)
+                user_removed = True
+                break
+        if user_removed:
+            resp.data=json.dumps("User successfully removed")
+        else:
+            resp.data=json.dumps("Error: user not found")
+    
+    else:
+        resp.data=json.dumps("Error: account not found")
+
+    return resp
+
 if(__name__ == "__main__"):
     app.run(debug=True)
 
