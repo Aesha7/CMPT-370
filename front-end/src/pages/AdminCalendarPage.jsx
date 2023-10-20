@@ -153,7 +153,7 @@ const AdminCalendarPage = () => {
       <div className="">
         <div className="form-popup" id="myForm">
           <form className="form-container">
-            <h1>|Add Event</h1>
+            <h1>Add Event</h1>
 
             <label for="title">
               <b>Title</b>
