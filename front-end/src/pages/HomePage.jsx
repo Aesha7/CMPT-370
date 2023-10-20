@@ -118,13 +118,13 @@ const handleEmail = (e) => {
         <button onClick={createAccountRouteChange}
         className="button3" type="button">Create Account</button> 
         <p></p>
-        <button onClick={viewAccounts} 
+        {/* <button onClick={viewAccounts} 
         className="button3" type="button">View Accounts</button> 
-        
+         */}
       </form>
     
     </div>
-      <p>{names}</p>
+      {/* <p>{names}</p> */}
     </div>
 
   );

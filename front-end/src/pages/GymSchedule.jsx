@@ -17,14 +17,22 @@ const GymSchedule = () => {
     const localizer = momentLocalizer(moment);
 
     let [email] = useState('');
-    let [registrationChild] = useState('')
+    let [registrationChild, setRegistrationChild] = useState('')
 
+
+    
 
     const location = useLocation()
     email = location.state.email;
     registrationChild = location.state.value
 
-    console.log(email, registrationChild)
+    // console.log(email, registrationChild)
+
+    const handleChildChange = (e) =>{
+        console.log("here")
+        setRegistrationChild(e.target.value);
+        console.log(registrationChild)
+    }
 
 
     // get relevant info from 'email'
@@ -50,13 +58,60 @@ const GymSchedule = () => {
     const showDetails = (calEvent) =>{
         alert(calEvent.description)
     }
+    // names
+    let children = [
+        {
+          'name': 'John Doe',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+        {
+          'name': 'Another Name',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+        {
+          'name': 'A third Name',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+        {
+          'name': 'A fourth Name',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+        {
+          'name': 'A third Name again',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+        {
+          'name': 'John Don',
+          'phone': '12345678',
+          'birthday': 'day/month/year',
+          'level': '999'
+        },
+    ]
+
+    let renders = children.map(function (i) {
+        // console.log(i.name, i.birthday, i.phone, i.level)
+        return(
+          <option value={i.name}>{i.name}</option>
+        )
+      })
 
 
     return(
 
         <div className="view-gym-schedule">
             <div className='gym-schedule-top-bar'>Gym Schedule
-                {/* <button className="back-button" onClick={goBack}>Back</button> */}
+            {/* dropdown of children names */}
+            <select className='childDropDown' onChange={handleChildChange}>{renders}</select>
             </div>
 
             <div className="">
