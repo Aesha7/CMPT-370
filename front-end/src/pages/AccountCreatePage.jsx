@@ -10,6 +10,7 @@ const AccountCreatePage = () => {
  const [name, setName] = useState('');
  const [birthday, setBirthday] = useState('');
  const [phone, setPhone] = useState('');
+ const [signature, setSignature] = useState('');
 
 
 // States for checking the errors
@@ -29,13 +30,18 @@ const AccountCreatePage = () => {
     navigate(path);
   }
 
+  const goToWaiver = () =>{
+    let path = '/waiver-form';
+    navigate(path);
+  }
+
 
 /**
  * Handling form submittion
  */
   const handleSubmit = (e) =>{
     e.preventDefault();
-    if(email === '' || password === '' || name === '' || phone === '' || birthday === '' ||!waiver ){
+    if(email === '' || password === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver ){
       setError(true);
     }
     else{
@@ -54,13 +60,13 @@ const AccountCreatePage = () => {
   const handleWaiver = (e) =>{
     e.preventDefault();
     if(!waiver){
-    e.target.style.backgroundColor = 'green';
-    e.target.style.color = 'white';
-    setWaiver(true);
+      e.target.style.backgroundColor = 'green';
+      //  e.target.style.color = 'black';
+      setWaiver(true);
   }
     else{
       e.target.style.backgroundColor = 'white';
-      e.target.style.color = 'black';
+      //  e.target.style.color = 'black';
       setWaiver(false); 
     }
   }
@@ -105,11 +111,19 @@ const handleBirthDay = (e) => {
     setSubmitted(false);
 };
 
+/**
+ * Handling Signature change
+ */
+const handleSignature = (e) => {
+  setSignature(e.target.value);
+  setSubmitted(false);
+};
+
   return (
     <div className="account-creation-page">
 
-    <div className="account-create-top-bar">Create Account
-      <button className="back-button" onClick={backToLogin}>Back</button>
+    <div className="top-bar">Create Account
+      <button className="top-bar-button" onClick={backToLogin}>Back</button>
     </div>
 
     <div className="account-create-container">
@@ -146,10 +160,22 @@ const handleBirthDay = (e) => {
           <div className="account-create-row-entry">
             <label className="account-create-label" htmlFor="waiver">Waiver:</label>
             <div className="waiver-entry">
-                <a className='waiver-pdf' href='Waiver_Form.pdf' target='_blank'>Click Here To Open</a>
-                <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button>
+                <button className="waiver-button" onClick={goToWaiver}>Click Here To Open</button>
+                {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
+
+                <label class="checklist-2">I Agree
+                  <input type="checkbox-2"/>
+                  <span class="checkmark-2" onClick={handleWaiver} id="waiver-button"></span>
+                </label>
+
             </div>
           </div>
+
+          <div className="account-create-column-entry">
+            <label className="account-create-label" for="signature">Signature:</label>
+            <input onChange={handleSignature} className="text-field" value={signature} type="signature" id="signature" placeholder="Full Name"/>
+          </div>
+          
 
           <div className="account-create-column-entry">
             <button className="account-create-submit-button" onClick={handleSubmit}>Submit</button>
@@ -160,6 +186,7 @@ const handleBirthDay = (e) => {
         </div>
 
       </form>
+      
 
     </div>
     
