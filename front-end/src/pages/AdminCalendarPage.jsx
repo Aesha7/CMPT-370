@@ -82,8 +82,7 @@ const AdminCalendarPage = () => {
   const submitEvent = () => {
     if (title == "" || description == "" || startHr == "" || endHr == "") {
       // error pop up
-      // alert("This is not a valid event.");
-      console.log("HERE")
+      alert("This is not a valid event.");
     } else {
       // create a new event and add to list
       let fullStartDate = new Date(parseInt(startYear), parseInt(startMonth), parseInt(startDate), parseInt(startHr), parseInt(startMin), 0);
