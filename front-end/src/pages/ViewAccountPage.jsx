@@ -137,14 +137,19 @@ const AccountView = () => {
   return (
 
     <div className="view-account-page">
-      <div className="view-account-top-bar">
+      <div className="top-bar">
         My Account
-        <button className="logout-button" onClick={goBackToLogin}>Logout</button>
+        <button className="top-bar-button" onClick={goBackToLogin}>Logout</button>
       </div>
 
       <div className="view-account-container">
 
         <div className="view-user-info-1">
+
+          <div className="view-account-column-entry">
+            <label className="heading" for="member">Account Info:</label>
+          </div>
+
           {/* name */}
           <div className="view-account-column-entry">
             <label className="account-label" for="name"> Name: </label>
@@ -223,7 +228,7 @@ const AccountView = () => {
           <div className="edit-family-info">
           
           <div className="view-account-column-entry">
-            <label className="heading" for="family">Current Family Member Info:</label>
+            <label className="heading" for="family">Family Member Info:</label>
           </div>
 
           {/* name */}
@@ -262,16 +267,15 @@ const AccountView = () => {
           <div className="view-account-column-entry">
             <label className="heading" for="email" type="emailList">Email List:</label>
 
-            
-          <label class="checklist">Newsletter
-  <input type="checkbox"/>
-  <span class="checkmark"></span>
-</label>
+            <label class="checklist">Newsletter
+              <input type="checkbox"/>
+              <span class="checkmark"></span>
+            </label>
 
-<label class="checklist">Promotions
-  <input type="checkbox"/>
-  <span class="checkmark"></span>
-</label>
+            <label class="checklist">Promotions
+              <input type="checkbox"/>
+              <span class="checkmark"></span>
+            </label>
 
           </div>
 
