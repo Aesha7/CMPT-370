@@ -2,36 +2,8 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.view-account-top-bar {
-  background-color: gray;
-  color: white;
-  padding: 30px;
-  text-align: left;
-  font-size: 40px;
-  font-weight: bolder;
-}
-
-.logout-button {
-  padding: 15px 32px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: gray;
-  border: 4px solid white;
-  color: white;
-  margin: auto;
-  max-width: 100%;
-  float: right;
-}
-
-.back-button:hover {
-  background-color: white;
-  color: black;
-}
-
 .view-account-container {
-  background-color: lightgrey;
+  /* background-color: lightgrey; */
   border-color: black;
   height: auto;
   width: auto;
@@ -41,13 +13,12 @@
   flex-direction: row; 
 }
 
-
 .view-user-info-1 {
-  flex: 0.25;
+  flex: 0.3;
   display: flex;
   flex-direction: column;
   margin: 25px;
-  background-color: darkgray;
+  background-color: lightgray;
 }
 
 
@@ -62,7 +33,7 @@
 }
 
 .view-account-column-entry {
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   flex-direction: column;
   margin: 25px;
@@ -85,7 +56,7 @@
 }
 
 .view-account-text-field {
-  padding: 15px;
+  padding: 16px;
   margin-bottom: 10px;
   font-size: 16px;
   border: 2px solid darkgray;
@@ -96,7 +67,7 @@
   display: flex;
   flex-direction: column;
   margin: 25px;
-  background-color: darkgray;
+  background-color: lightgray;
 }
 
 
@@ -104,13 +75,13 @@
   display: flex;
   align-items: center;
   flex-direction: row;
-  padding-bottom: 15px;
+  padding-bottom: 30px;
 }
 
 .family-button{
-  padding: 10px 10px;
+  padding: 10px 28px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
@@ -150,7 +121,7 @@
 .register-button{
   padding: 10px 25px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
@@ -173,7 +144,7 @@
 .info-button{
   padding: 10px 25px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
@@ -194,21 +165,19 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding-top: 8px;
-  margin-top: auto;
-  bottom: 0;
+  margin-top: 100%;
 }
 
 .schedule-button{
   padding: 10px 25px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
   border: 2px solid orange;
   color: black;
-  margin-left: 10px;
+  bottom: 0;
 }
 
 .schedule-button:hover {
@@ -216,50 +185,23 @@
   color: white;
 }
 
-/* Media query for smaller screens */
-@media (max-width: 768px) {
-  .view-account-container {
-    flex-direction: column;
-    margin: 10px;
-  }
-
-  .view-account-column-entry,
-  .view-user-info-2 {
-    flex: 1;
-    margin: 10px;
-  }
-
-  .register-button,
-  .info-button,
-  .schedule-button {
-    margin-left: 10px;
-  }
-
-  .family-schedule {
-    padding-top: 0;
-    margin-top: 10px;
-    justify-content: center;
-  }
-}
-
 .view-user-info-3 {
-  flex: 0.45;
+  flex: 0.3;
   display: flex;
   flex-direction: column;
   margin: 25px;
 }
 
 .view-user-info-3 .edit-family-info {
-  background-color: darkgray;
-  flex: 0.45;
+  background-color: lightgray;
+  flex: 0.3;
   display: flex;
   flex-direction: column;
-
 }
 
 .view-user-info-3 .email-list {
-  background-color: darkgray;
-  flex: 0.45;
+  background-color: lightgray;
+  flex: 0.3;
   display: flex;
   flex-direction: column;
   margin-top: 50px;
@@ -278,7 +220,7 @@
 .edit-button{
   padding: 10px 25px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
@@ -295,7 +237,7 @@
 .save-button{
   padding: 10px 25px;
   text-align: center;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   transition-duration: 0.4s;
   background-color: white;
@@ -313,16 +255,15 @@
  .checklist {
   display: block;
   position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
+  padding-left: 40px;
   cursor: pointer;
-  font-size: 22px;
   user-select: none;
   /* -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none; */
-  padding-left: 40px;
   font-size: 18px;
+  margin-bottom: 0px;
+  padding-bottom: 20px;
 }
 
 /* Hide the browser's default checkbox */
@@ -341,12 +282,12 @@
   left: 0;
   height: 25px;
   width: 25px;
-  background-color: #eee;
+  background-color: white;
 }
 
 /* On mouse-over, add a grey background color */
 .checklist:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: darkgrey;
 }
 
 /* When the checkbox is checked, add a blue background */
@@ -378,3 +319,84 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }   
+
+/* The popup form - hidden by default */
+.add-family-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.add-family-container {
+  max-width: 400px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container input[type=name], .form-container input[type=phone], .form-container input[type=birthday], .form-container input[type=startTime], .form-container input[type=endTime] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  margin-right: 10px;
+  max-width: 90%;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=name]:focus, .form-container input[type=description]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: green;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:0px;
+  margin-top: 22px;
+  opacity: 1;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .view-account-container {
+    flex-direction: column;
+    margin: 10px;
+  }
+
+  .view-account-column-entry, .view-user-info-1,
+  .view-user-info-2, .view-user-info-3,
+  .view-user-info-3 .edit-label,
+  .view-user-info-3 .email-list {
+    flex: 1;
+    margin: 10px;
+  }
+
+  .register-button,
+  .info-button,
+  .schedule-button, 
+  .save-button,
+  .edit-button {
+    margin-left: 10px;
+  }
+
+  .family-schedule {
+    padding-top: 0;
+    margin-top: 10px;
+    justify-content: center;
+  }
+}

@@ -9,6 +9,8 @@
   text-align: left;
   font-size: 40px;
   font-weight: bolder;
+  align-items: center;
+  display: flex;
 }
 
 .container {

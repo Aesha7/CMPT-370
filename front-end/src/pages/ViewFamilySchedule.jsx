@@ -49,8 +49,8 @@ const ViewFamilySchedule = () => {
     return(
 
         <div className="view-family-schedule">
-            <div className='family-schedule-top-bar'>Family Schedule
-                <button className="back-button" onClick={goBack}>Back</button>
+            <div className='top-bar'>Family Schedule
+                <button className="top-bar-button" onClick={goBack}>Back</button>
             </div>
 
             <div className="">
