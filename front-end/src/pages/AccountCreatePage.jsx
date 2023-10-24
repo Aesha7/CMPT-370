@@ -4,7 +4,6 @@ import './AccountCreationPage.css';
 
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
-
 const AccountCreatePage = (props) => {
 // states for registration
  const [email, setEmail] = useState('');
@@ -212,16 +211,16 @@ const handleSignature = (e) => {
                 <button className="waiver-button" onClick={goToWaiver}>Click Here To Open</button>
                 {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
 
-                <label class="checklist-2">I Agree
+                <label className="checklist-2">I Agree
                   <input type="checkbox-2"/>
-                  <span class="checkmark-2" onClick={handleWaiver} id="waiver-button"></span>
+                  <span className="checkmark-2" onClick={handleWaiver} id="waiver-button"></span>
                 </label>
 
             </div>
           </div>
 
           <div className="account-create-column-entry">
-            <label className="account-create-label" for="signature">Signature:</label>
+            <label className="account-create-label" htmlFor="signature">Signature:</label>
             <input onChange={handleSignature} className="text-field" value={signature} type="signature" id="signature" placeholder="Full Name"/>
           </div>
           
