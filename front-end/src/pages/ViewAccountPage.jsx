@@ -49,6 +49,8 @@ const AccountView = () => {
     console.log(e.target.value);
   };
 
+
+  // GET CHILDREN FROM DB
   let children = [
     {
       name: "John Doe",

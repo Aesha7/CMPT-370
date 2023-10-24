@@ -8,6 +8,7 @@ const AccountCreatePage = (props) => {
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
+ const [confirmPassword, setConfirmPassword] = useState('');
  const [name, setName] = useState('');
  const [birthday, setBirthday] = useState('');
  const [phone, setPhone] = useState('');
@@ -43,9 +44,13 @@ const AccountCreatePage = (props) => {
   const handleSubmit = async (e) =>{
     console.log("Handle submit attempt");
     e.preventDefault();
-    if(email === '' || password === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver ){
+    if(email === '' || password === ''  || confirmPassword === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver){
       setError(true);
       alert("Please fill out every field.")
+    }
+    else if(password != confirmPassword){
+      alert("Passwords do not match.")
+      setError(true)
     }
     else{
       try {
@@ -142,6 +147,11 @@ const handleName = (e) => {
     setSubmitted(false);
 };
 
+const handleConfirmPassword = (e) =>{
+    setConfirmPassword(e.target.value);
+    setSubmitted(false);
+}
+
 /**
  * Handling Phone Number change
  */
@@ -193,6 +203,11 @@ const handleSignature = (e) => {
           <div className="account-create-column-entry">
             <label className="account-create-label" htmlFor="password">Password:</label>
             <input onChange={handlePassword} className="text-field" value={password} type="password" id="password" />
+          </div>
+
+          <div className="account-create-column-entry">
+            <label className="account-create-label" htmlFor="password">Confirm Password:</label>
+            <input onChange={handleConfirmPassword} className="text-field" value={confirmPassword} type="password" id="password" />
           </div>
 
           <div className="account-create-column-entry">
