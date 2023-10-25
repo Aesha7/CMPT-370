@@ -30,6 +30,7 @@ accounts_collection = db["accounts_collection"]
 
 app = Flask(__name__)
 CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def readDocuments(collection):
@@ -261,6 +262,69 @@ def DeleteFamily():
     else:
         resp.status_code=400
         resp.data=json.dumps("Error: account not found")
+
+    return resp
+
+@app.route("/edit_family", methods=["POST"])
+@cross_origin(origins="*")
+def EditFamily():
+    """Endpoint for adding editing family member; edits a family member's details. 
+    Required request parameters: old_name, new_name, birthday, account_ID. To keep a field the same, send an empty string.
+
+    Note: if new_name is already used, the user's name will not be changed and an error message will be sent as a response. However, all other modifications will still happen. 
+
+    Returns:
+        Response
+            Possible response data: "Success", "Error: No user by that name found",  "Error: account not found", "Error: user with name already exists in account"
+    """
+    # TODO: untested! test when frontend has ability to edit family member
+    # TODO: add any required error testing
+
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    request_data = request.get_json()
+    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    old_name = request_data["old_name"]
+    new_name = request_data["new_name"]
+    birthday = request_data["birthday"]
+
+    # Ensures account is found
+    if account_doc:
+        family_list = account_doc["users"]
+
+        # Searches through account's list of family members to find user
+        user_found = False
+        for user in family_list: # Probably should just ask the collection instead of for loop, but this is easier
+            if user["name"] == old_name:
+                user_found = True
+                break
+        
+
+        if user_found:
+            #Sets new birthday
+            if not (birthday == ""):
+                db.collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
+            
+            #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
+            if not (new_name == ""):
+                for user in family_list:
+                    if user["name"] == new_name: # Looks for user with new_name
+                        resp.status_code=400
+                        resp.data=json.dumps("Error: user with name already exists in account")
+                        return resp 
+                        
+                db.collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
+            resp.data=json.dumps("Success")
+
+        else:
+            resp.status_code=400
+            resp.data=json.dumps("Error: No user by that name found")
+
+    else:
+        resp.status_code=400
+        resp.data=json.dumps("Error: account not found")
+        return resp
 
     return resp
 
