@@ -9,6 +9,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from flask_cors import CORS, cross_origin
 import json
+from bson.objectid import ObjectId
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
@@ -88,7 +89,7 @@ def GetAccountID():
     account = accounts_collection.find_one({"email": request_data["email"]})
     if account:
         if account["password"] == request_data["password"]:
-            resp.data = account["_id"]
+            resp.data = json.dumps(account["_id"])
         else:
             resp.data=json.dumps("Password incorrect")
             resp.status_code=400
@@ -176,18 +177,17 @@ def AddFamily():
     Returns:
         Response
     """
-    # TODO: untested! test when frontend has ability to add family member
-    # TODO: add any required error testing, response data
-
+    
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
     request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
     user_details = {
         "name": request_data["name"],
         "birthday": request_data["birthday"],
-        "isParent": False
+        "isParent": False,
+        "events": []
     }
 
     # Ensures account is found
@@ -205,8 +205,6 @@ def AddFamily():
             resp.status_code=400
             resp.data=json.dumps("Error: name already in use")
             return resp
-        else:
-            resp.data=json.dumps("Success")
     
     else:
         resp.status_code=400
@@ -214,10 +212,12 @@ def AddFamily():
         return resp
 
     # Takes the existing list of family members and adds the new family member to it
-    new_users_list = account_doc["users"].append(user_details)
+    family_list.append(user_details)
+
 
     # Updates users list to new list
-    accounts_collection.update_one(account_doc,{"$set":{"users":new_users_list}})
+    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}}) # not working? update not showing up in db
+    resp.data=json.dumps("Success")
     return resp
 
 @app.route("/remove_family", methods=["POST"])
