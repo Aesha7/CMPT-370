@@ -27,6 +27,7 @@ except Exception as e:
 db = client.CMPT370_Team25
 my_collection = db["db_1"]
 accounts_collection = db["accounts_collection"]
+events_collection = db["events_collection"]
 
 app = Flask(__name__)
 CORS(app)
@@ -352,6 +353,22 @@ def RetrieveFamily():
     else:
         resp.status_code=400
         resp.data=json.dumps("Error: account not found")
+    return resp
+
+@app.route("/retrieve_events", methods=["GET"])
+@cross_origin(origins="*")
+def RetrieveEvents():
+    """Endpoint for getting list of all events in database. 
+    Required request parameters: none
+
+    Returns:
+        Response containing list of events
+    """
+    #TODO: untested
+
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    resp.data = events_collection.find()
     return resp
 
 if(__name__ == "__main__"):
