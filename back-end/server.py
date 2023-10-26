@@ -287,7 +287,7 @@ def EditFamily():
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
     request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
     old_name = request_data["old_name"]
     new_name = request_data["new_name"]
     birthday = request_data["birthday"]
@@ -307,7 +307,8 @@ def EditFamily():
         if user_found:
             #Sets new birthday
             if not (birthday == ""):
-                accounts_collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
+                # Error here
+                accounts_collection.update_one({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
@@ -317,7 +318,7 @@ def EditFamily():
                         resp.data=json.dumps("Error: user with name already exists in account")
                         return resp 
                         
-                accounts_collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
+                accounts_collection.update_one({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
             resp.data=json.dumps("Success")
 
         else:
@@ -366,7 +367,6 @@ def RetrieveEvents():
     Returns:
         Response containing list of events
     """
-    #TODO: untested
 
     resp = Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
@@ -375,6 +375,25 @@ def RetrieveEvents():
     for event in events:
         event_list.append(event)
     resp.data = dumps(event_list)
+    return resp
+
+@app.route("/retrieve_courses", methods=["GET"])
+@cross_origin(origins="*")
+def RetrieveCourses():
+    """Endpoint for getting list of all courses in database. 
+    Required request parameters: none
+
+    Returns:
+        Response containing list of courses
+    """
+
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    courses = courses_collection.find()
+    course_list=[]
+    for course in courses:
+        course_list.append(course)
+    resp.data = dumps(course_list)
     return resp
 
 @app.route("/add_event", methods=["POST"])
