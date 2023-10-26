@@ -280,8 +280,6 @@ def EditFamily():
         Response
             Possible response data: "Success", "Error: No user by that name found",  "Error: account not found", "Error: user with name already exists in account"
     """
-    # TODO: untested! test when frontend has ability to edit family member
-    # TODO: add any required error testing
 
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
@@ -296,19 +294,13 @@ def EditFamily():
     if account_doc:
         family_list = account_doc["users"]
 
-        # Searches through account's list of family members to find user
-        user_found = False
-        for user in family_list: # Probably should just ask the collection instead of for loop, but this is easier
-            if user["name"] == old_name:
-                user_found = True
-                break
-        
-
-        if user_found:
+        user = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name})    
+        if user: # Ensures user is found
             #Sets new birthday
             if not (birthday == ""):
-                # Error here
-                accounts_collection.update_one({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
+                accounts_collection.update_one(
+                    {"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
+                    {"$set":{"users.$.birthday" : birthday}})
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
@@ -318,7 +310,8 @@ def EditFamily():
                         resp.data=json.dumps("Error: user with name already exists in account")
                         return resp 
                         
-                accounts_collection.update_one({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
+                accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
+                                               {"$set":{"users.$.name" : new_name}})
             resp.data=json.dumps("Success")
 
         else:
@@ -495,6 +488,34 @@ def AddCourse():
     else:
         courses_collection.insert_one(course_details)
     return resp
+
+@app.route("/add_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def AddCourseToUser():
+    """Endpoint for adding a course to a user's schedule.
+    Required request parameters: account_id, user_name, course_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: course not found"
+    """
+    request_data = request.get_json()
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    course = courses_collection.find_one({"name": request_data["course_name"]})
+    if not course:
+        resp.status_code=400
+        resp.data=json.dumps("Error: course not found")
+        return resp
+    
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+
+    if courses_collection.find_one({"name": request_data["name"]}):
+        resp.status_code=400
+        resp.data=json.dumps("Error: course name already exists")
+        return resp
+
 
 
 if(__name__ == "__main__"):
