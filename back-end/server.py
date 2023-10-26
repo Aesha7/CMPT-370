@@ -615,6 +615,53 @@ def AddEventToUser():
                                                {"$set":{"enrolled" : enrolled}})
         return resp
 
+@app.route("/retrieve_user_events", methods=["GET"])
+@cross_origin(origins="*")
+def RetrieveUserEvents():
+    """Endpoint for getting list of events user is enrolled in. 
+    Required request parameters: account_ID, name
+
+    Returns: Response containing list of events user is enrolled in
+    Notes: Currently returns all data associated with events user is registered in - this includes list of all users enrolled in event
+    Possible error messages:
+        "Error: account not found"
+        "Error: user not found"
+    """
+    return (RetrieveUserEnrollments(request.get_json, "events"))
+    
+def RetrieveUserEnrollments(request_data, enrollmentType):
+    """_summary_
+
+    Args:
+        request_data (Request): request
+        enrollmentType (Str): "events" or "courses"
+
+    Returns:
+        _type_: _description_
+    """
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    request_data = request.get_json()
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+
+    # Ensures account is found
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    # Finds user and gets their current course list
+    users = account["users"]
+    for user in users:
+        if user["name"] == request_data["name"]:
+            resp.data=dumps(user[enrollmentType])
+            return resp
+
+    else:
+        resp.status_code=400
+        resp.data=json.dumps("Error: user not found")
+        return resp
 
 
 if(__name__ == "__main__"):
