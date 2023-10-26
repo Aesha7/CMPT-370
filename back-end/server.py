@@ -80,7 +80,8 @@ def GetAccountID():
 
 
     Returns:
-        Response: contains _id of database document with given email if successful, else has status_code 400 and data is an error message.
+        Response: contains _id of database document with given email if successful, else has status_code 400
+        Possible error messages: "Password is incorrect", "Email not found"
     """
     # TODO: assumes password is stored in plaintext 
     # TODO: untested!
@@ -89,7 +90,7 @@ def GetAccountID():
     account = accounts_collection.find_one({"email": request_data["email"]})
     if account:
         if account["password"] == request_data["password"]:
-            resp.data = json.dumps(account["_id"])
+            resp.data = json.dumps(str(account["_id"]))
         else:
             resp.data=json.dumps("Password incorrect")
             resp.status_code=400
@@ -177,7 +178,7 @@ def AddFamily():
     Returns:
         Response
     """
-    
+
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
