@@ -423,7 +423,7 @@ def AddCourse():
         resp.data=json.dumps("Error: course name already exists")
         return resp
     else:
-        events_collection.insert_one(course_details)
+        courses_collection.insert_one(course_details)
     return resp
 
 
