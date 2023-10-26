@@ -149,7 +149,9 @@ def SubmitAccount():
         "users": [{
             "name": request_data["name"],
             "birthday": request_data["birthday"],
-            "isParent": True
+            "isParent": True,
+            "courses":[],
+            "events":[]
         }]
     }
     
@@ -189,7 +191,8 @@ def AddFamily():
         "name": request_data["name"],
         "birthday": request_data["birthday"],
         "isParent": False,
-        "events": []
+        "events": [],
+        "courses":[]
     }
 
     # Ensures account is found
@@ -292,8 +295,6 @@ def EditFamily():
 
     # Ensures account is found
     if account_doc:
-        family_list = account_doc["users"]
-
         user = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name})    
         if user: # Ensures user is found
             #Sets new birthday
@@ -304,11 +305,10 @@ def EditFamily():
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
-                for user in family_list:
-                    if user["name"] == new_name: # Looks for user with new_name
-                        resp.status_code=400
-                        resp.data=json.dumps("Error: user with name already exists in account")
-                        return resp 
+                if accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :new_name}):
+                    resp.status_code=400
+                    resp.data=json.dumps("Error: user with name already exists in account") #Message also returned if old_name==new_name
+                    return resp 
                         
                 accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
                                                {"$set":{"users.$.name" : new_name}})
@@ -344,11 +344,11 @@ def RetrieveFamily():
 
     # Ensures account is found
     if account_doc:
-        resp.data = json.dumps(account_doc["users"])
+        resp.data = dumps(account_doc["users"])
 
     else:
         resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
+        resp.data=dumps("Error: account not found")
     return resp
 
 @app.route("/retrieve_events", methods=["GET"])
@@ -493,7 +493,7 @@ def AddCourse():
 @cross_origin(origins="*")
 def AddCourseToUser():
     """Endpoint for adding a course to a user's schedule.
-    Required request parameters: account_id, user_name, course_name
+    Required request parameters: account_ID, user_name, course_name
 
     Returns: Response
     Possible error messages:
@@ -510,10 +510,36 @@ def AddCourseToUser():
         return resp
     
     account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-
-    if courses_collection.find_one({"name": request_data["name"]}):
+    if not account:
         resp.status_code=400
-        resp.data=json.dumps("Error: course name already exists")
+        resp.data=json.dumps("Error: account not found")
+        return resp
+    
+    else:
+        # Finds user and gets their current course list
+        users = account["users"]
+        user_found=False
+        for user in users:
+            if user["name"] == request_data["user_name"]:
+                courses = user["courses"]
+                user_found=True
+                break
+
+        if not user_found:
+            resp.status_code=400
+            resp.data=json.dumps("Error: user not found")
+            return resp
+        
+        # Check if course already in list
+        for course in courses:
+            if course["name"] == request_data["course_name"]:
+                resp.status_code=400
+                resp.data=dumps("Error: course already on user's course list")
+                return resp
+            
+        courses.append(course)
+        accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                               {"$set":{"users.$.courses" : courses}})
         return resp
 
 
