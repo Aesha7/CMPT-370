@@ -498,6 +498,9 @@ def AddCourseToUser():
     Returns: Response
     Possible error messages:
         "Error: course not found"
+        "Error: course already on user's course list"
+        "Error: account not found"
+        "Error: user not found"
     """
     request_data = request.get_json()
     resp = Response()
@@ -540,6 +543,63 @@ def AddCourseToUser():
         courses.append(course)
         accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
                                                {"$set":{"users.$.courses" : courses}})
+        return resp
+    
+@app.route("/add_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def AddEventToUser():
+    """Endpoint for adding a course to a user's schedule.
+    Required request parameters: account_ID, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: event already on user's event list"
+        "Error: account not found"
+        "Error: user not found"
+    """
+    #TODO: haven't tested, but should work the same as /add_course_user
+    request_data = request.get_json()
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    event = events_collection.find_one({"name": request_data["event_name"]})
+    if not event:
+        resp.status_code=400
+        resp.data=json.dumps("Error: event not found")
+        return resp
+    
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.status_code=400
+        resp.data=json.dumps("Error: account not found")
+        return resp
+    
+    else:
+        # Finds user and gets their current event list
+        users = account["users"]
+        user_found=False
+        for user in users:
+            if user["name"] == request_data["user_name"]:
+                events = user["events"]
+                user_found=True
+                break
+
+        if not user_found:
+            resp.status_code=400
+            resp.data=json.dumps("Error: user not found")
+            return resp
+        
+        # Check if event already in list
+        for event in events:
+            if event["name"] == request_data["event_name"]:
+                resp.status_code=400
+                resp.data=dumps("Error: event already on user's event list")
+                return resp
+            
+        events.append(event)
+        accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                               {"$set":{"users.$.events" : events}})
         return resp
 
 
