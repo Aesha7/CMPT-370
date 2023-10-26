@@ -335,16 +335,16 @@ def RetrieveFamily():
     """Endpoint for getting list of family members associated with account. 
     Required request parameters: account_ID
 
-    Returns:
-        Response containing list of family members
+    Returns: Response containing list of family members
+    Possible error messages:
+        "Error: account not found"
     """
-    #TODO: untested
 
     resp = Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
     request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
 
     # Ensures account is found
     if account_doc:
