@@ -10,6 +10,7 @@ from pymongo.server_api import ServerApi
 from flask_cors import CORS, cross_origin
 import json
 from bson.objectid import ObjectId
+from bson.json_util import dumps
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
@@ -369,7 +370,11 @@ def RetrieveEvents():
 
     resp = Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
-    resp.data = events_collection.find()
+    events = events_collection.find()
+    event_list=[]
+    for event in events:
+        event_list.append(event)
+    resp.data = dumps(event_list)
     return resp
 
 @app.route("/add_event", methods=["POST"])
