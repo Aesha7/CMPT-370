@@ -84,7 +84,6 @@ def GetAccountID():
         Possible error messages: "Password is incorrect", "Email not found"
     """
     # TODO: assumes password is stored in plaintext 
-    # TODO: untested!
     resp = Response()
     request_data = request.get_json()
     account = accounts_collection.find_one({"email": request_data["email"]})
@@ -217,7 +216,7 @@ def AddFamily():
 
 
     # Updates users list to new list
-    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}}) # not working? update not showing up in db
+    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}})
     resp.data=json.dumps("Success")
     return resp
 
@@ -235,14 +234,12 @@ def DeleteFamily():
         "Error: account not found"
         "Error: user not found"
     """
-    # TODO: untested! test when frontend has ability to delete member
-
     # Response
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
     request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": request_data["account_ID"]})
+    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
 
     # Ensures account is found
     if account_doc:
@@ -253,6 +250,8 @@ def DeleteFamily():
         for user in family_list:
             if user["name"] == request_data["name"]:
                 family_list.remove(user)
+                # Updates users list to new list
+                accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}})
                 user_removed = True
                 break
         if user_removed:
@@ -306,7 +305,7 @@ def EditFamily():
         if user_found:
             #Sets new birthday
             if not (birthday == ""):
-                db.collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
+                accounts_collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.birthday" : "birthday"}})
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
@@ -316,7 +315,7 @@ def EditFamily():
                         resp.data=json.dumps("Error: user with name already exists in account")
                         return resp 
                         
-                db.collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
+                accounts_collection.update({"_id":"acount_ID", "users.list" :{"$elemMatch" : {"name" : "old_name"}}}, {"$set":{"users.list.$.name" : "new_name"}})
             resp.data=json.dumps("Success")
 
         else:
