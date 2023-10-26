@@ -396,6 +396,52 @@ def RetrieveCourses():
     resp.data = dumps(course_list)
     return resp
 
+@app.route("/get_course", methods=["GET"])
+@cross_origin(origins="*")
+def GetCourse():
+    """Endpoint for getting a single course.
+    Required request parameters: name
+
+    Returns:
+        Response containing course JSON data
+    Possible error messages:
+        "Error: course not found"
+    """
+
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    course = courses_collection.find_one({"name": request.get_json()["name"]})
+    if course:
+        resp.data=dumps(course)
+        return resp
+    else:
+        resp.data=dumps("Error: course not found")
+        resp.status_code=400
+        return resp
+    
+@app.route("/get_event", methods=["GET"])
+@cross_origin(origins="*")
+def GetEvent():
+    """Endpoint for getting a single event.
+    Required request parameters: name
+
+    Returns:
+        Response containing event JSON data
+    Possible error messages:
+        "Error: event not found"
+    """
+
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    course = events_collection.find_one({"name": request.get_json()["name"]})
+    if course:
+        resp.data=dumps(course)
+        return resp
+    else:
+        resp.data=dumps("Error: event not found")
+        resp.status_code=400
+        return resp
+
 @app.route("/add_event", methods=["POST"])
 @cross_origin(origins="*")
 def AddEvent():
