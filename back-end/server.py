@@ -29,6 +29,7 @@ db = client.CMPT370_Team25
 my_collection = db["db_1"]
 accounts_collection = db["accounts_collection"]
 events_collection = db["events_collection"]
+courses_collection = db["courses_collection"]
 
 app = Flask(__name__)
 CORS(app)
@@ -370,6 +371,61 @@ def RetrieveEvents():
     resp.headers['Access-Control-Allow-Headers'] = '*'
     resp.data = events_collection.find()
     return resp
+
+@app.route("/add_event", methods=["POST"])
+@cross_origin(origins="*")
+def AddEvent():
+    """Endpoint for adding an event.
+
+    Returns: Response
+    Possible error messages:
+        "Error: event name already exists"
+    """
+    # TODO: add event parameters
+
+    request_data = request.get_json()
+    event_details = {
+        "name": request_data["name"],
+    }
+
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    if events_collection.find_one({"name": request_data["name"]}):
+        resp.status_code=400
+        resp.data=json.dumps("Error: event name already exists")
+        return resp
+    else:
+        events_collection.insert_one(event_details)
+    return resp
+
+@app.route("/add_course", methods=["POST"])
+@cross_origin(origins="*")
+def AddCourse():
+    """Endpoint for adding a course.
+
+    Returns: Response
+    Possible error messages:
+        "Error: course name already exists"
+    """
+    # TODO: add event parameters
+
+    request_data = request.get_json()
+    course_details = {
+        "name": request_data["name"],
+    }
+
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    if courses_collection.find_one({"name": request_data["name"]}):
+        resp.status_code=400
+        resp.data=json.dumps("Error: course name already exists")
+        return resp
+    else:
+        events_collection.insert_one(course_details)
+    return resp
+
 
 if(__name__ == "__main__"):
     app.run(debug=True)
