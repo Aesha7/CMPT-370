@@ -147,6 +147,7 @@ def SubmitAccount():
         "phone": request_data["phone"],
         "staffLevel": 0,
         "users": [{
+            "_id": ObjectId(),
             "name": request_data["name"],
             "birthday": request_data["birthday"],
             "isParent": True,
@@ -188,6 +189,7 @@ def AddFamily():
     request_data = request.get_json()
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
     user_details = {
+        "_id": ObjectId(),
         "name": request_data["name"],
         "birthday": request_data["birthday"],
         "isParent": False,
@@ -449,6 +451,7 @@ def AddEvent():
     request_data = request.get_json()
     event_details = {
         "name": request_data["name"],
+        "enrolled": []
     }
 
     resp=Response()
@@ -476,6 +479,7 @@ def AddCourse():
     request_data = request.get_json()
     course_details = {
         "name": request_data["name"],
+        "enrolled":[]
     }
 
     resp=Response()
@@ -492,7 +496,7 @@ def AddCourse():
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def AddCourseToUser():
-    """Endpoint for adding a course to a user's schedule.
+    """Endpoint for adding a course to a user's schedule. Also adds the user to the course's users list. 
     Required request parameters: account_ID, user_name, course_name
 
     Returns: Response
@@ -507,6 +511,7 @@ def AddCourseToUser():
     resp.headers['Access-Control-Allow-Headers']="*"
 
     course = courses_collection.find_one({"name": request_data["course_name"]})
+    enrolled = course["enrolled"]
     if not course:
         resp.status_code=400
         resp.data=json.dumps("Error: course not found")
@@ -525,6 +530,7 @@ def AddCourseToUser():
         for user in users:
             if user["name"] == request_data["user_name"]:
                 courses = user["courses"]
+                user_id = user["_id"]
                 user_found=True
                 break
 
@@ -533,7 +539,7 @@ def AddCourseToUser():
             resp.data=json.dumps("Error: user not found")
             return resp
         
-        # Check if course already in list
+        # Check if course already in list.
         for course in courses:
             if course["name"] == request_data["course_name"]:
                 resp.status_code=400
@@ -541,8 +547,11 @@ def AddCourseToUser():
                 return resp
             
         courses.append(course)
+        enrolled.append({"_id":user_id, "name":request_data["user_name"]})
         accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
                                                {"$set":{"users.$.courses" : courses}})
+        courses_collection.update_one({"name": request_data["course_name"]}, 
+                                               {"$set":{"enrolled" : enrolled}})
         return resp
     
 @app.route("/add_event_user", methods=["POST"])
@@ -558,7 +567,6 @@ def AddEventToUser():
         "Error: account not found"
         "Error: user not found"
     """
-    #TODO: haven't tested, but should work the same as /add_course_user
     request_data = request.get_json()
     resp = Response()
     resp.headers['Access-Control-Allow-Headers']="*"
@@ -583,6 +591,7 @@ def AddEventToUser():
             if user["name"] == request_data["user_name"]:
                 events = user["events"]
                 user_found=True
+                user_id = user["_id"]
                 break
 
         if not user_found:
@@ -598,8 +607,12 @@ def AddEventToUser():
                 return resp
             
         events.append(event)
+        enrolled = event["enrolled"]
+        enrolled.append({"_id":user_id, "name":request_data["user_name"]})
         accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
                                                {"$set":{"users.$.events" : events}})
+        events_collection.update_one({"name": request_data["event_name"]}, 
+                                               {"$set":{"enrolled" : enrolled}})
         return resp
 
 
