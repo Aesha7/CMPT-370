@@ -10,6 +10,7 @@ const HomePage = () => {
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
  const [accountID, setAccountID] = useState('');
+ let [userID, setUserID] = useState('')
 
 // States for checking the errors
  const [submitted, setSubmitted] = useState(false);
@@ -35,7 +36,7 @@ const HomePage = () => {
 
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
-  navigate(path, {state:email})
+  navigate(path, {state:userID})
  }
 
 
@@ -68,10 +69,10 @@ const HomePage = () => {
         .then(function(response){
           return response.json();
         }).then(function(data){
-          if (data == "Password is incorrect"){
+          if (data == "Password incorrect"){
             setSubmitted(false);
             setError(true);
-            alert("Password is incorrect");
+            alert("Password incorrect");
           }
           else if (data == "Email not found"){
             setSubmitted(false);
@@ -81,6 +82,7 @@ const HomePage = () => {
           else {
             setSubmitted(true);
             setError(false);
+            userID = data;
             viewAccountPageRouteChange();
           }
           return data
