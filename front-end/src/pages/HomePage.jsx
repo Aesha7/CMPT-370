@@ -43,8 +43,10 @@ const HomePage = () => {
     e.preventDefault();
     if(email === '' || password === ''){
       setError(true);
+      // setErrorMessage("Please enter both email and password.");
     }
     else{
+      // setErrorMessage("Invalid email and password.");
       setSubmitted(true);
       setError(false);
       viewAccountPageRouteChange();

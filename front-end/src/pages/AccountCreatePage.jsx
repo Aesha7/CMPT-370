@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import './AccountCreationPage.css';
+import { validate } from 'react-email-validator'
 
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
@@ -37,6 +38,8 @@ const AccountCreatePage = (props) => {
     navigate(path);
   }
 
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
 
 /**
  * Handling form submittion
@@ -47,6 +50,11 @@ const AccountCreatePage = (props) => {
     if(email === '' || password === ''  || confirmPassword === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver){
       setError(true);
       alert("Please fill out every field.")
+    }
+    else if (!emailRegex.test(email)) {
+      setError(true);
+      alert("Please enter a valid email address.");
+      return; // Exit the function to prevent further processing.
     }
     else if(password != confirmPassword){
       alert("Passwords do not match.")
