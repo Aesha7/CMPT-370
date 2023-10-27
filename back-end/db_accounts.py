@@ -276,3 +276,63 @@ def retrieve_enrollments(request_data, enrollmentType, accounts_collection):
         resp.status_code=400
         resp.data=dumps("Error: user not found")
         return resp
+    
+def remove_event(request_data, accounts_collection, ev_collection, ev_type):
+    """Removes a user from an event's enrolled list and removes the event from their event/course list."""
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    ev = ev_collection.find_one({"name": request_data["event_name"]})
+    if not ev:
+        resp.status_code=400
+        resp.data=dumps("Error: event not found")
+        return resp
+    
+    enrolled = ev["enrolled"] # list of students of event
+    
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    else:
+        # Finds user and gets their current course list
+        users = account["users"]
+        user_found=False
+        for user in users:
+            if user["name"] == request_data["user_name"]:
+                if ev_type=="course":
+                    ev_list = user["courses"]
+                else:
+                    ev_list = user["events"]
+                user_id = user["_id"]
+                user_found=True
+                break
+
+        if not user_found:
+            resp.status_code=400
+            resp.data=dumps("Error: user not found")
+            return resp
+        
+        # Check if event is in list
+        for ev in ev_list:
+            if ev["name"] == request_data["event_name"]:
+                ev_list.remove(ev)
+                enrolled.remove({"_id":user_id, "name":request_data["user_name"]})
+
+                # Checks which list to remove event from
+                if ev_type == "course":
+                    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                                    {"$set":{"users.$.courses" : ev_list}})
+                else:
+                    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                                    {"$set":{"users.$.events" : ev_list}})
+                ev_collection.update_one({"name": request_data["event_name"]}, 
+                                                    {"$set":{"enrolled" : enrolled}})
+                return resp
+                break
+        #If event not found on user's list:
+        resp.status_code=400
+        resp.data=dumps("Error: event not on user's list")
+        return resp

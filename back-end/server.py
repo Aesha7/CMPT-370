@@ -25,6 +25,7 @@ try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
+    print("Error: connection to MongoDB failed!")
     print(e)
 
 #Access database and collection "db_1" (placeholder collection)
@@ -271,6 +272,36 @@ def AddEventToUser():
     """
     return ac.add_event(request.get_json(), accounts_collection, events_collection, "event")
 
+@app.route("/remove_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def RemoveEventFromUser():
+    """Endpoint for adding an event to a user's schedule.
+    Required request parameters: account_ID, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not on user's list"
+        "Error: account not found"
+        "Error: user not found"
+        "Error: event not found"
+    """
+    return ac.remove_event(request.get_json(), accounts_collection, events_collection, "event")
+
+@app.route("/remove_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def RemoveCourseFromUser():
+    """Endpoint for adding a course to a user's schedule.
+    Required request parameters: account_ID, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not on user's list"
+        "Error: account not found"
+        "Error: user not found"
+        "Error: event not found"
+    """
+    return ac.remove_event(request.get_json(), accounts_collection, events_collection, "course")
+
 @app.route("/retrieve_user_events", methods=["GET"])
 @cross_origin(origins="*")
 def RetrieveUserEvents():
@@ -299,6 +330,26 @@ def RetrieveUserCourses():
     """
     return (ac.retrieve_enrollments(request.get_json, "courses", accounts_collection))
 
+@app.route("/delete_event", methods=["POST"])
+@cross_origin(origins="*")
+def DeleteEvent():
+    """Deletes event from event list. 
+    Required request parameters: event_name
+
+    Returns: Response
+    Possible error messages: 
+        "Error: event not found"
+    """
+    return ev.delete(request.get_json(), events_collection)
+
+@app.route("/delete_course", methods=["POST"])
+@cross_origin(origins="*")
+def DeleteCourse():
+    """
+    """
+    return ev.delete(request.get_json(), courses_collection)
+
+
 
 def _corsify(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -318,7 +369,7 @@ if(__name__ == "__main__"):
 database = db.DB_Connection()
 
 
-# To run: cd into the back-end directory
+# To run: cd into the back-end directory (Alternatively, edit your paths into start server.ahk, compile, run, and use hotkey in powershell)
 
 # Set-ExecutionPolicy Unrestricted -Scope Process
 # (Allows you to run the script to start the venv)

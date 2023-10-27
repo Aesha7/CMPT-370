@@ -42,3 +42,14 @@ def add(request_data, collection):
     else:
         collection.insert_one(event_details)
         return resp
+    
+def delete(request_data, collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    if collection.find_one({"name": request_data["name"]}):
+        collection.delete_one({"name": request_data["name"]})
+        return resp
+    else:
+        resp.status_code=400
+        resp.data=dumps("Error: event not found")
+        return resp
