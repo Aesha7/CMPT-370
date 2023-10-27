@@ -8,6 +8,7 @@ const HomePage = () => {
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
+ const [accountID, setAccountID] = useState('');
 
 // States for checking the errors
  const [submitted, setSubmitted] = useState(false);
@@ -46,7 +47,7 @@ const HomePage = () => {
       setError(true);
     }
     else{
-      
+
       setSubmitted(true);
       setError(false);
       viewAccountPageRouteChange();
