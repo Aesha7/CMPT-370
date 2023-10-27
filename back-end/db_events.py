@@ -25,22 +25,34 @@ def get(request_data, collection):
         resp.data=dumps("Error: course not found")
         resp.status_code=400
         return resp
+
     
-def add(request_data, collection):
+def add(request_data, ev_collection, accounts_collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    # Checks to see if user is a staff account
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    if not (account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
     event_details = {
         "name": request_data["name"],
         "enrolled": []
     }
 
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    if collection.find_one({"name": request_data["name"]}):
+    if ev_collection.find_one({"name": request_data["name"]}):
         resp.status_code=400
         resp.data=dumps("Error: event name already exists")
         return resp
     else:
-        collection.insert_one(event_details)
+        ev_collection.insert_one(event_details)
         return resp
     
 def delete(request_data, collection):

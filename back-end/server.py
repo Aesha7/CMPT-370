@@ -222,25 +222,29 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
+    Required request parameters: account_ID, name
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
+        "Error: you do not have permission to perform this action"
     """
     # TODO: add event parameters
-    return ev.add(request.get_json(), events_collection)
+    return ev.add(request.get_json(), events_collection, accounts_collection)
 
 @app.route("/add_course", methods=["POST"])
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
+    Required request parameters: account_ID, name
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
+        "Error: you do not have permission to perform this action"
     """
     # TODO: add event parameters
-    return ev.add(request.get_json(), courses_collection)
+    return ev.add(request.get_json(), courses_collection, accounts_collection)
 
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
@@ -346,6 +350,12 @@ def DeleteEvent():
 @cross_origin(origins="*")
 def DeleteCourse():
     """
+    Deletes event from event list. 
+    Required request parameters: event_name
+
+    Returns: Response
+    Possible error messages: 
+        "Error: event not found"
     """
     return ev.delete(request.get_json(), courses_collection)
 
