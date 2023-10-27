@@ -4,6 +4,13 @@ from flask import Response
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
+def _build_cors_preflight_response():
+    response = Response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
 def submit_account(request_data, accounts_collection):
     account_details = {
         "email": request_data["email"],

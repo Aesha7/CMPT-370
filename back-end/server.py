@@ -114,6 +114,7 @@ def SubmitAccount():
         Response
     """
     return ac.submit_account(request.get_json(),accounts_collection)
+    # return _corsify(ac.submit_account(request.get_json(),accounts_collection))
 
 @app.route("/add_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -286,7 +287,7 @@ def RetrieveUserEvents():
 
 @app.route("/retrieve_user_courses", methods=["GET"])
 @cross_origin(origins="*")
-def RetrieveUserEvents():
+def RetrieveUserCourses():
     """Endpoint for getting list of events user is enrolled in. 
     Required request parameters: account_ID, name
 
@@ -299,8 +300,16 @@ def RetrieveUserEvents():
     return (ac.retrieve_enrollments(request.get_json, "courses", accounts_collection))
 
 
+def _corsify(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
 
 if(__name__ == "__main__"):
     app.run(debug=True)
