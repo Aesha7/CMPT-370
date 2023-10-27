@@ -75,7 +75,7 @@ def addDocument(collection,doc):
 def hello_world():
     return "Hello, World!"
 
-@app.route('/get_id')
+@app.route('/get_id', methods=["POST"])
 @cross_origin(origins='*')
 def GetAccountID():
     """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 

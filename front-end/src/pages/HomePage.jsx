@@ -3,6 +3,7 @@ import { Route, Routes, useNavigate } from "react-router";
 import './HomePage.css';
 import alertMessage from "../components/alertMessage";
 
+const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
 const HomePage = () => {
 // states for registration
@@ -47,12 +48,48 @@ const HomePage = () => {
       setError(true);
     }
     else{
-
-      setSubmitted(true);
-      setError(false);
-      viewAccountPageRouteChange();
+      try {
+        // send request to backend and wait for the response
+        fetch((server_URL+"get_id"), {
+            method: "POST",
+            // Data will be serialized and sent as json
+            body: JSON.stringify({
+                email: email,
+                password: password, //TODO: stores password in plain text! add proper password management
+            }),
+            // tell the server we're sending JSON
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
+        })
+        .then(function(response){
+          return response.json();
+        }).then(function(data){
+          if (data == "Password is incorrect"){
+            setSubmitted(false);
+            setError(true);
+            alert("Password is incorrect");
+          }
+          else if (data == "Email not found"){
+            setSubmitted(false);
+            setError(true);
+            alert("Email not found");
+          }
+          else {
+            setSubmitted(true);
+            setError(false);
+            viewAccountPageRouteChange();
+          }
+          return data
+        })
+    }catch (error){
+      console.log(error)
     }
   }
+}
 
 /**
  * Handling email change
