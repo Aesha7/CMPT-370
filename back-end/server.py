@@ -76,7 +76,7 @@ def addDocument(collection,doc):
 def hello_world():
     return "Hello, World!"
 
-@app.route('/get_id')
+@app.route('/get_id',methods=["POST"])
 @cross_origin(origins='*')
 def GetAccountID():
     """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
@@ -89,7 +89,7 @@ def GetAccountID():
     return ac.get_account_id(request.get_json(), accounts_collection)
 
 
-@app.route('/view_account_list')
+@app.route('/view_account_list',methods=["POST"])
 @cross_origin(origins='*')
 def ViewAccountList():
     """Returns a list of all account names.
@@ -158,7 +158,7 @@ def EditFamily():
     """
     return ac.edit_family(request.get_json(),accounts_collection)
 
-@app.route("/retrieve_family", methods=["GET"])
+@app.route("/retrieve_family", methods=["POST"])
 @cross_origin(origins="*")
 def RetrieveFamily():
     """Endpoint for getting list of family members associated with account. 
@@ -170,7 +170,7 @@ def RetrieveFamily():
     """
     return ac.retrieve_family(request.get_json(),accounts_collection)
 
-@app.route("/retrieve_events", methods=["GET"])
+@app.route("/retrieve_events", methods=["POST"])
 @cross_origin(origins="*")
 def RetrieveEvents():
     """Endpoint for getting list of all events in database. 
@@ -181,7 +181,7 @@ def RetrieveEvents():
     """
     return ev.retrieve(request.get_json(), events_collection)
 
-@app.route("/retrieve_courses", methods=["GET"])
+@app.route("/retrieve_courses", methods=["POST"])
 @cross_origin(origins="*")
 def RetrieveCourses():
     """Endpoint for getting list of all courses in database. 
@@ -192,7 +192,7 @@ def RetrieveCourses():
     """
     return ev.retrieve(request.get_json(), courses_collection)
 
-@app.route("/get_course", methods=["GET"])
+@app.route("/get_course", methods=["POST"])
 @cross_origin(origins="*")
 def GetCourse():
     """Endpoint for getting a single course.
@@ -205,7 +205,7 @@ def GetCourse():
     """
     return ev.get(request.get_json(), courses_collection)
     
-@app.route("/get_event", methods=["GET"])
+@app.route("/get_event", methods=["POST"])
 @cross_origin(origins="*")
 def GetEvent():
     """Endpoint for getting a single event.
@@ -306,7 +306,7 @@ def RemoveCourseFromUser():
     """
     return ac.remove_event(request.get_json(), accounts_collection, events_collection, "course")
 
-@app.route("/retrieve_user_events", methods=["GET"])
+@app.route("/retrieve_user_events", methods=["POST"])
 @cross_origin(origins="*")
 def RetrieveUserEvents():
     """Endpoint for getting list of events user is enrolled in. 
@@ -320,7 +320,7 @@ def RetrieveUserEvents():
     """
     return (ac.retrieve_enrollments(request.get_json, "events", accounts_collection))
 
-@app.route("/retrieve_user_courses", methods=["GET"])
+@app.route("/retrieve_user_courses", methods=["POST"])
 @cross_origin(origins="*")
 def RetrieveUserCourses():
     """Endpoint for getting list of events user is enrolled in. 
@@ -343,6 +343,8 @@ def DeleteEvent():
     Returns: Response
     Possible error messages: 
         "Error: event not found"
+        "Error: you do not have permission to perform this action"
+        "Error: account not found"
     """
     return ev.delete(request.get_json(), events_collection,accounts_collection)
 
@@ -356,6 +358,8 @@ def DeleteCourse():
     Returns: Response
     Possible error messages: 
         "Error: event not found"
+        "Error: you do not have permission to perform this action"
+        "Error: account not found"
     """
     #TODO: make remove event from all users' event list
     return ev.delete(request.get_json(), courses_collection,accounts_collection)
