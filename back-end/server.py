@@ -11,6 +11,8 @@ from flask_cors import CORS, cross_origin
 import json
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+import db_accounts as ac
+import db_events as ev
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
@@ -79,39 +81,11 @@ def GetAccountID():
     """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
     Required request parameters: email, password
 
-
-
     Returns:
         Response: contains _id of database document with given email if successful, else has status_code 400
         Possible error messages: "Password is incorrect", "Email not found"
     """
-    # TODO: assumes password is stored in plaintext 
-    resp = Response()
-    request_data = request.get_json()
-    account = accounts_collection.find_one({"email": request_data["email"]})
-    if account:
-        if account["password"] == request_data["password"]:
-            resp.data = json.dumps(str(account["_id"]))
-        else:
-            resp.data=json.dumps("Password incorrect")
-            resp.status_code=400
-    else:
-        resp.data=json.dumps("Email not found")
-        resp.status_code=400
-    
-    return resp
-
-# Test function - returns response with status_code 400 and an error message in resp.data
-@app.route('/test_error')
-@cross_origin(origins='*')
-def resource():
-    error_message = json.dumps({'Message': 'error message'})
-    resp = Response()
-    resp.status_code=400
-    resp.data=error_message
-    return resp
-
-
+    return ac.get_account_id(request.get_json(), accounts_collection)
 
 
 @app.route('/view_account_list')
@@ -139,39 +113,7 @@ def SubmitAccount():
     Returns:
         Response
     """
-    request_data = request.get_json()
-    account_details = {
-        "email": request_data["email"],
-        "waiver": request_data["waiver"],
-        "password": request_data["password"],
-        "phone": request_data["phone"],
-        "staffLevel": 0,
-        "users": [{
-            "_id": ObjectId(),
-            "name": request_data["name"],
-            "birthday": request_data["birthday"],
-            "isParent": True,
-            "courses":[],
-            "events":[]
-        }]
-    }
-    
-
-    # Response
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    # Checks if email is already in database
-    if accounts_collection.find_one({"email": request_data["email"]}):
-       resp.status_code=400
-       resp.data = json.dumps("Email already in use!")
-    
-    else:
-        # Adds document to collection 
-        accounts_collection.insert_one(account_details)
-        resp.data = json.dumps("Success")  
-
-    return resp
+    return ac.submit_account(request.get_json(),accounts_collection)
 
 @app.route("/add_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -182,50 +124,7 @@ def AddFamily():
     Returns:
         Response
     """
-
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-    user_details = {
-        "_id": ObjectId(),
-        "name": request_data["name"],
-        "birthday": request_data["birthday"],
-        "isParent": False,
-        "events": [],
-        "courses":[]
-    }
-
-    # Ensures account is found
-    if account_doc:
-        family_list = account_doc["users"]
-
-        # Searches through account's list of family members to find if name already used
-        name_exists = False
-        for user in family_list:
-            if user["name"] == request_data["name"]:
-                name_exists = True
-                break
-
-        if name_exists:
-            resp.status_code=400
-            resp.data=json.dumps("Error: name already in use")
-            return resp
-    
-    else:
-        resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
-        return resp
-
-    # Takes the existing list of family members and adds the new family member to it
-    family_list.append(user_details)
-
-
-    # Updates users list to new list
-    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}})
-    resp.data=json.dumps("Success")
-    return resp
+    return ac.add_family(request.get_json(),accounts_collection)
 
 @app.route("/remove_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -241,37 +140,7 @@ def DeleteFamily():
         "Error: account not found"
         "Error: user not found"
     """
-    # Response
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-
-    # Ensures account is found
-    if account_doc:
-        family_list = account_doc["users"]
-
-        # Searches through account's list of family members to find one that matches name
-        user_removed = False
-        for user in family_list:
-            if user["name"] == request_data["name"]:
-                family_list.remove(user)
-                # Updates users list to new list
-                accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}})
-                user_removed = True
-                break
-        if user_removed:
-            resp.data=json.dumps("User successfully removed")
-        else:
-            resp.status_code=400
-            resp.data=json.dumps("Error: user not found")
-    
-    else:
-        resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
-
-    return resp
+    return ac.delete_family(request.get_json(),accounts_collection)
 
 @app.route("/edit_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -285,47 +154,7 @@ def EditFamily():
         Response
             Possible response data: "Success", "Error: No user by that name found",  "Error: account not found", "Error: user with name already exists in account"
     """
-
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-    old_name = request_data["old_name"]
-    new_name = request_data["new_name"]
-    birthday = request_data["birthday"]
-
-    # Ensures account is found
-    if account_doc:
-        user = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name})    
-        if user: # Ensures user is found
-            #Sets new birthday
-            if not (birthday == ""):
-                accounts_collection.update_one(
-                    {"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
-                    {"$set":{"users.$.birthday" : birthday}})
-            
-            #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
-            if not (new_name == ""):
-                if accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :new_name}):
-                    resp.status_code=400
-                    resp.data=json.dumps("Error: user with name already exists in account") #Message also returned if old_name==new_name
-                    return resp 
-                        
-                accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
-                                               {"$set":{"users.$.name" : new_name}})
-            resp.data=json.dumps("Success")
-
-        else:
-            resp.status_code=400
-            resp.data=json.dumps("Error: No user by that name found")
-
-    else:
-        resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
-        return resp
-
-    return resp
+    return ac.edit_family(request.get_json(),accounts_collection)
 
 @app.route("/retrieve_family", methods=["GET"])
 @cross_origin(origins="*")
@@ -337,21 +166,7 @@ def RetrieveFamily():
     Possible error messages:
         "Error: account not found"
     """
-
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    request_data = request.get_json()
-    account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-
-    # Ensures account is found
-    if account_doc:
-        resp.data = dumps(account_doc["users"])
-
-    else:
-        resp.status_code=400
-        resp.data=dumps("Error: account not found")
-    return resp
+    return ac.retrieve_family(request.get_json(),accounts_collection)
 
 @app.route("/retrieve_events", methods=["GET"])
 @cross_origin(origins="*")
@@ -362,15 +177,7 @@ def RetrieveEvents():
     Returns:
         Response containing list of events
     """
-
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-    events = events_collection.find()
-    event_list=[]
-    for event in events:
-        event_list.append(event)
-    resp.data = dumps(event_list)
-    return resp
+    return ev.retrieve(request.get_json(), events_collection)
 
 @app.route("/retrieve_courses", methods=["GET"])
 @cross_origin(origins="*")
@@ -381,15 +188,7 @@ def RetrieveCourses():
     Returns:
         Response containing list of courses
     """
-
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-    courses = courses_collection.find()
-    course_list=[]
-    for course in courses:
-        course_list.append(course)
-    resp.data = dumps(course_list)
-    return resp
+    return ev.retrieve(request.get_json(), courses_collection)
 
 @app.route("/get_course", methods=["GET"])
 @cross_origin(origins="*")
@@ -400,19 +199,9 @@ def GetCourse():
     Returns:
         Response containing course JSON data
     Possible error messages:
-        "Error: course not found"
+        "Error: event not found"
     """
-
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-    course = courses_collection.find_one({"name": request.get_json()["name"]})
-    if course:
-        resp.data=dumps(course)
-        return resp
-    else:
-        resp.data=dumps("Error: course not found")
-        resp.status_code=400
-        return resp
+    return ev.get(request.get_json(), courses_collection)
     
 @app.route("/get_event", methods=["GET"])
 @cross_origin(origins="*")
@@ -425,17 +214,7 @@ def GetEvent():
     Possible error messages:
         "Error: event not found"
     """
-
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-    course = events_collection.find_one({"name": request.get_json()["name"]})
-    if course:
-        resp.data=dumps(course)
-        return resp
-    else:
-        resp.data=dumps("Error: event not found")
-        resp.status_code=400
-        return resp
+    return ev.get(request.get_json(), events_collection)
 
 @app.route("/add_event", methods=["POST"])
 @cross_origin(origins="*")
@@ -447,23 +226,7 @@ def AddEvent():
         "Error: event name already exists"
     """
     # TODO: add event parameters
-
-    request_data = request.get_json()
-    event_details = {
-        "name": request_data["name"],
-        "enrolled": []
-    }
-
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    if events_collection.find_one({"name": request_data["name"]}):
-        resp.status_code=400
-        resp.data=json.dumps("Error: event name already exists")
-        return resp
-    else:
-        events_collection.insert_one(event_details)
-    return resp
+    return ev.add(request.get_json(), events_collection)
 
 @app.route("/add_course", methods=["POST"])
 @cross_origin(origins="*")
@@ -472,26 +235,10 @@ def AddCourse():
 
     Returns: Response
     Possible error messages:
-        "Error: course name already exists"
+        "Error: event name already exists"
     """
     # TODO: add event parameters
-
-    request_data = request.get_json()
-    course_details = {
-        "name": request_data["name"],
-        "enrolled":[]
-    }
-
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    if courses_collection.find_one({"name": request_data["name"]}):
-        resp.status_code=400
-        resp.data=json.dumps("Error: course name already exists")
-        return resp
-    else:
-        courses_collection.insert_one(course_details)
-    return resp
+    return ev.add(request.get_json(), courses_collection)
 
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
@@ -662,6 +409,9 @@ def RetrieveUserEnrollments(request_data, enrollmentType):
         resp.status_code=400
         resp.data=json.dumps("Error: user not found")
         return resp
+
+
+
 
 
 if(__name__ == "__main__"):
