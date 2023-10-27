@@ -46,6 +46,7 @@ const HomePage = () => {
       setError(true);
     }
     else{
+      
       setSubmitted(true);
       setError(false);
       viewAccountPageRouteChange();

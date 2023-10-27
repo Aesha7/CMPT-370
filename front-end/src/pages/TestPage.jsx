@@ -25,13 +25,18 @@ function TestPage() {
             }
         })
     }
+
+    function testError() {
+        fetch("http://127.0.0.1:5000/test_error")
+        .then((response) => {console.log("hello!!")})
+    }
     return (
         <div className="account-create-column-entry">
-        <button className="account-create-submit-button" onClick={getData}>Submit</button>
-        {profileData && <div>
+        <button className="account-create-submit-button" onClick={testError}>Submit</button>
+        {/* {profileData && <div>
             <p>name: {profileData.name}</p>
             </div>
-            }
+            } */}
         </div>
     )
 }
