@@ -47,7 +47,7 @@ const AccountCreatePage = (props) => {
     e.preventDefault();
     if(email === '' || password === ''  || confirmPassword === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver){
       setError(true);
-      alertMessage("Please fill out every field.");
+      // alertMessage("Please fill out every field.");
       alert("Please fill out every field.");
 
     }
