@@ -58,7 +58,7 @@ def add(request_data, ev_collection, accounts_collection):
 def delete(request_data, collection,accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
-    
+
     # Checks to see if user is a staff account
     account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
     if not account:
@@ -69,11 +69,19 @@ def delete(request_data, collection,accounts_collection):
         resp.status_code=400
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
+    
 
-    if collection.find_one({"name": request_data["name"]}):
-        collection.delete_one({"name": request_data["name"]})
-        return resp
-    else:
+    ev = collection.find_one({"name": request_data["name"]})
+    if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")
         return resp
+    
+    for user in ev["enrolled"]:
+        print(user)
+
+    # if collection.find_one({"name": request_data["name"]}):
+    #     collection.delete_one({"name": request_data["name"]})
+    #     return resp
+    
+    return resp

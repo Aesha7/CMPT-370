@@ -229,8 +229,10 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
                 resp.status_code=400
                 resp.data=dumps("Error: event already on user's event list")
                 return resp
-            
-        ev_list.append(ev)
+        
+        ev2 = {"name":ev["name"],
+              "_id":ev["_id"]}
+        ev_list.append(ev2)
         enrolled.append({"_id":user_id, "name":request_data["user_name"]})
 
         # Checks which list to add event to

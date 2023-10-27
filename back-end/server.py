@@ -313,7 +313,6 @@ def RetrieveUserEvents():
     Required request parameters: account_ID, name
 
     Returns: Response containing list of events user is enrolled in
-    Notes: Currently returns all data associated with events user is registered in - this includes list of all users enrolled in event
     Possible error messages:
         "Error: account not found"
         "Error: user not found"
@@ -327,7 +326,6 @@ def RetrieveUserCourses():
     Required request parameters: account_ID, name
 
     Returns: Response containing list of courses user is enrolled in
-    Notes: Currently returns all data associated with courses user is registered in - this includes list of all users enrolled in event
     Possible error messages:
         "Error: account not found"
         "Error: user not found"
@@ -337,6 +335,7 @@ def RetrieveUserCourses():
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteEvent():
+    """CURRENTLY BROKEN"""
     """Deletes event from event list. 
     Required request parameters: event_name, account_ID
 
@@ -351,6 +350,7 @@ def DeleteEvent():
 @app.route("/delete_course", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteCourse():
+    """CURRENTLY BROKEN"""
     """
     Deletes event from event list. 
     Required request parameters: event_name, account_ID
