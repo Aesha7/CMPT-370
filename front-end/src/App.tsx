@@ -17,14 +17,16 @@ import {  } from 'react-router'
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<HomePage/>}/>
+        <Route path='/home' element={<HomePage/>}/>
         <Route path='/create-account' element={<AccountCreatePage/>}/>
         <Route path='/my-account' element={<ViewAccountPage/>}/>
         <Route path='/family-schedule' element={<ViewFamilySchedule/>}/>
         <Route path='/admin-schedule' element={<AdminCalendarPage/>}/>
         <Route path='/gym-schedule' element={<GymSchedule/>}/>
         <Route path='/class-registration' element={<GymSchedule/>}/>
+
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
+
       </Routes>
 
   );

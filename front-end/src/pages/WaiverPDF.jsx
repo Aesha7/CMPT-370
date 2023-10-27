@@ -1,8 +1,12 @@
+<<<<<<< HEAD
+import React from "react"
+=======
 import React from "react";
 // import { Document, Page } from "react-pdf";
 // import samplePDF from './WaiverForm.pdf'
 // import { useState } from "react";
 
+>>>>>>> 9ddd4c6eb3e938ca03d5c2ee5cc36d40591dcf8e
 
 const WaiverPDF = () =>{
 
