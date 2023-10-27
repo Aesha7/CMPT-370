@@ -114,6 +114,7 @@ def SubmitAccount():
         Response
     """
     return ac.submit_account(request.get_json(),accounts_collection)
+    # return _corsify(ac.submit_account(request.get_json(),accounts_collection))
 
 @app.route("/add_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -244,62 +245,16 @@ def AddCourse():
 @cross_origin(origins="*")
 def AddCourseToUser():
     """Endpoint for adding a course to a user's schedule. Also adds the user to the course's users list. 
-    Required request parameters: account_ID, user_name, course_name
+    Required request parameters: account_ID, user_name, event_name
 
     Returns: Response
     Possible error messages:
-        "Error: course not found"
-        "Error: course already on user's course list"
+        "Error: event not found"
+        "Error: event already on user's event list"
         "Error: account not found"
         "Error: user not found"
     """
-    request_data = request.get_json()
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers']="*"
-
-    course = courses_collection.find_one({"name": request_data["course_name"]})
-    enrolled = course["enrolled"]
-    if not course:
-        resp.status_code=400
-        resp.data=json.dumps("Error: course not found")
-        return resp
-    
-    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-    if not account:
-        resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
-        return resp
-    
-    else:
-        # Finds user and gets their current course list
-        users = account["users"]
-        user_found=False
-        for user in users:
-            if user["name"] == request_data["user_name"]:
-                courses = user["courses"]
-                user_id = user["_id"]
-                user_found=True
-                break
-
-        if not user_found:
-            resp.status_code=400
-            resp.data=json.dumps("Error: user not found")
-            return resp
-        
-        # Check if course already in list.
-        for course in courses:
-            if course["name"] == request_data["course_name"]:
-                resp.status_code=400
-                resp.data=dumps("Error: course already on user's course list")
-                return resp
-            
-        courses.append(course)
-        enrolled.append({"_id":user_id, "name":request_data["user_name"]})
-        accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
-                                               {"$set":{"users.$.courses" : courses}})
-        courses_collection.update_one({"name": request_data["course_name"]}, 
-                                               {"$set":{"enrolled" : enrolled}})
-        return resp
+    return ac.add_event(request.get_json(), accounts_collection, courses_collection, "course")
     
 @app.route("/add_event_user", methods=["POST"])
 @cross_origin(origins="*")
@@ -314,53 +269,7 @@ def AddEventToUser():
         "Error: account not found"
         "Error: user not found"
     """
-    request_data = request.get_json()
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers']="*"
-
-    event = events_collection.find_one({"name": request_data["event_name"]})
-    if not event:
-        resp.status_code=400
-        resp.data=json.dumps("Error: event not found")
-        return resp
-    
-    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-    if not account:
-        resp.status_code=400
-        resp.data=json.dumps("Error: account not found")
-        return resp
-    
-    else:
-        # Finds user and gets their current event list
-        users = account["users"]
-        user_found=False
-        for user in users:
-            if user["name"] == request_data["user_name"]:
-                events = user["events"]
-                user_found=True
-                user_id = user["_id"]
-                break
-
-        if not user_found:
-            resp.status_code=400
-            resp.data=json.dumps("Error: user not found")
-            return resp
-        
-        # Check if event already in list
-        for event in events:
-            if event["name"] == request_data["event_name"]:
-                resp.status_code=400
-                resp.data=dumps("Error: event already on user's event list")
-                return resp
-            
-        events.append(event)
-        enrolled = event["enrolled"]
-        enrolled.append({"_id":user_id, "name":request_data["user_name"]})
-        accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
-                                               {"$set":{"users.$.events" : events}})
-        events_collection.update_one({"name": request_data["event_name"]}, 
-                                               {"$set":{"enrolled" : enrolled}})
-        return resp
+    return ac.add_event(request.get_json(), accounts_collection, events_collection, "event")
 
 @app.route("/retrieve_user_events", methods=["GET"])
 @cross_origin(origins="*")
@@ -374,45 +283,33 @@ def RetrieveUserEvents():
         "Error: account not found"
         "Error: user not found"
     """
-    return (RetrieveUserEnrollments(request.get_json, "events"))
-    
-def RetrieveUserEnrollments(request_data, enrollmentType):
-    """_summary_
+    return (ac.retrieve_enrollments(request.get_json, "events", accounts_collection))
 
-    Args:
-        request_data (Request): request
-        enrollmentType (Str): "events" or "courses"
+@app.route("/retrieve_user_courses", methods=["GET"])
+@cross_origin(origins="*")
+def RetrieveUserCourses():
+    """Endpoint for getting list of events user is enrolled in. 
+    Required request parameters: account_ID, name
 
-    Returns:
-        _type_: _description_
+    Returns: Response containing list of courses user is enrolled in
+    Notes: Currently returns all data associated with courses user is registered in - this includes list of all users enrolled in event
+    Possible error messages:
+        "Error: account not found"
+        "Error: user not found"
     """
-    resp = Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-
-    request_data = request.get_json()
-    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
-
-    # Ensures account is found
-    if not account:
-        resp.status_code=400
-        resp.data=dumps("Error: account not found")
-        return resp
-    
-    # Finds user and gets their current course list
-    users = account["users"]
-    for user in users:
-        if user["name"] == request_data["name"]:
-            resp.data=dumps(user[enrollmentType])
-            return resp
-
-    else:
-        resp.status_code=400
-        resp.data=json.dumps("Error: user not found")
-        return resp
+    return (ac.retrieve_enrollments(request.get_json, "courses", accounts_collection))
 
 
+def _corsify(response):
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    return response
 
-
+def _build_cors_preflight_response():
+    response = make_response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
 
 if(__name__ == "__main__"):
     app.run(debug=True)

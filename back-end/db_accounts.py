@@ -4,6 +4,13 @@ from flask import Response
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 
+def _build_cors_preflight_response():
+    response = Response()
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+    return response
+
 def submit_account(request_data, accounts_collection):
     account_details = {
         "email": request_data["email"],
@@ -177,3 +184,95 @@ def retrieve_family(request_data, accounts_collection):
         resp.status_code=400
         resp.data=dumps("Error: account not found")
     return resp
+
+def add_event(request_data, accounts_collection, ev_collection, ev_type):
+    """Adds user to event/course Enrolled list, adds event/course to user's events/courses list. See server.py for further documentation."""
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    ev = ev_collection.find_one({"name": request_data["event_name"]})
+    if not ev:
+        resp.status_code=400
+        resp.data=dumps("Error: event not found")
+        return resp
+    
+    enrolled = ev["enrolled"] # list of students of event
+    
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    else:
+        # Finds user and gets their current course list
+        users = account["users"]
+        user_found=False
+        for user in users:
+            if user["name"] == request_data["user_name"]:
+                if ev_type=="course":
+                    ev_list = user["courses"]
+                else:
+                    ev_list = user["events"]
+                user_id = user["_id"]
+                user_found=True
+                break
+
+        if not user_found:
+            resp.status_code=400
+            resp.data=dumps("Error: user not found")
+            return resp
+        
+        # Check if course already in list.
+        for ev in ev_list:
+            if ev["name"] == request_data["event_name"]:
+                resp.status_code=400
+                resp.data=dumps("Error: event already on user's event list")
+                return resp
+            
+        ev_list.append(ev)
+        enrolled.append({"_id":user_id, "name":request_data["user_name"]})
+
+        # Checks which list to add event to
+        if ev_type == "course":
+            accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                               {"$set":{"users.$.courses" : ev_list}})
+        else:
+            accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                               {"$set":{"users.$.events" : ev_list}})
+        ev_collection.update_one({"name": request_data["event_name"]}, 
+                                               {"$set":{"enrolled" : enrolled}})
+        return resp
+    
+def retrieve_enrollments(request_data, enrollmentType, accounts_collection):
+    """_summary_
+
+    Args:
+        request_data (Request): request
+        enrollmentType (Str): "events" or "courses"
+
+    Returns:
+        _type_: _description_
+    """
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+
+    # Ensures account is found
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    # Finds user and gets their current course list
+    users = account["users"]
+    for user in users:
+        if user["name"] == request_data["name"]:
+            resp.data=dumps(user[enrollmentType])
+            return resp
+
+    else:
+        resp.status_code=400
+        resp.data=dumps("Error: user not found")
+        return resp
