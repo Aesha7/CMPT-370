@@ -49,7 +49,6 @@ const AccountCreatePage = (props) => {
       setError(true);
       // alertMessage("Please fill out every field.");
       alert("Please fill out every field.");
-
     }
     else if(password != confirmPassword){
       alert("Passwords do not match.")

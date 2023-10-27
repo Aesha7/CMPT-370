@@ -1,9 +1,11 @@
+import "./alertMessage.css"
 
-// alertMessage = (message) =>{
-//     return (
-//         <div>
-//             <h1>{message}</h1>
-//         </div>
-//     );
-// } 
-// export default alertMessage;
+const alertMessage = (message) =>{
+    console.log("here")
+    return (
+        <div className="alertDiv">
+            <h1>{message}</h1>
+        </div>
+    );
+} 
+export default alertMessage;
