@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import './AccountCreationPage.css';
+import alertMessage from "../components/alertMessage";
 
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
@@ -46,7 +47,9 @@ const AccountCreatePage = (props) => {
     e.preventDefault();
     if(email === '' || password === ''  || confirmPassword === '' || name === '' || phone === '' || birthday === '' || signature === '' || !waiver){
       setError(true);
-      alert("Please fill out every field.")
+      alertMessage("Please fill out every field.");
+      alert("Please fill out every field.");
+
     }
     else if(password != confirmPassword){
       alert("Passwords do not match.")
