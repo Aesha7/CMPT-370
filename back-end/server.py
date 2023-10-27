@@ -338,26 +338,27 @@ def RetrieveUserCourses():
 @cross_origin(origins="*")
 def DeleteEvent():
     """Deletes event from event list. 
-    Required request parameters: event_name
+    Required request parameters: event_name, account_ID
 
     Returns: Response
     Possible error messages: 
         "Error: event not found"
     """
-    return ev.delete(request.get_json(), events_collection)
+    return ev.delete(request.get_json(), events_collection,accounts_collection)
 
 @app.route("/delete_course", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteCourse():
     """
     Deletes event from event list. 
-    Required request parameters: event_name
+    Required request parameters: event_name, account_ID
 
     Returns: Response
     Possible error messages: 
         "Error: event not found"
     """
-    return ev.delete(request.get_json(), courses_collection)
+    #TODO: make remove event from all users' event list
+    return ev.delete(request.get_json(), courses_collection,accounts_collection)
 
 
 
