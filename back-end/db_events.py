@@ -55,7 +55,7 @@ def add(request_data, ev_collection, accounts_collection):
         ev_collection.insert_one(event_details)
         return resp
     
-def delete(request_data, collection,accounts_collection):
+def delete(request_data, collection,accounts_collection,ev_type):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
@@ -72,13 +72,39 @@ def delete(request_data, collection,accounts_collection):
     
 
     ev = collection.find_one({"name": request_data["name"]})
+
+    # version of event document that users have:
+    ev_doc = {"name":request_data["name"],
+              "_id":ev["_id"]
+    }
     if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")
         return resp
     
+    # Goes through all users from enrolled list, finds that user, and removes event from their list
     for user in ev["enrolled"]:
-        print(user)
+        account_doc=accounts_collection.find_one({"users._id": user["_id"]})
+        for user in account_doc["users"]:
+            if user["name"] == request_data["user_name"]:
+                if ev_type=="course":
+                    ev_list = user["courses"]
+                else:
+                    ev_list = user["events"]
+                
+                print(ev_list)
+                print(ev_doc)
+                ev_list.remove(ev_doc)
+
+                #TODO: fix, doesn't access correct account
+                # Checks which list to remove event from
+                if ev_type == "course":
+                    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                                    {"$set":{"users.$.courses" : ev_list}})
+                else:
+                    accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :request_data["user_name"]}, 
+                                                    {"$set":{"users.$.events" : ev_list}})
+                break
 
     # if collection.find_one({"name": request_data["name"]}):
     #     collection.delete_one({"name": request_data["name"]})

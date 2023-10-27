@@ -84,7 +84,7 @@ def GetAccountID():
 
     Returns:
         Response: contains _id of database document with given email if successful, else has status_code 400
-        Possible error messages: "Password is incorrect", "Email not found"
+        Possible error messages: "Password incorrect", "Email not found"
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
 
@@ -345,7 +345,7 @@ def DeleteEvent():
         "Error: you do not have permission to perform this action"
         "Error: account not found"
     """
-    return ev.delete(request.get_json(), events_collection,accounts_collection)
+    return ev.delete(request.get_json(), events_collection,accounts_collection,"event")
 
 @app.route("/delete_course", methods=["POST"])
 @cross_origin(origins="*")
@@ -362,7 +362,7 @@ def DeleteCourse():
         "Error: account not found"
     """
     #TODO: make remove event from all users' event list
-    return ev.delete(request.get_json(), courses_collection,accounts_collection)
+    return ev.delete(request.get_json(), courses_collection,accounts_collection,"course")
 
 
 
