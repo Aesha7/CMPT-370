@@ -27,6 +27,7 @@ const AccountView = () => {
 
 
   userID = location.state;  
+  console.log(userID)
 
   try{
     fetch((server_URL+"/retrieve_account"), {
@@ -41,7 +42,7 @@ const AccountView = () => {
   }).then((response) => {
     response.json()}
   ).then(data => {
-    console.log(data)
+    // console.log(data)
     return data
   })
 }catch (error){
