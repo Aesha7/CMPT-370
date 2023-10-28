@@ -88,6 +88,14 @@ def GetAccountID():
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
 
+@app.route("/retrieve_account", methods=["POST"])
+@cross_origin(origins="*")
+def RetrieveAccount():
+    """
+        getting the account id
+    """
+    return (ac.get_account_from_id(request.get_json(), accounts_collection))
+
 
 @app.route('/view_account_list',methods=["POST"])
 @cross_origin(origins='*')
@@ -331,6 +339,7 @@ def RetrieveUserCourses():
         "Error: user not found"
     """
     return (ac.retrieve_enrollments(request.get_json, "courses", accounts_collection))
+
 
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")

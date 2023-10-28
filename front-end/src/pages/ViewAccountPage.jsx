@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "./ViewAccountPage.css";
 
+const server_URL = "http://127.0.0.1:5000/" //URL to access server
+
 const AccountView = () => {
   const location = useLocation();
 
@@ -11,6 +13,8 @@ const AccountView = () => {
   let [email] = useState("email@domain.com");
   let [birthday] = useState("month/day/year");
   let [level] = useState("1");
+  let [userID] = useState('');
+  
 
   let [currentName, setCurrentName] = useState("");
   let [currentPhone, setCurrentPhone] = useState("");
@@ -22,7 +26,27 @@ const AccountView = () => {
   let [newBirthday, setNewBirthday] = useState('')
 
 
-  email = location.state;
+  userID = location.state;  
+
+  try{
+    fetch((server_URL+"/retrieve_account"), {
+      method: "POST", 
+      body: JSON.stringify({_id: userID}),
+      headers: {
+        "Content-Type": "application/json",
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+    },
+  }).then((response) => {
+    response.json()}
+  ).then(data => {
+    console.log(data)
+    return data
+  })
+}catch (error){
+console.log(error)
+}
 
   // use email to look up other info on db and modify varaibles (also to get kids)
 

@@ -58,6 +58,13 @@ def get_account_id(request_data, accounts_collection):
         resp.status_code=400
     return resp
 
+def get_account_from_id(request_data, accounts_collection):
+    resp = Response()
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+    resp.data = dumps(str(account))
+    return resp
+
+
 def add_family(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'

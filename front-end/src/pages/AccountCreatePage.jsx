@@ -14,6 +14,7 @@ const AccountCreatePage = (props) => {
  const [birthday, setBirthday] = useState('');
  const [phone, setPhone] = useState('');
  const [signature, setSignature] = useState('');
+ let [userID] = useState('')
 
 
 // States for checking the errors
@@ -25,7 +26,7 @@ const AccountCreatePage = (props) => {
 
  const viewAccountPageRouteChange = () =>{
     let path = '/my-account';
-    navigate(path, {state:email});
+    navigate(path, {state:userID});
    }
 
   const backToLogin = () =>{
@@ -89,6 +90,49 @@ const AccountCreatePage = (props) => {
             setSubmitted(true);
             setError(false);
             //navigate
+            // fetch the object id
+            try {
+              // send request to backend and wait for the response
+              fetch((server_URL+"get_id"), {
+                  method: "POST",
+                  // Data will be serialized and sent as json
+                  body: JSON.stringify({
+                      email: email,
+                      password: password, //TODO: stores password in plain text! add proper password management
+                  }),
+                  // tell the server we're sending JSON
+                  headers: {
+                      "Content-Type": "application/json",
+                      'Access-Control-Allow-Headers': 'Content-Type',
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+                  }
+              })
+              .then(function(response){
+                return response.json();
+              }).then(function(data){
+                if (data == "Password incorrect"){
+                  setSubmitted(false);
+                  setError(true);
+                  alert("Password incorrect");
+                }
+                else if (data == "Email not found"){
+                  setSubmitted(false);
+                  setError(true);
+                  alert("Email not found");
+                }
+                else {
+                  setSubmitted(true);
+                  setError(false);
+                  console.log(data);
+                  userID = data;
+                  // viewAccountPageRouteChange();
+                }
+                return data
+              })
+          }catch (error){
+            console.log(error)
+          }
             viewAccountPageRouteChange();
           }
           else if (data == "Email already in use!") {
