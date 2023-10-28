@@ -47,6 +47,7 @@ const HomePage = () => {
     e.preventDefault();
     if(email === '' || password === ''){
       setError(true);
+      alert("Please fill every field.")
     }
     else{
       try {
