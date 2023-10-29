@@ -17,7 +17,7 @@ import {  } from 'react-router'
 function App() {
   return (
       <Routes>
-        <Route path='/home' element={<HomePage/>}/>
+        <Route path='/' element={<HomePage/>}/>
         <Route path='/create-account' element={<AccountCreatePage/>}/>
         <Route path='/my-account' element={<ViewAccountPage/>}/>
         <Route path='/family-schedule' element={<ViewFamilySchedule/>}/>
