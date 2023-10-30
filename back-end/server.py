@@ -88,13 +88,18 @@ def GetAccountID():
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
 
-@app.route("/retrieve_account", methods=["POST"])
-@cross_origin(origins="*")
-def RetrieveAccount():
+@app.route('/get_account_info',methods=["POST"])
+@cross_origin(origins='*')
+def GetAccountInfo():
+    """Retrieves the account's information, excluding password, users (see /retrieve_family), and _id (see /get_id). 
+    Required request arguments: account_ID
+
+    Returns: 
+        Response : contains the retrieved info
+    Possible error messages: 
+        "Error: account not found"
     """
-        getting the account id
-    """
-    return (ac.get_account_from_id(request.get_json(), accounts_collection))
+    return ac.get_account_info(request.get_json(), accounts_collection)
 
 
 @app.route('/view_account_list',methods=["POST"])

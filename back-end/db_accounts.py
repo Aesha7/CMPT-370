@@ -58,12 +58,18 @@ def get_account_id(request_data, accounts_collection):
         resp.status_code=400
     return resp
 
-def get_account_from_id(request_data, accounts_collection):
+def get_account_info(request_data, accounts_collection): 
     resp = Response()
-    account = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
-    resp.data = dumps(str(account))
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.data=dumps("Error: account not found")
+        resp.status_code=400
+        return resp
+    account.pop("_id")
+    account.pop("users")
+    account.pop("password")
+    resp.data=dumps(account)
     return resp
-
 
 def add_family(request_data, accounts_collection):
     resp=Response()
