@@ -16,22 +16,26 @@ const AccountView = () => {
   let [level] = useState("1");
   let [userID, setUserID] = useState("");
 
+  // the current data being displayed
   let [currentName, setCurrentName] = useState("");
   let [currentPhone, setCurrentPhone] = useState("");
   let [currentLevel, setCurrentLevel] = useState("");
   let [currentBirthday, setCurrentBirthday] = useState("");
 
+  // values that change user info
   let [newName, setNewName] = useState("");
   let [newPhone, setNewPhone] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
 
-  let [users, setUsers] = useState([]);
+  // the array of users (including the main one)
+  const [users, setUsers] = useState([]);
   let [accountData, setAccountData] = useState('')
-  users = [{name: "name"},{name: 'name2'}]
+
+  // index to modify user data
+  let currentUserIndex
+  // users = [{name: "name"},{name: 'name2'}]
 
   userID = location.state;
-
-
 
   useEffect(() => {
     try {
@@ -49,10 +53,8 @@ const AccountView = () => {
         return response.text(); // Get the response text
       })
       .then((text) => {
-        console.log("Received text from server:", text);
         // Parse the text as JSON
         const data = JSON.parse(text);
-        console.log("Parsed data:", data);
         setEmail(data.email);
         setName(data.users[0].name);
         setPhone(data.phone);
@@ -62,7 +64,6 @@ const AccountView = () => {
   
         setUsers(data.users)
   
-        console.log("user", email, name, phone, birthday, users)
       })
     } catch (error) {
       console.log(error);
@@ -91,57 +92,19 @@ const AccountView = () => {
   };
 
   const displayInfo = (e) => {
-    console.log(e)
-    setCurrentName(e.target.value);
-    console.log(e.target.value);
-  };
-
-  // GET CHILDREN FROM DB
-  let children = [
-    {
-      name: "John Doe",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-    {
-      name: "Another Name",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-    {
-      name: "A third Name",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-    {
-      name: "A fourth Name",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-    {
-      name: "A third Name again",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-    {
-      name: "John Don",
-      phone: "12345678",
-      birthday: "day/month/year",
-      level: "999",
-    },
-  ];
-
+    currentUserIndex = e.target.value
+    // console.log(users[currentUserIndex])
+    setCurrentName(users[currentUserIndex].name);
+    // setCurrentPhone(users[currentUserIndex].phone)
+    setCurrentBirthday(users[currentUserIndex].birthday)
+  };  
   
 
   // let renders = children.map(function (i) {
+    let j = -1
     let renders = users.map(function (i) {
-    // console.log(i);
-    return (
+      j++;
+      return (
       <div className="family-member-row">
         <label className="family-member-name" htmlFor="family">
           {" "}
@@ -149,7 +112,7 @@ const AccountView = () => {
         </label>
         <button
           className="register-button"
-          value={i.name}
+          value={j}
           type="button"
           onClick={registerChild}
         >
@@ -157,7 +120,7 @@ const AccountView = () => {
         </button>
         <button
           className="info-button"
-          value={i.name}
+          value={j}
           type="button"
           onClick={displayInfo}
         >
@@ -189,6 +152,12 @@ const AccountView = () => {
   };
 
   const saveInfo = () => {
+    // NEED TO EDIT INFO IN BACK END
+
+
+
+
+
     document.getElementById("edit-name").disabled = true;
     document.getElementById("edit-phone").disabled = true;
     document.getElementById("edit-birthday").disabled = true;
@@ -210,7 +179,7 @@ const AccountView = () => {
   };
 
   const closeForm = () => {
-    console.log("clicked");
+    // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
   };
 
@@ -356,7 +325,7 @@ const AccountView = () => {
             </div>
 
             {/* phone */}
-            <div className="view-account-column-entry">
+            {/* <div className="view-account-column-entry">
               <label className="account-label" htmlFor="phone">
                 {" "}
                 Phone:{" "}
@@ -369,7 +338,7 @@ const AccountView = () => {
                 disabled={true}
                 placeholder={currentPhone}
               ></input>
-            </div>
+            </div> */}
 
             {/* birthday */}
             <div className="view-account-column-entry">
