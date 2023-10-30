@@ -1,56 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "./ViewAccountPage.css";
 
-const server_URL = "http://127.0.0.1:5000/" //URL to access server
+const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const AccountView = () => {
+
   const location = useLocation();
 
   // use these variables to set proper data
-  let [name] = useState("John Doe");
-  let [phone] = useState("(306) 123-4567");
-  let [email] = useState("email@domain.com");
-  let [birthday] = useState("month/day/year");
+  let [name, setName] = useState("John Doe");
+  let [phone, setPhone] = useState("(306) 123-4567");
+  let [email, setEmail] = useState("email@domain.com");
+  let [birthday, setBirthday] = useState("month/day/year");
   let [level] = useState("1");
-  let [userID] = useState('');
-  
+  let [userID, setUserID] = useState("");
 
   let [currentName, setCurrentName] = useState("");
   let [currentPhone, setCurrentPhone] = useState("");
   let [currentLevel, setCurrentLevel] = useState("");
   let [currentBirthday, setCurrentBirthday] = useState("");
 
-  let [newName, setNewName] = useState('')
-  let [newPhone, setNewPhone] = useState('')
-  let [newBirthday, setNewBirthday] = useState('')
+  let [newName, setNewName] = useState("");
+  let [newPhone, setNewPhone] = useState("");
+  let [newBirthday, setNewBirthday] = useState("");
+
+  let [users, setUsers] = useState([]);
+  let [accountData, setAccountData] = useState('')
+  users = [{name: "name"},{name: 'name2'}]
+
+  userID = location.state;
 
 
-  userID = location.state;  
-  console.log("here", userID);
 
-  try{
-    fetch((server_URL+"/get_account_info"), {
-      method: "POST", 
-      body: JSON.stringify({_id: userID}),
-      headers: {
-        "Content-Type": "application/json",
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-    },
-  }).then((response) => {
-    response.json()}
-  ).then(data => {
-    // console.log(data)
-    return data
-  })
-}catch (error){
-console.log(error)
-}
+  useEffect(() => {
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+      .then((response) => {
+        return response.text(); // Get the response text
+      })
+      .then((text) => {
+        console.log("Received text from server:", text);
+        // Parse the text as JSON
+        const data = JSON.parse(text);
+        console.log("Parsed data:", data);
+        setEmail(data.email);
+        setName(data.users[0].name);
+        setPhone(data.phone);
+        setBirthday(data.users[0].birthday)
+  
+        setAccountData(data)
+  
+        setUsers(data.users)
+  
+        console.log("user", email, name, phone, birthday, users)
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
-  // use email to look up other info on db and modify varaibles (also to get kids)
 
+
+  
   /**
    phone = ___;
    birthday = ___;
@@ -70,10 +91,10 @@ console.log(error)
   };
 
   const displayInfo = (e) => {
+    console.log(e)
     setCurrentName(e.target.value);
     console.log(e.target.value);
   };
-
 
   // GET CHILDREN FROM DB
   let children = [
@@ -115,11 +136,14 @@ console.log(error)
     },
   ];
 
-  let renders = children.map(function (i) {
+  
+
+  // let renders = children.map(function (i) {
+    let renders = users.map(function (i) {
     // console.log(i);
     return (
       <div className="family-member-row">
-        <label className="family-member-name" for="family">
+        <label className="family-member-name" htmlFor="family">
           {" "}
           {i.name}{" "}
         </label>
@@ -153,7 +177,6 @@ console.log(error)
     navigate(path, { state: email });
   };
 
-
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
@@ -171,40 +194,37 @@ console.log(error)
     document.getElementById("edit-birthday").disabled = true;
   };
 
-
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
   };
 
-  const submitFamilyMember = () =>{
+  const submitFamilyMember = () => {
     // get values for family member here
 
-    if(newName == '' || newPhone == '' || newBirthday == ''){
-      alert("Please input all of the information")
-    }
-    else{
+    if (newName == "" || newPhone == "" || newBirthday == "") {
+      alert("Please input all of the information");
+    } else {
       // new child using newName, newPhone, newBirthday, level = 1
       document.getElementById("myForm").style.display = "none";
-  }
-  }
+    }
+  };
 
-  const closeForm = () =>{
-    console.log("clicked")
+  const closeForm = () => {
+    console.log("clicked");
     document.getElementById("myForm").style.display = "none";
-  }
+  };
 
-  const handleNewName = (e) =>{
+  const handleNewName = (e) => {
     setNewName(e.target.value);
-  }
+  };
 
-  const handleNewPhone = (e) =>{
+  const handleNewPhone = (e) => {
     setNewPhone(e.target.value);
-  }
+  };
 
-  const handleNewBirthday = (e) =>{
+  const handleNewBirthday = (e) => {
     setNewBirthday(e.target.value);
-  }
-
+  };
 
   // getting the email
 
@@ -216,11 +236,11 @@ console.log(error)
           Logout
         </button>
       </div>
-
       <div className="view-account-container">
+
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
-            <label className="heading" for="member">
+            <label className="heading" htmlFor="member">
               Account Info:
             </label>
           </div>
@@ -256,11 +276,11 @@ console.log(error)
 
           {/* phone */}
           <div className="view-account-column-entry">
-            <label className="account-label" for="phone">
+            <label className="account-label" htmlFor="phone">
               {" "}
               Phone:{" "}
             </label>
-            <label className="info-label" for="phone" type="phone" id="phone">
+            <label className="info-label" htmlFor="phone" type="phone" id="phone">
               {" "}
               {phone}{" "}
             </label>
@@ -282,12 +302,15 @@ console.log(error)
               {birthday}{" "}
             </label>
           </div>
+          
         </div>
+
+        
 
         <div className="view-user-info-2">
           <div className="view-account-column-entry">
             <div className="family-bar">
-              <label className="heading" for="family">
+              <label className="heading" htmlFor="family">
                 Family
               </label>
               <button className="family-button" onClick={addFamilyMemberPopup}>
@@ -311,71 +334,71 @@ console.log(error)
         <div className="view-user-info-3">
           <div className="edit-family-info">
             <div className="view-account-column-entry">
-              <label className="heading" for="family">
+              <label className="heading" htmlFor="family">
                 Family Member Info:
               </label>
             </div>
 
             {/* name */}
             <div className="view-account-column-entry">
-              <label className="account-label" for="name">
+              <label className="account-label" htmlFor="name">
                 {" "}
                 Name:{" "}
               </label>
               <input
                 className="edit-label"
-                for="name"
+                htmlFor="name"
                 type="name"
                 id="edit-name"
-                disabled="true"
+                disabled={true}
                 placeholder={currentName}
               ></input>
             </div>
 
             {/* phone */}
             <div className="view-account-column-entry">
-              <label className="account-label" for="phone">
+              <label className="account-label" htmlFor="phone">
                 {" "}
                 Phone:{" "}
               </label>
               <input
                 className="edit-label"
-                for="phone"
+                htmlFor="phone"
                 type="phone"
                 id="edit-phone"
-                disabled="true"
+                disabled={true}
                 placeholder={currentPhone}
               ></input>
             </div>
 
             {/* birthday */}
             <div className="view-account-column-entry">
-              <label className="account-label" for="birthday">
+              <label className="account-label" htmlFor="birthday">
                 {" "}
                 Birthday:{" "}
               </label>
               <input
                 className="edit-label"
-                for="email"
+                htmlFor="email"
                 type="email"
                 id="edit-birthday"
-                disabled="true"
+                disabled={true}
                 placeholder={currentBirthday}
               ></input>
             </div>
 
             {/* level */}
             <div className="view-account-column-entry">
-              <label className="account-label" for="level">
+              <label className="account-label" htmlFor="level">
                 {" "}
                 Level:{" "}
               </label>
               <input
                 className="edit-label"
-                for="level"
+                htmlFor="level"
                 type="level"
                 id="level"
-                disabled="true"
+                disabled={true}
                 placeholder={currentLevel}
               ></input>
             </div>
@@ -392,35 +415,40 @@ console.log(error)
 
           <div className="email-list">
             <div className="view-account-column-entry">
-              <label className="heading" for="email" type="emailList">
+              <label className="heading" htmlFor="email" type="emailList">
                 Email List:
               </label>
 
-              <label class="checklist">
+              <label className="checklist">
                 Newsletter
                 <input type="checkbox" />
-                <span class="checkmark"></span>
+                <span className="checkmark"></span>
               </label>
 
-              <label class="checklist">
+              <label className="checklist">
                 Promotions
                 <input type="checkbox" />
-                <span class="checkmark"></span>
+                <span className="checkmark"></span>
               </label>
             </div>
           </div>
         </div>
 
-
         <div className="add-family-popup" id="myForm">
           <form className="form-container">
-            <label for="name"><b>Name</b></label>
+            <label htmlFor="name">
+              <b>Name</b>
+            </label>
             <input type="name" onChange={handleNewName}></input>
 
-            <label for="phone"><b>Phone Number</b></label>
+            <label htmlFor="phone">
+              <b>Phone Number</b>
+            </label>
             <input type="phone" onChange={handleNewPhone}></input>
 
-            <label for="birthday"><b>Birthday</b></label>
+            <label htmlFor="birthday">
+              <b>Birthday</b>
+            </label>
             <input type="birthday" onChange={handleNewBirthday}></input>
 
             <button type="submit" className="btn" onClick={submitFamilyMember}>
@@ -431,9 +459,9 @@ console.log(error)
             </button>
           </form>
         </div>
-
       </div>
     </div>
+
   );
 };
 

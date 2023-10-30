@@ -60,13 +60,13 @@ def get_account_id(request_data, accounts_collection):
 
 def get_account_info(request_data, accounts_collection): 
     resp = Response()
-    account = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    account = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
     if not account:
         resp.data=dumps("Error: account not found")
         resp.status_code=400
         return resp
     account.pop("_id")
-    account.pop("users")
+    # account.pop("users")
     account.pop("password")
     resp.data=dumps(account)
     return resp
