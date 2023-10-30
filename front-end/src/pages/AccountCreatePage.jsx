@@ -39,6 +39,14 @@ const AccountCreatePage = (props) => {
     navigate(path);
   }
 
+  function validEmail(email) {
+    // Regular expression for a valid email address
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  
+    return emailRegex.test(email);
+  }
+
+
 
 /**
  * Handling form submittion
@@ -51,7 +59,9 @@ const AccountCreatePage = (props) => {
       // alertMessage("Please fill out every field.");
       alert("Please fill out every field.");
     }
-    // else if()
+    else if(!validEmail(email)){
+      alert("Please enter a valid email.")
+    }
     else if(password != confirmPassword){
       alert("Passwords do not match.")
       setError(true)
@@ -124,9 +134,8 @@ const AccountCreatePage = (props) => {
                 else {
                   setSubmitted(true);
                   setError(false);
-                  console.log(data);
                   userID = data;
-                  // viewAccountPageRouteChange();
+                  viewAccountPageRouteChange();
                 }
                 return data
               })
