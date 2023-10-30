@@ -413,6 +413,8 @@ database = db.DB_Connection()
 #Fix was to run the following in the terminal 
 #set NODE_OPTIONS=--openssl-legacy-provider
 
+# CAN USE .\Startup.ps1 in powershell (while in backend) to start the server
+
 
 #CTRL + c to stop the local server
 
