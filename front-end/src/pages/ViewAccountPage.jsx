@@ -27,10 +27,10 @@ const AccountView = () => {
 
 
   userID = location.state;  
-  console.log(userID)
+  console.log("here", userID);
 
   try{
-    fetch((server_URL+"/retrieve_account"), {
+    fetch((server_URL+"/get_account_info"), {
       method: "POST", 
       body: JSON.stringify({_id: userID}),
       headers: {
