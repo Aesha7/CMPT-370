@@ -13,6 +13,7 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
+# from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
@@ -345,6 +346,30 @@ def RetrieveUserCourses():
     """
     return (ac.retrieve_enrollments(request.get_json(), "courses", accounts_collection))
 
+@app.route("/retrieve_account_events", methods=["POST"])
+@cross_origin(origins="*")
+def RetrieveAccountEvents():
+    """Endpoint for getting account's users and their events. Technically redundant; /retrieve_family already contains all user info, including events.
+    Required request parameters: account_ID
+
+    Returns: Response: list where each entry has a user's "_id", a user's "name", and a user's "events" (list of events, may be empty)
+    Possible error messages:
+        "Error: account not found"
+    """
+    return (ac.retrieve_account_enrollments(request.get_json(), "events", accounts_collection))
+
+@app.route("/retrieve_account_courses", methods=["POST"])
+@cross_origin(origins="*")
+def RetrieveAccountCourses():
+    """Endpoint for getting account's users and their courses. Technically redundant; /retrieve_family already contains all user info, including courses.
+    Required request parameters: account_ID
+
+    Returns: Response: list where each entry has a user's "_id", a user's "name", and a user's "events" (list of courses, may be empty)
+    Possible error messages:
+        "Error: account not found"
+    """
+    return (ac.retrieve_account_enrollments(request.get_json(), "courses", accounts_collection))
+
 
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
@@ -373,8 +398,8 @@ def DeleteCourse():
         "Error: you do not have permission to perform this action"
         "Error: account not found"
     """
-    #TODO: make remove event from all users' event list
     return ev.delete(request.get_json(), courses_collection,accounts_collection,"course")
+
 
 
 

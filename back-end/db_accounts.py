@@ -352,3 +352,31 @@ def remove_event(request_data, accounts_collection, ev_collection, ev_type):
         resp.status_code=400
         resp.data=dumps("Error: event not on user's list")
         return resp
+    
+def retrieve_account_enrollments(request_data, enrollmentType, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+
+    # Ensures account is found
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    # Adds event lists of all users to response, with certain keys removed
+    users = account["users"]
+    ev_list=[]
+    for user in users:
+            user_info=user
+            del user_info["birthday"]
+            del user_info["isParent"]
+            if enrollmentType == "courses":
+                del user_info["events"]
+            else:
+                del user_info["courses"]
+            ev_list.append(user_info)
+
+    resp.data=dumps(ev_list)
+    return resp
