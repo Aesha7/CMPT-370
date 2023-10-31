@@ -32,11 +32,13 @@ const AdminCalendarPage = () => {
   // get relevant info from 'email'
   //JSON, needs to be dynamic (backend)
 
+  const [calEvents, setCalEvents] = useState([]);
+  let tempEvents = [];
+
   let userID;
   userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
 
-  console.log(userID);
 
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
@@ -64,32 +66,54 @@ const AdminCalendarPage = () => {
         .then((text) => {
           // Parse the text as JSON
           const data = JSON.parse(text);
-          console.log(data);
-
           setStaffLevel(data.staffLevel);
         });
     } catch (error) {
       console.log(error);
     }
+    // getting the events
+    try{
+      fetch(server_URL + "retrieve_courses", {
+        method: "POST",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) =>{
+        return response.text()
+      }).then((text) => {
+        const data = JSON.parse(text);
+        // let tempEvents = [];
+        data.forEach((event) => {
+          let name = event.name;
+          let desc = event.description;
+          let startDate = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+          let endDate = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+
+          let newEvent = {
+            name: name,
+            desc: desc,
+            startDate: startDate,
+            endDate: endDate
+          }
+
+          tempEvents.push(newEvent)
+          });
+          setCalEvents(tempEvents)
+        })
+      } catch(exception){
+      console.log(exception)
+    }
   }, []);
 
   // months index starting at 0 (october is 9, january is 0...)
   // dates are normal
-  let myEventsList = [
-    {
-      title: "example event",
-      description: "description 1",
-      start: new Date(2023, 9, 11, 12, 0, 0),
-      end: new Date(2023, 9, 11, 14, 0, 0),
-    },
-    {
-      title: "example event2",
-      description: "description 2",
-      start: new Date(2023, 9, 12),
-      end: new Date(2023, 9, 13),
-    },
-  ];
 
+
+  
   const clickRef = useRef(null);
 
   const onSelectEvent = (calEvent) => {
@@ -149,7 +173,6 @@ const AdminCalendarPage = () => {
         start: fullStartDate,
         end: fullEndDate,
       };
-      console.log(event);
     }
   };
 
@@ -196,6 +219,7 @@ const AdminCalendarPage = () => {
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
   }
+
 
   return (
     <div className="admin-calendar">
@@ -427,7 +451,7 @@ const AdminCalendarPage = () => {
 
         <Calendar
           localizer={localizer}
-          events={myEventsList}
+          events={tempEvents}
           startAccessor="start"
           endAccessor="end"
           defaultView="week"
