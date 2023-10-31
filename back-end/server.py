@@ -445,7 +445,7 @@ def DeleteCourse():
 @cross_origin(origins="*")
 def ChangeStaffLevel():
     """Changes an account's staff level to the given value.
-    Required request arguments: admin_ID (account ID of logged-in admin account), user_ID (account ID of account to be changed), level
+    Required request arguments: admin_ID (account ID of logged-in admin account), email (email of account to be changed), level
     Required staff level: 3
 
     Customer=0

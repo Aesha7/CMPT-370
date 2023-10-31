@@ -13,7 +13,7 @@ from bson.json_util import dumps
 def change_staff_level(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
-    user_account = accounts_collection.find_one({"_id": ObjectId(request_data["user_ID"])})
+    user_account = accounts_collection.find_one({"email": request_data["email"]})
     admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
 
     #Ensures admin account is found and that the admin account has a staffLevel of at least 3
@@ -36,7 +36,7 @@ def change_staff_level(request_data, accounts_collection):
         resp.status_code=400
         resp.data=dumps("Error: target account's staff level is too high to change.")
     
-    accounts_collection.update_one({"_id": ObjectId(request_data["user_ID"])}, 
+    accounts_collection.update_one({"email": request_data["email"]}, 
                                                     {"$set":{"staffLevel" : request_data["level"]}})
     return resp
 
