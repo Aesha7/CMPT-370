@@ -172,6 +172,7 @@ def DeleteFamily():
         "User successfully removed"
         "Error: account not found"
         "Error: user not found"
+        "Error: cannot delete parent"
     """
     return ac.delete_family(request.get_json(),accounts_collection)
 
@@ -348,7 +349,7 @@ def AddEventToUser():
 @app.route("/remove_event_user", methods=["POST"])
 @cross_origin(origins="*")
 def RemoveEventFromUser():
-    """Endpoint for adding an event to a user's schedule.
+    """Endpoint for removing an event from a user's schedule and removing that user from the event's enrolled list.
     Required request parameters: account_ID, user_name, event_name
 
     Returns: Response
@@ -363,7 +364,7 @@ def RemoveEventFromUser():
 @app.route("/remove_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def RemoveCourseFromUser():
-    """Endpoint for adding a course to a user's schedule.
+    """Endpoint for removing a course from a user's schedule and removing that user from the event's enrolled list.
     Required request parameters: account_ID, user_name, event_name
 
     Returns: Response
@@ -374,6 +375,38 @@ def RemoveCourseFromUser():
         "Error: event not found"
     """
     return ac.remove_event(request.get_json(), accounts_collection, events_collection, "course")
+
+@app.route("/admin_remove_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminRemoveEventFromUser():
+    """Endpoint for adding an event to a user's schedule.
+    Required request parameters: admin_ID, email, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.remove_event(request.get_json(), accounts_collection, events_collection, "event")
+
+@app.route("/admin_remove_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminRemoveCourseFromUser():
+    """Endpoint for adding an event to a user's schedule.
+    Required request parameters: admin_ID, email, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.remove_event(request.get_json(), accounts_collection, courses_collection, "course")
 
 @app.route("/retrieve_user_events", methods=["POST"])
 @cross_origin(origins="*")

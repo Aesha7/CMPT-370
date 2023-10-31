@@ -76,11 +76,6 @@ def delete(request_data, collection,accounts_collection,ev_type):
         resp.status_code=400
         resp.data=dumps("Error: event not found")
         return resp
-    
-    # version of event document that users have:
-    ev_doc = {"name":request_data["name"],
-              "_id":ev["_id"]
-    }
 
     # Goes through all users from enrolled list, finds that user, and removes event from their list
     for user1 in ev["enrolled"]:

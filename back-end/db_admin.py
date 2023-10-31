@@ -114,6 +114,7 @@ def add_event_user(request_data, accounts_collection, ev_collection, ev_type):
     
 def get_account_info(request_data, accounts_collection): 
     resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
     user_account = accounts_collection.find_one({"email": request_data["email"]})
     admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
 
@@ -132,4 +133,72 @@ def get_account_info(request_data, accounts_collection):
     user_account.pop("_id")
     user_account.pop("password")
     resp.data=dumps(user_account)
+    return resp
+
+def remove_event(request_data, accounts_collection, ev_collection, ev_type):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    user_account = accounts_collection.find_one({"email": request_data["email"]})
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+    if not user_account:
+        resp.data=dumps("Error: user account not found")
+        resp.status_code=400
+        return resp
+
+    ev = ev_collection.find_one({"name": request_data["event_name"]})
+    if not ev:
+        resp.status_code=400
+        resp.data=dumps("Error: event not found")
+        return resp
+    
+    enrolled = ev["enrolled"] # list of students of event
+    
+    # Finds user and gets their current course list
+    users = user_account["users"]
+    user_found=False
+    for user in users:
+        if user["name"] == request_data["user_name"]:
+            if ev_type=="course":
+                ev_list = user["courses"]
+            else:
+                ev_list = user["events"]
+            user_id = user["_id"]
+            user_found=True
+            break
+
+    if not user_found:
+        resp.status_code=400
+        resp.data=dumps("Error: user not found")
+        return resp
+        
+    # Check if event is in list
+    for ev in ev_list:
+        if ev["name"] == request_data["event_name"]:
+            ev_list.remove(ev)
+            enrolled.remove({"_id":user_id, "name":request_data["user_name"]})
+
+            # Checks which list to remove event from
+            if ev_type == "course":
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["user_name"]}, 
+                                                {"$set":{"users.$.courses" : ev_list}})
+            else:
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["user_name"]}, 
+                                                {"$set":{"users.$.events" : ev_list}})
+            ev_collection.update_one({"name": request_data["event_name"]}, 
+                                                {"$set":{"enrolled" : enrolled}})
+            return resp
+
+    #If event not found on user's list:
+    resp.status_code=400
+    resp.data=dumps("Error: event not on user's list")
     return resp
