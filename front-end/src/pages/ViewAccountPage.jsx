@@ -4,6 +4,10 @@ import "./ViewAccountPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
+async function fetchAddFamily(){
+
+}
+
 const AccountView = () => {
 
   const location = useLocation();
@@ -36,6 +40,14 @@ const AccountView = () => {
   // users = [{name: "name"},{name: 'name2'}]
 
   userID = location.state;
+
+  if(userID != null){
+    window.localStorage.setItem('_id', userID);
+  }
+    
+  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+  userID = window.localStorage.getItem('_id')
+  
 
   useEffect(() => {
     try {
@@ -167,26 +179,23 @@ const AccountView = () => {
     document.getElementById("myForm").style.display = "block";
   };
 
-  const submitFamilyMember = () => {
 
-    ////
-
-
-    // CRASHING
+  async function addFamilyFetch(){
+    
+  }
 
 
-
-
-
-
-    // get values for family member here
+  const submitFamilyMember = (e) => {
+    e.preventDefault()
+    console.log("HERE")
 
     if (newName == "" || newPhone == "" || newBirthday == "") {
       alert("Please input all of the information");
     } else {
+      console.log("before fetch")
       // new child using newName, newPhone, newBirthday, level = 1
-
       try{
+        console.log(userID, newName, newBirthday)
         fetch(server_URL + "add_family", {
           method: "POST",
           body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
@@ -201,12 +210,14 @@ const AccountView = () => {
         })
         .then((text) => {
           // Parse the text as JSON
-          if(text == "Success"){
-          const data = JSON.parse(text);
-          console.log(data)
-
-        
-        }
+          text = text.substring(1, text.length -1)
+          if(text == 'Success'){
+            window.location.reload(false);
+            return text;
+          }
+          else{
+            alert(text)
+          }
         })
       }
         catch(error){
