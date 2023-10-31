@@ -12,6 +12,7 @@ import GymSchedule from './pages/GymSchedule';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
+import AdminPage from './pages/AdminPage';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/admin-schedule' element={<AdminCalendarPage/>}/>
         <Route path='/gym-schedule' element={<GymSchedule/>}/>
         <Route path='/class-registration' element={<GymSchedule/>}/>
+        <Route path='/admin' element={<AdminPage/>}/>
 
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
 

@@ -19,6 +19,7 @@ const AccountView = () => {
   let [birthday, setBirthday] = useState("month/day/year");
   let [level] = useState("1");
   let [userID, setUserID] = useState("");
+  let [staffLevel, setStaffLevel] = useState('')
 
   // the current data being displayed
   let [currentName, setCurrentName] = useState("");
@@ -73,9 +74,9 @@ const AccountView = () => {
         setBirthday(data.users[0].birthday)
   
         setAccountData(data)
+        setStaffLevel(data.staffLevel)
   
         setUsers(data.users)
-  
       })
     } catch (error) {
       console.log(error);
@@ -100,7 +101,7 @@ const AccountView = () => {
 
   const registerChild = (e) => {
     let path = "/class-registration";
-    navigate(path, { state: { email: email, child: e.target.value } });
+    navigate(path, { state:userID});
   };
 
   // displays the info for the current user (parent or children)
@@ -143,10 +144,6 @@ const AccountView = () => {
     );
   });
 
-  // const addFamilyMemberRouteChange = () =>{
-  //   let path = '/add-family';
-  //   navigate(path, {state:email})
-  //  }
 
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
@@ -157,6 +154,11 @@ const AccountView = () => {
     let path = "/";
     navigate(path);
   };
+
+  const adminPageRoute = () =>{
+    let path = '/admin'
+    navigate(path, {state:userID})
+  }
 
   // unlocks the input fields
   const unlockInfo = () => {
@@ -240,15 +242,22 @@ const AccountView = () => {
     setNewBirthday(e.target.value);
   };
 
-  // getting the email
+  // window.location.reload(false);
+  if(staffLevel == 1){
+    document.getElementById("adminButton").style.display = "block";
+  }
 
   return (
     <div className="view-account-page">
       <div className="top-bar">
         My Account
+
+        <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
+
         <button className="top-bar-button" onClick={goBackToLogin}>
           Logout
         </button>
+        
       </div>
       <div className="view-account-container">
 
