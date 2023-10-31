@@ -237,6 +237,7 @@ def GetEvent():
 def AddEvent():
     """Endpoint for adding an event.
     Required request parameters: account_ID, name
+    Required staff level: 1
 
     Returns: Response
     Possible error messages:
@@ -251,6 +252,7 @@ def AddEvent():
 def AddCourse():
     """Endpoint for adding a course.
     Required request parameters: account_ID, name
+    Required staff level: 1
 
     Returns: Response
     Possible error messages:
@@ -376,6 +378,7 @@ def RetrieveAccountCourses():
 def DeleteEvent():
     """Deletes event from event list. 
     Required request parameters: event_name, account_ID
+    Required staff level: 1
 
     Returns: Response
     Possible error messages: 
@@ -391,6 +394,7 @@ def DeleteCourse():
     """
     Deletes event from event list. 
     Required request parameters: event_name, account_ID
+    Required staff level: 1
 
     Returns: Response
     Possible error messages: 
@@ -405,6 +409,8 @@ def DeleteCourse():
 def ChangeStaffLevel():
     """Changes an account's staff level to the given value.
     Required request arguments: admin_ID (account ID of logged-in admin account), user_ID (account ID of account to be changed), level
+    Required staff level: 3
+
     Customer=0
     Coach=1
     [placeholder]=2
