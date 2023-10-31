@@ -2,6 +2,13 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+
+#adminButton {
+  background-color: red;
+  float: right;
+  display:none
+}
+
 .view-account-container {
   /* background-color: lightgrey; */
   border-color: black;

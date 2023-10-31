@@ -3,7 +3,6 @@ import React from "react";
 // import samplePDF from './WaiverForm.pdf'
 // import { useState } from "react";
 
-
 const WaiverPDF = () =>{
 
 

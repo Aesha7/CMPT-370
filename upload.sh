@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "most recent commit"
+git commit -m "latest version with error messages"
 
 git push

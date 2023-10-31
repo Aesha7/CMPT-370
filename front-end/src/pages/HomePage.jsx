@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import './HomePage.css';
 
+const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
 const HomePage = () => {
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
+ const [accountID, setAccountID] = useState('');
+ let [userID, setUserID] = useState('')
 
 // States for checking the errors
  const [submitted, setSubmitted] = useState(false);
@@ -32,7 +35,7 @@ const HomePage = () => {
 
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
-  navigate(path, {state:email})
+  navigate(path, {state:userID})
  }
 
 
@@ -44,13 +47,52 @@ const HomePage = () => {
     if(email === '' || password === ''){
       alert("Please input all of the information.")
       setError(true);
+      alert("Please fill every field.")
     }
     else{
-      setSubmitted(true);
-      setError(false);
-      viewAccountPageRouteChange();
+      try {
+        // send request to backend and wait for the response
+        fetch((server_URL+"get_id"), {
+            method: "POST",
+            // Data will be serialized and sent as json
+            body: JSON.stringify({
+                email: email,
+                password: password, //TODO: stores password in plain text! add proper password management
+            }),
+            // tell the server we're sending JSON
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
+        })
+        .then(function(response){
+          return response.json();
+        }).then(function(data){
+          if (data == "Password incorrect"){
+            setSubmitted(false);
+            setError(true);
+            alert("Password incorrect");
+          }
+          else if (data == "Email not found"){
+            setSubmitted(false);
+            setError(true);
+            alert("Email not found");
+          }
+          else {
+            setSubmitted(true);
+            setError(false);
+            userID = data;
+            viewAccountPageRouteChange();
+          }
+          return data
+        })
+    }catch (error){
+      console.log(error)
     }
   }
+}
 
 /**
  * Handling email change

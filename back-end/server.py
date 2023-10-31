@@ -76,7 +76,7 @@ def addDocument(collection,doc):
 def hello_world():
     return "Hello, World!"
 
-@app.route('/get_id',methods=["POST"])
+@app.route('/get_id', methods=["POST"])
 @cross_origin(origins='*')
 def GetAccountID():
     """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
@@ -87,6 +87,19 @@ def GetAccountID():
         Possible error messages: "Password incorrect", "Email not found"
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
+
+@app.route('/get_account_info',methods=["POST"])
+@cross_origin(origins='*')
+def GetAccountInfo():
+    """Retrieves the account's information, excluding password, users (see /retrieve_family), and _id (see /get_id). 
+    Required request arguments: account_ID
+
+    Returns: 
+        Response : contains the retrieved info
+    Possible error messages: 
+        "Error: account not found"
+    """
+    return ac.get_account_info(request.get_json(), accounts_collection)
 
 
 @app.route('/view_account_list',methods=["POST"])
@@ -398,6 +411,8 @@ database = db.DB_Connection()
 # Kiran: When I tried to run the front end I got an error: 'error:03000086:digital envelope routines::initialization error'
 #Fix was to run the following in the terminal 
 #set NODE_OPTIONS=--openssl-legacy-provider
+
+# CAN USE .\Startup.ps1 in powershell (while in backend) to start the server
 
 
 #CTRL + c to stop the local server
