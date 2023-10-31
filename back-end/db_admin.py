@@ -111,3 +111,25 @@ def add_event_user(request_data, accounts_collection, ev_collection, ev_type):
         ev_collection.update_one({"name": request_data["event_name"]}, 
                                                {"$set":{"enrolled" : enrolled}})
         return resp
+    
+def get_account_info(request_data, accounts_collection): 
+    resp = Response()
+    user_account = accounts_collection.find_one({"email": request_data["email"]})
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+    if not user_account:
+        resp.data=dumps("Error: user account not found")
+        resp.status_code=400
+        return resp
+    user_account.pop("_id")
+    user_account.pop("password")
+    resp.data=dumps(user_account)
+    return resp

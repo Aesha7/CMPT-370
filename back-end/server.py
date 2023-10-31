@@ -103,6 +103,22 @@ def GetAccountInfo():
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
 
+@app.route('/admin_get_account_info',methods=["POST"])
+@cross_origin(origins='*')
+def AdminGetAccountInfo():
+    """Retrieves the account's information, excluding password and _id. 
+    Required request arguments: email, admin_ID
+    Required staff level: 1
+
+    Returns: 
+        Response : contains the retrieved info
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: user account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_account_info(request.get_json(), accounts_collection)
+
 
 @app.route('/view_account_list',methods=["POST"])
 @cross_origin(origins='*')
