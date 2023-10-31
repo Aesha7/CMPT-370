@@ -168,12 +168,51 @@ const AccountView = () => {
   };
 
   const submitFamilyMember = () => {
+
+    ////
+
+
+    // CRASHING
+
+
+
+
+
+
     // get values for family member here
 
     if (newName == "" || newPhone == "" || newBirthday == "") {
       alert("Please input all of the information");
     } else {
       // new child using newName, newPhone, newBirthday, level = 1
+
+      try{
+        fetch(server_URL + "add_family", {
+          method: "POST",
+          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }).then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          if(text == "Success"){
+          const data = JSON.parse(text);
+          console.log(data)
+
+        
+        }
+        })
+      }
+        catch(error){
+          console.log(error)
+        }
+
       document.getElementById("myForm").style.display = "none";
     }
   };
