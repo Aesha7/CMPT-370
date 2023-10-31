@@ -8,11 +8,11 @@ import ViewFamilySchedule from './pages/ViewFamilySchedule';
 import AdminCalendarPage from './pages/AdminCalendarPage';
 import WaiverPDF from './pages/WaiverPDF';
 import GymSchedule from './pages/GymSchedule';
+import AdminPage from './pages/AdminPage';
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
-import AdminPage from './pages/AdminPage';
 
 
 function App() {
