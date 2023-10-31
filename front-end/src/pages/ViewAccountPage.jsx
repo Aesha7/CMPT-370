@@ -103,12 +103,13 @@ const AccountView = () => {
     navigate(path, { state: { email: email, child: e.target.value } });
   };
 
+  // displays the info for the current user (parent or children)
   const displayInfo = (e) => {
     currentUserIndex = e.target.value
-    // console.log(users[currentUserIndex])
     setCurrentName(users[currentUserIndex].name);
-    // setCurrentPhone(users[currentUserIndex].phone)
+    setCurrentPhone(users[currentUserIndex.phone])
     setCurrentBirthday(users[currentUserIndex].birthday)
+    setCurrentLevel(users[currentUserIndex].level)
   };  
   
 
@@ -149,7 +150,7 @@ const AccountView = () => {
 
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
-    navigate(path, { state: email });
+    navigate(path, { state: userID });
   };
 
   const goBackToLogin = () => {
@@ -157,48 +158,42 @@ const AccountView = () => {
     navigate(path);
   };
 
+  // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    document.getElementById("edit-phone").disabled = false;
     document.getElementById("edit-birthday").disabled = false;
+    document.getElementById("edit-phone").disabled = false;
+
   };
 
   const saveInfo = () => {
     // NEED TO EDIT INFO IN BACK END
 
-
-
-
-
     document.getElementById("edit-name").disabled = true;
-    document.getElementById("edit-phone").disabled = true;
     document.getElementById("edit-birthday").disabled = true;
+    document.getElementById("edit-phone").disabled = true;
+
   };
+
+
 
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
   };
 
-
-  async function addFamilyFetch(){
-    
-  }
-
-
   const submitFamilyMember = (e) => {
     e.preventDefault()
-    console.log("HERE")
-
+    
     if (newName == "" || newPhone == "" || newBirthday == "") {
       alert("Please input all of the information");
-    } else {
-      console.log("before fetch")
+    } 
+    else {
       // new child using newName, newPhone, newBirthday, level = 1
       try{
-        console.log(userID, newName, newBirthday)
+        console.log(newPhone)
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
+          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday, phone, newPhone}),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
@@ -375,7 +370,7 @@ const AccountView = () => {
             </div>
 
             {/* phone */}
-            {/* <div className="view-account-column-entry">
+            <div className="view-account-column-entry">
               <label className="account-label" htmlFor="phone">
                 {" "}
                 Phone:{" "}
@@ -388,7 +383,7 @@ const AccountView = () => {
                 disabled={true}
                 placeholder={currentPhone}
               ></input>
-            </div> */}
+            </div>
 
             {/* birthday */}
             <div className="view-account-column-entry">

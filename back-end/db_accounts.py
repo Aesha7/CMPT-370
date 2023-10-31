@@ -22,6 +22,8 @@ def submit_account(request_data, accounts_collection):
             "_id": ObjectId(),
             "name": request_data["name"],
             "birthday": request_data["birthday"],
+            "level": 1,
+            "phone": request_data["phone"],
             "isParent": True,
             "courses":[],
             "events":[]
@@ -79,6 +81,8 @@ def add_family(request_data, accounts_collection):
         "_id": ObjectId(),
         "name": request_data["name"],
         "birthday": request_data["birthday"],
+        "level": 1,
+        "phone": request_data["phone"],
         "isParent": False,
         "events": [],
         "courses":[]
