@@ -330,7 +330,7 @@ def RetrieveUserEvents():
         "Error: account not found"
         "Error: user not found"
     """
-    return (ac.retrieve_enrollments(request.get_json, "events", accounts_collection))
+    return (ac.retrieve_enrollments(request.get_json(), "events", accounts_collection))
 
 @app.route("/retrieve_user_courses", methods=["POST"])
 @cross_origin(origins="*")
@@ -343,13 +343,12 @@ def RetrieveUserCourses():
         "Error: account not found"
         "Error: user not found"
     """
-    return (ac.retrieve_enrollments(request.get_json, "courses", accounts_collection))
+    return (ac.retrieve_enrollments(request.get_json(), "courses", accounts_collection))
 
 
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteEvent():
-    """CURRENTLY BROKEN"""
     """Deletes event from event list. 
     Required request parameters: event_name, account_ID
 
@@ -364,7 +363,6 @@ def DeleteEvent():
 @app.route("/delete_course", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteCourse():
-    """CURRENTLY BROKEN"""
     """
     Deletes event from event list. 
     Required request parameters: event_name, account_ID

@@ -239,11 +239,12 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
         # Check if course already in list.
         for ev in ev_list:
             if ev["name"] == request_data["event_name"]:
+                print(request_data["event_name"])
                 resp.status_code=400
                 resp.data=dumps("Error: event already on user's event list")
                 return resp
         
-        ev2 = {"name":ev["name"],
+        ev2 = {"name":request_data["event_name"],
               "_id":ev["_id"]}
         ev_list.append(ev2)
         enrolled.append({"_id":user_id, "name":request_data["user_name"]})
