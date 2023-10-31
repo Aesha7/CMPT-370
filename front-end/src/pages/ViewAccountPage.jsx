@@ -379,8 +379,8 @@ const AccountView = () => {
             </div>
 
             {/* phone */}
-            <div className="view-account-column-entry">
-              <label className="account-label" htmlFor="phone">
+            {/* <div className="view-account-column-entry"> */}
+              {/* <label className="account-label" htmlFor="phone">
                 {" "}
                 Phone:{" "}
               </label>
@@ -391,8 +391,8 @@ const AccountView = () => {
                 id="edit-phone"
                 disabled={true}
                 placeholder={currentPhone}
-              ></input>
-            </div>
+              ></input> */}
+            {/* </div> */}
 
             {/* birthday */}
             <div className="view-account-column-entry">
@@ -464,10 +464,10 @@ const AccountView = () => {
             </label>
             <input type="name" onChange={handleNewName}></input>
 
-            <label htmlFor="phone">
+            {/* <label htmlFor="phone">
               <b>Phone Number</b>
             </label>
-            <input type="phone" onChange={handleNewPhone}></input>
+            <input type="phone" onChange={handleNewPhone}></input> */}
 
             <label htmlFor="birthday">
               <b>Birthday</b>
