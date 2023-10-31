@@ -42,11 +42,10 @@ const HomePage = () => {
   const handleSubmit = (e) =>{
     e.preventDefault();
     if(email === '' || password === ''){
+      alert("Please input all of the information.")
       setError(true);
-      // setErrorMessage("Please enter both email and password.");
     }
     else{
-      // setErrorMessage("Invalid email and password.");
       setSubmitted(true);
       setError(false);
       viewAccountPageRouteChange();

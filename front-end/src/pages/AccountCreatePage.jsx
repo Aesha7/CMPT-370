@@ -40,7 +40,6 @@ const AccountCreatePage = (props) => {
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-
 /**
  * Handling form submittion
  */
@@ -251,8 +250,6 @@ const handleSignature = (e) => {
           <div className="account-create-column-entry">
             <button className="account-create-submit-button" onClick={handleSubmit}>Submit</button>
           </div>
-
-          
 
         </div>
 
