@@ -13,6 +13,7 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
+import db_admin as ad
 # from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
@@ -276,6 +277,42 @@ def AddCourseToUser():
         "Error: user not found"
     """
     return ac.add_event(request.get_json(), accounts_collection, courses_collection, "course")
+
+@app.route("/admin_add_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminAddCourseToUser():
+    """Endpoint for adding a course to a user's schedule from an admin account. Also adds the user to the course's users list. 
+    Required request parameters: admin_ID, email, user_name, event_name
+    Required staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: event already on user's event list"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.add_event_user(request.get_json(), accounts_collection, courses_collection, "course")
+
+@app.route("/admin_add_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminAddEventToUser():
+    """Endpoint for adding an event to a user's schedule from an admin account. Also adds the user to the event's users list. 
+    Required request parameters: admin_ID, email, user_name, event_name
+    Required staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: event already on user's event list"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.add_event_user(request.get_json(), accounts_collection, events_collection, "event")
     
 @app.route("/add_event_user", methods=["POST"])
 @cross_origin(origins="*")
@@ -423,7 +460,7 @@ def ChangeStaffLevel():
         "Error: you do not have permission to perform this action"
         "Error: target account's staff level is too high to change."
     """
-    return ac.change_staff_level(request.get_json(),accounts_collection)
+    return ad.change_staff_level(request.get_json(),accounts_collection)
 
 
 
