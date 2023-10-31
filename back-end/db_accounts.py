@@ -149,17 +149,17 @@ def edit_family(request_data, accounts_collection):
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
     old_name = request_data["old_name"]
     new_name = request_data["new_name"]
-    birthday = request_data["birthday"]
+    # birthday = request_data["birthday"]
 
     # Ensures account is found
     if account_doc:
         user = accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name})    
         if user: # Ensures user is found
             #Sets new birthday
-            if not (birthday == ""):
-                accounts_collection.update_one(
-                    {"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
-                    {"$set":{"users.$.birthday" : birthday}})
+            # if not (birthday == ""):
+            #     accounts_collection.update_one(
+            #         {"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
+            #         {"$set":{"users.$.birthday" : birthday}})
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
@@ -379,4 +379,34 @@ def retrieve_account_enrollments(request_data, enrollmentType, accounts_collecti
             ev_list.append(user_info)
 
     resp.data=dumps(ev_list)
+    return resp
+
+def change_staff_level(request_data, accounts_collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    user_account = accounts_collection.find_one({"_id": ObjectId(request_data["user_ID"])})
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+    #Ensures admin account is found and that the admin account has a staffLevel of at least 3
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>2):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    # Ensures user account is found
+    if not user_account:
+        resp.status_code=400
+        resp.data=dumps("Error: user account not found")
+        return resp
+
+    if user_account["staffLevel"]>2:
+        resp.status_code=400
+        resp.data=dumps("Error: target account's staff level is too high to change.")
+    
+    accounts_collection.update_one({"_id": ObjectId(request_data["user_ID"])}, 
+                                                    {"$set":{"staffLevel" : request_data["level"]}})
     return resp

@@ -162,7 +162,7 @@ def DeleteFamily():
 @cross_origin(origins="*")
 def EditFamily():
     """Endpoint for adding editing family member; edits a family member's details. 
-    Required request parameters: old_name, new_name, birthday, account_ID. To keep a field the same, send an empty string.
+    Required request parameters: old_name, new_name, account_ID. To keep a field the same, send an empty string.
 
     Note: if new_name is already used, the user's name will not be changed and an error message will be sent as a response. However, all other modifications will still happen. 
 
@@ -399,6 +399,25 @@ def DeleteCourse():
         "Error: account not found"
     """
     return ev.delete(request.get_json(), courses_collection,accounts_collection,"course")
+
+@app.route("/change_staff_level", methods=["POST"])
+@cross_origin(origins="*")
+def ChangeStaffLevel():
+    """Changes an account's staff level to the given value.
+    Required request arguments: admin_ID (account ID of logged-in admin account), user_ID (account ID of account to be changed), level
+    Customer=0
+    Coach=1
+    [placeholder]=2
+    Admin=3
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: user account not found"
+        "Error: you do not have permission to perform this action"
+        "Error: target account's staff level is too high to change."
+    """
+    return ac.change_staff_level(request.get_json(),accounts_collection)
 
 
 
