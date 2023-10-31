@@ -127,6 +127,10 @@ def delete_family(request_data, accounts_collection):
         user_removed = False
         for user in family_list:
             if user["name"] == request_data["name"]:
+                if user["isParent"]==True: #prevents user from deleting parent user 
+                    resp.status_code=400
+                    resp.data=dumps("Error: cannot delete parent")
+                    return resp
                 family_list.remove(user)
                 # Updates users list to new list
                 accounts_collection.update_one({"_id": ObjectId(request_data["account_ID"])},{"$set":{"users":family_list}})
@@ -379,34 +383,4 @@ def retrieve_account_enrollments(request_data, enrollmentType, accounts_collecti
             ev_list.append(user_info)
 
     resp.data=dumps(ev_list)
-    return resp
-
-def change_staff_level(request_data, accounts_collection):
-    resp=Response()
-    resp.headers['Access-Control-Allow-Headers'] = '*'
-    user_account = accounts_collection.find_one({"_id": ObjectId(request_data["user_ID"])})
-    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
-
-    #Ensures admin account is found and that the admin account has a staffLevel of at least 3
-    if not admin_account:
-        resp.status_code=400
-        resp.data=dumps("Error: admin account not found")
-        return resp
-    if not (admin_account["staffLevel"]>2):
-        resp.status_code=400
-        resp.data=dumps("Error: you do not have permission to perform this action")
-        return resp
-
-    # Ensures user account is found
-    if not user_account:
-        resp.status_code=400
-        resp.data=dumps("Error: user account not found")
-        return resp
-
-    if user_account["staffLevel"]>2:
-        resp.status_code=400
-        resp.data=dumps("Error: target account's staff level is too high to change.")
-    
-    accounts_collection.update_one({"_id": ObjectId(request_data["user_ID"])}, 
-                                                    {"$set":{"staffLevel" : request_data["level"]}})
     return resp
