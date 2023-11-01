@@ -194,7 +194,7 @@ const AccountView = () => {
       try{
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday, phone, newPhone}),
+          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
@@ -245,7 +245,7 @@ const AccountView = () => {
   };
 
   // window.location.reload(false);
-  if(staffLevel == 1){
+  if(staffLevel == 3){
     document.getElementById("adminButton").style.display = "block";
   }
 

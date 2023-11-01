@@ -249,7 +249,7 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, event JSON
 
     Returns: Response
     Possible error messages:

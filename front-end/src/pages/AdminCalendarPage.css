@@ -55,7 +55,7 @@
   }
   
   /* Full-width input fields */
-  .form-container input[type=title], .form-container input[type=description], .form-container input[type=startTime], .form-container input[type=endTime] {
+  .form-container input[type=title], .form-container input[type=description], .form-container input[type=level], .form-container input[type=startTime], .form-container input[type=endTime] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
@@ -69,6 +69,10 @@
   .form-container input[type=title]:focus, .form-container input[type=description]:focus {
     background-color: #ddd;
     outline: none;
+  }
+
+  .level-dropdown{
+    margin-left: 15px;
   }
   
   /* Set a style for the submit/login button */

@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import "./GymSchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
+
+const server_URL = "http://127.0.0.1:5000/"; //URL to access server
+
+
 const GymSchedule = () => {
 
-    const navigate = useNavigate();
-    
-    const goBack = () =>{
-        let path = "/my-account";
-        navigate(path, {state:email})
+    const [calEvents, setCalEvents] = useState([]);
+    let tempEvents = [];
+  
+    let userID;
+    let location = useLocation()
+    userID = location.state;
+    const [staffLevel, setStaffLevel] = useState("");
+  
+  
+    if (userID != null) {
+      window.localStorage.setItem("_id", userID);
     }
+  
+    // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+    userID = window.localStorage.getItem("_id");
+  
+
 
     const localizer = momentLocalizer(moment);
 
@@ -21,8 +36,81 @@ const GymSchedule = () => {
     let [currentEvent] = useState('');
 
 
-    const location = useLocation()
-    email = location.state.email;
+
+    // getting data initially
+    useEffect(() => {
+      try {
+        fetch(server_URL + "get_account_info", {
+          method: "POST",
+          body: JSON.stringify({ _id: userID }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        })
+          .then((response) => {
+            return response.text(); // Get the response text
+          })
+          .then((text) => {
+            // Parse the text as JSON
+            const data = JSON.parse(text);
+            console.log(data)
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      // getting the events
+      try{
+        fetch(server_URL + "retrieve_courses", {
+          method: "POST",
+          body: JSON.stringify({}),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }).then((response) =>{
+          return response.text()
+        }).then((text) => {
+          const data = JSON.parse(text);
+          // let tempEvents = [];
+          data.forEach((event) => {
+            let name = event.name;
+            let desc = event.description;
+            let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+            let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+  
+            let newEvent = {
+              name: name,
+              desc: desc,
+              start: start,
+              end: end
+            }
+  
+            tempEvents.push(newEvent)
+            });
+            setCalEvents(tempEvents)
+            // console.log(tempEvents)
+          })
+        } catch(exception){
+        console.log(exception)
+      }
+    }, []);
+  
+
+
+
+    const navigate = useNavigate();
+    
+    const goBack = () =>{
+        let path = "/my-account";
+        navigate(path, {state:userID})
+    }
+
+
     registrationChild = location.state.value
 
     // console.log(email, registrationChild)
@@ -163,7 +251,7 @@ const GymSchedule = () => {
 
                 <Calendar
                     localizer={localizer}
-                    events = {gymEventsList}
+                    events = {calEvents}
                     startAccessor="start"
                     defaultView="week"
                     endAccessor="end"
