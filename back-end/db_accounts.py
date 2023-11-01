@@ -231,6 +231,10 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
         user_found=False
         for user in users:
             if user["name"] == request_data["user_name"]:
+                if user["level"]<int(ev["level"]):
+                    resp.status_code=400
+                    resp.data=dumps("Error: user level too low")
+                    return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
                 else:
@@ -247,7 +251,6 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
         # Check if course already in list.
         for ev in ev_list:
             if ev["name"] == request_data["event_name"]:
-                print(request_data["event_name"])
                 resp.status_code=400
                 resp.data=dumps("Error: event already on user's event list")
                 return resp

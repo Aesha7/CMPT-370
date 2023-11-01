@@ -75,6 +75,10 @@ def add_event_user(request_data, accounts_collection, ev_collection, ev_type):
         user_found=False
         for user in users:
             if user["name"] == request_data["user_name"]:
+                if user["level"]<int(ev["level"]):
+                    resp.status_code=400
+                    resp.data=dumps("Error: user level too low")
+                    return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
                 else:

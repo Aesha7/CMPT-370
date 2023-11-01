@@ -289,7 +289,7 @@ def AddCourse():
 @cross_origin(origins="*")
 def AddCourseToUser():
     """Endpoint for adding a course to a user's schedule. Also adds the user to the course's users list. 
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -340,7 +340,7 @@ def AdminAddEventToUser():
 @cross_origin(origins="*")
 def AddEventToUser():
     """Endpoint for adding a course to a user's schedule.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -355,7 +355,7 @@ def AddEventToUser():
 @cross_origin(origins="*")
 def RemoveEventFromUser():
     """Endpoint for removing an event from a user's schedule and removing that user from the event's enrolled list.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -370,7 +370,7 @@ def RemoveEventFromUser():
 @cross_origin(origins="*")
 def RemoveCourseFromUser():
     """Endpoint for removing a course from a user's schedule and removing that user from the event's enrolled list.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
