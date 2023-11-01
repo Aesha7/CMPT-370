@@ -282,6 +282,7 @@ def AddCourse():
         "Error: coach account not found"
     """
     # TODO: add event parameters
+    # TODO: add event to coach's list of coached events 
     return ev.add(request.get_json(), courses_collection, accounts_collection)
 
 @app.route("/add_course_user", methods=["POST"])
@@ -513,6 +514,20 @@ def ChangeStaffLevel():
         "Error: target account's staff level is too high to change."
     """
     return ad.change_staff_level(request.get_json(),accounts_collection)
+
+@app.route("/get_all_users", methods=["POST"])
+@cross_origin(origins="*")
+def GetAllUsers():
+    """Returns a list containing a dictionary for each account in the database. Each dictionary contains the email and staffLevel of the account.
+    Required request arguments: admin_ID
+    Required staff level: 1
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_all_users(request.get_json(),accounts_collection)
 
 
 
