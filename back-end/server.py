@@ -86,7 +86,7 @@ def GetAccountID():
 
     Returns:
         Response: contains _id of database document with given email if successful, else has status_code 400
-        Possible error messages: "Password incorrect", "Email not found"
+        Possible error messages: "Password does not match.", "Email not found."
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
 

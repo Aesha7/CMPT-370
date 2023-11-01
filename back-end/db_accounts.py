@@ -53,10 +53,10 @@ def get_account_id(request_data, accounts_collection):
         if account["password"] == request_data["password"]:
             resp.data = dumps(str(account["_id"]))
         else:
-            resp.data=dumps("Password incorrect")
+            resp.data=dumps("Password does not match.")
             resp.status_code=400
     else:
-        resp.data=dumps("Email not found")
+        resp.data=dumps("Email not found.")
         resp.status_code=400
     return resp
 

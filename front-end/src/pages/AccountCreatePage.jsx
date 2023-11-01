@@ -56,12 +56,16 @@ const AccountCreatePage = (props) => {
       name === "" ||
       phone === "" ||
       birthday === "" ||
-      signature === "" ||
-      !waiver
+      signature === "" 
+      // ||
+      // !waiver
     ) {
       setError(true);
       alert("Please fill out every field.");
-    } else if (!validEmail(email)) {
+    } else if(!waiver){
+      alert("Please agree to the waiver.")
+    } 
+    else if (!validEmail(email)) {
       alert("Please enter a valid email.");
       setError(true);
     } else if (password != confirmPassword) {
@@ -136,7 +140,7 @@ const AccountCreatePage = (props) => {
             } else if (data == "Email already in use!") {
               setSubmitted(false);
               setError(true);
-              alert("Email already in use!");
+              alert("Email already in use.");
             } else {
               //Unexpected message or error in response
               setSubmitted(false);
