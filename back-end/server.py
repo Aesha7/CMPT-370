@@ -94,7 +94,7 @@ def GetAccountID():
 @cross_origin(origins='*')
 def GetAccountInfo():
     """Retrieves the account's information, excluding password, users (see /retrieve_family), and _id (see /get_id). 
-    Required request arguments: account_ID
+    Required request arguments: _id
 
     Returns: 
         Response : contains the retrieved info
@@ -152,7 +152,7 @@ def SubmitAccount():
 @cross_origin(origins="*")
 def AddFamily():
     """Endpoint for adding family member; adds a family member to account. 
-    Required request parameters: name, birthday, account_ID
+    Required request parameters: name, birthday, _id
 
     Returns:
         Response
@@ -163,7 +163,7 @@ def AddFamily():
 @cross_origin(origins="*")
 def DeleteFamily():
     """Endpoint for deleting family member; deletes a family member to account. 
-    Required request parameters: name, account_ID
+    Required request parameters: name, _id
 
     Returns:
         Response
@@ -180,7 +180,7 @@ def DeleteFamily():
 @cross_origin(origins="*")
 def EditFamily():
     """Endpoint for adding editing family member; edits a family member's details. 
-    Required request parameters: old_name, new_name, account_ID. To keep a field the same, send an empty string.
+    Required request parameters: old_name, new_name, _id. To keep a field the same, send an empty string.
 
     Note: if new_name is already used, the user's name will not be changed and an error message will be sent as a response. However, all other modifications will still happen. 
 
@@ -194,7 +194,7 @@ def EditFamily():
 @cross_origin(origins="*")
 def RetrieveFamily():
     """Endpoint for getting list of family members associated with account. 
-    Required request parameters: account_ID
+    Required request parameters: _id
 
     Returns: Response containing list of family members
     Possible error messages:
@@ -515,9 +515,9 @@ def ChangeStaffLevel():
     """
     return ad.change_staff_level(request.get_json(),accounts_collection)
 
-@app.route("/get_all_users", methods=["POST"])
+@app.route("/get_all_accounts", methods=["POST"])
 @cross_origin(origins="*")
-def GetAllUsers():
+def GetAllAccounts():
     """Returns a list containing a dictionary for each account in the database. Each dictionary contains the email and staffLevel of the account.
     Required request arguments: admin_ID
     Required staff level: 1
@@ -527,7 +527,29 @@ def GetAllUsers():
         "Error: admin account not found"
         "Error: you do not have permission to perform this action"
     """
-    return ad.get_all_users(request.get_json(),accounts_collection)
+    return ad.get_all_accounts(request.get_json(),accounts_collection)
+
+@app.route("/change_level", methods=["POST"])
+@cross_origin(origins="*")
+def ChangeLevel():
+    """Decrements, increments, or sets a user's level. 
+    Required request arguments: admin_ID, email, name, level
+    Required staff level: 1
+    The 'level' argument can be:
+        "+": increases user's level by one
+        "-": decreases user's level by one (if possible)
+        int: sets the user's level to given integer
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+        "Error: user account not found"
+        "Error: user's level is too low to decrement"
+        "Error: invalid request"
+        "Error: user not found"
+    """
+    return ad.change_level(request.get_json(),accounts_collection)
 
 
 
