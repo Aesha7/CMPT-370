@@ -90,15 +90,17 @@ const AdminCalendarPage = () => {
         // let tempEvents = [];
         data.forEach((event) => {
           let name = event.name;
-          let desc = event.description;
+          let desc = event.desc;
           let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
           let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+          let level = event.level
 
           let newEvent = {
             name: name,
             desc: desc,
             start: start,
-            end: end
+            end: end,
+            level: level
           }
 
           tempEvents.push(newEvent)
@@ -117,10 +119,16 @@ const AdminCalendarPage = () => {
 
   
   const clickRef = useRef(null);
+  let navigate = useNavigate();
+
+  const goBack = () =>{
+    let path = "/admin";
+    navigate(path, {state:userID})
+  }
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert(calEvent.name + '\n' + calEvent.desc);
+    alert(calEvent.name + '\n' + calEvent.desc + "\n" + "Level: " + calEvent.level);
   };
 
   const openForm = () => {
@@ -146,7 +154,6 @@ const AdminCalendarPage = () => {
 
   const handleLevel = (e) => {
     setLevel(e.target.value);
-    console.log(level)
     // setSubmitted(false);
   };
 
@@ -154,7 +161,6 @@ const AdminCalendarPage = () => {
     e.preventDefault()
     if (title == "" || level == "" || startHr == "" || endHr == "") {
       // error pop up
-      console.log(title, level, startHr, endHr)
       alert("This is not a valid event.");
     } else {
       let event = {
@@ -205,14 +211,19 @@ const AdminCalendarPage = () => {
         }).then((response) =>{
           return response.text()
         }).then((data) => {
-          console.log(data)
+          // console.log(data)
+          if(data != ""){
+            alert("There is alread an event with this name.")
+          }
+          else{
+            closeForm();
+            window.location.reload(false);
+          }
         })
       } catch(exception){
         console.log(exception)
       }
-
       // reloading
-      window.location.reload(false);
     }
   };
   
@@ -267,6 +278,7 @@ const AdminCalendarPage = () => {
         <button className="add-event-button" onClick={openForm}>
           Add Event
         </button>
+        <button className="top-bar-button" onClick={goBack}>Back</button>
       </div>
 
       <div className="">
@@ -509,6 +521,8 @@ const AdminCalendarPage = () => {
           popup={false}
           style={{ height: 700 }}
           onSelectEvent={onSelectEvent}
+          min={new Date(0, 0, 0, 10, 0, 0)}
+          max={new Date(0, 0, 0, 22, 0, 0)}
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
