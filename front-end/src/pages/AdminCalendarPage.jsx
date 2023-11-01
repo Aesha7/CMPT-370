@@ -278,7 +278,7 @@ const AdminCalendarPage = () => {
         <button className="add-event-button" onClick={openForm}>
           Add Event
         </button>
-        <button className="top-bar-button" onClick={goBack}>Back</button>
+        <button className="go-back-button" onClick={goBack}>Back</button>
       </div>
 
       <div className="">
