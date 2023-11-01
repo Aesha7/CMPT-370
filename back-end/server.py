@@ -458,7 +458,6 @@ def RetrieveAccountCourses():
     """
     return (ac.retrieve_account_enrollments(request.get_json(), "courses", accounts_collection))
 
-
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteEvent():

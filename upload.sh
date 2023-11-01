@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "updated family box in account details page + waiver form"
+git commit -m "latest version with error messages"
 
 git push

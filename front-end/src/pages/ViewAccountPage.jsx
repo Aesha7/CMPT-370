@@ -4,6 +4,10 @@ import "./ViewAccountPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
+async function fetchAddFamily(){
+
+}
+
 const AccountView = () => {
 
   const location = useLocation();
@@ -15,6 +19,7 @@ const AccountView = () => {
   let [birthday, setBirthday] = useState("month/day/year");
   let [level] = useState("1");
   let [userID, setUserID] = useState("");
+  let [staffLevel, setStaffLevel] = useState('')
 
   // the current data being displayed
   let [currentName, setCurrentName] = useState("");
@@ -36,6 +41,14 @@ const AccountView = () => {
   // users = [{name: "name"},{name: 'name2'}]
 
   userID = location.state;
+
+  if(userID != null){
+    window.localStorage.setItem('_id', userID);
+  }
+    
+  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+  userID = window.localStorage.getItem('_id')
+  
 
   useEffect(() => {
     try {
@@ -61,9 +74,9 @@ const AccountView = () => {
         setBirthday(data.users[0].birthday)
   
         setAccountData(data)
+        setStaffLevel(data.staffLevel)
   
         setUsers(data.users)
-  
       })
     } catch (error) {
       console.log(error);
@@ -88,15 +101,16 @@ const AccountView = () => {
 
   const registerChild = (e) => {
     let path = "/class-registration";
-    navigate(path, { state: { email: email, child: e.target.value } });
+    navigate(path, { state:userID});
   };
 
+  // displays the info for the current user (parent or children)
   const displayInfo = (e) => {
     currentUserIndex = e.target.value
-    // console.log(users[currentUserIndex])
     setCurrentName(users[currentUserIndex].name);
-    // setCurrentPhone(users[currentUserIndex].phone)
+    setCurrentPhone(users[currentUserIndex.phone])
     setCurrentBirthday(users[currentUserIndex].birthday)
+    setCurrentLevel(users[currentUserIndex].level)
   };  
   
 
@@ -130,14 +144,10 @@ const AccountView = () => {
     );
   });
 
-  // const addFamilyMemberRouteChange = () =>{
-  //   let path = '/add-family';
-  //   navigate(path, {state:email})
-  //  }
 
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
-    navigate(path, { state: email });
+    navigate(path, { state: userID });
   };
 
   const goBackToLogin = () => {
@@ -145,51 +155,47 @@ const AccountView = () => {
     navigate(path);
   };
 
+  const adminPageRoute = () =>{
+    let path = '/admin'
+    navigate(path, {state:userID})
+  }
+
+  // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    document.getElementById("edit-phone").disabled = false;
     document.getElementById("edit-birthday").disabled = false;
+    document.getElementById("edit-phone").disabled = false;
+
   };
 
   const saveInfo = () => {
     // NEED TO EDIT INFO IN BACK END
 
-
-
-
-
     document.getElementById("edit-name").disabled = true;
-    document.getElementById("edit-phone").disabled = true;
     document.getElementById("edit-birthday").disabled = true;
+    document.getElementById("edit-phone").disabled = true;
+
   };
+
+
 
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
   };
 
-  const submitFamilyMember = () => {
-
-    ////
-
-
-    // CRASHING
-
-
-
-
-
-
-    // get values for family member here
-
+  const submitFamilyMember = (e) => {
+    e.preventDefault()
+    
     if (newName == "" || newPhone == "" || newBirthday == "") {
       alert("Please input all of the information");
-    } else {
+    } 
+    else {
       // new child using newName, newPhone, newBirthday, level = 1
-
       try{
+        console.log(newPhone)
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
+          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday, phone, newPhone}),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
@@ -201,12 +207,14 @@ const AccountView = () => {
         })
         .then((text) => {
           // Parse the text as JSON
-          if(text == "Success"){
-          const data = JSON.parse(text);
-          console.log(data)
-
-        
-        }
+          text = text.substring(1, text.length -1)
+          if(text == 'Success'){
+            window.location.reload(false);
+            return text;
+          }
+          else{
+            alert(text)
+          }
         })
       }
         catch(error){
@@ -234,15 +242,22 @@ const AccountView = () => {
     setNewBirthday(e.target.value);
   };
 
-  // getting the email
+  // window.location.reload(false);
+  if(staffLevel == 1){
+    document.getElementById("adminButton").style.display = "block";
+  }
 
   return (
     <div className="view-account-page">
       <div className="top-bar">
         My Account
+
+        <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
+
         <button className="top-bar-button" onClick={goBackToLogin}>
           Logout
         </button>
+        
       </div>
       <div className="view-account-container">
 
@@ -364,7 +379,7 @@ const AccountView = () => {
             </div>
 
             {/* phone */}
-            {/* <div className="view-account-column-entry">
+            <div className="view-account-column-entry">
               <label className="account-label" htmlFor="phone">
                 {" "}
                 Phone:{" "}
@@ -377,7 +392,7 @@ const AccountView = () => {
                 disabled={true}
                 placeholder={currentPhone}
               ></input>
-            </div> */}
+            </div>
 
             {/* birthday */}
             <div className="view-account-column-entry">

@@ -8,6 +8,7 @@ import ViewFamilySchedule from './pages/ViewFamilySchedule';
 import AdminCalendarPage from './pages/AdminCalendarPage';
 import WaiverPDF from './pages/WaiverPDF';
 import GymSchedule from './pages/GymSchedule';
+import AdminPage from './pages/AdminPage';
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -24,6 +25,7 @@ function App() {
         <Route path='/admin-schedule' element={<AdminCalendarPage/>}/>
         <Route path='/gym-schedule' element={<GymSchedule/>}/>
         <Route path='/class-registration' element={<GymSchedule/>}/>
+        <Route path='/admin' element={<AdminPage/>}/>
 
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
 
