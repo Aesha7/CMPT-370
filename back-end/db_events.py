@@ -41,10 +41,31 @@ def add(request_data, ev_collection, accounts_collection):
         resp.status_code=400
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
+    
+    coach = account=accounts_collection.find_one({"email":request_data["coach_email"]})
+    if not coach:
+        resp.status_code=400
+        resp.data=dumps("Error: coach account not found")
+        return resp
+    if not (account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: target coach account is not a staff account")
+        return resp
+    parent_found=False
+    for user in coach["users"]:
+        if user["isParent"]==True:
+            coach_name=user["name"]
+            parent_found = True
+            break
+    if not parent_found:
+        resp.status_code=400
+        resp.data=dumps("Error: parent not found")
+        return resp
 
     event_details = {
         "name": request_data["name"],
-        "enrolled": []
+        "enrolled": [],
+        "coach": coach_name
     }
 
     if ev_collection.find_one({"name": request_data["name"]}):

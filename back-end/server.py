@@ -254,13 +254,15 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, name, coach_email
     Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
     return ev.add(request.get_json(), events_collection, accounts_collection)
@@ -269,13 +271,15 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, name, coach_email
     Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
     return ev.add(request.get_json(), courses_collection, accounts_collection)
