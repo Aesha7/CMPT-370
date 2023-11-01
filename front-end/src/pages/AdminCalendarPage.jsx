@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -7,12 +7,12 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 // big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
 
+const server_URL = "http://127.0.0.1:5000/"; //URL to access server
+
+
 const AdminCalendarPage = () => {
   const localizer = momentLocalizer(moment);
-
-  let [email] = useState("");
   const location = useLocation();
-  email = location.state;
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,31 +32,95 @@ const AdminCalendarPage = () => {
   // get relevant info from 'email'
   //JSON, needs to be dynamic (backend)
 
+  const [calEvents, setCalEvents] = useState([]);
+  let tempEvents = [];
+
+  let userID;
+  userID = location.state;
+  const [staffLevel, setStaffLevel] = useState("");
+
+
+  if (userID != null) {
+    window.localStorage.setItem("_id", userID);
+  }
+
+  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+  userID = window.localStorage.getItem("_id");
+
+  // getting data initially
+  useEffect(() => {
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          setStaffLevel(data.staffLevel);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    // getting the events
+    try{
+      fetch(server_URL + "retrieve_courses", {
+        method: "POST",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) =>{
+        return response.text()
+      }).then((text) => {
+        const data = JSON.parse(text);
+        // let tempEvents = [];
+        data.forEach((event) => {
+          let name = event.name;
+          let desc = event.description;
+          let startDate = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+          let endDate = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+
+          let newEvent = {
+            name: name,
+            desc: desc,
+            startDate: startDate,
+            endDate: endDate
+          }
+
+          tempEvents.push(newEvent)
+          });
+          setCalEvents(tempEvents)
+        })
+      } catch(exception){
+      console.log(exception)
+    }
+  }, []);
+
   // months index starting at 0 (october is 9, january is 0...)
   // dates are normal
-  let myEventsList = [
-    {
-      title: "example event",
-      description: "description 1",
-      start: new Date(2023, 9, 11, 12, 0, 0),
-      end: new Date(2023, 9, 11, 14, 0, 0),
-    },
-    {
-      title: "example event2",
-      description: "description 2",
-      start: new Date(2023, 9, 12),
-      end: new Date(2023, 9, 13),
-    },
-  ];
 
-  const clickRef = useRef(null)
+
+  
+  const clickRef = useRef(null);
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    console.log(calEvent)
-    alert(calEvent.description)
-  }
-    
+    console.log(calEvent);
+    alert(calEvent.description);
+  };
 
   const openForm = () => {
     document.getElementById("myForm").style.display = "block";
@@ -85,9 +149,23 @@ const AdminCalendarPage = () => {
       alert("This is not a valid event.");
     } else {
       // create a new event and add to list
-      let fullStartDate = new Date(parseInt(startYear), parseInt(startMonth), parseInt(startDate), parseInt(startHr), parseInt(startMin), 0);
+      let fullStartDate = new Date(
+        parseInt(startYear),
+        parseInt(startMonth),
+        parseInt(startDate),
+        parseInt(startHr),
+        parseInt(startMin),
+        0
+      );
 
-      let fullEndDate = new Date(parseInt(endYear), parseInt(endMonth), parseInt(endDate), parseInt(endHr), parseInt(endMin), 0);
+      let fullEndDate = new Date(
+        parseInt(endYear),
+        parseInt(endMonth),
+        parseInt(endDate),
+        parseInt(endHr),
+        parseInt(endMin),
+        0
+      );
 
       let event = {
         title: title,
@@ -95,50 +173,52 @@ const AdminCalendarPage = () => {
         start: fullStartDate,
         end: fullEndDate,
       };
-      console.log(event)
     }
   };
 
   const handleStartYear = (e) => {
-    setStartYear(e.target.value)
+    setStartYear(e.target.value);
   };
 
   const handleStartMonth = (e) => {
-    setStartMonth(e.target.value)
+    setStartMonth(e.target.value);
   };
 
   const handleStartDate = (e) => {
-    setStartDate(e.target.value)
+    setStartDate(e.target.value);
   };
 
   const handleStartHr = (e) => {
-    setStartHr(e.target.value)
+    setStartHr(e.target.value);
   };
 
   const handleStartMin = (e) => {
-    setStartMin(e.target.value)
+    setStartMin(e.target.value);
   };
 
   const handleEndYear = (e) => {
-    setEndYear(e.target.value)
+    setEndYear(e.target.value);
   };
 
   const handleEndMonth = (e) => {
-    setEndMonth(e.target.value)
+    setEndMonth(e.target.value);
   };
 
   const handleEndDate = (e) => {
-    setEndDate(e.target.value)
+    setEndDate(e.target.value);
   };
 
   const handleEndHr = (e) => {
-    setEndHr(e.target.value)
+    setEndHr(e.target.value);
   };
 
   const handleEndMin = (e) => {
-    setEndMin(e.target.value)
+    setEndMin(e.target.value);
   };
 
+  if(staffLevel >= 1){
+    document.getElementById("overlay").style.display = "none";
+  }
 
 
   return (
@@ -371,17 +451,18 @@ const AdminCalendarPage = () => {
 
         <Calendar
           localizer={localizer}
-          events={myEventsList}
+          events={tempEvents}
           startAccessor="start"
           endAccessor="end"
           defaultView="week"
-          views={['month', 'week', 'day']}
+          views={["month", "week", "day"]}
           popup={false}
           style={{ height: 700 }}
           onSelectEvent={onSelectEvent}
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
+      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE</div>
     </div>
   );
 };
