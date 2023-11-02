@@ -75,6 +75,10 @@ def add_event_user(request_data, accounts_collection, ev_collection, ev_type):
         user_found=False
         for user in users:
             if user["name"] == request_data["user_name"]:
+                if user["level"]<int(ev["level"]):
+                    resp.status_code=400
+                    resp.data=dumps("Error: user level too low")
+                    return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
                 else:
@@ -201,4 +205,78 @@ def remove_event(request_data, accounts_collection, ev_collection, ev_type):
     #If event not found on user's list:
     resp.status_code=400
     resp.data=dumps("Error: event not on user's list")
+    return resp
+
+def get_all_accounts(request_data, accounts_collection): 
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+    
+    # Goes through all accounts in collection, takes their email and stafflevel and adds them to a new dict, then adds that dict to the response list
+    account_list = []
+    accounts = accounts_collection.find()
+    for account in accounts:
+        account_dict = {}
+        account_dict["email"] = account.pop("email")
+        account_dict["staffLevel"] = account.pop("staffLevel")
+        account_list.append(account_dict)
+
+    resp.data=dumps(account_list)
+    return resp
+
+def change_level(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+    user_account = accounts_collection.find_one({"email": request_data["email"]})
+    level = request_data["level"]
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    if not user_account:
+        resp.data=dumps("Error: user account not found")
+        resp.status_code=400
+        return resp
+    
+    # Finds user and edits their level
+    users = user_account["users"]
+    for user in users:
+        if user["name"] == request_data["name"]:
+            if level == "+": # Increments level
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["name"]}, 
+                                               {"$set":{"users.$.level" : user["level"]+1}})
+            elif level == "-": # Decrements level
+                if user["level"]>1:
+                    accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["name"]}, 
+                                               {"$set":{"users.$.level" : user["level"]-1}})
+                else:
+                    resp.status_code=400
+                    resp.data=dumps("Error: user's level is too low to decrement")
+
+            elif isinstance(level, int):
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["name"]}, 
+                                               {"$set":{"users.$.level" : level}})
+            else:
+                resp.status_code=400
+                resp.data=dumps("Error: invalid request")
+            return resp
+
+    resp.status_code=400
+    resp.data=dumps("Error: user not found")
     return resp

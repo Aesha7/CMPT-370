@@ -30,6 +30,8 @@ const AdminCalendarPage = () => {
   const [endHr, setEndHr] = useState("");
   const [endMin, setEndMin] = useState("");
 
+  const [coach, setCoach] = useState("");
+
   // get relevant info from 'email'
   //JSON, needs to be dynamic (backend)
 
@@ -180,7 +182,8 @@ const AdminCalendarPage = () => {
           hour: endHr,
           minute: endMin
         },
-        level: level
+        level: level,
+        coach_email: coach
       };
 
       try{
@@ -200,7 +203,8 @@ const AdminCalendarPage = () => {
             endDate: event.end.date,
             endHour: event.end.hour,
             endMin: event.end.minute,
-            level: event.level
+            level: event.level,
+            coach_email: coach
           }),
           headers: {
             "Content-Type": "application/json",
@@ -267,6 +271,10 @@ const AdminCalendarPage = () => {
     setEndMin(e.target.value);
   };
 
+  const handleCoach = (e) => {
+    setCoach(e.target.value)
+  }
+
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
   }
@@ -308,6 +316,19 @@ const AdminCalendarPage = () => {
               required
             ></input>
 
+            <br></br>
+<           label for="coach">
+              <b>Coach Email * </b>
+            </label>
+            <input
+              type="coach"
+              placeholder="Enter the coach's email"
+              name="coach"
+              onChange={handleCoach}
+              required
+            ></input>
+
+            <br></br>
             <label for="level">
               <b>Level *</b>
             </label>

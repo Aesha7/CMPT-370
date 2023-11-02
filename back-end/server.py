@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
 import db_admin as ad
+from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
@@ -94,7 +95,7 @@ def GetAccountID():
 @cross_origin(origins='*')
 def GetAccountInfo():
     """Retrieves the account's information, excluding password, users (see /retrieve_family), and _id (see /get_id). 
-    Required request arguments: account_ID
+    Required request arguments: _id
 
     Returns: 
         Response : contains the retrieved info
@@ -102,6 +103,18 @@ def GetAccountInfo():
         "Error: account not found"
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
+
+@app.route('/edit_subscriptions',methods=["POST"])
+@cross_origin(origins='*')
+def EditSubscriptions():
+    """Changes the user's subscription settings. 
+    Required request arguments: _id, prom, news
+
+    Returns: 
+    Possible error messages: 
+        "Error: account not found"
+    """
+    return ac.edit_subscriptions(request.get_json(), accounts_collection)
 
 @app.route('/admin_get_account_info',methods=["POST"])
 @cross_origin(origins='*')
@@ -152,7 +165,7 @@ def SubmitAccount():
 @cross_origin(origins="*")
 def AddFamily():
     """Endpoint for adding family member; adds a family member to account. 
-    Required request parameters: name, birthday, account_ID
+    Required request parameters: name, birthday, _id
 
     Returns:
         Response
@@ -163,7 +176,7 @@ def AddFamily():
 @cross_origin(origins="*")
 def DeleteFamily():
     """Endpoint for deleting family member; deletes a family member to account. 
-    Required request parameters: name, account_ID
+    Required request parameters: name, _id
 
     Returns:
         Response
@@ -180,7 +193,7 @@ def DeleteFamily():
 @cross_origin(origins="*")
 def EditFamily():
     """Endpoint for adding editing family member; edits a family member's details. 
-    Required request parameters: old_name, new_name, account_ID. To keep a field the same, send an empty string.
+    Required request parameters: old_name, new_name, _id. To keep a field the same, send an empty string.
 
     Note: if new_name is already used, the user's name will not be changed and an error message will be sent as a response. However, all other modifications will still happen. 
 
@@ -194,7 +207,7 @@ def EditFamily():
 @cross_origin(origins="*")
 def RetrieveFamily():
     """Endpoint for getting list of family members associated with account. 
-    Required request parameters: account_ID
+    Required request parameters: _id
 
     Returns: Response containing list of family members
     Possible error messages:
@@ -254,13 +267,15 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, name, coach_email
     Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
     return ev.add(request.get_json(), events_collection, accounts_collection)
@@ -269,22 +284,25 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, name, coach_email, desc, start, end
     Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
+    # TODO: add event to coach's list of coached events 
     return ev.add(request.get_json(), courses_collection, accounts_collection)
 
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def AddCourseToUser():
     """Endpoint for adding a course to a user's schedule. Also adds the user to the course's users list. 
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -335,7 +353,7 @@ def AdminAddEventToUser():
 @cross_origin(origins="*")
 def AddEventToUser():
     """Endpoint for adding a course to a user's schedule.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -350,7 +368,7 @@ def AddEventToUser():
 @cross_origin(origins="*")
 def RemoveEventFromUser():
     """Endpoint for removing an event from a user's schedule and removing that user from the event's enrolled list.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -365,7 +383,7 @@ def RemoveEventFromUser():
 @cross_origin(origins="*")
 def RemoveCourseFromUser():
     """Endpoint for removing a course from a user's schedule and removing that user from the event's enrolled list.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -458,7 +476,6 @@ def RetrieveAccountCourses():
     """
     return (ac.retrieve_account_enrollments(request.get_json(), "courses", accounts_collection))
 
-
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteEvent():
@@ -510,6 +527,42 @@ def ChangeStaffLevel():
         "Error: target account's staff level is too high to change."
     """
     return ad.change_staff_level(request.get_json(),accounts_collection)
+
+@app.route("/get_all_accounts", methods=["POST"])
+@cross_origin(origins="*")
+def GetAllAccounts():
+    """Returns a list containing a dictionary for each account in the database. Each dictionary contains the email and staffLevel of the account.
+    Required request arguments: admin_ID
+    Required staff level: 1
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_all_accounts(request.get_json(),accounts_collection)
+
+@app.route("/change_level", methods=["POST"])
+@cross_origin(origins="*")
+def ChangeLevel():
+    """Decrements, increments, or sets a user's level. 
+    Required request arguments: admin_ID, email, name, level
+    Required staff level: 1
+    The 'level' argument can be:
+        "+": increases user's level by one
+        "-": decreases user's level by one (if possible)
+        int: sets the user's level to given integer
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+        "Error: user account not found"
+        "Error: user's level is too low to decrement"
+        "Error: invalid request"
+        "Error: user not found"
+    """
+    return ad.change_level(request.get_json(),accounts_collection)
 
 
 
