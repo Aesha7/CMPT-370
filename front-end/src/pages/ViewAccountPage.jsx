@@ -48,6 +48,10 @@ const AccountView = () => {
     
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem('_id')
+
+  // for subscription checkboxes
+  const [promChecked, setPromChecked] = React.useState(false);
+  const [newsChecked, setNewsChecked] = React.useState(false);
   
 
   useEffect(() => {
@@ -75,6 +79,9 @@ const AccountView = () => {
   
         setAccountData(data)
         setStaffLevel(data.staffLevel)
+
+        setNewsChecked(data.news)
+        setPromChecked(data.prom)
   
         setUsers(data.users)
       })
@@ -159,6 +166,36 @@ const AccountView = () => {
     let path = '/admin'
     navigate(path, {state:userID})
   }
+
+  const handleNewsChange = () => {
+    setNewsChecked(!newsChecked)
+  }
+
+  const handlePromChange = () => {
+    setPromChecked(!promChecked)
+  }
+
+  const editSubscriptions = (e) => {
+    e.preventDefault()
+    
+    try{
+      fetch(server_URL + "edit_subscriptions", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID, news: newsChecked, prom: promChecked}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) => {
+        return response.text(); // Get the response text
+      })
+    }
+      catch(error){
+        console.log(error)
+      }
+  };
 
   // unlocks the input fields
   const unlockInfo = () => {
@@ -446,15 +483,23 @@ const AccountView = () => {
 
               <label className="checklist">
                 Newsletter
-                <input type="checkbox" />
+                <input type="checkbox"
+                  checked={newsChecked}
+                  onChange={handleNewsChange} />
                 <span className="checkmark"></span>
               </label>
 
               <label className="checklist">
                 Promotions
-                <input type="checkbox" />
+                <input type="checkbox"
+                  checked={promChecked}
+                  onChange={handlePromChange} />
                 <span className="checkmark"></span>
               </label>
+
+              <button className="button" onClick={editSubscriptions}>
+                Save
+              </button>
             </div>
           </div>
         </div>
