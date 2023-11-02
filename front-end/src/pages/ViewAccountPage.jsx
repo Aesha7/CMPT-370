@@ -205,6 +205,8 @@ const AccountView = () => {
   };
 
   // Saves name user name to database
+  // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on. 
+  // TODO: refresh user list after changing a name
   const saveInfo = (e) => {
     e.preventDefault()
     try{
@@ -217,10 +219,18 @@ const AccountView = () => {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
-      }).then((response) => {
-        return response.text(); // Get the response text
-        // TODO: add error checking
-        // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on. 
+      }).then(function (response) {
+        return response.json(); // Get the response text
+      }).then(function (data) {
+          if (data == "Error: No user by that name found") {
+            alert("Error: No user by that name found");
+          }
+          else if (data ==  "Error: account not found") {
+            alert( "Error: account not found");
+          }
+          else if (data == "Error: user with name already exists in account") {
+            alert("Error: user with name already exists in account");
+          }
       })
     }
       catch(error){
