@@ -17,7 +17,6 @@ const AccountView = () => {
   let [phone, setPhone] = useState("(306) 123-4567");
   let [email, setEmail] = useState("email@domain.com");
   let [birthday, setBirthday] = useState("month/day/year");
-  let [level] = useState("1");
   let [userID, setUserID] = useState("");
   let [staffLevel, setStaffLevel] = useState('')
 
@@ -31,6 +30,7 @@ const AccountView = () => {
   let [newName, setNewName] = useState("");
   let [newPhone, setNewPhone] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
+  let [changedName, setChangedName] = useState("");
 
   // the array of users (including the main one)
   const [users, setUsers] = useState([]);
@@ -177,7 +177,6 @@ const AccountView = () => {
 
   const editSubscriptions = (e) => {
     e.preventDefault()
-    
     try{
       fetch(server_URL + "edit_subscriptions", {
         method: "POST",
@@ -200,17 +199,36 @@ const AccountView = () => {
   // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    document.getElementById("edit-birthday").disabled = false;
-    document.getElementById("edit-phone").disabled = false;
+    // document.getElementById("edit-birthday").disabled = false;
+    // document.getElementById("edit-phone").disabled = false;
 
   };
 
-  const saveInfo = () => {
-    // NEED TO EDIT INFO IN BACK END
-
+  // Saves name user name to database
+  const saveInfo = (e) => {
+    e.preventDefault()
+    try{
+      fetch(server_URL + "edit_family", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID, new_name: changedName, old_name: currentName}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) => {
+        return response.text(); // Get the response text
+        // TODO: add error checking
+        // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on. 
+      })
+    }
+      catch(error){
+        console.log(error)
+      }
     document.getElementById("edit-name").disabled = true;
-    document.getElementById("edit-birthday").disabled = true;
-    document.getElementById("edit-phone").disabled = true;
+    // document.getElementById("edit-birthday").disabled = true;
+    // document.getElementById("edit-phone").disabled = true;
 
   };
 
@@ -273,6 +291,9 @@ const AccountView = () => {
     setNewName(e.target.value);
   };
 
+  const handleChangedName = (e) =>{
+    setChangedName(e.target.value);
+  }
   const handleNewPhone = (e) => {
     setNewPhone(e.target.value);
   };
@@ -408,6 +429,7 @@ const AccountView = () => {
                 Name:{" "}
               </label>
               <input
+                onChange={handleChangedName}
                 className="edit-label"
                 htmlFor="name"
                 type="name"
