@@ -27,12 +27,6 @@ const HomePage = () => {
  }
 
 
-//  // going to create account
- const createAccountRouteChange = () =>{
-  let path = '/create-account';
-  navigate(path);
- }
-
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
   navigate(path, {state:userID})
@@ -170,8 +164,6 @@ const forgotPasswordDummy = (e) => {
 
         </div>
 
-        <button onClick={createAccountRouteChange}
-        className="button3" type="button">Create Account</button> 
         <p></p>
         {/* <button onClick={viewAccounts} 
         className="button3" type="button">View Accounts</button> 

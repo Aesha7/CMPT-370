@@ -523,6 +523,30 @@ const AdminCalendarPage = () => {
           onSelectEvent={onSelectEvent}
           min={new Date(0, 0, 0, 10, 0, 0)}
           max={new Date(0, 0, 0, 22, 0, 0)}
+          eventPropGetter={
+            (event, start, end, isSelected) =>{
+              let newStyle ={
+                backgroundColor: "lightgrey",
+                color: 'black',
+                borderRadius: "0px",
+                border: "none"
+              }
+
+              if(event.level == 0){
+                newStyle.backgroundColor = "aquamarine"
+              }
+              else if(event.level == 1){
+                newStyle.backgroundColor = "darkslategrey"
+                newStyle.color = "white"
+              }
+              else if(event.level == 2){
+                newStyle.backgroundColor = "lightblue"
+              }
+
+              return{className:"",
+            style: newStyle}
+            }
+          }
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>

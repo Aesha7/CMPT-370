@@ -33,6 +33,7 @@ const GymSchedule = () => {
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
+    const [filter, setFilter] = useState('');
 
     // getting data initially
     useEffect(() => {
@@ -88,8 +89,19 @@ const GymSchedule = () => {
               start: start,
               end: end
             }
+            if(filter == "-1"){
+              tempEvents.push(newEvent)
+            }
+            else if(filter == 0 && event.level == 0){
+              tempEvents.push(newEvent)
+            }
+            else if(filter == 1 && event.level == 1){
+              tempEvents.push(newEvent)
+            }
+            else if(filter == 2 && event.level == 2){
+              tempEvents.push(newEvent)
+            }
   
-            tempEvents.push(newEvent)
             });
             setCalEvents(tempEvents)
             // console.log(tempEvents)
@@ -115,10 +127,17 @@ const GymSchedule = () => {
     }
 
     const openForm = () => {
+      console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
         document.getElementById("eventTitle").innerHTML = currentEvent.title;
-        document.getElementById("eventDescription").innerHTML = currentEvent.description;
+        console.log(currentEvent.desc)
+        if(currentEvent.desc != undefined){
+        document.getElementById("eventDescription").innerHTML = currentEvent.desc;
+      }
+      else{
+        document.getElementById("eventDescription").innerHTML = "N/A"}
         };
+
 
     const closeForm = () =>{
         document.getElementById("myForm").style.display = "none";
@@ -133,14 +152,27 @@ const GymSchedule = () => {
 
      const handleCurUser = (e) =>{
       setCurUser(users[e.target.value]);
+      localStorage.setItem('selectedChild', document.getElementById('childDropDown').value);
      }
 
     let j = -1
-    let renders = users.map(function (i) {
+    let nameDropDowns = users.map(function (i) {
         return(
           <option value={++j}>{i.name}</option>
         )
       })
+
+      // handling the filter
+      const handleFilter = (e) => {
+        setFilter(e.target.value)
+      }
+
+      // getting the dropdown selector after refresh
+
+      if (localStorage.getItem('selectedChild') != null) {
+        document.getElementById('childDropDown').options[localStorage.getItem('selectedChild')].selected = true;
+      }
+
 
     return(
         <div className="view-gym-schedule">
@@ -148,7 +180,16 @@ const GymSchedule = () => {
             <button className="gym-top-bar-button" onClick={goBack}>Back</button>
 
             {/* dropdown of children names (does nothing right now)*/}
-            <select className='childDropDown' onChange={handleCurUser}>{renders}</select>
+            <select className='childDropDown' id="childDropDown" onChange={handleCurUser}>{nameDropDowns}</select>
+
+            <select className='childDropDown' id="levelDropDown" onChange={handleFilter}>
+              <option value="-1">All</option>
+              <option value="0">Level: 1-2</option>
+              <option value="1">Level: 2-3</option>
+              <option value="2">Level: 3-4</option>
+
+            </select>
+            
             </div>
 
             <div className="">
