@@ -38,6 +38,12 @@ const HomePage = () => {
   navigate(path, {state:userID})
  }
 
+ function validEmail(email) {
+  // Regular expression for a valid email address
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  return emailRegex.test(email);
+}
 
 /**
  * Handling form submittion
@@ -47,7 +53,10 @@ const HomePage = () => {
     if(email === '' || password === ''){
       alert("Please input all of the information.")
       setError(true);
-      alert("Please fill every field.")
+      alert("Please fill out every field.")
+    }
+    else if(!validEmail(email)){
+      alert("Please enter a valid email.")
     }
     else{
       try {
@@ -70,15 +79,15 @@ const HomePage = () => {
         .then(function(response){
           return response.json();
         }).then(function(data){
-          if (data == "Password incorrect"){
+          if (data == "Password does not match."){
             setSubmitted(false);
             setError(true);
-            alert("Password incorrect");
+            alert("Password does not match.");
           }
-          else if (data == "Email not found"){
+          else if (data == "Email not found."){
             setSubmitted(false);
             setError(true);
-            alert("Email not found");
+            alert("Email not found.");
           }
           else {
             setSubmitted(true);
@@ -109,6 +118,10 @@ const handleEmail = (e) => {
     setPassword(e.target.value);
     setSubmitted(false);
 };
+
+const forgotPasswordDummy = (e) => {
+  alert("This is a dummy feature.")
+}
 
   //temporary, for testing 
   const viewAccounts = () => {
@@ -153,7 +166,7 @@ const handleEmail = (e) => {
           <div className="column-entry">
             <label className="label" htmlFor="password">Password:</label>
             <input onChange={handlePassword} className="text-field" value={password} type="password" id="password" />
-            <button className="button2" type="button">Forgot Password</button>
+            <button className="button2" type="button" onClick={forgotPasswordDummy}>Forgot Password</button>
           </div>
 
         </div>

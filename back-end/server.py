@@ -84,7 +84,7 @@ def GetAccountID():
 
     Returns:
         Response: contains _id of database document with given email if successful, else has status_code 400
-        Possible error messages: "Password incorrect", "Email not found"
+        Possible error messages: "Password does not match.", "Email not found."
     """
     return ac.get_account_id(request.get_json(), accounts_collection)
 
@@ -249,7 +249,7 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, event JSON
 
     Returns: Response
     Possible error messages:
