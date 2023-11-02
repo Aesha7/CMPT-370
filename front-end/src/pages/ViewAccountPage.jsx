@@ -186,16 +186,15 @@ const AccountView = () => {
   const submitFamilyMember = (e) => {
     e.preventDefault()
     
-    if (newName == "" || newPhone == "" || newBirthday == "") {
-      alert("Please input all of the information");
+    if (newName == "" || newBirthday == "") {
+      alert("Please input all fields.");
     } 
     else {
       // new child using newName, newPhone, newBirthday, level = 1
       try{
-        console.log(newPhone)
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday, phone, newPhone}),
+          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
@@ -212,9 +211,12 @@ const AccountView = () => {
             window.location.reload(false);
             return text;
           }
-          else{
-            alert(text)
+          else if(text == "Error: name already in use"){
+            alert("Name is already in use.")
           }
+          // else if(data == ){
+
+          // }
         })
       }
         catch(error){
@@ -243,7 +245,7 @@ const AccountView = () => {
   };
 
   // window.location.reload(false);
-  if(staffLevel == 1){
+  if(staffLevel == 3){
     document.getElementById("adminButton").style.display = "block";
   }
 

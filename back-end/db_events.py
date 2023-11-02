@@ -44,6 +44,22 @@ def add(request_data, ev_collection, accounts_collection):
 
     event_details = {
         "name": request_data["name"],
+        "desc": request_data["desc"],
+        "start": {
+            "year": request_data["startYear"],
+            "month": request_data["startMonth"],
+            "date": request_data["startDate"],
+            "hour": request_data["startHour"],
+            "minute": request_data["startMin"],
+        },
+        "end": {
+            "year": request_data["endYear"],
+            "month": request_data["endMonth"],
+            "date": request_data["endDate"],
+            "hour": request_data["endHour"],
+            "minute": request_data["endMin"],
+        },
+        "level": request_data["level"],
         "enrolled": []
     }
 

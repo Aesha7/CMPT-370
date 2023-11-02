@@ -16,6 +16,7 @@ const AdminCalendarPage = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [level, setLevel] = useState("");
 
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
@@ -89,20 +90,23 @@ const AdminCalendarPage = () => {
         // let tempEvents = [];
         data.forEach((event) => {
           let name = event.name;
-          let desc = event.description;
-          let startDate = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
-          let endDate = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+          let desc = event.desc;
+          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+          let level = event.level
 
           let newEvent = {
             name: name,
             desc: desc,
-            startDate: startDate,
-            endDate: endDate
+            start: start,
+            end: end,
+            level: level
           }
 
           tempEvents.push(newEvent)
           });
           setCalEvents(tempEvents)
+          // console.log(tempEvents)
         })
       } catch(exception){
       console.log(exception)
@@ -115,11 +119,16 @@ const AdminCalendarPage = () => {
 
   
   const clickRef = useRef(null);
+  let navigate = useNavigate();
+
+  const goBack = () =>{
+    let path = "/admin";
+    navigate(path, {state:userID})
+  }
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    console.log(calEvent);
-    alert(calEvent.description);
+    alert(calEvent.name + '\n' + calEvent.desc + "\n" + "Level: " + calEvent.level);
   };
 
   const openForm = () => {
@@ -143,39 +152,81 @@ const AdminCalendarPage = () => {
     // setSubmitted(false);
   };
 
-  const submitEvent = () => {
-    if (title == "" || description == "" || startHr == "" || endHr == "") {
+  const handleLevel = (e) => {
+    setLevel(e.target.value);
+    // setSubmitted(false);
+  };
+
+  const submitEvent = (e) => {
+    e.preventDefault()
+    if (title == "" || level == "" || startHr == "" || endHr == "") {
       // error pop up
       alert("This is not a valid event.");
     } else {
-      // create a new event and add to list
-      let fullStartDate = new Date(
-        parseInt(startYear),
-        parseInt(startMonth),
-        parseInt(startDate),
-        parseInt(startHr),
-        parseInt(startMin),
-        0
-      );
-
-      let fullEndDate = new Date(
-        parseInt(endYear),
-        parseInt(endMonth),
-        parseInt(endDate),
-        parseInt(endHr),
-        parseInt(endMin),
-        0
-      );
-
       let event = {
-        title: title,
-        description: description,
-        start: fullStartDate,
-        end: fullEndDate,
+        name: title,
+        desc: description,
+        start: {
+          year: startYear,
+          month: startMonth,
+          date: startDate,
+          hour: startHr,
+          minute: startMin
+        },
+        end: {
+          year: endYear,
+          month: endMonth,
+          date: endDate,
+          hour: endHr,
+          minute: endMin
+        },
+        level: level
       };
+
+      try{
+        fetch(server_URL + "add_course", {
+          method: "POST",
+          body: JSON.stringify({
+            account_ID: userID,
+            name: event.name,
+            desc: event.desc,
+            startYear: event.start.year,
+            startMonth: event.start.month,
+            startDate: event.start.date,
+            startHour: event.start.hour,
+            startMin: event.start.minute,
+            endYear: event.end.year,
+            endMonth: event.end.month,
+            endDate: event.end.date,
+            endHour: event.end.hour,
+            endMin: event.end.minute,
+            level: event.level
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }).then((response) =>{
+          return response.text()
+        }).then((data) => {
+          // console.log(data)
+          if(data != ""){
+            alert("There is alread an event with this name.")
+          }
+          else{
+            closeForm();
+            window.location.reload(false);
+          }
+        })
+      } catch(exception){
+        console.log(exception)
+      }
+      // reloading
     }
   };
-
+  
   const handleStartYear = (e) => {
     setStartYear(e.target.value);
   };
@@ -220,7 +271,6 @@ const AdminCalendarPage = () => {
     document.getElementById("overlay").style.display = "none";
   }
 
-
   return (
     <div className="admin-calendar">
       <div className="admin-schedule-top-bar">
@@ -228,6 +278,7 @@ const AdminCalendarPage = () => {
         <button className="add-event-button" onClick={openForm}>
           Add Event
         </button>
+        <button className="go-back-button" onClick={goBack}>Back</button>
       </div>
 
       <div className="">
@@ -236,7 +287,7 @@ const AdminCalendarPage = () => {
             <h1>Add Event</h1>
 
             <label for="title">
-              <b>Title</b>
+              <b>Title *</b>
             </label>
             <input
               type="title"
@@ -256,9 +307,20 @@ const AdminCalendarPage = () => {
               onChange={handleDesc}
               required
             ></input>
+
+            <label for="level">
+              <b>Level *</b>
+            </label>
+
+            <select className="level-dropdown" onChange={handleLevel}>
+              <option value="">Level</option>
+              <option value="0">1-2</option>
+              <option value="1">2-3</option>
+              <option value="2">3-4</option>
+            </select>
             <div>
               <label for="start">
-                <b>Start Time: </b>
+                <b>Start Time * </b>
               </label>
               <div className="timeDrop">
                 <select onChange={handleStartYear}>
@@ -350,7 +412,7 @@ const AdminCalendarPage = () => {
 
             <div>
               <label for="end">
-                <b>End Time: </b>
+                <b>End Time *</b>
               </label>
               <div className="timeDrop">
                 <select onChange={handleEndYear}>
@@ -451,7 +513,7 @@ const AdminCalendarPage = () => {
 
         <Calendar
           localizer={localizer}
-          events={tempEvents}
+          events={calEvents}
           startAccessor="start"
           endAccessor="end"
           defaultView="week"
@@ -459,6 +521,8 @@ const AdminCalendarPage = () => {
           popup={false}
           style={{ height: 700 }}
           onSelectEvent={onSelectEvent}
+          min={new Date(0, 0, 0, 10, 0, 0)}
+          max={new Date(0, 0, 0, 22, 0, 0)}
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
