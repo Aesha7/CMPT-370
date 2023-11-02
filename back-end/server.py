@@ -271,7 +271,7 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name, coach_email
+    Required request parameters: account_ID, name, coach_email, desc, start, end
     Required staff level: 1
 
     Returns: Response

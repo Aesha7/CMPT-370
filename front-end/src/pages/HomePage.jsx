@@ -93,7 +93,7 @@ const HomePage = () => {
             setSubmitted(true);
             setError(false);
             userID = data;
-            // viewAccountPageRouteChange();
+            viewAccountPageRouteChange();
           }
           return data
         })

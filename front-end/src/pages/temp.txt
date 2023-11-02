@@ -1,0 +1,60 @@
+<div className="view-account-container-toprow">
+          {/* name */}
+          <div className="view-account-column-entry">
+            <label className="view-account-label" for="name">
+              Name:
+            </label>
+            <label
+              className="view-account-email-label"
+              for="name"
+              type="name"
+              id="name"
+            >
+              {name}
+            </label>
+          </div>
+
+          {/* email */}
+          <div className="view-account-column-entry">
+            <label className="view-account-label" for="email">
+              Email:
+            </label>
+            <label
+              className="view-account-email-label"
+              for="email"
+              type="email"
+              id="email"
+            >
+              {email}
+            </label>
+          </div>
+
+          {/* birthday */}
+          <div className="view-account-column-entry">
+            <label className="view-account-label" for="birthday">
+              Birthday:
+            </label>
+            <label
+              className="view-account-email-label"
+              for="email"
+              type="email"
+              id="email"
+            >
+              {birthday}
+            </label>
+          </div>
+
+          {/* phone */}
+          <div className="view-account-column-entry">
+            <label className="view-account-label" for="Phone">
+              Phone:
+            </label>
+            <label
+              className="view-account-email-label"
+              for="phone"
+              type="phone"
+              id="phone"
+            >
+              {phone}
+            </label>
+          </div>
