@@ -35,80 +35,91 @@ const GymSchedule = () => {
     const [curUser, setCurUser] = useState([])
     const [filter, setFilter] = useState('');
 
+
+const get_db_events = () =>{
+    // getting the events
+    try{
+      fetch(server_URL + "retrieve_courses", {
+        method: "POST",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) =>{
+        return response.text()
+      }).then((text) => {
+        const data = JSON.parse(text);
+        // let tempEvents = [];
+        data.forEach((event) => {
+          let name = event.name;
+          let desc = event.description;
+          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+
+          let newEvent = {
+            name: name,
+            desc: desc,
+            start: start,
+            end: end
+          }
+          if(filter == "-1"){
+            tempEvents.push(newEvent)
+          }
+          else if(filter == "0" && event.level == 0){
+            tempEvents.push(newEvent)
+          }
+          else if(filter == "1" && event.level == 1){
+            tempEvents.push(newEvent)
+          }
+          else if(filter == "2" && event.level == 2){
+            tempEvents.push(newEvent)
+          }
+
+          });
+          setCalEvents(tempEvents)
+          // console.log(tempEvents)
+        })
+      } catch(exception){
+      console.log(exception)
+    }
+  }
+
+  const get_user_info = () =>{
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          console.log(data)
+          setUsers(data.users)
+          setCurUser(data.users[0])
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
     // getting data initially
     useEffect(() => {
-      try {
-        fetch(server_URL + "get_account_info", {
-          method: "POST",
-          body: JSON.stringify({ _id: userID }),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
-        })
-          .then((response) => {
-            return response.text(); // Get the response text
-          })
-          .then((text) => {
-            // Parse the text as JSON
-            const data = JSON.parse(text);
-            console.log(data)
-            setUsers(data.users)
-            setCurUser(data.users[0])
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      get_user_info()
       // getting the events
-      try{
-        fetch(server_URL + "retrieve_courses", {
-          method: "POST",
-          body: JSON.stringify({}),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
-        }).then((response) =>{
-          return response.text()
-        }).then((text) => {
-          const data = JSON.parse(text);
-          // let tempEvents = [];
-          data.forEach((event) => {
-            let name = event.name;
-            let desc = event.description;
-            let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
-            let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
-  
-            let newEvent = {
-              name: name,
-              desc: desc,
-              start: start,
-              end: end
-            }
-            if(filter == "-1"){
-              tempEvents.push(newEvent)
-            }
-            else if(filter == 0 && event.level == 0){
-              tempEvents.push(newEvent)
-            }
-            else if(filter == 1 && event.level == 1){
-              tempEvents.push(newEvent)
-            }
-            else if(filter == 2 && event.level == 2){
-              tempEvents.push(newEvent)
-            }
-  
-            });
-            setCalEvents(tempEvents)
-            // console.log(tempEvents)
-          })
-        } catch(exception){
-        console.log(exception)
-      }
+      get_db_events()
     }, []);
   
     const navigate = useNavigate();
@@ -152,7 +163,6 @@ const GymSchedule = () => {
 
      const handleCurUser = (e) =>{
       setCurUser(users[e.target.value]);
-      localStorage.setItem('selectedChild', document.getElementById('childDropDown').value);
      }
 
     let j = -1
@@ -164,14 +174,12 @@ const GymSchedule = () => {
 
       // handling the filter
       const handleFilter = (e) => {
+        e.preventDefault();
         setFilter(e.target.value)
+        console.log(e.target.value)
+        get_db_events();
       }
 
-      // getting the dropdown selector after refresh
-
-      if (localStorage.getItem('selectedChild') != null) {
-        document.getElementById('childDropDown').options[localStorage.getItem('selectedChild')].selected = true;
-      }
 
 
     return(
@@ -228,6 +236,30 @@ const GymSchedule = () => {
                     onSelectEvent={showDetails}
                     min={new Date(0, 0, 0, 10, 0, 0)}
                     max={new Date(0, 0, 0, 22, 0, 0)}
+                    eventPropGetter={
+                      (event, start, end, isSelected) =>{
+                        let newStyle ={
+                          backgroundColor: "lightgrey",
+                          color: 'black',
+                          borderRadius: "0px",
+                          border: "none"
+                        }
+          
+                        if(event.level == 0){
+                          newStyle.backgroundColor = "aquamarine"
+                        }
+                        else if(event.level == 1){
+                          newStyle.backgroundColor = "darkslategrey"
+                          newStyle.color = "white"
+                        }
+                        else if(event.level == 2){
+                          newStyle.backgroundColor = "lightblue"
+                        }
+          
+                        return{className:"",
+                      style: newStyle}
+                      }
+                    }
                 ></Calendar>
 
             </div>

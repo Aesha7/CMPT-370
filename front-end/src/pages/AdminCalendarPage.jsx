@@ -47,31 +47,8 @@ const AdminCalendarPage = () => {
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
-
-  // getting data initially
-  useEffect(() => {
-    try {
-      fetch(server_URL + "get_account_info", {
-        method: "POST",
-        body: JSON.stringify({ _id: userID }),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-      })
-        .then((response) => {
-          return response.text(); // Get the response text
-        })
-        .then((text) => {
-          // Parse the text as JSON
-          const data = JSON.parse(text);
-          setStaffLevel(data.staffLevel);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  
+  const get_db_events = () =>{
     // getting the events
     try{
       fetch(server_URL + "retrieve_courses", {
@@ -111,6 +88,37 @@ const AdminCalendarPage = () => {
       } catch(exception){
       console.log(exception)
     }
+  }
+
+  const get_account_details = () =>{
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          setStaffLevel(data.staffLevel);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // getting data initially
+  useEffect(() => {
+    get_account_details()
+    get_db_events()
   }, []);
 
   // months index starting at 0 (october is 9, january is 0...)
@@ -217,7 +225,8 @@ const AdminCalendarPage = () => {
           }
           else{
             closeForm();
-            window.location.reload(false);
+            get_db_events();
+            // window.location.reload(false);
           }
         })
       } catch(exception){
