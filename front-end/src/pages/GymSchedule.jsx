@@ -26,7 +26,7 @@ const GymSchedule = () => {
   
     // setUserID(JSON.parse(window.localStorage.getItem('_id')));
     userID = window.localStorage.getItem("_id");
-    
+
     const localizer = momentLocalizer(moment);
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
@@ -50,7 +50,6 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) => {
         const data = JSON.parse(text);
-        // let tempEvents = [];
         data.forEach((event) => {
           let name = event.name;
           let desc = event.desc;
@@ -77,6 +76,7 @@ const get_db_events = () =>{
           else if(filter == "2" && event.level == 2){
             tempEvents.push(newEvent)
           }
+          console.log(newEvent)
 
           });
           setCalEvents(tempEvents)
@@ -209,7 +209,6 @@ const get_db_events = () =>{
       }
 
 
-
     return(
         <div className="view-gym-schedule">
             <div className='gym-schedule-top-bar'>Gym Schedule
@@ -253,6 +252,9 @@ const get_db_events = () =>{
                     </form>
                 </div>
 
+<script>{
+  console.log("immediately before: ", calEvents)
+  }</script>
                 <Calendar
                     localizer={localizer}
                     events = {calEvents}
