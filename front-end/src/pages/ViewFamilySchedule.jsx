@@ -74,6 +74,7 @@ const ViewFamilySchedule = () => {
             }).then((response) =>{
                 return response.text()
             }).then((data)=>{
+              
               let event = JSON.parse(data)
               let name = event.name;
               let desc = event.desc;
@@ -107,7 +108,7 @@ const ViewFamilySchedule = () => {
     }
 
     const showDetails = (calEvent) =>{
-        alert(calEvent.description)
+        alert(calEvent.desc)
     }
 
     const handleUserChange = (e) =>{
@@ -131,10 +132,6 @@ const ViewFamilySchedule = () => {
             </div>
 
             <div className="">
-              <script>{
-              console.log("immediately before: ", calEvents)
-              
-              }</script>
             <Calendar
                     localizer={localizer}
                     events = {calEvents}
