@@ -13,9 +13,6 @@ const ViewFamilySchedule = () => {
     const navigate = useNavigate();
     const localizer = momentLocalizer(moment);
     const location = useLocation()
-
-
-    let [email, setEmail] = useState('');
     const [users, setUsers] = useState([])
     let [curUser, setCurUser] = useState();
     const [calEvents, setCalEvents] = useState([])
@@ -43,8 +40,8 @@ const ViewFamilySchedule = () => {
                 const data = JSON.parse(text);
                 setUsers(data.users)
                 curUser = data.users[0]
+                setCurUser(data.users[0])
                 get_user_events();
-
               });
           } catch (error) {
             console.log(error);
@@ -88,13 +85,26 @@ const ViewFamilySchedule = () => {
                         }).then((response) =>{
                             return response.text()
                         }).then((text)=>{
-                            temp.push(JSON.parse(text))
+                          let event = JSON.parse(text)
+                          let name = event.name;
+                          let desc = event.desc;
+                          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+                          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+                          let level = event.level
+
+                          let newEvent = {
+                            name: name,
+                            desc: desc,
+                            start: start,
+                            end: end,
+                            level: level
+                          }
+                            temp.push(newEvent)
                         })
                     } catch(exception) {
                         console.log(exception)
                     }
                 })
-                console.log(temp)
                 setCalEvents(temp);
               });
           } catch (error) {
@@ -106,10 +116,9 @@ const ViewFamilySchedule = () => {
         get_account_info();
     },[])
 
-
     const goBack = () =>{
         let path = "/my-account";
-        navigate(path, {state:email})
+        navigate(path, {state:userID})
     }
 
     const showDetails = (calEvent) =>{
@@ -123,10 +132,9 @@ const ViewFamilySchedule = () => {
         )
       })
 
-
+      console.log(calEvents)
 
     return(
-
         <div className="view-family-schedule">
             <div className='top-bar'>Family Schedule
                 <select className="childDropDown">{nameDropDowns}</select>
@@ -145,30 +153,30 @@ const ViewFamilySchedule = () => {
                     onSelectEvent={showDetails}
                     min={new Date(0, 0, 0, 10, 0, 0)}
                     max={new Date(0, 0, 0, 22, 0, 0)}
-                    // eventPropGetter={
-                    //   (event, start, end, isSelected) =>{
-                    //     let newStyle ={
-                    //       backgroundColor: "lightgrey",
-                    //       color: 'black',
-                    //       borderRadius: "0px",
-                    //       border: "none"
-                    //     }
+                    eventPropGetter={
+                      (event, start, end, isSelected) =>{
+                        let newStyle ={
+                          backgroundColor: "lightgrey",
+                          color: 'black',
+                          borderRadius: "0px",
+                          border: "none"
+                        }
           
-                    //     if(event.level == 0){
-                    //       newStyle.backgroundColor = "aquamarine"
-                    //     }
-                    //     else if(event.level == 1){
-                    //       newStyle.backgroundColor = "darkslategrey"
-                    //       newStyle.color = "white"
-                    //     }
-                    //     else if(event.level == 2){
-                    //       newStyle.backgroundColor = "lightblue"
-                    //     }
+                        if(event.level == 0){
+                          newStyle.backgroundColor = "aquamarine"
+                        }
+                        else if(event.level == 1){
+                          newStyle.backgroundColor = "darkslategrey"
+                          newStyle.color = "white"
+                        }
+                        else if(event.level == 2){
+                          newStyle.backgroundColor = "lightblue"
+                        }
           
-                    //     return{className:"",
-                    //   style: newStyle}
-                    //   }
-                    // }
+                        return{className:"",
+                      style: newStyle}
+                      }
+                    }
                 ></Calendar>
 
             </div>
