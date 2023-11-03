@@ -82,7 +82,6 @@ def add_family(request_data, accounts_collection):
         "name": request_data["name"],
         "birthday": request_data["birthday"],
         "level": 1,
-        "phone": request_data["phone"],
         "isParent": False,
         "events": [],
         "courses":[]
