@@ -49,8 +49,7 @@ const AccountView = () => {
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem('_id')
   
-
-  useEffect(() => {
+  const get_account_info = () =>{
     try {
       fetch(server_URL + "get_account_info", {
         method: "POST",
@@ -81,6 +80,10 @@ const AccountView = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  useEffect(() => {
+    get_account_info()
   }, []);
 
 
@@ -101,7 +104,8 @@ const AccountView = () => {
 
   const registerChild = (e) => {
     let path = "/class-registration";
-    navigate(path, { state:userID});
+    console.log(userID)
+    navigate(path, {state:userID});
   };
 
   // displays the info for the current user (parent or children)

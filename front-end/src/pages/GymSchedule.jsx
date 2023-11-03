@@ -17,6 +17,7 @@ const GymSchedule = () => {
     let userID;
     let location = useLocation()
     userID = location.state;
+    console.log(userID)
     const [staffLevel, setStaffLevel] = useState("");
   
     if (userID != null) {
@@ -29,7 +30,6 @@ const GymSchedule = () => {
     const localizer = momentLocalizer(moment);
 
     let [email] = useState('');
-    let [registrationChild, setRegistrationChild] = useState('')
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
@@ -115,6 +115,32 @@ const get_db_events = () =>{
     }
   }
 
+  const register_for_event = () =>{
+    try{
+      // alert(currentEvent.name)
+      fetch(server_URL + "add_course_user", {
+        method: "POST",
+        body: JSON.stringify({ 
+          _id : userID,
+          user_name : curUser.name,
+          event_name : currentEvent.name
+         }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) =>{
+        return response.text()
+      }).then((text) =>{
+        const data = text;
+        console.log(data)
+      })
+    } catch(error){
+      console.log(error)
+    }
+  }
 
     // getting data initially
     useEffect(() => {
@@ -129,8 +155,6 @@ const get_db_events = () =>{
         let path = "/my-account";
         navigate(path, {state:userID})
     }
-
-    registrationChild = location.state.value
 
     const showDetails = (calEvent) =>{
         // alert(calEvent.description)
@@ -158,10 +182,13 @@ const get_db_events = () =>{
         document.getElementById("myForm").style.display = "none";
     }
 
-    const registerForEvent = () =>{
+    const registerForEvent = (e) =>{
         // add event to childs schedule (and probably family schedule)
         // kidsEvents[kidsEvents.length] = currentEvent;
         // close form
+        e.preventDefault()
+
+        register_for_event();
         document.getElementById("myForm").style.display = "none";
     }
 
