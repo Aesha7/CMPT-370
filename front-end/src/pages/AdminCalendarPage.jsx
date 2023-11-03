@@ -49,31 +49,8 @@ const AdminCalendarPage = () => {
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
-
-  // getting data initially
-  useEffect(() => {
-    try {
-      fetch(server_URL + "get_account_info", {
-        method: "POST",
-        body: JSON.stringify({ _id: userID }),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-      })
-        .then((response) => {
-          return response.text(); // Get the response text
-        })
-        .then((text) => {
-          // Parse the text as JSON
-          const data = JSON.parse(text);
-          setStaffLevel(data.staffLevel);
-        });
-    } catch (error) {
-      console.log(error);
-    }
+  
+  const get_db_events = () =>{
     // getting the events
     try{
       fetch(server_URL + "retrieve_courses", {
@@ -113,6 +90,37 @@ const AdminCalendarPage = () => {
       } catch(exception){
       console.log(exception)
     }
+  }
+
+  const get_account_details = () =>{
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          setStaffLevel(data.staffLevel);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // getting data initially
+  useEffect(() => {
+    get_account_details()
+    get_db_events()
   }, []);
 
   // months index starting at 0 (october is 9, january is 0...)
@@ -221,7 +229,8 @@ const AdminCalendarPage = () => {
           }
           else{
             closeForm();
-            window.location.reload(false);
+            get_db_events();
+            // window.location.reload(false);
           }
         })
       } catch(exception){
@@ -544,6 +553,30 @@ const AdminCalendarPage = () => {
           onSelectEvent={onSelectEvent}
           min={new Date(0, 0, 0, 10, 0, 0)}
           max={new Date(0, 0, 0, 22, 0, 0)}
+          eventPropGetter={
+            (event, start, end, isSelected) =>{
+              let newStyle ={
+                backgroundColor: "lightgrey",
+                color: 'black',
+                borderRadius: "0px",
+                border: "none"
+              }
+
+              if(event.level == 0){
+                newStyle.backgroundColor = "aquamarine"
+              }
+              else if(event.level == 1){
+                newStyle.backgroundColor = "darkslategrey"
+                newStyle.color = "white"
+              }
+              else if(event.level == 2){
+                newStyle.backgroundColor = "lightblue"
+              }
+
+              return{className:"",
+            style: newStyle}
+            }
+          }
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>

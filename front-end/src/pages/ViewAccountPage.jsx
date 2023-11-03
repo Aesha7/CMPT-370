@@ -53,8 +53,7 @@ const AccountView = () => {
   const [promChecked, setPromChecked] = React.useState(false);
   const [newsChecked, setNewsChecked] = React.useState(false);
   
-
-  useEffect(() => {
+  const get_account_info = () =>{
     try {
       fetch(server_URL + "get_account_info", {
         method: "POST",
@@ -88,6 +87,10 @@ const AccountView = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  useEffect(() => {
+    get_account_info()
   }, []);
 
 
@@ -108,7 +111,8 @@ const AccountView = () => {
 
   const registerChild = (e) => {
     let path = "/class-registration";
-    navigate(path, { state:userID});
+    console.log(userID)
+    navigate(path, {state:userID});
   };
 
   // displays the info for the current user (parent or children)
