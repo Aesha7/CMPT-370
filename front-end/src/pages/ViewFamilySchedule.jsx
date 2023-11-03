@@ -20,6 +20,13 @@ const ViewFamilySchedule = () => {
     let [userID, setUserID] = useState("")
     userID = location.state;
 
+    if (userID != null) {
+      window.localStorage.setItem("_id", userID);
+    }
+  
+    // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+    userID = window.localStorage.getItem("_id");
+
     const get_account_info = () =>{
         try {
             fetch(server_URL + "get_account_info", {
@@ -39,8 +46,9 @@ const ViewFamilySchedule = () => {
                 // Parse the text as JSON
                 const data = JSON.parse(text);
                 setUsers(data.users)
+                if(curUser == null){
                 curUser = data.users[0]
-                setCurUser(data.users[0])
+                setCurUser(data.users[0])}
                 get_user_events();
               });
           } catch (error) {
@@ -99,12 +107,14 @@ const ViewFamilySchedule = () => {
                             end: end,
                             level: level
                           }
-                            temp.push(newEvent)
+                          temp.push(newEvent)
                         })
                     } catch(exception) {
                         console.log(exception)
                     }
                 })
+                console.log(calEvents)
+                console.log("cur", curUser)
                 setCalEvents(temp);
               });
           } catch (error) {
@@ -113,7 +123,12 @@ const ViewFamilySchedule = () => {
     }
 
     useEffect(() =>{
+      if(curUser == null){
         get_account_info();
+      } 
+      // else{
+        // get_user_events();
+      // }
     },[])
 
     const goBack = () =>{
@@ -125,6 +140,13 @@ const ViewFamilySchedule = () => {
         alert(calEvent.description)
     }
 
+    const handleUserChange = (e) =>{
+      setCurUser(users[e.target.value])
+      curUser = users[e.target.value]
+      // console.log("cur", curUser)
+      get_user_events();
+    }
+
     let j = -1
     let nameDropDowns = users.map(function (i) {
         return(
@@ -132,12 +154,10 @@ const ViewFamilySchedule = () => {
         )
       })
 
-      console.log(calEvents)
-
     return(
         <div className="view-family-schedule">
             <div className='top-bar'>Family Schedule
-                <select className="childDropDown">{nameDropDowns}</select>
+                <select className="childDropDown" onChange={handleUserChange}>{nameDropDowns}</select>
                 <button className="top-bar-button" onClick={goBack}>Back</button>
             </div>
 

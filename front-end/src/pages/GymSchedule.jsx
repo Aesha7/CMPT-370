@@ -26,15 +26,12 @@ const GymSchedule = () => {
   
     // setUserID(JSON.parse(window.localStorage.getItem('_id')));
     userID = window.localStorage.getItem("_id");
-  
+    
     const localizer = momentLocalizer(moment);
-
-    let [email] = useState('');
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
     let [filter, setFilter] = useState(-1);
-
 
 
 const get_db_events = () =>{
