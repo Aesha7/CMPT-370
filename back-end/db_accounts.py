@@ -3,7 +3,6 @@
 from flask import Response
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-from server import User
 
 def _build_cors_preflight_response():
     response = Response()
@@ -62,23 +61,6 @@ def get_account_id(request_data, accounts_collection):
         resp.data=dumps("Email not found.")
         resp.status_code=400
     return resp
-
-def login(request_data, accounts_collection):
-    resp = Response()
-    account = accounts_collection.find_one({"email": request_data["email"]})
-    if account:
-        if account["password"] == request_data["password"]:
-            resp.data = dumps(str(account["_id"]))
-        else:
-            resp.data=dumps("Password does not match.")
-            resp.status_code=400
-            return resp
-    else:
-        resp.data=dumps("Email not found.")
-        resp.status_code=400
-        return resp
-    
-    user = User()
 
 def get_account_info(request_data, accounts_collection): 
     resp = Response()
