@@ -33,7 +33,8 @@ const GymSchedule = () => {
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
-    const [filter, setFilter] = useState('');
+    let [filter, setFilter] = useState(-1);
+
 
 
 const get_db_events = () =>{
@@ -55,15 +56,17 @@ const get_db_events = () =>{
         // let tempEvents = [];
         data.forEach((event) => {
           let name = event.name;
-          let desc = event.description;
+          let desc = event.desc;
           let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
           let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+          let level = event.level
 
           let newEvent = {
             name: name,
             desc: desc,
             start: start,
-            end: end
+            end: end,
+            level: level
           }
           if(filter == "-1"){
             tempEvents.push(newEvent)
@@ -80,7 +83,6 @@ const get_db_events = () =>{
 
           });
           setCalEvents(tempEvents)
-          // console.log(tempEvents)
         })
       } catch(exception){
       console.log(exception)
@@ -105,7 +107,6 @@ const get_db_events = () =>{
         .then((text) => {
           // Parse the text as JSON
           const data = JSON.parse(text);
-          console.log(data)
           setUsers(data.users)
           setCurUser(data.users[0])
         });
@@ -133,16 +134,19 @@ const get_db_events = () =>{
 
     const showDetails = (calEvent) =>{
         // alert(calEvent.description)
-        setCurrentEvent(calEvent)
+        console.log(calEvent)
+        if(calEvent != currentEvent){
+          setCurrentEvent(calEvent)
+        }
         openForm()
     }
 
     const openForm = () => {
-      console.log(currentEvent)
+      // console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
         document.getElementById("eventTitle").innerHTML = currentEvent.title;
-        console.log(currentEvent.desc)
-        if(currentEvent.desc != undefined){
+        // console.log(currentEvent.desc)
+        if(currentEvent.desc != ""){
         document.getElementById("eventDescription").innerHTML = currentEvent.desc;
       }
       else{
@@ -175,9 +179,9 @@ const get_db_events = () =>{
       // handling the filter
       const handleFilter = (e) => {
         e.preventDefault();
-        setFilter(e.target.value)
-        console.log(e.target.value)
-        get_db_events();
+        // setFilter(e.target.value)
+        filter = e.target.value
+        get_db_events()
       }
 
 
