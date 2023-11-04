@@ -112,7 +112,7 @@ const ViewFamilySchedule = () => {
     }
 
     const handleUserChange = (e) =>{
-      e.preventDefault()
+      // e.preventDefault()
       curUser = users[e.target.value]
       get_user_events();
     }
@@ -139,6 +139,7 @@ const ViewFamilySchedule = () => {
                     defaultView="week"
                     endAccessor="end"
                     popup={false}
+                    views={["month", "week", "day"]}
                     style={{ height: 700 }}
                     onSelectEvent={showDetails}
                     min={new Date(0, 0, 0, 10, 0, 0)}

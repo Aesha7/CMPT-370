@@ -50,6 +50,7 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) => {
         const data = JSON.parse(text);
+        console.log(data)
         data.forEach((event) => {
           let name = event.name;
           let desc = event.desc;
@@ -262,6 +263,7 @@ const get_db_events = () =>{
                     defaultView="week"
                     endAccessor="end"
                     popup={false}
+                    views={["month", "week", "day"]}
                     style={{ height: 700 }}
                     onSelectEvent={showDetails}
                     min={new Date(0, 0, 0, 10, 0, 0)}
