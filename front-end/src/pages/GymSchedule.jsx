@@ -26,15 +26,12 @@ const GymSchedule = () => {
   
     // setUserID(JSON.parse(window.localStorage.getItem('_id')));
     userID = window.localStorage.getItem("_id");
-  
-    const localizer = momentLocalizer(moment);
 
-    let [email] = useState('');
+    const localizer = momentLocalizer(moment);
     const [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
     let [filter, setFilter] = useState(-1);
-
 
 
 const get_db_events = () =>{
@@ -53,7 +50,7 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) => {
         const data = JSON.parse(text);
-        // let tempEvents = [];
+        console.log(data)
         data.forEach((event) => {
           let name = event.name;
           let desc = event.desc;
@@ -80,6 +77,7 @@ const get_db_events = () =>{
           else if(filter == "2" && event.level == 2){
             tempEvents.push(newEvent)
           }
+          console.log(newEvent)
 
           });
           setCalEvents(tempEvents)
@@ -227,7 +225,6 @@ const get_db_events = () =>{
       }
 
 
-
     return(
         <div className="view-gym-schedule">
             <div className='gym-schedule-top-bar'>Gym Schedule
@@ -271,6 +268,9 @@ const get_db_events = () =>{
                     </form>
                 </div>
 
+<script>{
+  console.log("immediately before: ", calEvents)
+  }</script>
                 <Calendar
                     localizer={localizer}
                     events = {calEvents}
@@ -278,6 +278,7 @@ const get_db_events = () =>{
                     defaultView="week"
                     endAccessor="end"
                     popup={false}
+                    views={["month", "week", "day"]}
                     style={{ height: 700 }}
                     onSelectEvent={showDetails}
                     min={new Date(0, 0, 0, 10, 0, 0)}
