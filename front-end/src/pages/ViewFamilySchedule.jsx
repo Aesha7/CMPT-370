@@ -5,20 +5,28 @@ import moment from 'moment'
 import "./ViewFamilySchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
-
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const ViewFamilySchedule = () => {
 
     const navigate = useNavigate();
     const localizer = momentLocalizer(moment);
+
     const location = useLocation()
     const [users, setUsers] = useState([])
     let [curUser, setCurUser] = useState();
     const [calEvents, setCalEvents] = useState([])
+    let temp = [];
 
     let [userID, setUserID] = useState("")
     userID = location.state;
+
+    if (userID != null) {
+      window.localStorage.setItem("_id", userID);
+    }
+  
+    // setUserID(JSON.parse(window.localStorage.getItem('_id')));
+    userID = window.localStorage.getItem("_id");
 
     const get_account_info = () =>{
         try {
@@ -38,11 +46,16 @@ const ViewFamilySchedule = () => {
               .then((text) => {
                 // Parse the text as JSON
                 const data = JSON.parse(text);
+                if(data == '"Error: account not found"'){
+                  alert("User not found")
+                }
+                else {
                 setUsers(data.users)
                 curUser = data.users[0]
                 setCurUser(data.users[0])
+                console.log("curUser", curUser)
                 get_user_events();
-              });
+        }});
           } catch (error) {
             console.log(error);
           }
@@ -68,8 +81,9 @@ const ViewFamilySchedule = () => {
               .then((text) => {
                 // Parse the text as JSON
                 const data = JSON.parse(text);
-                let temp = []
+                
                 data.forEach((event) =>{
+                  // getting the event info
                     try{
                         fetch(server_URL + "get_course", {
                             method: "POST",
@@ -82,15 +96,19 @@ const ViewFamilySchedule = () => {
                                 "Access-Control-Allow-Origin": "*",
                                 "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
                             },
-                        }).then((response) =>{
-                            return response.text()
-                        }).then((text)=>{
-                          let event = JSON.parse(text)
-                          let name = event.name;
-                          let desc = event.desc;
-                          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
-                          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
-                          let level = event.level
+                        }).then((response2) =>{
+                            return response2.text()
+                        }).then((text2)=>{
+                          let data2 = text2
+                          if(data2 == '"Error: event not found"'){
+                            alert("Event not found")
+                          } else {
+                            let event = JSON.parse(data2)
+                            let name = event.name;
+                            let desc = event.desc;
+                            let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
+                            let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
+                            let level = event.level
 
                           let newEvent = {
                             name: name,
@@ -99,12 +117,14 @@ const ViewFamilySchedule = () => {
                             end: end,
                             level: level
                           }
+                          console.log(newEvent)
                             temp.push(newEvent)
-                        })
+                    }})
                     } catch(exception) {
                         console.log(exception)
                     }
                 })
+                console.log(temp)
                 setCalEvents(temp);
               });
           } catch (error) {
@@ -132,8 +152,6 @@ const ViewFamilySchedule = () => {
         )
       })
 
-      console.log(calEvents)
-
     return(
         <div className="view-family-schedule">
             <div className='top-bar'>Family Schedule
@@ -144,7 +162,7 @@ const ViewFamilySchedule = () => {
             <div className="">
             <Calendar
                     localizer={localizer}
-                    events = {calEvents}
+                    events = {temp}
                     startAccessor="start"
                     defaultView="week"
                     endAccessor="end"

@@ -136,6 +136,21 @@ const get_db_events = () =>{
       }).then((text) =>{
         const data = text;
         console.log(data)
+        if(data == '"Error: event not found"'){
+          alert("Event not found.")
+        }
+        else if(data == '"Error: user not found"'){
+          alert("User not found.")
+        }
+        else if(data == '"Error: account not found"'){
+          alert("Account not found.")
+        }
+        else if(data == '"Error: event already on user\'s event list"'){
+          alert("You are already registered for this event")
+        }
+        else{
+          alert("Course Registered! (placeholder)")
+        }
       })
     } catch(error){
       console.log(error)
