@@ -8,10 +8,8 @@ const WaiverPDF = () =>{
 
     return (
       <object data= 
-      "./Waiver.pdf" 
-                      width="800"
-                      height="500"> 
-              </object>
+      "https://drive.google.com/file/d/1f44vTUzWnyEVgOzfHY_UsVCkmLLr6xR5/view?usp=sharing"> 
+      </object>
 
     );
 } 

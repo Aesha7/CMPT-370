@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "waiver form changes"
+git commit -m "new updates"
 
 git push

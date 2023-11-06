@@ -13,12 +13,14 @@ import AdminPage from './pages/AdminPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
+import LandingPage from './pages/LandingPage';
 
 
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<HomePage/>}/>
+        <Route path='/' element={<LandingPage/>}/>
+        <Route path='/login' element={<HomePage/>}/>
         <Route path='/create-account' element={<AccountCreatePage/>}/>
         <Route path='/my-account' element={<ViewAccountPage/>}/>
         <Route path='/family-schedule' element={<ViewFamilySchedule/>}/>
@@ -26,11 +28,8 @@ function App() {
         <Route path='/gym-schedule' element={<GymSchedule/>}/>
         <Route path='/class-registration' element={<GymSchedule/>}/>
         <Route path='/admin' element={<AdminPage/>}/>
-
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
-
       </Routes>
-
   );
 }
 
