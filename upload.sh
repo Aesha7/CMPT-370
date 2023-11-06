@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "calendar changes"
+git commit -m "waiver form changes"
 
 git push
