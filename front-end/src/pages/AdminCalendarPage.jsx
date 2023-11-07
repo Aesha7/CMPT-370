@@ -562,15 +562,13 @@ const AdminCalendarPage = () => {
                 border: "none"
               }
 
-              if(event.level == 0){
-                newStyle.backgroundColor = "aquamarine"
-              }
-              else if(event.level == 1){
-                newStyle.backgroundColor = "darkslategrey"
-                newStyle.color = "white"
-              }
-              else if(event.level == 2){
-                newStyle.backgroundColor = "lightblue"
+              if (event.level == 0) {
+                newStyle.backgroundColor = "#4e9b6f";
+              } else if (event.level == 1) {
+                newStyle.backgroundColor = "#f3c26e";
+                newStyle.color = "white";
+              } else if (event.level == 2) {
+                newStyle.backgroundColor = "#75caef";
               }
 
               return{className:"",
