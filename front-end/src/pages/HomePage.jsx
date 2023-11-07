@@ -45,6 +45,7 @@ const HomePage = () => {
   const handleSubmit = (e) =>{
     e.preventDefault();
     if(email === '' || password === ''){
+      alert("Please input all of the information.")
       setError(true);
       alert("Please fill out every field.")
     }

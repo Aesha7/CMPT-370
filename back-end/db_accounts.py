@@ -130,6 +130,10 @@ def delete_family(request_data, accounts_collection):
         user_removed = False
         for user in family_list:
             if user["name"] == request_data["name"]:
+                if user["isParent"]==True: #prevents user from deleting parent user 
+                    resp.status_code=400
+                    resp.data=dumps("Error: cannot delete parent")
+                    return resp
                 family_list.remove(user)
                 # Updates users list to new list
                 accounts_collection.update_one({"_id": ObjectId(request_data["_id"])},{"$set":{"users":family_list}})
@@ -152,17 +156,17 @@ def edit_family(request_data, accounts_collection):
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
     old_name = request_data["old_name"]
     new_name = request_data["new_name"]
-    birthday = request_data["birthday"]
+    # birthday = request_data["birthday"]
 
     # Ensures account is found
     if account_doc:
         user = accounts_collection.find_one({"_id": ObjectId(request_data["_id"]), "users.name" :old_name})    
         if user: # Ensures user is found
             #Sets new birthday
-            if not (birthday == ""):
-                accounts_collection.update_one(
-                    {"_id": ObjectId(request_data["_id"]), "users.name" :old_name}, 
-                    {"$set":{"users.$.birthday" : birthday}})
+            # if not (birthday == ""):
+            #     accounts_collection.update_one(
+            #         {"_id": ObjectId(request_data["account_ID"]), "users.name" :old_name}, 
+            #         {"$set":{"users.$.birthday" : birthday}})
             
             #Sets new name. Must be done after all other updates, or the name will change and we won't be able to find the user. 
             if not (new_name == ""):
@@ -226,6 +230,10 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
         user_found=False
         for user in users:
             if user["name"] == request_data["user_name"]:
+                if user["level"]<int(ev["level"]):
+                    resp.status_code=400
+                    resp.data=dumps("Error: user level too low")
+                    return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
                 else:
@@ -354,3 +362,31 @@ def remove_event(request_data, accounts_collection, ev_collection, ev_type):
         resp.status_code=400
         resp.data=dumps("Error: event not on user's list")
         return resp
+    
+def retrieve_account_enrollments(request_data, enrollmentType, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+
+    # Ensures account is found
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    # Adds event lists of all users to response, with certain keys removed
+    users = account["users"]
+    ev_list=[]
+    for user in users:
+            user_info=user
+            del user_info["birthday"]
+            del user_info["isParent"]
+            if enrollmentType == "courses":
+                del user_info["events"]
+            else:
+                del user_info["courses"]
+            ev_list.append(user_info)
+
+    resp.data=dumps(ev_list)
+    return resp
