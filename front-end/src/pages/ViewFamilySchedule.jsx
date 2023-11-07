@@ -5,17 +5,20 @@ import moment from 'moment'
 import "../style/ViewFamilySchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
+
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const ViewFamilySchedule = () => {
     const navigate = useNavigate();
     const localizer = momentLocalizer(moment);
-
     const location = useLocation()
     const [users, setUsers] = useState([])
     let [curUser, setCurUser] = useState();
     const [calEvents, setCalEvents] = useState([])
     let temp = []
+
+    let [currentEvent, setCurrentEvent] = useState('');
+
 
 
     let [userID, setUserID] = useState("")
@@ -46,11 +49,7 @@ const ViewFamilySchedule = () => {
               .then((text) => {
                 // Parse the text as JSON
                 const data = JSON.parse(text);
-                if(data == '"Error: account not found"'){
-                  alert("User not found")
-                }
-                else {
-                setUsers(data.users)}
+                setUsers(data.users)
                 if(curUser == null){
                   curUser = data.users[0]
                 }
@@ -111,9 +110,46 @@ const ViewFamilySchedule = () => {
         navigate(path, {state:userID})
     }
 
+
+
     const showDetails = (calEvent) =>{
-        alert(calEvent.desc)
-    }
+        // alert(calEvent.description)
+        // console.log(calEvent)
+        if(calEvent != currentEvent){
+          // setCurrentEvent(calEvent)
+          currentEvent = calEvent
+        }
+        console.log(currentEvent.title)
+
+
+        openForm()    
+      }
+
+      const openForm = () => {
+        // console.log(currentEvent)
+          document.getElementById("myForm").style.display = "block";
+          document.getElementById("eventTitle").innerHTML = currentEvent.name;
+          // console.log(currentEvent.desc)
+          if(currentEvent.desc != ""){
+          document.getElementById("eventDescription").innerHTML = currentEvent.desc;
+        }
+        else{
+          document.getElementById("eventDescription").innerHTML = "N/A"
+        }
+          };
+
+
+      const unregister = (e) =>{
+        e.preventDefault()
+
+        console.log(currentEvent)
+
+      }
+  
+  
+      const closeForm = () =>{
+          document.getElementById("myForm").style.display = "none";
+      }
 
     const handleUserChange = (e) =>{
       // e.preventDefault()
@@ -135,10 +171,34 @@ const ViewFamilySchedule = () => {
                 <button className="top-bar-button" onClick={goBack}>Back</button>
             </div>
 
+            <div className="form-popup" id="myForm">
+                    <form className="form-container">
+                      {/* <h4>{curUser.name}</h4> */}
+                        <label for="title">
+                            <b>Title</b>
+                        </label>
+                        <h5 id='eventTitle'>{currentEvent.name}</h5>
+
+                        <label for="desc">
+                        <b>Description</b>
+                        </label>
+
+                        <h5 id='eventDescription'>{currentEvent.desc}</h5>
+
+                        <button type="submit" className="btn" onClick={unregister}>
+                        Un-Register
+                        </button>
+                        <button type="button" className="btn cancel" onClick={closeForm}>
+                        Close
+                        </button>
+                    </form>
+                </div>
+
+
             <div className="">
             <Calendar
                     localizer={localizer}
-                    events = {temp}
+                    events = {calEvents}
                     startAccessor="start"
                     defaultView="week"
                     endAccessor="end"

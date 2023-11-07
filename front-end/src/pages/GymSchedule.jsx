@@ -188,7 +188,7 @@ const get_db_events = () =>{
     const openForm = () => {
       // console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
-        document.getElementById("eventTitle").innerHTML = currentEvent.title;
+        document.getElementById("eventTitle").innerHTML = currentEvent.name;
         // console.log(currentEvent.desc)
         if(currentEvent.desc != ""){
         document.getElementById("eventDescription").innerHTML = currentEvent.desc;
@@ -259,7 +259,6 @@ const get_db_events = () =>{
             
             </div>
 
-            <div className="">
             
                 <div className="form-popup" id="myForm">
                     <form className="form-container">
@@ -284,9 +283,8 @@ const get_db_events = () =>{
                     </form>
                 </div>
 
-<script>{
-  // console.log("immediately before: ", calEvents)
-  }</script>
+                <div className="">
+
                 <Calendar
                     localizer={localizer}
                     events = {calEvents}
