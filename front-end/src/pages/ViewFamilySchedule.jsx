@@ -142,7 +142,36 @@ const ViewFamilySchedule = () => {
       const unregister = (e) =>{
         e.preventDefault()
 
-        console.log(currentEvent)
+        console.log("curUser", curUser)
+        console.log("currentEvent", currentEvent)
+        console.log("userID", userID)
+
+
+        try{
+          fetch(server_URL + "remove_course_user", {
+            method: "POST",
+            body: JSON.stringify({
+              _id: userID,
+              user_name: curUser.name,
+              event_name: currentEvent.name
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+            },
+          }).then((response) =>{
+            return response.text()            
+          }).then((data) =>{
+            console.log(data)
+
+            get_user_events();
+          })
+        } catch(exception){
+          console.log(exception)
+        }
+
 
       }
   
@@ -154,6 +183,7 @@ const ViewFamilySchedule = () => {
     const handleUserChange = (e) =>{
       // e.preventDefault()
       curUser = users[e.target.value]
+      setCurUser(curUser)
       get_user_events();
     }
 
