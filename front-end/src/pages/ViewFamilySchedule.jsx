@@ -13,7 +13,7 @@ const ViewFamilySchedule = () => {
     const localizer = momentLocalizer(moment);
     const location = useLocation()
     const [users, setUsers] = useState([])
-    let [curUser, setCurUser] = useState();
+    let [curUser, setCurUser] = useState("");
     const [calEvents, setCalEvents] = useState([])
     let temp = []
 
@@ -50,10 +50,11 @@ const ViewFamilySchedule = () => {
                 // Parse the text as JSON
                 const data = JSON.parse(text);
                 setUsers(data.users)
-                if(curUser == null){
+                if(curUser == ""){
                   curUser = data.users[0]
+                  setCurUser(data.users[0])
                 }
-                get_user_events()
+                // get_user_events()
               });
           } catch (error) {
             console.log(error);
@@ -61,6 +62,7 @@ const ViewFamilySchedule = () => {
     }
 
     const get_user_events = () =>{
+      if(curUser != ""){
        curUser.courses.forEach((event) =>{
         try{
             fetch(server_URL + "get_course", {
@@ -99,10 +101,13 @@ const ViewFamilySchedule = () => {
     })
     setCalEvents(temp);
     }
+  }
 
     useEffect(() =>{
         get_account_info();
-    },[])
+        console.log(curUser)
+        get_user_events();
+    },[curUser])
 
 
     const goBack = () =>{
@@ -165,14 +170,29 @@ const ViewFamilySchedule = () => {
             return response.text()            
           }).then((data) =>{
             console.log(data)
+            // "Error: event not found"
 
-            get_user_events();
+            if(data == '"Error: event not on user\'s list"'){
+              alert("There was an error with finding the event.")
+            }
+            else if(data == '"Error: account not found"'){
+              alert("There was an error with getting your account.")
+            }
+            else if(data == '"Error: user not found"'){
+              alert("There was an error with getting your account.")
+            }
+            else if(data == '"Error: event not found"'){
+              alert("There was an error with finding the event.")
+            }
+            else{
+              alert("Unregistration successful!")
+              get_user_events();
+              closeForm();
+            }
           })
         } catch(exception){
           console.log(exception)
         }
-
-
       }
   
   
@@ -182,15 +202,24 @@ const ViewFamilySchedule = () => {
 
     const handleUserChange = (e) =>{
       // e.preventDefault()
-      curUser = users[e.target.value]
-      setCurUser(curUser)
+      // curUser = users[e.target.value]
+      setCurUser(users[e.target.value])
       get_user_events();
     }
 
     let j = -1
     let nameDropDowns = users.map(function (i) {
+      
+      let element;
+      // if(curUser == i){
+      //   element = <option value={++j} key={i.name} selected>{i.name}</option>
+      // }
+      // else{
+        element = <option value={++j} key={i.name}>{i.name}</option>
+      // }
+
         return(
-          <option value={++j} key={i.name}>{i.name}</option>
+          element
         )
       })
 
@@ -203,7 +232,6 @@ const ViewFamilySchedule = () => {
 
             <div className="form-popup" id="myForm">
                     <form className="form-container">
-                      {/* <h4>{curUser.name}</h4> */}
                         <label for="title">
                             <b>Title</b>
                         </label>
