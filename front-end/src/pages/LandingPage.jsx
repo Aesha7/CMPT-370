@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
-import './LandingPage.css';
+import '../style/LandingPage.css';
 
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
@@ -24,9 +24,7 @@ const LandingPage = () => {
   return (
 
     <div className="home-page">
-
     <div className="top-bar">Login</div>
-
     <div className="container">
 
       <form>

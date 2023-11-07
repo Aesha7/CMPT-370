@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { Route, Routes, useNavigate } from "react-router";
-import './AccountCreationPage.css';
+import '../style/AccountCreationPage.css';
 //import APIService from "../Components/APIService.jsx";
 //import axios from axios;
 

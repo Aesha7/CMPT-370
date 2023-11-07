@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "./AdminCalendarPage.css";
+import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 // big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
@@ -136,7 +136,7 @@ const AdminCalendarPage = () => {
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert(calEvent.name + '\n' + calEvent.desc + "\n" + "Level: " + calEvent.level);
+    alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
   };
 
   const openForm = () => {

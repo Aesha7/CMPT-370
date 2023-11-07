@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import "./ViewFamilySchedule.css";
+import "../style/ViewFamilySchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
@@ -50,7 +50,7 @@ const ViewFamilySchedule = () => {
                   alert("User not found")
                 }
                 else {
-                setUsers(data.users)
+                setUsers(data.users)}
                 if(curUser == null){
                   curUser = data.users[0]
                 }
