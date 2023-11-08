@@ -37,7 +37,7 @@ const AccountView = () => {
   let [accountData, setAccountData] = useState('')
 
   // index to modify user data
-  let currentUserIndex
+  let [currentUserIndex, setCurrentUserIndex] = useState(0);
   // users = [{name: "name"},{name: 'name2'}]
 
   userID = location.state;
@@ -119,11 +119,11 @@ const AccountView = () => {
 
   // displays the info for the current user (parent or children)
   const displayInfo = (e) => {
-    currentUserIndex = e.target.value
+    setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
-    setCurrentPhone(users[currentUserIndex.phone])
-    setCurrentBirthday(users[currentUserIndex].birthday)
-    setCurrentLevel(users[currentUserIndex].level)
+    setCurrentPhone(users[currentUserIndex].phone);
+    setCurrentBirthday(users[currentUserIndex].birthday);
+    setCurrentLevel(users[currentUserIndex].level);
   };  
   
 
@@ -239,9 +239,13 @@ const AccountView = () => {
           }
       })
     }
-      catch(error){
-        console.log(error)
-      }
+    catch(error){
+      console.log(error)
+    }
+    if (currentUserIndex == 0) {
+      setName(changedName); //Updates name displayed in Account Info column if parent was edited
+    }
+    setCurrentName(changedName); 
     document.getElementById("edit-name").disabled = true;
     // document.getElementById("edit-birthday").disabled = true;
     // document.getElementById("edit-phone").disabled = true;
