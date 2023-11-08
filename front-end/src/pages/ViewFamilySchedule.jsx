@@ -115,41 +115,6 @@ const ViewFamilySchedule = () => {
     }
   };
 
-  useEffect(() => {
-    get_account_info();
-    console.log(curUser);
-    get_user_events();
-  }, [curUser]);
-
-  const goBack = () => {
-    let path = "/my-account";
-    navigate(path, { state: userID });
-  };
-
-  const showDetails = (calEvent) => {
-    // alert(calEvent.description)
-    // console.log(calEvent)
-    if (calEvent != currentEvent) {
-      // setCurrentEvent(calEvent)
-      currentEvent = calEvent;
-    }
-    console.log(currentEvent.title);
-
-    openForm();
-  };
-
-  const openForm = () => {
-    // console.log(currentEvent)
-    document.getElementById("myForm").style.display = "block";
-    document.getElementById("eventTitle").innerHTML = currentEvent.name;
-    // console.log(currentEvent.desc)
-    if (currentEvent.desc != "") {
-      document.getElementById("eventDescription").innerHTML = currentEvent.desc;
-    } else {
-      document.getElementById("eventDescription").innerHTML = "N/A";
-    }
-  };
-
   const unregister = (e) => {
     e.preventDefault();
 
@@ -194,6 +159,43 @@ const ViewFamilySchedule = () => {
       console.log(exception);
     }
   };
+
+  useEffect(() => {
+    get_account_info();
+    console.log(curUser);
+    get_user_events();
+  }, [curUser]);
+
+  const goBack = () => {
+    let path = "/my-account";
+    navigate(path, { state: userID });
+  };
+
+  const showDetails = (calEvent) => {
+    // alert(calEvent.description)
+    // console.log(calEvent)
+    if (calEvent != currentEvent) {
+      // setCurrentEvent(calEvent)
+      currentEvent = calEvent;
+    }
+    console.log(currentEvent.title);
+
+    openForm();
+  };
+
+  const openForm = () => {
+    // console.log(currentEvent)
+    document.getElementById("myForm").style.display = "block";
+    document.getElementById("eventTitle").innerHTML = currentEvent.name;
+    // console.log(currentEvent.desc)
+    if (currentEvent.desc != "") {
+      document.getElementById("eventDescription").innerHTML = currentEvent.desc;
+    } else {
+      document.getElementById("eventDescription").innerHTML = "N/A";
+    }
+  };
+
+  
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
   };
