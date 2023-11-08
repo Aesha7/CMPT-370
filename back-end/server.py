@@ -392,7 +392,7 @@ def RemoveCourseFromUser():
         "Error: user not found"
         "Error: event not found"
     """
-    return ac.remove_event(request.get_json(), accounts_collection, events_collection, "course")
+    return ac.remove_event(request.get_json(), accounts_collection, courses_collection, "course")
 
 @app.route("/admin_remove_event_user", methods=["POST"])
 @cross_origin(origins="*")

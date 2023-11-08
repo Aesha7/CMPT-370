@@ -311,6 +311,7 @@ def remove_event(request_data, accounts_collection, ev_collection, ev_type):
 
     print("in python")
     ev = ev_collection.find_one({"name": request_data["event_name"]})
+    # ev = courses_collection.find_one({"name": request_data["event_name"]})
     if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")

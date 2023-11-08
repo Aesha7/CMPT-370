@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "./AdminCalendarPage.css";
+import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 // big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
@@ -138,7 +138,7 @@ const AdminCalendarPage = () => {
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert(calEvent.name + '\n' + calEvent.desc + "\n" + "Level: " + calEvent.level);
+    alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
   };
 
   const openForm = () => {
@@ -562,15 +562,13 @@ const AdminCalendarPage = () => {
                 border: "none"
               }
 
-              if(event.level == 0){
-                newStyle.backgroundColor = "aquamarine"
-              }
-              else if(event.level == 1){
-                newStyle.backgroundColor = "darkslategrey"
-                newStyle.color = "white"
-              }
-              else if(event.level == 2){
-                newStyle.backgroundColor = "lightblue"
+              if (event.level == 0) {
+                newStyle.backgroundColor = "#4e9b6f";
+              } else if (event.level == 1) {
+                newStyle.backgroundColor = "#f3c26e";
+                newStyle.color = "white";
+              } else if (event.level == 2) {
+                newStyle.backgroundColor = "#75caef";
               }
 
               return{className:"",
