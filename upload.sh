@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "new updates"
+git commit -m "added back buttons"
 
 git push

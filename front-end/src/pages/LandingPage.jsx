@@ -24,7 +24,7 @@ const LandingPage = () => {
   return (
 
     <div className="home-page">
-    <div className="top-bar">Login</div>
+    <div className="top-bar">Landing Page</div>
     <div className="container">
 
       <form>

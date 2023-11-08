@@ -261,6 +261,8 @@
 
  .checklist {
   display: block;
+  justify-content: center;
+  align-items: center;
   position: relative;
   padding-left: 40px;
   cursor: pointer;
@@ -270,7 +272,6 @@
   -ms-user-select: none; */
   font-size: 18px;
   margin-bottom: 0px;
-  padding-bottom: 20px;
 }
 
 /* Hide the browser's default checkbox */

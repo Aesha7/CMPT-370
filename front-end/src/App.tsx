@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 //import './styles/tailwind.css'
-import HomePage from './pages/HomePage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import AccountCreatePage from './pages/AccountCreatePage';
 import ViewAccountPage from './pages/ViewAccountPage'
 import ViewFamilySchedule from './pages/ViewFamilySchedule';
@@ -20,7 +20,7 @@ function App() {
   return (
       <Routes>
         <Route path='/' element={<LandingPage/>}/>
-        <Route path='/login' element={<HomePage/>}/>
+        <Route path='/login' element={<LoginPage/>}/>
         <Route path='/create-account' element={<AccountCreatePage/>}/>
         <Route path='/my-account' element={<ViewAccountPage/>}/>
         <Route path='/family-schedule' element={<ViewFamilySchedule/>}/>
