@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "./AdminCalendarPage.css";
+import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 // big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
@@ -29,6 +29,8 @@ const AdminCalendarPage = () => {
   const [endDate, setEndDate] = useState("");
   const [endHr, setEndHr] = useState("");
   const [endMin, setEndMin] = useState("");
+
+  const [coach, setCoach] = useState("");
 
   // get relevant info from 'email'
   //JSON, needs to be dynamic (backend)
@@ -136,7 +138,7 @@ const AdminCalendarPage = () => {
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert(calEvent.name + '\n' + calEvent.desc + "\n" + "Level: " + calEvent.level);
+    alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
   };
 
   const openForm = () => {
@@ -188,7 +190,8 @@ const AdminCalendarPage = () => {
           hour: endHr,
           minute: endMin
         },
-        level: level
+        level: level,
+        coach_email: coach
       };
 
       try{
@@ -208,7 +211,8 @@ const AdminCalendarPage = () => {
             endDate: event.end.date,
             endHour: event.end.hour,
             endMin: event.end.minute,
-            level: event.level
+            level: event.level,
+            coach_email: coach
           }),
           headers: {
             "Content-Type": "application/json",
@@ -276,6 +280,10 @@ const AdminCalendarPage = () => {
     setEndMin(e.target.value);
   };
 
+  const handleCoach = (e) => {
+    setCoach(e.target.value)
+  }
+
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
   }
@@ -317,6 +325,19 @@ const AdminCalendarPage = () => {
               required
             ></input>
 
+            <br></br>
+<           label for="coach">
+              <b>Coach Email * </b>
+            </label>
+            <input
+              type="coach"
+              placeholder="Enter the coach's email"
+              name="coach"
+              onChange={handleCoach}
+              required
+            ></input>
+
+            <br></br>
             <label for="level">
               <b>Level *</b>
             </label>
@@ -541,15 +562,13 @@ const AdminCalendarPage = () => {
                 border: "none"
               }
 
-              if(event.level == 0){
-                newStyle.backgroundColor = "aquamarine"
-              }
-              else if(event.level == 1){
-                newStyle.backgroundColor = "darkslategrey"
-                newStyle.color = "white"
-              }
-              else if(event.level == 2){
-                newStyle.backgroundColor = "lightblue"
+              if (event.level == 0) {
+                newStyle.backgroundColor = "#4e9b6f";
+              } else if (event.level == 1) {
+                newStyle.backgroundColor = "#f3c26e";
+                newStyle.color = "white";
+              } else if (event.level == 2) {
+                newStyle.backgroundColor = "#75caef";
               }
 
               return{className:"",

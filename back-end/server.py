@@ -13,6 +13,8 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
+import db_admin as ad
+# from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
 # DB password: CPj0i24mLlKvkskt
@@ -92,7 +94,7 @@ def GetAccountID():
 @cross_origin(origins='*')
 def GetAccountInfo():
     """Retrieves the account's information, excluding password, users (see /retrieve_family), and _id (see /get_id). 
-    Required request arguments: account_ID
+    Required request arguments: _id
 
     Returns: 
         Response : contains the retrieved info
@@ -100,6 +102,22 @@ def GetAccountInfo():
         "Error: account not found"
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
+
+@app.route('/admin_get_account_info',methods=["POST"])
+@cross_origin(origins='*')
+def AdminGetAccountInfo():
+    """Retrieves the account's information, excluding password and _id. 
+    Required request arguments: email, admin_ID
+    Required staff level: 1
+
+    Returns: 
+        Response : contains the retrieved info
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: user account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_account_info(request.get_json(), accounts_collection)
 
 
 @app.route('/view_account_list',methods=["POST"])
@@ -134,7 +152,7 @@ def SubmitAccount():
 @cross_origin(origins="*")
 def AddFamily():
     """Endpoint for adding family member; adds a family member to account. 
-    Required request parameters: name, birthday, account_ID
+    Required request parameters: name, birthday, _id
 
     Returns:
         Response
@@ -145,7 +163,7 @@ def AddFamily():
 @cross_origin(origins="*")
 def DeleteFamily():
     """Endpoint for deleting family member; deletes a family member to account. 
-    Required request parameters: name, account_ID
+    Required request parameters: name, _id
 
     Returns:
         Response
@@ -154,6 +172,7 @@ def DeleteFamily():
         "User successfully removed"
         "Error: account not found"
         "Error: user not found"
+        "Error: cannot delete parent"
     """
     return ac.delete_family(request.get_json(),accounts_collection)
 
@@ -161,7 +180,7 @@ def DeleteFamily():
 @cross_origin(origins="*")
 def EditFamily():
     """Endpoint for adding editing family member; edits a family member's details. 
-    Required request parameters: old_name, new_name, birthday, account_ID. To keep a field the same, send an empty string.
+    Required request parameters: old_name, new_name, _id. To keep a field the same, send an empty string.
 
     Note: if new_name is already used, the user's name will not be changed and an error message will be sent as a response. However, all other modifications will still happen. 
 
@@ -175,7 +194,7 @@ def EditFamily():
 @cross_origin(origins="*")
 def RetrieveFamily():
     """Endpoint for getting list of family members associated with account. 
-    Required request parameters: account_ID
+    Required request parameters: _id
 
     Returns: Response containing list of family members
     Possible error messages:
@@ -235,12 +254,15 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name
+    Required request parameters: account_ID, name, coach_email
+    Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
     return ev.add(request.get_json(), events_collection, accounts_collection)
@@ -249,21 +271,25 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, event JSON
+    Required request parameters: account_ID, name, coach_email, desc, start, end
+    Required staff level: 1
 
     Returns: Response
     Possible error messages:
         "Error: event name already exists"
         "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
     """
     # TODO: add event parameters
+    # TODO: add event to coach's list of coached events 
     return ev.add(request.get_json(), courses_collection, accounts_collection)
 
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def AddCourseToUser():
     """Endpoint for adding a course to a user's schedule. Also adds the user to the course's users list. 
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -273,12 +299,48 @@ def AddCourseToUser():
         "Error: user not found"
     """
     return ac.add_event(request.get_json(), accounts_collection, courses_collection, "course")
+
+@app.route("/admin_add_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminAddCourseToUser():
+    """Endpoint for adding a course to a user's schedule from an admin account. Also adds the user to the course's users list. 
+    Required request parameters: admin_ID, email, user_name, event_name
+    Required staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: event already on user's event list"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.add_event_user(request.get_json(), accounts_collection, courses_collection, "course")
+
+@app.route("/admin_add_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminAddEventToUser():
+    """Endpoint for adding an event to a user's schedule from an admin account. Also adds the user to the event's users list. 
+    Required request parameters: admin_ID, email, user_name, event_name
+    Required staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: event already on user's event list"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.add_event_user(request.get_json(), accounts_collection, events_collection, "event")
     
 @app.route("/add_event_user", methods=["POST"])
 @cross_origin(origins="*")
 def AddEventToUser():
     """Endpoint for adding a course to a user's schedule.
-    Required request parameters: account_ID, user_name, event_name
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -292,8 +354,8 @@ def AddEventToUser():
 @app.route("/remove_event_user", methods=["POST"])
 @cross_origin(origins="*")
 def RemoveEventFromUser():
-    """Endpoint for adding an event to a user's schedule.
-    Required request parameters: account_ID, user_name, event_name
+    """Endpoint for removing an event from a user's schedule and removing that user from the event's enrolled list.
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -307,8 +369,8 @@ def RemoveEventFromUser():
 @app.route("/remove_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def RemoveCourseFromUser():
-    """Endpoint for adding a course to a user's schedule.
-    Required request parameters: account_ID, user_name, event_name
+    """Endpoint for removing a course from a user's schedule and removing that user from the event's enrolled list.
+    Required request parameters: _id, user_name, event_name
 
     Returns: Response
     Possible error messages:
@@ -317,7 +379,39 @@ def RemoveCourseFromUser():
         "Error: user not found"
         "Error: event not found"
     """
-    return ac.remove_event(request.get_json(), accounts_collection, events_collection, "course")
+    return ac.remove_event(request.get_json(), accounts_collection, courses_collection, "course")
+
+@app.route("/admin_remove_event_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminRemoveEventFromUser():
+    """Endpoint for adding an event to a user's schedule.
+    Required request parameters: admin_ID, email, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.remove_event(request.get_json(), accounts_collection, events_collection, "event")
+
+@app.route("/admin_remove_course_user", methods=["POST"])
+@cross_origin(origins="*")
+def AdminRemoveCourseFromUser():
+    """Endpoint for adding an event to a user's schedule.
+    Required request parameters: admin_ID, email, user_name, event_name
+
+    Returns: Response
+    Possible error messages:
+        "Error: event not found"
+        "Error: target account not found"
+        "Error: admin account not found"
+        "Error: user not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.remove_event(request.get_json(), accounts_collection, courses_collection, "course")
 
 @app.route("/retrieve_user_events", methods=["POST"])
 @cross_origin(origins="*")
@@ -345,12 +439,36 @@ def RetrieveUserCourses():
     """
     return (ac.retrieve_enrollments(request.get_json(), "courses", accounts_collection))
 
+@app.route("/retrieve_account_events", methods=["POST"])
+@cross_origin(origins="*")
+def RetrieveAccountEvents():
+    """Endpoint for getting account's users and their events. Technically redundant; /retrieve_family already contains all user info, including events.
+    Required request parameters: account_ID
+
+    Returns: Response: list where each entry has a user's "_id", a user's "name", and a user's "events" (list of events, may be empty)
+    Possible error messages:
+        "Error: account not found"
+    """
+    return (ac.retrieve_account_enrollments(request.get_json(), "events", accounts_collection))
+
+@app.route("/retrieve_account_courses", methods=["POST"])
+@cross_origin(origins="*")
+def RetrieveAccountCourses():
+    """Endpoint for getting account's users and their courses. Technically redundant; /retrieve_family already contains all user info, including courses.
+    Required request parameters: account_ID
+
+    Returns: Response: list where each entry has a user's "_id", a user's "name", and a user's "events" (list of courses, may be empty)
+    Possible error messages:
+        "Error: account not found"
+    """
+    return (ac.retrieve_account_enrollments(request.get_json(), "courses", accounts_collection))
+
 @app.route("/delete_event", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteEvent():
-    """CURRENTLY BROKEN"""
     """Deletes event from event list. 
     Required request parameters: event_name, account_ID
+    Required staff level: 1
 
     Returns: Response
     Possible error messages: 
@@ -363,10 +481,10 @@ def DeleteEvent():
 @app.route("/delete_course", methods=["POST"])
 @cross_origin(origins="*")
 def DeleteCourse():
-    """CURRENTLY BROKEN"""
     """
     Deletes event from event list. 
     Required request parameters: event_name, account_ID
+    Required staff level: 1
 
     Returns: Response
     Possible error messages: 
@@ -374,8 +492,65 @@ def DeleteCourse():
         "Error: you do not have permission to perform this action"
         "Error: account not found"
     """
-    #TODO: make remove event from all users' event list
     return ev.delete(request.get_json(), courses_collection,accounts_collection,"course")
+
+@app.route("/change_staff_level", methods=["POST"])
+@cross_origin(origins="*")
+def ChangeStaffLevel():
+    """Changes an account's staff level to the given value.
+    Required request arguments: admin_ID (account ID of logged-in admin account), email (email of account to be changed), level
+    Required staff level: 3
+
+    Customer=0
+    Coach=1
+    [placeholder]=2
+    Admin=3
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: user account not found"
+        "Error: you do not have permission to perform this action"
+        "Error: target account's staff level is too high to change."
+    """
+    return ad.change_staff_level(request.get_json(),accounts_collection)
+
+@app.route("/get_all_accounts", methods=["POST"])
+@cross_origin(origins="*")
+def GetAllAccounts():
+    """Returns a list containing a dictionary for each account in the database. Each dictionary contains the email and staffLevel of the account.
+    Required request arguments: admin_ID
+    Required staff level: 1
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_all_accounts(request.get_json(),accounts_collection)
+
+@app.route("/change_level", methods=["POST"])
+@cross_origin(origins="*")
+def ChangeLevel():
+    """Decrements, increments, or sets a user's level. 
+    Required request arguments: admin_ID, email, name, level
+    Required staff level: 1
+    The 'level' argument can be:
+        "+": increases user's level by one
+        "-": decreases user's level by one (if possible)
+        int: sets the user's level to given integer
+    
+    Returns: Response
+    Possible error messages: 
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+        "Error: user account not found"
+        "Error: user's level is too low to decrement"
+        "Error: invalid request"
+        "Error: user not found"
+    """
+    return ad.change_level(request.get_json(),accounts_collection)
+
 
 
 

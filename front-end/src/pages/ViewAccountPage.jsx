@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
-import "./ViewAccountPage.css";
+import "../style/ViewAccountPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -104,8 +104,10 @@ const AccountView = () => {
 
   const registerChild = (e) => {
     let path = "/class-registration";
+    let user = users[e.target.value]
+    let name = user.name;
     console.log(userID)
-    navigate(path, {state:userID});
+    navigate(path, {state:{_id: userID, curUserName: name}});
   };
 
   // displays the info for the current user (parent or children)

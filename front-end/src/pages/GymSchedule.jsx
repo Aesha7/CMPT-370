@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
-import "./GymSchedule.css";
+import "../style/GymSchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
 
@@ -16,8 +16,11 @@ const GymSchedule = () => {
   
     let userID;
     let location = useLocation()
-    userID = location.state;
+    userID = location.state._id;
     console.log(userID)
+    let curUserName = location.state.curUserName
+    console.log(curUserName)
+
     const [staffLevel, setStaffLevel] = useState("");
   
     if (userID != null) {
@@ -28,7 +31,7 @@ const GymSchedule = () => {
     userID = window.localStorage.getItem("_id");
 
     const localizer = momentLocalizer(moment);
-    const [currentEvent, setCurrentEvent] = useState('');
+    let [currentEvent, setCurrentEvent] = useState('');
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
     let [filter, setFilter] = useState(-1);
@@ -50,7 +53,7 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) => {
         const data = JSON.parse(text);
-        console.log(data)
+        // console.log(data)
         data.forEach((event) => {
           let name = event.name;
           let desc = event.desc;
@@ -77,7 +80,7 @@ const get_db_events = () =>{
           else if(filter == "2" && event.level == 2){
             tempEvents.push(newEvent)
           }
-          console.log(newEvent)
+          // console.log(newEvent)
 
           });
           setCalEvents(tempEvents)
@@ -133,7 +136,22 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) =>{
         const data = text;
-        console.log(data)
+        // console.log(data)
+        if(data == '"Error: event not found"'){
+          alert("Event not found.")
+        }
+        else if(data == '"Error: user not found"'){
+          alert("User not found.")
+        }
+        else if(data == '"Error: account not found"'){
+          alert("Account not found.")
+        }
+        else if(data == '"Error: event already on user\'s event list"'){
+          alert("You are already registered for this event")
+        }
+        else{
+          alert("Course Registered! (placeholder)")
+        }
       })
     } catch(error){
       console.log(error)
@@ -156,23 +174,28 @@ const get_db_events = () =>{
 
     const showDetails = (calEvent) =>{
         // alert(calEvent.description)
-        console.log(calEvent)
+        // console.log(calEvent)
         if(calEvent != currentEvent){
-          setCurrentEvent(calEvent)
+          // setCurrentEvent(calEvent)
+          currentEvent = calEvent
         }
+        console.log(currentEvent.title)
+
+
         openForm()
     }
 
     const openForm = () => {
       // console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
-        document.getElementById("eventTitle").innerHTML = currentEvent.title;
+        document.getElementById("eventTitle").innerHTML = currentEvent.name;
         // console.log(currentEvent.desc)
         if(currentEvent.desc != ""){
         document.getElementById("eventDescription").innerHTML = currentEvent.desc;
       }
       else{
-        document.getElementById("eventDescription").innerHTML = "N/A"}
+        document.getElementById("eventDescription").innerHTML = "N/A"
+      }
         };
 
 
@@ -196,8 +219,16 @@ const get_db_events = () =>{
 
     let j = -1
     let nameDropDowns = users.map(function (i) {
-        return(
-          <option value={++j}>{i.name}</option>
+      let render;
+      if(i.name == curUserName){
+        render = <option value={++j} selected>{i.name}</option>
+      }
+      else{
+        render = <option value={++j}>{i.name}</option>
+      }
+
+      return(
+        render
         )
       })
 
@@ -228,7 +259,6 @@ const get_db_events = () =>{
             
             </div>
 
-            <div className="">
             
                 <div className="form-popup" id="myForm">
                     <form className="form-container">
@@ -253,9 +283,8 @@ const get_db_events = () =>{
                     </form>
                 </div>
 
-<script>{
-  console.log("immediately before: ", calEvents)
-  }</script>
+                <div className="">
+
                 <Calendar
                     localizer={localizer}
                     events = {calEvents}
@@ -277,17 +306,15 @@ const get_db_events = () =>{
                           border: "none"
                         }
           
-                        if(event.level == 0){
-                          newStyle.backgroundColor = "aquamarine"
+                        if (event.level == 0) {
+                          newStyle.backgroundColor = "#4e9b6f";
+                        } else if (event.level == 1) {
+                          newStyle.backgroundColor = "#f3c26e";
+                          newStyle.color = "white";
+                        } else if (event.level == 2) {
+                          newStyle.backgroundColor = "#75caef";
                         }
-                        else if(event.level == 1){
-                          newStyle.backgroundColor = "darkslategrey"
-                          newStyle.color = "white"
-                        }
-                        else if(event.level == 2){
-                          newStyle.backgroundColor = "lightblue"
-                        }
-          
+                        
                         return{className:"",
                       style: newStyle}
                       }
