@@ -76,7 +76,6 @@
     flex-direction: row;
     align-items: center;
     padding: auto;
-    /* justify-content: space-between; */
   }
   
   .waiver-button {
@@ -97,74 +96,6 @@
     background-color: gray;
     color: white;
   }
-  
-  .checklist-2 {
-    display: block;
-    position: relative;
-    padding-left: 40px;
-    cursor: pointer;
-    user-select: none;
-    /* -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none; */
-    font-size: 18px;
-    margin: 0px;
-  }
-  
-  /* Hide the browser's default checkbox */
-   .checklist-2 input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark-2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: white;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .checklist-2:hover input ~ .checkmark-2 {
-    background-color: darkgrey;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .checklist-2 input:checked ~ .checkmark-2 {
-    background-color: blue;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark-2:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .checklist-2 input:checked ~ .checkmark-2:after {
-    display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .checklist-2 .checkmark-2:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }   
-  
 
   .account-create-submit-button {
     padding: 15px 32px;

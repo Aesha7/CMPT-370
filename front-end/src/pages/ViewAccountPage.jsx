@@ -527,6 +527,8 @@ const AccountView = () => {
                 <span className="checkmark"></span>
               </label>
 
+              <br />
+              
               <label className="checklist">
                 Promotions
                 <input type="checkbox"
