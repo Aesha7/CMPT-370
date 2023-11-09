@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "../style/ViewAccountPage.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -153,7 +155,7 @@ const AccountView = () => {
 
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
-    navigate(path, { state: userID });
+    navigate(path, {state: userID});
   };
 
   const goBackToLogin = () => {
@@ -161,8 +163,23 @@ const AccountView = () => {
     navigate(path);
   };
 
-  const adminPageRoute = () =>{
-    let path = '/admin'
+  const adminCalendarPageRoute = () =>{
+    let path = "/admin-schedule";
+    navigate(path, {state:userID})
+  }
+
+  const manageAccountsPageRoute = () =>{
+    let path = "/admin-accounts";
+    navigate(path, {state:userID})
+  }
+
+  const coachCalendarPageRoute = () =>{
+    let path = "/coach-schedule";
+    navigate(path, {state:userID})
+  }
+
+  const studentsListPageRoute = () =>{
+    let path = "/students-list";
     navigate(path, {state:userID})
   }
 
@@ -183,10 +200,9 @@ const AccountView = () => {
 
   };
 
-
-
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
+    document.querySelector(".myForm-overlay").style.display = "block";
   };
 
   const submitFamilyMember = (e) => {
@@ -236,6 +252,7 @@ const AccountView = () => {
   const closeForm = () => {
     // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
+    document.querySelector(".myForm-overlay").style.display = "none";
   };
 
   const handleNewName = (e) => {
@@ -246,26 +263,32 @@ const AccountView = () => {
     setNewPhone(e.target.value);
   };
 
-  const handleNewBirthday = (e) => {
-    setNewBirthday(e.target.value);
+  const handleNewBirthday = (date) => {
+      setNewBirthday(date);
   };
 
   // window.location.reload(false);
   if(staffLevel == 3){
-    document.getElementById("adminButton").style.display = "block";
+    document.getElementById("manageAccounts").style.display = "block";
+    document.getElementById("adminCalendar").style.display = "block";
+  }
+
+  if(staffLevel == 1){
+    document.getElementById("studentsList").style.display = "block";
+    document.getElementById("coachCalendar").style.display = "block";
   }
 
   return (
     <div className="view-account-page">
       <div className="top-bar">
         My Account
-
-        <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
-
-        <button className="top-bar-button" onClick={goBackToLogin}>
-          Logout
-        </button>
-        
+        <div className="allButtons">
+        <button className="top-bar-button" htmlFor="manageAccounts" id="manageAccounts" onClick={manageAccountsPageRoute}>Manage Accounts</button>
+        <button className="top-bar-button" htmlFor="adminCalendar" id="adminCalendar" onClick={adminCalendarPageRoute}>Admin Calendar</button>
+        <button className="top-bar-button" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
+        <button className="top-bar-button" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
+        <button className="top-bar-button" onClick={goBackToLogin}> Logout </button>      
+        </div>
       </div>
       <div className="view-account-container">
 
@@ -467,6 +490,8 @@ const AccountView = () => {
           </div>
         </div>
 
+        <div class="myForm-overlay"></div>
+
         <div className="add-family-popup" id="myForm">
           <form className="form-container">
             <label htmlFor="name">
@@ -482,8 +507,21 @@ const AccountView = () => {
             <label htmlFor="birthday">
               <b>Birthday</b>
             </label>
-            <input type="birthday" onChange={handleNewBirthday}></input>
-
+            {/* <input type="birthday" onChange={handleNewBirthday}></input> */}
+            <DatePicker
+              className="custom-datepicker" 
+              selected={newBirthday} 
+              onChange={handleNewBirthday}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)} 
+              maxDate={new Date(2099, 11, 31)} 
+              isClearable={true}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
             <button type="submit" className="btn" onClick={submitFamilyMember}>
               Register
             </button>

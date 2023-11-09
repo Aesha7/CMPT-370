@@ -142,9 +142,11 @@ const forgotPasswordDummy = (e) => {
     <div className="home-page">
 
     <div className="top-bar">Login
+      <div className="allButtons">
       <button className="top-bar-button" onClick={backToLandingPage}>
           Home
       </button>
+      </div>
     </div>
 
     <div className="container">

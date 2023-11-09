@@ -230,9 +230,9 @@ const AccountCreatePage = (props) => {
     <div className="account-creation-page">
       <div className="top-bar">
         Create Account
-        <button className="top-bar-button" onClick={backToLandingPage}>
-          Home
-        </button>
+        <div className="allButtons">
+        <button className="top-bar-button" onClick={backToLandingPage}>Home</button>
+        </div>
       </div>
 
       <div className="account-create-container">

@@ -1,7 +1,6 @@
-.admin-page{
-
+.adminmangeaccountspage{
+    font-family: Arial, Helvetica, sans-serif;
 }
-
 
 .overlay{
     opacity:1;
@@ -12,4 +11,7 @@
     top:0px;
     left:0px;
     z-index:1000;
+    text-align: center;
+    color: blue;
+    font-size: 20px;
 }
