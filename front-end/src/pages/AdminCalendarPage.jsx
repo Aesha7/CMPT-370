@@ -32,10 +32,13 @@ const AdminCalendarPage = () => {
 
   const [coach, setCoach] = useState("");
 
+  const [user, setUser] = useState("")
+
   // get relevant info from 'email'
   //JSON, needs to be dynamic (backend)
 
   const [calEvents, setCalEvents] = useState([]);
+  let currentEvent = null;
   let tempEvents = [];
 
   let userID;
@@ -73,13 +76,15 @@ const AdminCalendarPage = () => {
           let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
           let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
           let level = event.level
+          let enrolled = event.enrolled;
 
           let newEvent = {
             name: name,
             desc: desc,
             start: start,
             end: end,
-            level: level
+            level: level,
+            enrolled: enrolled
           }
 
           tempEvents.push(newEvent)
@@ -111,11 +116,42 @@ const AdminCalendarPage = () => {
           // Parse the text as JSON
           const data = JSON.parse(text);
           setStaffLevel(data.staffLevel);
+          setUser(data)
         });
     } catch (error) {
       console.log(error);
     }
   }
+
+  const delete_event_call = () =>{
+    // removing for all enrolled members
+    currentEvent.enrolled.forEach((member) =>{
+      try{
+        fetch(server_URL + "admin_remove_course_user", {
+          method: "POST",
+          body: JSON.stringify({ admin_ID: userID,
+                                email: user.email,
+                                event_name: currentEvent.name,
+                                user_name: member.name
+           }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+      }).then((response) =>{
+        return response.text()
+      }).then((data) =>{
+        console.log(data)
+      })
+    }catch(exception){
+      console.log(exception)
+    }
+  })
+  
+}
+   
 
   // getting data initially
   useEffect(() => {
@@ -138,18 +174,37 @@ const AdminCalendarPage = () => {
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
+    currentEvent = calEvent;
+    openInfoForm(calEvent);
+    // alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
+
   };
 
   const openForm = () => {
-    document.getElementById("myForm").style.display = "block";
+    document.getElementById("createEventForm").style.display = "block";
   };
+
+  const openInfoForm = (calEvent) =>{
+    console.log(calEvent)
+
+
+    document.getElementById("clickInformation").style.display = "block";
+
+    document.getElementById("eventTitle").innerHTML = calEvent.name;
+    document.getElementById("eventDescription").innerHTML = calEvent.desc;
+
+    document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
+
+
+  }
 
   const closeForm = () => {
     setTitle("");
     setDescription("");
 
-    document.getElementById("myForm").style.display = "none";
+    document.getElementById("createEventForm").style.display = "none";
+    document.getElementById("clickInformation").style.display = "none";
+
   };
 
   const handleTitle = (e) => {
@@ -239,6 +294,21 @@ const AdminCalendarPage = () => {
       // reloading
     }
   };
+
+  const deleteEvent = (e) =>{
+    e.preventDefault()
+
+    if(currentEvent.enrolled.length > 0){
+      // alert("this event has enrolled members")
+      delete_event_call()
+
+      // display the confirmation form
+    }
+    else{
+
+      delete_event_call()
+    }
+  }
   
   const handleStartYear = (e) => {
     setStartYear(e.target.value);
@@ -299,7 +369,38 @@ const AdminCalendarPage = () => {
       </div>
 
       <div className="">
-        <div className="form-popup" id="myForm">
+
+        <div className="form-popup" id="clickInformation">
+                    <form className="form-container">
+                        <label for="title">
+                            <b>Title</b>
+                        </label>
+                        <h5 id='eventTitle'>{}</h5>
+
+                        <label for="desc">
+                        <b>Description</b>
+                        </label>
+
+                        <h5 id='eventDescription'>{}</h5>
+
+
+                        <label for="enrolled">
+                        <b>Enrolled Count</b>
+                        </label>
+
+                        <h5 id='eventEnroll'>{}</h5>
+
+                        <button type="button" className="btn cancel" onClick={deleteEvent}>
+                        Delete Event
+                        </button>
+
+                        <button type="button" className="btn cancel" onClick={closeForm}>
+                        Cancel
+                        </button>
+                    </form>
+                </div>
+
+        <div className="form-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
 
