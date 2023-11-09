@@ -300,8 +300,10 @@ const get_db_events = () =>{
 
     return(
         <div className="view-gym-schedule">
-            <div className='gym-schedule-top-bar'>Gym Schedule
-            <button className="gym-top-bar-button" onClick={goBack}>Back</button>
+            <div className="top-bar">Gym Schedule
+            <div className="allButtons">
+            <button className="top-bar-button" onClick={goBack}>Back</button>
+            </div>
 
             {/* dropdown of children names (does nothing right now)*/}
             <select className='childDropDown' id="childDropDown" onChange={handleCurUser}>{nameDropDowns}</select>

@@ -228,12 +228,14 @@ const ViewFamilySchedule = () => {
     <div className="view-family-schedule">
       <div className="top-bar">
         Family Schedule
-        <select className="childDropDown" onChange={handleUserChange}>
+        <div className="allButtons">
+        <select className="top-bar-button" onChange={handleUserChange}>
           {nameDropDowns}
         </select>
         <button className="top-bar-button" onClick={goBack}>
           Back
         </button>
+        </div>
       </div>
 
       <div className="form-popup" id="myForm">

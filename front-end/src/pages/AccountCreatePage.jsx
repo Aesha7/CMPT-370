@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import "../style/AccountCreationPage.css";
+import "../style/ViewAccountPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -27,7 +28,7 @@ const AccountCreatePage = (props) => {
     navigate(path, { state: userID });
   };
 
-  const backToLogin = () => {
+  const backToLandingPage = () => {
     let path = "/";
     navigate(path);
   };
@@ -229,9 +230,9 @@ const AccountCreatePage = (props) => {
     <div className="account-creation-page">
       <div className="top-bar">
         Create Account
-        <button className="top-bar-button" onClick={backToLogin}>
-          Back
-        </button>
+        <div className="allButtons">
+        <button className="top-bar-button" onClick={backToLandingPage}>Home</button>
+        </div>
       </div>
 
       <div className="account-create-container">
@@ -329,14 +330,10 @@ const AccountCreatePage = (props) => {
                 </button>
                 {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
 
-                <label className="checklist-2">
+                <label className="checklist">
                   I Agree
-                  <input type="checkbox-2" />
-                  <span
-                    className="checkmark-2"
-                    onClick={handleWaiver}
-                    id="waiver-button"
-                  ></span>
+                  <input type="checkbox" />
+                  <span className="checkmark" onClick={handleWaiver} id="waiver-button"></span>
                 </label>
               </div>
             </div>

@@ -168,7 +168,7 @@ const AdminCalendarPage = () => {
   let navigate = useNavigate();
 
   const goBack = () =>{
-    let path = "/admin";
+    let path = "/my-account";
     navigate(path, {state:userID})
   }
 
@@ -360,12 +360,12 @@ const AdminCalendarPage = () => {
 
   return (
     <div className="admin-calendar">
-      <div className="admin-schedule-top-bar">
+      <div className="top-bar">
         Gym Schedule
-        <button className="add-event-button" onClick={openForm}>
-          Add Event
-        </button>
-        <button className="go-back-button" onClick={goBack}>Back</button>
+        <div className="allButtons">
+        <button className="top-bar-button" onClick={openForm}>Add Event</button>
+        <button className="top-bar-button" onClick={goBack}>Back</button>
+        </div>
       </div>
 
       <div className="">
@@ -679,7 +679,7 @@ const AdminCalendarPage = () => {
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
-      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE</div>
+      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
     </div>
   );
 };

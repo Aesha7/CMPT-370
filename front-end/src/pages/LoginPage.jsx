@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
-import '../style/HomePage.css';
+import '../style/LoginPage.css';
 
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
-const HomePage = () => {
+const LoginPage = () => {
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
@@ -20,12 +20,10 @@ const HomePage = () => {
 
  let navigate = useNavigate(); 
 
- // going to account
- const routeChange = () =>{ 
-   let path = `/my-account`; 
-   navigate(path);
- }
-
+ const backToLandingPage = () => {
+  let path = "/";
+  navigate(path);
+};
 
  const viewAccountPageRouteChange = () =>{
   let path = '/my-account';
@@ -143,7 +141,13 @@ const forgotPasswordDummy = (e) => {
 
     <div className="home-page">
 
-    <div className="top-bar">Login</div>
+    <div className="top-bar">Login
+      <div className="allButtons">
+      <button className="top-bar-button" onClick={backToLandingPage}>
+          Home
+      </button>
+      </div>
+    </div>
 
     <div className="container">
 
@@ -178,4 +182,4 @@ const forgotPasswordDummy = (e) => {
   );
 }
 
-export default HomePage;
+export default LoginPage;

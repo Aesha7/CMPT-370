@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "latest version with error messages"
+git commit -m "added features for coach, modified the view account page, fixed calendar UI "
 
 git push
