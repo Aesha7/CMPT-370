@@ -125,6 +125,7 @@ const AdminCalendarPage = () => {
 
   const delete_event_call = () =>{
     // removing for all enrolled members
+    console.log(currentEvent.enrolled)
     currentEvent.enrolled.forEach((member) =>{
       try{
         fetch(server_URL + "admin_remove_course_user", {
@@ -300,12 +301,11 @@ const AdminCalendarPage = () => {
 
     if(currentEvent.enrolled.length > 0){
       // alert("this event has enrolled members")
+      // check 
       delete_event_call()
-
       // display the confirmation form
     }
     else{
-
       delete_event_call()
     }
   }

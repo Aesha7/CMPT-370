@@ -88,9 +88,6 @@ const AccountView = () => {
     get_account_info()
   }, []);
 
-
-
-  
   /**
    phone = ___;
    birthday = ___;
