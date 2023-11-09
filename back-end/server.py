@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
 import db_admin as ad
+# from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
@@ -102,6 +103,18 @@ def GetAccountInfo():
         "Error: account not found"
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
+
+@app.route('/edit_subscriptions',methods=["POST"])
+@cross_origin(origins='*')
+def EditSubscriptions():
+    """Changes the user's subscription settings. 
+    Required request arguments: _id, prom, news
+
+    Returns: 
+    Possible error messages: 
+        "Error: account not found"
+    """
+    return ac.edit_subscriptions(request.get_json(), accounts_collection)
 
 @app.route('/admin_get_account_info',methods=["POST"])
 @cross_origin(origins='*')

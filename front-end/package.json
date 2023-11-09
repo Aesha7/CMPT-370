@@ -28,9 +28,6 @@
     "eject": "react-scripts eject",
     "startAesha": "react-scripts start"
   },
-  "overrides": {
-    "typescript": "^5.0.2"
-  },
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -18,6 +18,8 @@ def submit_account(request_data, accounts_collection):
         "password": request_data["password"],
         "phone": request_data["phone"],
         "staffLevel": 0,
+        "news": False,
+        "prom": True,
         "users": [{
             "_id": ObjectId(),
             "name": request_data["name"],
@@ -26,7 +28,7 @@ def submit_account(request_data, accounts_collection):
             "phone": request_data["phone"],
             "isParent": True,
             "courses":[],
-            "events":[]
+            "events":[],
         }]
     }
     
@@ -391,3 +393,23 @@ def retrieve_account_enrollments(request_data, enrollmentType, accounts_collecti
 
     resp.data=dumps(ev_list)
     return resp
+
+def edit_subscriptions(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+
+    # Ensures account is found
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    accounts_collection.update_one({"_id": ObjectId(request_data["_id"])}, 
+                                {"$set":{"prom" : request_data["prom"]}})
+    accounts_collection.update_one({"_id": ObjectId(request_data["_id"])}, 
+                            {"$set":{"news" : request_data["news"]}})
+    return resp
+    
+
+    

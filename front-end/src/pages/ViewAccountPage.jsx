@@ -19,7 +19,6 @@ const AccountView = () => {
   let [phone, setPhone] = useState("(306) 123-4567");
   let [email, setEmail] = useState("email@domain.com");
   let [birthday, setBirthday] = useState("month/day/year");
-  let [level] = useState("1");
   let [userID, setUserID] = useState("");
   let [staffLevel, setStaffLevel] = useState('')
 
@@ -33,13 +32,14 @@ const AccountView = () => {
   let [newName, setNewName] = useState("");
   let [newPhone, setNewPhone] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
+  let [changedName, setChangedName] = useState("");
 
   // the array of users (including the main one)
   const [users, setUsers] = useState([]);
   let [accountData, setAccountData] = useState('')
 
   // index to modify user data
-  let currentUserIndex
+  let [currentUserIndex, setCurrentUserIndex] = useState(0);
   // users = [{name: "name"},{name: 'name2'}]
 
   userID = location.state;
@@ -50,6 +50,10 @@ const AccountView = () => {
     
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem('_id')
+
+  // for subscription checkboxes
+  const [promChecked, setPromChecked] = React.useState(false);
+  const [newsChecked, setNewsChecked] = React.useState(false);
   
   const get_account_info = () =>{
     try {
@@ -76,6 +80,9 @@ const AccountView = () => {
   
         setAccountData(data)
         setStaffLevel(data.staffLevel)
+
+        setNewsChecked(data.news)
+        setPromChecked(data.prom)
   
         setUsers(data.users)
       })
@@ -111,11 +118,11 @@ const AccountView = () => {
 
   // displays the info for the current user (parent or children)
   const displayInfo = (e) => {
-    currentUserIndex = e.target.value
+    setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
-    setCurrentPhone(users[currentUserIndex.phone])
-    setCurrentBirthday(users[currentUserIndex].birthday)
-    setCurrentLevel(users[currentUserIndex].level)
+    setCurrentPhone(users[currentUserIndex].phone);
+    setCurrentBirthday(users[currentUserIndex].birthday);
+    setCurrentLevel(users[currentUserIndex].level);
   };  
   
 
@@ -180,20 +187,82 @@ const AccountView = () => {
     navigate(path, {state:userID})
   }
 
+  const handleNewsChange = () => {
+    setNewsChecked(!newsChecked)
+  }
+
+  const handlePromChange = () => {
+    setPromChecked(!promChecked)
+  }
+
+  const editSubscriptions = (e) => {
+    e.preventDefault()
+    try{
+      fetch(server_URL + "edit_subscriptions", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID, news: newsChecked, prom: promChecked}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) => {
+        return response.text(); // Get the response text
+      })
+    }
+      catch(error){
+        console.log(error)
+      }
+  };
+
   // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    document.getElementById("edit-birthday").disabled = false;
-    document.getElementById("edit-phone").disabled = false;
+    // document.getElementById("edit-birthday").disabled = false;
+    // document.getElementById("edit-phone").disabled = false;
 
   };
 
-  const saveInfo = () => {
-    // NEED TO EDIT INFO IN BACK END
-
+  // Saves name user name to database
+  // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on. 
+  // TODO: refresh user list after changing a name
+  const saveInfo = (e) => {
+    e.preventDefault()
+    try{
+      fetch(server_URL + "edit_family", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID, new_name: changedName, old_name: currentName}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then(function (response) {
+        return response.json(); // Get the response text
+      }).then(function (data) {
+          if (data == "Error: No user by that name found") {
+            alert("Error: No user by that name found");
+          }
+          else if (data ==  "Error: account not found") {
+            alert( "Error: account not found");
+          }
+          else if (data == "Error: user with name already exists in account") {
+            alert("Error: user with name already exists in account");
+          }
+      })
+    }
+    catch(error){
+      console.log(error)
+    }
+    if (currentUserIndex == 0) {
+      setName(changedName); //Updates name displayed in Account Info column if parent was edited
+    }
+    setCurrentName(changedName); 
     document.getElementById("edit-name").disabled = true;
-    document.getElementById("edit-birthday").disabled = true;
-    document.getElementById("edit-phone").disabled = true;
+    // document.getElementById("edit-birthday").disabled = true;
+    // document.getElementById("edit-phone").disabled = true;
 
   };
 
@@ -256,6 +325,9 @@ const AccountView = () => {
     setNewName(e.target.value);
   };
 
+  const handleChangedName = (e) =>{
+    setChangedName(e.target.value);
+  }
   const handleNewPhone = (e) => {
     setNewPhone(e.target.value);
   };
@@ -397,6 +469,7 @@ const AccountView = () => {
                 Name:{" "}
               </label>
               <input
+                onChange={handleChangedName}
                 className="edit-label"
                 htmlFor="name"
                 type="name"
@@ -472,7 +545,9 @@ const AccountView = () => {
 
               <label className="checklist">
                 Newsletter
-                <input type="checkbox" />
+                <input type="checkbox"
+                  checked={newsChecked}
+                  onChange={handleNewsChange} />
                 <span className="checkmark"></span>
               </label>
 
@@ -480,9 +555,15 @@ const AccountView = () => {
               
               <label className="checklist">
                 Promotions
-                <input type="checkbox" />
+                <input type="checkbox"
+                  checked={promChecked}
+                  onChange={handlePromChange} />
                 <span className="checkmark"></span>
               </label>
+
+              <button className="button" onClick={editSubscriptions}>
+                Save
+              </button>
             </div>
           </div>
         </div>
