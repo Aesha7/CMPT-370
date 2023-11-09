@@ -216,7 +216,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 50%;
+  margin-top: 100%;
   margin-bottom: 0px;
 }
 
@@ -249,6 +249,8 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
+  margin-top: 0;
+  margin-bottom: auto;
 }
 
 .view-user-info-3 .email-list {

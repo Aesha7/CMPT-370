@@ -5,12 +5,9 @@ import moment from 'moment'
 import "../style/GymSchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css"
 
-
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
-
 const GymSchedule = () => {
-
     const [calEvents, setCalEvents] = useState([]);
     let tempEvents = [];
   
@@ -35,7 +32,6 @@ const GymSchedule = () => {
     const [users, setUsers] = useState([]);
     const [curUser, setCurUser] = useState([])
     let [filter, setFilter] = useState(-1);
-
 
 const get_db_events = () =>{
     // getting the events
@@ -89,7 +85,7 @@ const get_db_events = () =>{
       console.log(exception)
     }
   }
-
+  
   const get_user_info = () =>{
     try {
       fetch(server_URL + "get_account_info", {

@@ -13,7 +13,44 @@ const AdminManageAccountsPage = () => {
 
 
     console.log(userID);
+    let userEmail;
 
+    const modifyAccountsStaff = () => {
+      try {
+        fetch(server_URL + "change_staff_level", {
+          method: "POST",
+          body: JSON.stringify({ admin_ID: userID, email: userEmail, level: 1 }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }).then((response) => {
+
+          return response.text();
+        }).then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          
+          if (text == '"Error: admin account not found"') {
+            alert('"Error: admin account not found"');
+          }
+          if (data == '"Error: user account not found"') {
+            alert('"Error: user account not found"');
+          }
+          if (data == '"Error: you do not have permission to perform this action"') {
+            alert('"Error: you do not have permission to perform this action"');
+          }
+          if (data == '"Error: target account\'s staff level is too high to change."') {
+            alert('"Error: target account\'s staff level is too high to change."');
+          }
+        })
+      }
+      catch (exception){
+        console.log(exception)
+      }
+    }
 
     if(userID != null){
         window.localStorage.setItem('_id', userID);
