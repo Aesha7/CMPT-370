@@ -18,8 +18,6 @@ const AdminPage = () => {
     if(userID != null){
         window.localStorage.setItem('_id', userID);
       }
-        
-      // setUserID(JSON.parse(window.localStorage.getItem('_id')));
       userID = window.localStorage.getItem('_id')
       
     
