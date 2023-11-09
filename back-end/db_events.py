@@ -108,7 +108,7 @@ def delete(request_data, collection,accounts_collection,ev_type):
         return resp
     
 
-    ev = collection.find_one({"name": request_data["name"]})
+    ev = collection.find_one({"name": request_data["event_name"]})
     if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")
@@ -136,5 +136,5 @@ def delete(request_data, collection,accounts_collection,ev_type):
                                                     {"$set":{"users.$.events" : ev_list}})
                 break
 
-    collection.delete_one({"name": request_data["name"]})
+    collection.delete_one({"name": request_data["event_name"]})
     return resp

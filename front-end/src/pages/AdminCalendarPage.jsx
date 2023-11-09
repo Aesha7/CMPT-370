@@ -125,15 +125,12 @@ const AdminCalendarPage = () => {
 
   const delete_event_call = () =>{
     // removing for all enrolled members
-    console.log(currentEvent.enrolled)
-    currentEvent.enrolled.forEach((member) =>{
+
       try{
-        fetch(server_URL + "admin_remove_course_user", {
+        fetch(server_URL + "delete_course", {
           method: "POST",
-          body: JSON.stringify({ admin_ID: userID,
-                                email: user.email,
+          body: JSON.stringify({ account_ID: userID,
                                 event_name: currentEvent.name,
-                                user_name: member.name
            }),
           headers: {
             "Content-Type": "application/json",
@@ -145,12 +142,13 @@ const AdminCalendarPage = () => {
         return response.text()
       }).then((data) =>{
         console.log(data)
+
+        get_db_events() 
       })
     }catch(exception){
       console.log(exception)
     }
-  })
-  
+    closeForm()
 }
    
 
