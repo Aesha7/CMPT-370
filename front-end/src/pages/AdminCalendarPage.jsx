@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -29,6 +30,10 @@ const AdminCalendarPage = () => {
   const [endDate, setEndDate] = useState("");
   const [endHr, setEndHr] = useState("");
   const [endMin, setEndMin] = useState("");
+
+  const [date, setDate] = useState()
+  const [startTime, setStartTime] = useState()
+  const [duration, setDuration] = useState()
 
   const [coach, setCoach] = useState("");
 
@@ -175,12 +180,11 @@ const AdminCalendarPage = () => {
     // what happens when an event is clicked
     currentEvent = calEvent;
     openInfoForm(calEvent);
-    // alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
-
   };
 
   const openForm = () => {
     document.getElementById("createEventForm").style.display = "block";
+    document.getElementById('myForm-overlay').style.display = "block"
   };
 
   const openInfoForm = (calEvent) =>{
@@ -203,6 +207,7 @@ const AdminCalendarPage = () => {
 
     document.getElementById("createEventForm").style.display = "none";
     document.getElementById("clickInformation").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
 
   };
 
@@ -221,12 +226,50 @@ const AdminCalendarPage = () => {
     // setSubmitted(false);
   };
 
+  const handleDate = (inputDate) =>{
+    setDate(inputDate)
+    let arr = inputDate.toString().split(" ")
+    console.log(arr)
+
+    let months = {
+      "Jan": 0,
+      "Feb": 1,
+      "Mar": 2,
+      "Apr": 3,
+      "May": 4,
+      "Jun": 5,
+      "Jul": 6,
+      "Aug": 7,
+      "Sep" : 8,
+      "Oct": 9,
+      "Nov": 10,
+      "Dec": 11,
+    }
+
+    setStartDate(arr[2]);
+    setStartYear(arr[3]);
+    // mapping string to the month value
+    setStartMonth(months[arr[1]])
+  }
+
   const submitEvent = (e) => {
     e.preventDefault()
-    if (title == "" || level == "" || startHr == "" || endHr == "") {
+    if (title == "" || level == "") {
       // error pop up
       alert("This is not a valid event.");
-    } else {
+    }
+    else if(!validTime(startTime)){
+      alert("Please insert a valid start time.")
+    }
+    else if(!validTime(duration)){
+      alert("Please insert a valid duration.")
+    }
+
+    else {
+
+      let arr = startTime.split(":")
+      let arr2 = duration.split(":")
+      
       let event = {
         name: title,
         desc: description,
@@ -234,15 +277,15 @@ const AdminCalendarPage = () => {
           year: startYear,
           month: startMonth,
           date: startDate,
-          hour: startHr,
-          minute: startMin
+          hour: arr[0],
+          minute: arr[1]
         },
         end: {
-          year: endYear,
-          month: endMonth,
-          date: endDate,
-          hour: endHr,
-          minute: endMin
+          year: startYear,
+          month: startMonth,
+          date: startDate,
+          hour: parseInt(arr[0]) + parseInt(arr2[0]) ,
+          minute: parseInt(arr[1]) + parseInt(arr2[1])
         },
         level: level,
         coach_email: coach
@@ -352,6 +395,21 @@ const AdminCalendarPage = () => {
     setCoach(e.target.value)
   }
 
+  function validTime(time) {
+    // Regular expression for a valid email address
+    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/
+
+    return timeRegex.test(time);
+  }
+
+  const handleStartTime = (e) =>{
+    setStartTime(e.target.value)
+  }
+
+  const handleDuration = (e) =>{
+    setDuration(e.target.value)
+  }
+
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
   }
@@ -398,7 +456,8 @@ const AdminCalendarPage = () => {
                     </form>
                 </div>
 
-        <div className="form-popup" id="createEventForm">
+        <div className="myForm-overlay" id="myForm-overlay"></div>
+        <div className="add-family-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
 
@@ -425,7 +484,7 @@ const AdminCalendarPage = () => {
             ></input>
 
             <br></br>
-<           label for="coach">
+            <label for="coach">
               <b>Coach Email * </b>
             </label>
             <input
@@ -447,189 +506,26 @@ const AdminCalendarPage = () => {
               <option value="1">2-3</option>
               <option value="2">3-4</option>
             </select>
-            <div>
-              <label for="start">
-                <b>Start Time * </b>
-              </label>
-              <div className="timeDrop">
-                <select onChange={handleStartYear}>
-                  <option value="">Year</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                </select>
-                <select onChange={handleStartMonth}>
-                  <option value="">Month</option>
-                  <option value="0">Jan</option>
-                  <option value="1">Feb</option>
-                  <option value="2">Mar</option>
-                  <option value="3">Apr</option>
-                  <option value="4">May</option>
-                  <option value="5">Jun</option>
-                  <option value="6">Jul</option>
-                  <option value="7">Aug</option>
-                  <option value="8">Sept</option>
-                  <option value="9">Oct</option>
-                  <option value="10">Nov</option>
-                  <option value="11">Dec</option>
-                </select>
-                <select onChange={handleStartDate}>
-                  <option value="">Date</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="15">15</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="25">25</option>
-                  <option value="26">26</option>
-                  <option value="27">27</option>
-                  <option value="28">28</option>
-                  <option value="29">29</option>
-                  <option value="30">30</option>
-                  <option value="31">31</option>
-                </select>
-                <select onChange={handleStartHr}>
-                  <option value="">hr</option>
-                  <option value="10">10am</option>
-                  <option value="11">11am</option>
-                  <option value="12">12pm</option>
-                  <option value="13">1pm</option>
-                  <option value="14">2pm</option>
-                  <option value="15">3pm</option>
-                  <option value="16">4pm</option>
-                  <option value="17">5pm</option>
-                  <option value="18">6pm</option>
-                  <option value="19">7pm</option>
-                  <option value="20">8pm</option>
-                  <option value="21">9pm</option>
-                </select>
-                <select onChange={handleStartMin}>
-                  <option value="0">min</option>
-                  <option value="0">:00</option>
-                  <option value="5">:05</option>
-                  <option value="10">:10</option>
-                  <option value="15">:15</option>
-                  <option value="20">:20</option>
-                  <option value="25">:25</option>
-                  <option value="30">:30</option>
-                  <option value="35">:35</option>
-                  <option value="40">:40</option>
-                  <option value="45">:45</option>
-                  <option value="50">:50</option>
-                  <option value="55">:55</option>
-                </select>
-              </div>
-            </div>
 
-            <div>
-              <label for="end">
-                <b>End Time *</b>
-              </label>
-              <div className="timeDrop">
-                <select onChange={handleEndYear}>
-                  <option value="">Year</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                </select>
-                <select onChange={handleEndMonth}>
-                  <option value="">Month</option>
-                  <option value="0">Jan</option>
-                  <option value="1">Feb</option>
-                  <option value="2">Mar</option>
-                  <option value="3">Apr</option>
-                  <option value="4">May</option>
-                  <option value="5">Jun</option>
-                  <option value="6">Jul</option>
-                  <option value="7">Aug</option>
-                  <option value="8">Sept</option>
-                  <option value="9">Oct</option>
-                  <option value="10">Nov</option>
-                  <option value="11">Dec</option>
-                </select>
-                <select onChange={handleEndDate}>
-                  <option value="">Date</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="15">15</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="25">25</option>
-                  <option value="26">26</option>
-                  <option value="27">27</option>
-                  <option value="28">28</option>
-                  <option value="29">29</option>
-                  <option value="30">30</option>
-                  <option value="31">31</option>
-                </select>
-                <select onChange={handleEndHr}>
-                  <option value="">hr</option>
-                  <option value="10">10am</option>
-                  <option value="11">11am</option>
-                  <option value="12">12pm</option>
-                  <option value="13">1pm</option>
-                  <option value="14">2pm</option>
-                  <option value="15">3pm</option>
-                  <option value="16">4pm</option>
-                  <option value="17">5pm</option>
-                  <option value="18">6pm</option>
-                  <option value="19">7pm</option>
-                  <option value="20">8pm</option>
-                  <option value="21">9pm</option>
-                </select>
-                <select onChange={handleEndMin}>
-                  <option value="0">min</option>
-                  <option value="0">:00</option>
-                  <option value="5">:05</option>
-                  <option value="10">:10</option>
-                  <option value="15">:15</option>
-                  <option value="20">:20</option>
-                  <option value="25">:25</option>
-                  <option value="30">:30</option>
-                  <option value="35">:35</option>
-                  <option value="40">:40</option>
-                  <option value="45">:45</option>
-                  <option value="50">:50</option>
-                  <option value="55">:55</option>
-                </select>
-              </div>
-            </div>
+
+            <DatePicker
+              className="custom-datepicker" 
+              selected={date} 
+              onChange={handleDate}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)} 
+              maxDate={new Date(2099, 11, 31)} 
+              isClearable={true}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
+            <label>Start Time*</label>
+            <input placeholder="Hour:Minute" onChange={handleStartTime}></input>
+            <label>Duration*</label>
+            <input placeholder="Hour:Minute" onChange={handleDuration}></input>
 
             <button type="submit" className="btn" onClick={submitEvent}>
               Create Event
