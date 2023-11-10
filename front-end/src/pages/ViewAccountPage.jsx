@@ -48,7 +48,6 @@ const AccountView = () => {
     window.localStorage.setItem('_id', userID);
   }
     
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem('_id')
 
   // for subscription checkboxes
@@ -102,12 +101,8 @@ const AccountView = () => {
    */
   let navigate = useNavigate();
 
-  // const displayChildren = () =>{
-
-  // }
 
   // the children that are listed
-
   const registerChild = (e) => {
     let path = "/class-registration";
     let user = users[e.target.value]
@@ -219,9 +214,6 @@ const AccountView = () => {
   // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    // document.getElementById("edit-birthday").disabled = false;
-    // document.getElementById("edit-phone").disabled = false;
-
   };
 
   // Saves name user name to database
@@ -261,9 +253,6 @@ const AccountView = () => {
     }
     setCurrentName(changedName); 
     document.getElementById("edit-name").disabled = true;
-    // document.getElementById("edit-birthday").disabled = true;
-    // document.getElementById("edit-phone").disabled = true;
-
   };
 
   const addFamilyMemberPopup = (e) => {
@@ -280,9 +269,11 @@ const AccountView = () => {
     else {
       // new child using newName, newPhone, newBirthday, level = 1
       try{
+        let dateArr = newBirthday.toString().split(' ');
+        let stringBirthday = dateArr[1] + " " + dateArr[2] + " " + dateArr[3]
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
+          body: JSON.stringify({ _id: userID, name: newName, birthday: stringBirthday}),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
@@ -302,9 +293,6 @@ const AccountView = () => {
           else if(text == "Error: name already in use"){
             alert("Name is already in use.")
           }
-          // else if(data == ){
-
-          // }
         })
       }
         catch(error){
@@ -333,10 +321,11 @@ const AccountView = () => {
   };
 
   const handleNewBirthday = (date) => {
+    let dateArr = date.toString().split(" ")
+    console.log(date)
       setNewBirthday(date);
   };
 
-  // window.location.reload(false);
   if(staffLevel == 3){
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
@@ -479,22 +468,6 @@ const AccountView = () => {
               ></input>
             </div>
 
-            {/* phone */}
-            {/* <div className="view-account-column-entry"> */}
-              {/* <label className="account-label" htmlFor="phone">
-                {" "}
-                Phone:{" "}
-              </label>
-              <input
-                className="edit-label"
-                htmlFor="phone"
-                type="phone"
-                id="edit-phone"
-                disabled={true}
-                placeholder={currentPhone}
-              ></input> */}
-            {/* </div> */}
-
             {/* birthday */}
             <div className="view-account-column-entry">
               <label className="account-label" htmlFor="birthday">
@@ -568,7 +541,7 @@ const AccountView = () => {
           </div>
         </div>
 
-        <div class="myForm-overlay"></div>
+        <div className="myForm-overlay"></div>
 
         <div className="add-family-popup" id="myForm">
           <form className="form-container">
@@ -577,15 +550,9 @@ const AccountView = () => {
             </label>
             <input type="name" onChange={handleNewName}></input>
 
-            {/* <label htmlFor="phone">
-              <b>Phone Number</b>
-            </label>
-            <input type="phone" onChange={handleNewPhone}></input> */}
-
             <label htmlFor="birthday">
               <b>Birthday</b>
             </label>
-            {/* <input type="birthday" onChange={handleNewBirthday}></input> */}
             <DatePicker
               className="custom-datepicker" 
               selected={newBirthday} 
