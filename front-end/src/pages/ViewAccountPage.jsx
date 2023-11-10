@@ -560,7 +560,6 @@ const AccountView = () => {
               dateFormat="MM/dd/yyyy"
               minDate={new Date(1900, 0, 1)} 
               maxDate={new Date(2099, 11, 31)} 
-              isClearable={true}
               showMonthDropdown={true}
               showYearDropdown={true}
               todayButton="Today"

@@ -65,7 +65,7 @@
     cursor: pointer
 }
 
-  .custom-datepicker-admin{
+  .custom-datepicker{
     padding: 15px 75px;
     text-align: center;
     font-size: 12px;
@@ -79,7 +79,7 @@
     margin-bottom: 20px
   }
 
-  .custom-datepicker-admin:hover{
+  .custom-datepicker:hover{
     background-color: #ddd;
     border: 2px solid darkgray;
     cursor: pointer

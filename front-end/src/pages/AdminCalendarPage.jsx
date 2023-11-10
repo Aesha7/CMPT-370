@@ -464,7 +464,7 @@ const AdminCalendarPage = () => {
             </select>
 
             <DatePicker
-              className="custom-datepicker-admin"
+              className="custom-datepicker"
               selected={date}
               onChange={handleDate}
               dateFormat="MM/dd/yyyy"
