@@ -534,7 +534,7 @@ const AccountView = () => {
                 <span className="checkmark"></span>
               </label>
 
-              <button className="button" onClick={editSubscriptions}>
+              <button className="save-button" onClick={editSubscriptions}>
                 Save
               </button>
             </div>

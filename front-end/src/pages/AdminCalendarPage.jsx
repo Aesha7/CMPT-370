@@ -96,7 +96,6 @@ const AdminCalendarPage = () => {
             tempEvents.push(newEvent);
           });
           setCalEvents(tempEvents);
-          // console.log(tempEvents)
         });
     } catch (exception) {
       console.log(exception);
@@ -150,7 +149,6 @@ const AdminCalendarPage = () => {
           return response.text();
         })
         .then((data) => {
-          console.log(data);
           get_db_events();
         });
     } catch (exception) {
@@ -219,7 +217,6 @@ const AdminCalendarPage = () => {
     // handles the datepicker event
     setDate(inputDate);
     let arr = inputDate.toString().split(" ");
-    console.log(arr);
     let months = {
       Jan: 0,
       Feb: 1,
@@ -312,7 +309,6 @@ const AdminCalendarPage = () => {
             return response.text();
           })
           .then((data) => {
-            // console.log(data)
             if (data != "") {
               alert("There is alread an event with this name.");
             } else {
