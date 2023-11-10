@@ -6,10 +6,7 @@ import moment from "moment";
 import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-// big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
-
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
-
 
 const AdminCalendarPage = () => {
   const localizer = momentLocalizer(moment);
@@ -22,25 +19,14 @@ const AdminCalendarPage = () => {
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [startHr, setStartHr] = useState("");
-  const [startMin, setStartMin] = useState("");
 
-  const [endYear, setEndYear] = useState("");
-  const [endMonth, setEndMonth] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endHr, setEndHr] = useState("");
-  const [endMin, setEndMin] = useState("");
-
-  const [date, setDate] = useState()
-  const [startTime, setStartTime] = useState()
-  const [duration, setDuration] = useState()
+  const [date, setDate] = useState();
+  const [startTime, setStartTime] = useState();
+  const [duration, setDuration] = useState();
 
   const [coach, setCoach] = useState("");
 
-  const [user, setUser] = useState("")
-
-  // get relevant info from 'email'
-  //JSON, needs to be dynamic (backend)
+  const [user, setUser] = useState("");
 
   const [calEvents, setCalEvents] = useState([]);
   let currentEvent = null;
@@ -50,17 +36,16 @@ const AdminCalendarPage = () => {
   userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
 
-
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
   }
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
-  
-  const get_db_events = () =>{
+
+  const get_db_events = () => {
     // getting the events
-    try{
+    try {
       fetch(server_URL + "retrieve_courses", {
         method: "POST",
         body: JSON.stringify({}),
@@ -70,39 +55,55 @@ const AdminCalendarPage = () => {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
-      }).then((response) =>{
-        return response.text()
-      }).then((text) => {
-        const data = JSON.parse(text);
-        // let tempEvents = [];
-        data.forEach((event) => {
-          let name = event.name;
-          let desc = event.desc;
-          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
-          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
-          let level = event.level
-          let enrolled = event.enrolled;
-
-          let newEvent = {
-            name: name,
-            desc: desc,
-            start: start,
-            end: end,
-            level: level,
-            enrolled: enrolled
-          }
-
-          tempEvents.push(newEvent)
-          });
-          setCalEvents(tempEvents)
-          // console.log(tempEvents)
+      })
+        .then((response) => {
+          return response.text();
         })
-      } catch(exception){
-      console.log(exception)
-    }
-  }
+        .then((text) => {
+          const data = JSON.parse(text);
+          // let tempEvents = [];
+          data.forEach((event) => {
+            let name = event.name;
+            let desc = event.desc;
+            let start = new Date(
+              event.start.year,
+              event.start.month,
+              event.start.date,
+              event.start.hour,
+              event.start.minute,
+              0
+            );
+            let end = new Date(
+              event.end.year,
+              event.end.month,
+              event.end.date,
+              event.end.hour,
+              event.end.minute,
+              0
+            );
+            let level = event.level;
+            let enrolled = event.enrolled;
 
-  const get_account_details = () =>{
+            let newEvent = {
+              name: name,
+              desc: desc,
+              start: start,
+              end: end,
+              level: level,
+              enrolled: enrolled,
+            };
+
+            tempEvents.push(newEvent);
+          });
+          setCalEvents(tempEvents);
+          // console.log(tempEvents)
+        });
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
+
+  const get_account_details = () => {
     try {
       fetch(server_URL + "get_account_info", {
         method: "POST",
@@ -121,155 +122,144 @@ const AdminCalendarPage = () => {
           // Parse the text as JSON
           const data = JSON.parse(text);
           setStaffLevel(data.staffLevel);
-          setUser(data)
+          setUser(data);
         });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  const delete_event_call = () =>{
+  const delete_event_call = () => {
     // removing for all enrolled members
-
-      try{
-        fetch(server_URL + "delete_course", {
-          method: "POST",
-          body: JSON.stringify({ account_ID: userID,
-                                event_name: currentEvent.name,
-           }),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
-      }).then((response) =>{
-        return response.text()
-      }).then((data) =>{
-        console.log(data)
-
-        get_db_events() 
+    // this should work when the backend is fixed
+    try {
+      fetch(server_URL + "delete_course", {
+        method: "POST",
+        body: JSON.stringify({
+          account_ID: userID,
+          event_name: currentEvent.name,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
       })
-    }catch(exception){
-      console.log(exception)
+        .then((response) => {
+          return response.text();
+        })
+        .then((data) => {
+          console.log(data);
+          get_db_events();
+        });
+    } catch (exception) {
+      console.log(exception);
     }
-    closeForm()
-}
-   
+    closeAllForms();
+  };
 
   // getting data initially
   useEffect(() => {
-    get_account_details()
-    get_db_events()
+    get_account_details();
+    get_db_events();
   }, []);
 
-  // months index starting at 0 (october is 9, january is 0...)
-  // dates are normal
-
-
-  
   const clickRef = useRef(null);
   let navigate = useNavigate();
 
-  const goBack = () =>{
+  const goBack = () => {
     let path = "/my-account";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
     currentEvent = calEvent;
-    openInfoForm(calEvent);
+    openEventInfoForm(calEvent);
   };
 
-  const openForm = () => {
+  const openEventCreateForm = () => {
+    // opening the createEvent form
     document.getElementById("createEventForm").style.display = "block";
-    document.getElementById('myForm-overlay').style.display = "block"
+    document.getElementById("myForm-overlay").style.display = "block";
   };
 
-  const openInfoForm = (calEvent) =>{
-    console.log(calEvent)
-
+  const openEventInfoForm = (calEvent) => {
+    // setting html for event info & displaying the form
 
     document.getElementById("clickInformation").style.display = "block";
-
     document.getElementById("eventTitle").innerHTML = calEvent.name;
     document.getElementById("eventDescription").innerHTML = calEvent.desc;
-
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
+  };
 
-
-  }
-
-  const closeForm = () => {
+  const closeAllForms = () => {
     setTitle("");
     setDescription("");
 
     document.getElementById("createEventForm").style.display = "none";
     document.getElementById("clickInformation").style.display = "none";
     document.getElementById("myForm-overlay").style.display = "none";
-
   };
 
   const handleTitle = (e) => {
     setTitle(e.target.value);
-    // setSubmitted(false);
   };
 
   const handleDesc = (e) => {
     setDescription(e.target.value);
-    // setSubmitted(false);
   };
 
   const handleLevel = (e) => {
     setLevel(e.target.value);
-    // setSubmitted(false);
   };
 
-  const handleDate = (inputDate) =>{
-    setDate(inputDate)
-    let arr = inputDate.toString().split(" ")
-    console.log(arr)
-
+  const handleDate = (inputDate) => {
+    // handles the datepicker event
+    setDate(inputDate);
+    let arr = inputDate.toString().split(" ");
+    console.log(arr);
     let months = {
-      "Jan": 0,
-      "Feb": 1,
-      "Mar": 2,
-      "Apr": 3,
-      "May": 4,
-      "Jun": 5,
-      "Jul": 6,
-      "Aug": 7,
-      "Sep" : 8,
-      "Oct": 9,
-      "Nov": 10,
-      "Dec": 11,
-    }
+      Jan: 0,
+      Feb: 1,
+      Mar: 2,
+      Apr: 3,
+      May: 4,
+      Jun: 5,
+      Jul: 6,
+      Aug: 7,
+      Sep: 8,
+      Oct: 9,
+      Nov: 10,
+      Dec: 11,
+    };
 
     setStartDate(arr[2]);
     setStartYear(arr[3]);
     // mapping string to the month value
-    setStartMonth(months[arr[1]])
-  }
+    setStartMonth(months[arr[1]]);
+  };
 
   const submitEvent = (e) => {
-    e.preventDefault()
-    if (title == "" || level == "") {
-      // error pop up
-      alert("This is not a valid event.");
-    }
-    else if(!validTime(startTime)){
-      alert("Please insert a valid start time.")
-    }
-    else if(!validTime(duration)){
-      alert("Please insert a valid duration.")
-    }
+    e.preventDefault();
+    if (title == "") {
+      alert("Please insert a title.");
+    } else if (level == "") {
+      alert("Please select a level.");
+    } else if (coach == "") {
+      alert("Please include a coach.");
+    } else if (!validTime(startTime)) {
+      alert("Please insert a valid start time.");
+    } else if (startYear == "" || startMonth == "" || startDate == "") {
+      alert("Pleaase select a valid date");
+    } else if (!validTime(duration)) {
+      alert("Please insert a valid duration.");
+    } else {
+      // getting relevent info for start and end time
+      let arr = startTime.split(":");
+      let arr2 = duration.split(":");
 
-    else {
-
-      let arr = startTime.split(":")
-      let arr2 = duration.split(":")
-      
       let event = {
         name: title,
         desc: description,
@@ -278,20 +268,20 @@ const AdminCalendarPage = () => {
           month: startMonth,
           date: startDate,
           hour: arr[0],
-          minute: arr[1]
+          minute: arr[1],
         },
         end: {
           year: startYear,
           month: startMonth,
           date: startDate,
-          hour: parseInt(arr[0]) + parseInt(arr2[0]) ,
-          minute: parseInt(arr[1]) + parseInt(arr2[1])
+          hour: parseInt(arr[0]) + parseInt(arr2[0]),
+          minute: parseInt(arr[1]) + parseInt(arr2[1]),
         },
         level: level,
-        coach_email: coach
+        coach_email: coach,
       };
 
-      try{
+      try {
         fetch(server_URL + "add_course", {
           method: "POST",
           body: JSON.stringify({
@@ -309,7 +299,7 @@ const AdminCalendarPage = () => {
             endHour: event.end.hour,
             endMin: event.end.minute,
             level: event.level,
-            coach_email: coach
+            coach_email: coach,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -317,100 +307,60 @@ const AdminCalendarPage = () => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
-        }).then((response) =>{
-          return response.text()
-        }).then((data) => {
-          // console.log(data)
-          if(data != ""){
-            alert("There is alread an event with this name.")
-          }
-          else{
-            closeForm();
-            get_db_events();
-            // window.location.reload(false);
-          }
         })
-      } catch(exception){
-        console.log(exception)
+          .then((response) => {
+            return response.text();
+          })
+          .then((data) => {
+            // console.log(data)
+            if (data != "") {
+              alert("There is alread an event with this name.");
+            } else {
+              closeAllForms();
+              get_db_events();
+              // window.location.reload(false);
+            }
+          });
+      } catch (exception) {
+        console.log(exception);
       }
       // reloading
     }
   };
 
-  const deleteEvent = (e) =>{
-    e.preventDefault()
+  const deleteEvent = (e) => {
+    e.preventDefault();
 
-    if(currentEvent.enrolled.length > 0){
+    if (currentEvent.enrolled.length > 0) {
       // alert("this event has enrolled members")
-      // check 
-      delete_event_call()
+      // check
+      delete_event_call();
       // display the confirmation form
+    } else {
+      delete_event_call();
     }
-    else{
-      delete_event_call()
-    }
-  }
-  
-  const handleStartYear = (e) => {
-    setStartYear(e.target.value);
-  };
-
-  const handleStartMonth = (e) => {
-    setStartMonth(e.target.value);
-  };
-
-  const handleStartDate = (e) => {
-    setStartDate(e.target.value);
-  };
-
-  const handleStartHr = (e) => {
-    setStartHr(e.target.value);
-  };
-
-  const handleStartMin = (e) => {
-    setStartMin(e.target.value);
-  };
-
-  const handleEndYear = (e) => {
-    setEndYear(e.target.value);
-  };
-
-  const handleEndMonth = (e) => {
-    setEndMonth(e.target.value);
-  };
-
-  const handleEndDate = (e) => {
-    setEndDate(e.target.value);
-  };
-
-  const handleEndHr = (e) => {
-    setEndHr(e.target.value);
-  };
-
-  const handleEndMin = (e) => {
-    setEndMin(e.target.value);
   };
 
   const handleCoach = (e) => {
-    setCoach(e.target.value)
-  }
+    setCoach(e.target.value);
+  };
 
   function validTime(time) {
     // Regular expression for a valid email address
-    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/
+    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/;
 
     return timeRegex.test(time);
   }
 
-  const handleStartTime = (e) =>{
-    setStartTime(e.target.value)
-  }
+  const handleStartTime = (e) => {
+    setStartTime(e.target.value);
+  };
 
-  const handleDuration = (e) =>{
-    setDuration(e.target.value)
-  }
+  const handleDuration = (e) => {
+    setDuration(e.target.value);
+  };
 
-  if(staffLevel >= 1){
+  if (staffLevel >= 1) {
     document.getElementById("overlay").style.display = "none";
   }
 
@@ -419,42 +369,48 @@ const AdminCalendarPage = () => {
       <div className="top-bar">
         Gym Schedule
         <div className="allButtons">
-        <button className="top-bar-button" onClick={openForm}>Add Event</button>
-        <button className="top-bar-button" onClick={goBack}>Back</button>
+          <button className="top-bar-button" onClick={openEventCreateForm}>
+            Add Event
+          </button>
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
         </div>
       </div>
 
       <div className="">
-
         <div className="form-popup" id="clickInformation">
-                    <form className="form-container">
-                        <label for="title">
-                            <b>Title</b>
-                        </label>
-                        <h5 id='eventTitle'>{}</h5>
+          <form className="form-container">
+            <label for="title">
+              <b>Title</b>
+            </label>
+            <h5 id="eventTitle">{}</h5>
 
-                        <label for="desc">
-                        <b>Description</b>
-                        </label>
+            <label for="desc">
+              <b>Description</b>
+            </label>
 
-                        <h5 id='eventDescription'>{}</h5>
+            <h5 id="eventDescription">{}</h5>
 
+            <label for="enrolled">
+              <b>Enrolled Count</b>
+            </label>
 
-                        <label for="enrolled">
-                        <b>Enrolled Count</b>
-                        </label>
+            <h5 id="eventEnroll">{}</h5>
 
-                        <h5 id='eventEnroll'>{}</h5>
+            <button type="button" className="btn cancel" onClick={deleteEvent}>
+              Delete Event
+            </button>
 
-                        <button type="button" className="btn cancel" onClick={deleteEvent}>
-                        Delete Event
-                        </button>
-
-                        <button type="button" className="btn cancel" onClick={closeForm}>
-                        Cancel
-                        </button>
-                    </form>
-                </div>
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
         <div className="add-family-popup" id="createEventForm">
@@ -507,30 +463,44 @@ const AdminCalendarPage = () => {
               <option value="2">3-4</option>
             </select>
 
-
             <DatePicker
-              className="custom-datepicker" 
-              selected={date} 
+              className="custom-datepicker-admin"
+              selected={date}
               onChange={handleDate}
               dateFormat="MM/dd/yyyy"
-              minDate={new Date(1900, 0, 1)} 
-              maxDate={new Date(2099, 11, 31)} 
-              isClearable={true}
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
               showMonthDropdown={true}
               showYearDropdown={true}
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
             />
-            <label>Start Time*</label>
-            <input placeholder="Hour:Minute" onChange={handleStartTime}></input>
-            <label>Duration*</label>
-            <input placeholder="Hour:Minute" onChange={handleDuration}></input>
+            <label><b>Start Time*</b></label>
+            <input 
+              placeholder="Hour:Minute"
+              onChange={handleStartTime}
+              type="startTime"
+              name="startTime"
+              required
+             ></input>
+            <label><b>Duration*</b></label>
+            <input 
+              placeholder="Hour:Minute" 
+              onChange={handleDuration}
+              type="duration"
+              name="duration"
+              required
+            ></input>
 
             <button type="submit" className="btn" onClick={submitEvent}>
               Create Event
             </button>
-            <button type="button" className="btn cancel" onClick={closeForm}>
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
               Cancel
             </button>
           </form>
@@ -548,32 +518,31 @@ const AdminCalendarPage = () => {
           onSelectEvent={onSelectEvent}
           min={new Date(0, 0, 0, 10, 0, 0)}
           max={new Date(0, 0, 0, 22, 0, 0)}
-          eventPropGetter={
-            (event, start, end, isSelected) =>{
-              let newStyle ={
-                backgroundColor: "lightgrey",
-                color: 'black',
-                borderRadius: "0px",
-                border: "none"
-              }
+          eventPropGetter={(event, start, end, isSelected) => {
+            let newStyle = {
+              backgroundColor: "lightgrey",
+              color: "black",
+              borderRadius: "0px",
+              border: "none",
+            };
 
-              if (event.level == 0) {
-                newStyle.backgroundColor = "#4e9b6f";
-              } else if (event.level == 1) {
-                newStyle.backgroundColor = "#f3c26e";
-                newStyle.color = "white";
-              } else if (event.level == 2) {
-                newStyle.backgroundColor = "#75caef";
-              }
-
-              return{className:"",
-            style: newStyle}
+            if (event.level == 0) {
+              newStyle.backgroundColor = "#4e9b6f";
+            } else if (event.level == 1) {
+              newStyle.backgroundColor = "#f3c26e";
+              newStyle.color = "white";
+            } else if (event.level == 2) {
+              newStyle.backgroundColor = "#75caef";
             }
-          }
+
+            return { className: "", style: newStyle };
+          }}
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
-      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
+      <div className="overlay" id="overlay">
+        YOU DO NOT HAVE ACCESS TO THIS PAGE!
+      </div>
     </div>
   );
 };
