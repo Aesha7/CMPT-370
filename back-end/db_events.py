@@ -117,24 +117,27 @@ def delete(request_data, collection,accounts_collection,ev_type):
     # Goes through all users from enrolled list, finds that user, and removes event from their list
     for user1 in ev["enrolled"]:
         account_doc=accounts_collection.find_one({"users._id": user1["_id"]})
-        for user2 in account_doc["users"]:
-            if user1["name"] == user2["name"]:
-                if ev_type=="course":
-                    ev_list = user2["courses"]
-                else:
-                    ev_list = user2["events"]
+        if not account_doc:
+            print("Error: a user wasn't found") # Happens if a user or their account was deleted, but their name still exists on a course
+        else:
+            for user2 in account_doc["users"]:
+                if user1["_id"] == user2["_id"]:
+                    if ev_type=="course":
+                        ev_list = user2["courses"]
+                    else:
+                        ev_list = user2["events"]
 
-                #Copies the user's event/course list, excluding the event to be deleted
-                ev_list = [i for i in ev_list if not (i['name'] == request_data["event_name"])] 
+                    #Copies the user's event/course list, excluding the event to be deleted
+                    ev_list = [i for i in ev_list if not (i['name'] == request_data["event_name"])] 
 
-                # Checks which list to remove event from, then replaces the user's course/event list with ev_list
-                if ev_type == "course":
-                    accounts_collection.update_one({"users._id": user2["_id"]}, 
-                                                    {"$set":{"users.$.courses" : ev_list}})
-                else:
-                    accounts_collection.update_one({"users._id": user2["_id"]}, 
-                                                    {"$set":{"users.$.events" : ev_list}})
-                break
+                    # Checks which list to remove event from, then replaces the user's course/event list with ev_list
+                    if ev_type == "course":
+                        accounts_collection.update_one({"users._id": user2["_id"]}, 
+                                                        {"$set":{"users.$.courses" : ev_list}})
+                    else:
+                        accounts_collection.update_one({"users._id": user2["_id"]}, 
+                                                        {"$set":{"users.$.events" : ev_list}})
+                    break
 
     collection.delete_one({"name": request_data["event_name"]})
     return resp
