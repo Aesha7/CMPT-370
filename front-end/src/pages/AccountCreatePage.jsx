@@ -58,8 +58,6 @@ const AccountCreatePage = (props) => {
       phone === "" ||
       birthday === "" ||
       signature === "" 
-      // ||
-      // !waiver
     ) {
       setError(true);
       alert("Please fill out every field.");
@@ -80,7 +78,7 @@ const AccountCreatePage = (props) => {
           // Data will be serialized and sent as json
           body: JSON.stringify({
             email: email,
-            password: password, //TODO: stores password in plain text! add proper password management
+            password: password,
             name: name,
             phone: phone,
             birthday: birthday,
@@ -263,7 +261,6 @@ const AccountCreatePage = (props) => {
                 type="email"
                 id="email"
               />
-              {/* <button onClick={handleSubmit} className="button1" type="button">Login</button>           */}
             </div>
 
             <div className="account-create-column-entry">
@@ -328,8 +325,6 @@ const AccountCreatePage = (props) => {
                 <button className="waiver-button" onClick={goToWaiver}>
                   Click Here To Open
                 </button>
-                {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
-
                 <label className="checklist">
                   I Agree
                   <input type="checkbox" />

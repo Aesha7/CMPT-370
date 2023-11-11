@@ -11,31 +11,35 @@ const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 const AdminCalendarPage = () => {
   const localizer = momentLocalizer(moment);
   const location = useLocation();
-
+  // for event
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [level, setLevel] = useState("");
-
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
   const [startDate, setStartDate] = useState("");
-
   const [date, setDate] = useState();
   const [startTime, setStartTime] = useState();
   const [duration, setDuration] = useState();
 
   const [coach, setCoach] = useState("");
+  const [user, setUser] = useState();
 
-  const [user, setUser] = useState("");
-
+  // the list of events
   const [calEvents, setCalEvents] = useState([]);
+
+  // changes when you click on an event
   let currentEvent = null;
+
+  // temporary variable to set calendar events
   let tempEvents = [];
 
+  // getting user ID from previous page
   let userID;
   userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
 
+  // saving the userID to local storage so it doesnt crash on page refresh
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
   }
@@ -43,6 +47,7 @@ const AdminCalendarPage = () => {
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
+  // getting the database events
   const get_db_events = () => {
     // getting the events
     try {
@@ -61,8 +66,11 @@ const AdminCalendarPage = () => {
         })
         .then((text) => {
           const data = JSON.parse(text);
-          // let tempEvents = [];
+          // parsing through each event in the db
           data.forEach((event) => {
+
+            // getting the actual data
+
             let name = event.name;
             let desc = event.desc;
             let start = new Date(
@@ -83,7 +91,9 @@ const AdminCalendarPage = () => {
             );
             let level = event.level;
             let enrolled = event.enrolled;
+            let coach = event.coach;
 
+            // creating the new event to use in the array
             let newEvent = {
               name: name,
               desc: desc,
@@ -91,10 +101,14 @@ const AdminCalendarPage = () => {
               end: end,
               level: level,
               enrolled: enrolled,
+              coach: coach
             };
 
+            // adding to the array
             tempEvents.push(newEvent);
           });
+
+          // setting the events
           setCalEvents(tempEvents);
         });
     } catch (exception) {
@@ -102,6 +116,8 @@ const AdminCalendarPage = () => {
     }
   };
 
+
+  // getting the account details from the db using the userID
   const get_account_details = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -128,6 +144,8 @@ const AdminCalendarPage = () => {
     }
   };
 
+
+  // deleting an event from the database (goes through enrolled list too)
   const delete_event_call = () => {
     // removing for all enrolled members
     // this should work when the backend is fixed
@@ -149,12 +167,27 @@ const AdminCalendarPage = () => {
           return response.text();
         })
         .then((data) => {
+          // getting the updated db events
+          
+
+        if(data == '"Error: account not found"'){
+          alert("Account not found.")
+        }
+        else if(data == '"Error: you do not have permission to perform this action"'){
+          alert("You do not have permission to perform this action.")
+        }
+        else if(data == '"Error: event not found"'){
+          alert("Event not found.")
+        }
+        else{
+          // updating the events list and closing popup
           get_db_events();
+          closeAllForms();
+        }
         });
     } catch (exception) {
       console.log(exception);
     }
-    closeAllForms();
   };
 
   // getting data initially
@@ -166,6 +199,7 @@ const AdminCalendarPage = () => {
   const clickRef = useRef(null);
   let navigate = useNavigate();
 
+  // going to previous page
   const goBack = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
@@ -174,9 +208,11 @@ const AdminCalendarPage = () => {
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
     currentEvent = calEvent;
+    // opens the info popup
     openEventInfoForm(calEvent);
   };
 
+  // opens the create event popup
   const openEventCreateForm = () => {
     // opening the createEvent form
     document.getElementById("createEventForm").style.display = "block";
@@ -192,6 +228,7 @@ const AdminCalendarPage = () => {
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
   };
 
+  // closes all popups
   const closeAllForms = () => {
     setTitle("");
     setDescription("");
@@ -201,18 +238,22 @@ const AdminCalendarPage = () => {
     document.getElementById("myForm-overlay").style.display = "none";
   };
 
+  // handles the title
   const handleTitle = (e) => {
     setTitle(e.target.value);
   };
 
+  // handles the description
   const handleDesc = (e) => {
     setDescription(e.target.value);
   };
 
+  // handles the level
   const handleLevel = (e) => {
     setLevel(e.target.value);
   };
 
+    // handles the date
   const handleDate = (inputDate) => {
     // handles the datepicker event
     setDate(inputDate);
@@ -232,12 +273,29 @@ const AdminCalendarPage = () => {
       Dec: 11,
     };
 
+    // parsing through the date to get relevent info
     setStartDate(arr[2]);
     setStartYear(arr[3]);
     // mapping string to the month value
     setStartMonth(months[arr[1]]);
   };
 
+  // handles the coach
+  const handleCoach = (e) => {
+    setCoach(e.target.value);
+  };
+
+  // handles the start time
+  const handleStartTime = (e) => {
+    setStartTime(e.target.value);
+  };
+
+  // handles the duration of the event
+  const handleDuration = (e) => {
+    setDuration(e.target.value);
+  };
+
+  // creating the event
   const submitEvent = (e) => {
     e.preventDefault();
     if (title == "") {
@@ -278,6 +336,7 @@ const AdminCalendarPage = () => {
         coach_email: coach,
       };
 
+      // sending to database
       try {
         fetch(server_URL + "add_course", {
           method: "POST",
@@ -309,26 +368,36 @@ const AdminCalendarPage = () => {
             return response.text();
           })
           .then((data) => {
-            if (data != "") {
-              alert("There is alread an event with this name.");
-            } else {
+
+            if(data == '"Error: event name already exists"'){
+              alert("An event with this name already exists.")
+            }
+            else if(data == '"Error: you do not have permission to perform this action"'){
+              alert("You do not have permission to add an event.")
+            }
+            else if(data == '"Error: target coach account is not a staff account"'){
+              alert("The email you provided does not correspond to a coaches account.")
+            }
+            else if(data == '"Error: coach account not found"'){
+              alert("The email you provided does not correspond to a coaches account.")
+            }
+            else {
               closeAllForms();
               get_db_events();
-              // window.location.reload(false);
             }
           });
       } catch (exception) {
         console.log(exception);
       }
-      // reloading
     }
   };
 
+  // deleting an event from the db with a button
   const deleteEvent = (e) => {
     e.preventDefault();
 
     if (currentEvent.enrolled.length > 0) {
-      // alert("this event has enrolled members")
+      alert("this event has enrolled members")
       // check
       delete_event_call();
       // display the confirmation form
@@ -337,10 +406,7 @@ const AdminCalendarPage = () => {
     }
   };
 
-  const handleCoach = (e) => {
-    setCoach(e.target.value);
-  };
-
+  // checks to see if a time is a valid representation using a regular expression
   function validTime(time) {
     // Regular expression for a valid email address
     const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/;
@@ -348,15 +414,8 @@ const AdminCalendarPage = () => {
     return timeRegex.test(time);
   }
 
-  const handleStartTime = (e) => {
-    setStartTime(e.target.value);
-  };
-
-  const handleDuration = (e) => {
-    setDuration(e.target.value);
-  };
-
-  if (staffLevel >= 1) {
+  // overlay if the user shouldnt be able to see the page
+  if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
   }
 
@@ -522,6 +581,7 @@ const AdminCalendarPage = () => {
               border: "none",
             };
 
+            // setting event colours depending on level
             if (event.level == 0) {
               newStyle.backgroundColor = "#4e9b6f";
             } else if (event.level == 1) {
