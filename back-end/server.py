@@ -267,7 +267,7 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name, coach_email
+    Required request parameters: account_ID, name, coach_email, desc, start, end
     Required staff level: 1
 
     Returns: Response
