@@ -14,13 +14,9 @@ const GymSchedule = () => {
     let userID;
     let location = useLocation()
     userID = location.state._id;
-    console.log(userID)
     let curUserName = location.state.curUserName
-    console.log(curUserName)
 
     const [staffLevel, setStaffLevel] = useState("");
-
-    let fn;
   
     if (userID != null) {
       window.localStorage.setItem("_id", userID);
@@ -118,7 +114,6 @@ const get_db_events = () =>{
 
   const register_for_event = () =>{
     try{
-      // alert(currentEvent.name)
       fetch(server_URL + "add_course_user", {
         method: "POST",
         body: JSON.stringify({ 
@@ -136,7 +131,6 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) =>{
         const data = text;
-        // console.log(data)
         if(data == '"Error: event not found"'){
           alert("Event not found.")
         }
@@ -147,11 +141,14 @@ const get_db_events = () =>{
           alert("Account not found.")
         }
         else if(data == '"Error: event already on user\'s event list"'){
-          alert("You are already registered for this event")
+          alert("You are already registered for this event.")
         }
         else{
-          alert("Course Registered! (placeholder)")
+          alert("Course Registered!")
+          get_db_events();
+          closeForm();
         }
+
       })
     } catch(error){
       console.log(error)
@@ -159,7 +156,7 @@ const get_db_events = () =>{
   }
 
   const unregister = () =>{
-      console.log("curUser", curUser);
+      console.log("curUser", curUser.name);
       console.log("currentEvent", currentEvent);
       console.log("userID", userID);
   
@@ -193,6 +190,7 @@ const get_db_events = () =>{
             } else {
               alert("Unregistration successful!");
               closeForm();
+              get_db_events();
             }
           });
       } catch (exception) {
@@ -222,16 +220,15 @@ const get_db_events = () =>{
     }
 
     const openForm = () => {
-      // console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
         document.getElementById("eventTitle").innerHTML = currentEvent.name;
-        // console.log(currentEvent.desc)
         if(currentEvent.desc != ""){
         document.getElementById("eventDescription").innerHTML = currentEvent.desc;
         }
         else{
           document.getElementById("eventDescription").innerHTML = "N/A"
         }
+        console.log(curUser.name)
         if(currentEvent.enrolled.find(user => user.name == curUser.name)){
           document.getElementById("registrationChecker").innerHTML = "You are registered for this event"
           document.getElementById("registrationButton").innerHTML = "Un-Register"
