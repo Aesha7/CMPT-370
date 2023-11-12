@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import "../style/AccountCreationPage.css";
 import "../style/ViewAccountPage.css";
+import DatePicker from "react-datepicker";
+
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -210,8 +212,9 @@ const AccountCreatePage = (props) => {
   /**
    * Handling Birthday change
    */
-  const handleBirthDay = (e) => {
-    setBirthday(e.target.value);
+  const handleBirthDay = (date) => {
+    let arr = date.toString().split(" ")
+    setBirthday(arr[1] + " " + arr[2] + " "+ arr[3]);
     setSubmitted(false);
   };
 
@@ -307,14 +310,20 @@ const AccountCreatePage = (props) => {
               <label className="account-create-label" htmlFor="birthday">
                 Birthday:
               </label>
-              <input
-                onChange={handleBirthDay}
-                className="text-field"
-                value={birthday}
-                type="birthday"
-                id="birthday"
-                placeholder="Day/Month/Year"
-              />
+
+            <DatePicker
+              className="custom-datepicker-createAccount"
+              selected={birthday}
+              onChange={handleBirthDay}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
             </div>
 
             <div className="account-create-row-entry">
