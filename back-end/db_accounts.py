@@ -152,7 +152,7 @@ def delete_family(request_data, accounts_collection):
         resp.data=dumps("Error: account not found")
     return resp
 
-def edit_family(request_data, accounts_collection):
+def edit_family(request_data, accounts_collection, events_collection, courses_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
@@ -163,7 +163,7 @@ def edit_family(request_data, accounts_collection):
     # Ensures account is found
     if account_doc:
         user = accounts_collection.find_one({"_id": ObjectId(request_data["_id"]), "users.name" :old_name})    
-        if user: # Ensures user is found
+        if user: # Ensures user is found  
             #Sets new birthday
             # if not (birthday == ""):
             #     accounts_collection.update_one(
@@ -177,8 +177,32 @@ def edit_family(request_data, accounts_collection):
                     resp.data=dumps("Error: user with name already exists in account") #Message also returned if old_name==new_name
                     return resp 
                         
-                accounts_collection.update_one({"_id": ObjectId(request_data["_id"]), "users.name" :old_name}, 
+                for user1 in account_doc["users"]:
+                    if user1["name"]==old_name:
+                        user_ID=user1["_id"]
+                        course_list=user1["courses"]
+                        event_list=user1["events"]
+
+                # Updates account document:
+                accounts_collection.update_one({"_id": ObjectId(request_data["_id"]), "users._id" :user_ID}, 
                                                {"$set":{"users.$.name" : new_name}})
+                
+                # Goes through all courses/events user is enrolled in and updates their name in course/event document
+                for ev in event_list:
+                    if not events_collection.find_one({"_id": ObjectId(ev["_id"]), "enrolled._id" :user_ID}):
+                        print("Error: an event wasn't found")
+                    else:
+                        events_collection.update_one({"_id": ObjectId(ev["_id"]), "enrolled._id" :user_ID}, 
+                                               {"$set":{"enrolled.$.name" : new_name}})
+                for ev in course_list:
+                    if not courses_collection.find_one({"_id": ObjectId(ev["_id"]), "enrolled._id" :user_ID}):
+                        print("Error: an event wasn't found")
+                    else:
+                        
+                        courses_collection.update_one({"_id": ObjectId(ev["_id"]), "enrolled._id" :user_ID}, 
+                                               {"$set":{"enrolled.$.name" : new_name}})
+
+
             resp.data=dumps("Success")
 
         else:

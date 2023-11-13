@@ -201,7 +201,7 @@ def EditFamily():
         Response
             Possible response data: "Success", "Error: No user by that name found",  "Error: account not found", "Error: user with name already exists in account"
     """
-    return ac.edit_family(request.get_json(),accounts_collection)
+    return ac.edit_family(request.get_json(),accounts_collection,events_collection,courses_collection)
 
 @app.route("/retrieve_family", methods=["POST"])
 @cross_origin(origins="*")
