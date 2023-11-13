@@ -1,3 +1,4 @@
-back-end/windowsVenv/
-node_modules/
-front-end/node_modules
+/back-end/windowsVenv/
+/node_modules/
+/front-end/node_modules
+back-end/__pycache__/

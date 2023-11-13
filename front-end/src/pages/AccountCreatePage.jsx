@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
 import "../style/AccountCreationPage.css";
 import "../style/ViewAccountPage.css";
+import DatePicker from "react-datepicker";
+
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -58,8 +60,6 @@ const AccountCreatePage = (props) => {
       phone === "" ||
       birthday === "" ||
       signature === "" 
-      // ||
-      // !waiver
     ) {
       setError(true);
       alert("Please fill out every field.");
@@ -80,7 +80,7 @@ const AccountCreatePage = (props) => {
           // Data will be serialized and sent as json
           body: JSON.stringify({
             email: email,
-            password: password, //TODO: stores password in plain text! add proper password management
+            password: password,
             name: name,
             phone: phone,
             birthday: birthday,
@@ -212,8 +212,9 @@ const AccountCreatePage = (props) => {
   /**
    * Handling Birthday change
    */
-  const handleBirthDay = (e) => {
-    setBirthday(e.target.value);
+  const handleBirthDay = (date) => {
+    let arr = date.toString().split(" ")
+    setBirthday(arr[1] + " " + arr[2] + " "+ arr[3]);
     setSubmitted(false);
   };
 
@@ -230,9 +231,9 @@ const AccountCreatePage = (props) => {
     <div className="account-creation-page">
       <div className="top-bar">
         Create Account
-        <button className="top-bar-button" onClick={backToLandingPage}>
-          Home
-        </button>
+        <div className="allButtons">
+        <button className="top-bar-button" onClick={backToLandingPage}>Home</button>
+        </div>
       </div>
 
       <div className="account-create-container">
@@ -263,7 +264,6 @@ const AccountCreatePage = (props) => {
                 type="email"
                 id="email"
               />
-              {/* <button onClick={handleSubmit} className="button1" type="button">Login</button>           */}
             </div>
 
             <div className="account-create-column-entry">
@@ -310,14 +310,20 @@ const AccountCreatePage = (props) => {
               <label className="account-create-label" htmlFor="birthday">
                 Birthday:
               </label>
-              <input
-                onChange={handleBirthDay}
-                className="text-field"
-                value={birthday}
-                type="birthday"
-                id="birthday"
-                placeholder="Day/Month/Year"
-              />
+
+            <DatePicker
+              className="custom-datepicker-createAccount"
+              selected={birthday}
+              onChange={handleBirthDay}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
             </div>
 
             <div className="account-create-row-entry">
@@ -328,8 +334,6 @@ const AccountCreatePage = (props) => {
                 <button className="waiver-button" onClick={goToWaiver}>
                   Click Here To Open
                 </button>
-                {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
-
                 <label className="checklist">
                   I Agree
                   <input type="checkbox" />

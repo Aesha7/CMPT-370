@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "added back buttons"
+git commit -m "added function for coach "
 
 git push

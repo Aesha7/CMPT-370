@@ -2,11 +2,54 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
-#adminButton {
-  background-color: red;
-  float: right;
+#manageAccounts {
   display:none
+}
+
+#adminCalendar {
+  display:none
+}
+
+#studentsList {
+  display:none
+}
+
+#coachCalendar {
+  display:none
+}
+
+.top-bar  {
+  background-color: gray;
+  color: white;
+  padding: 30px;
+  text-align: left;
+  font-size: 40px;
+  font-weight: bolder;
+  align-items: center;
+  display: flex;
+}
+
+.top-bar .allButtons{
+  position: absolute;
+  right: 0;
+  gap: 30px;
+  display: flex;
+  margin: 30px;
+}
+
+.top-bar .top-bar-button {
+  padding: 15px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: grey;
+  border: 4px solid white;
+  color: white;
+}
+
+.top-bar-button:hover {
+  background-color: white;
+  color: black;
 }
 
 .view-account-container {
@@ -26,6 +69,7 @@
   flex-direction: column;
   margin: 25px;
   background-color: lightgray;
+
 }
 
 
@@ -45,6 +89,7 @@
   flex-direction: column;
   margin: 25px;
   position: relative;
+
 }
 
 .account-label {
@@ -53,6 +98,7 @@
   text-align: left;
   margin-bottom: 10px;
   max-width: 100%;
+
 }
 
 .info-label {
@@ -67,6 +113,7 @@
   margin-bottom: 10px;
   font-size: 16px;
   border: 2px solid darkgray;
+
 }
 
 .view-user-info-2 {
@@ -75,14 +122,18 @@
   flex-direction: column;
   margin: 25px;
   background-color: lightgray;
+
 }
 
 
-.family-bar{
+.view-user-info-2 .family-bar{
   display: flex;
   align-items: center;
   flex-direction: row;
   padding-bottom: 30px;
+  margin-top: auto;
+  margin-bottom: 0;
+
 }
 
 .family-button{
@@ -116,13 +167,14 @@
 } 
 
 
-.family-member-row {
+.view-user-info-2 .family-member-row {
   display: flex;
   flex-direction: row; 
   justify-content: space-between;
   align-items: center;
   padding-top: 8px;
   padding-bottom: 8px;
+
 }
 
 .register-button{
@@ -166,13 +218,13 @@
   color: white;
 }
 
-
-.family-schedule {
+.view-user-info-2 .family-schedule {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   margin-top: 100%;
+  margin-bottom: 0px;
 }
 
 .schedule-button{
@@ -204,6 +256,8 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
+  margin-top: 0;
+  margin-bottom: auto;
 }
 
 .view-user-info-3 .email-list {
@@ -211,7 +265,8 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
+  margin-top: auto;
+  margin-bottom: 0;
 }
 
 .family-info {
@@ -251,7 +306,6 @@
   border: 2px solid green;
   color: black;
   margin-left: 10px;
-
 }
 
 .save-button:hover {
@@ -267,11 +321,8 @@
   padding-left: 40px;
   cursor: pointer;
   user-select: none;
-  /* -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none; */
   font-size: 18px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 
 /* Hide the browser's default checkbox */
@@ -328,7 +379,7 @@
   transform: rotate(45deg);
 }   
 
-/* The popup form - hidden by default */
+/* The popup form - hidden by default
 .add-family-popup {
   display: none;
   position: fixed;
@@ -336,7 +387,33 @@
   right: 15px;
   border: 3px solid #f1f1f1;
   z-index: 9;
+} */
+
+.myForm-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  z-index: 998;
 }
+
+.add-family-popup {
+  display: none;
+  position: fixed;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 350px; 
+  padding: 20px;
+  background-color: #fff;
+  border: 2px solid gray;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 999; 
+}
+
 
 /* Add styles to the form container */
 .add-family-container {
@@ -408,3 +485,7 @@
     justify-content: center;
   }
 }
+
+/* .custom-datepicker {
+  margin-left: 10px;
+} */

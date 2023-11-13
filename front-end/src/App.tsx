@@ -8,12 +8,15 @@ import ViewFamilySchedule from './pages/ViewFamilySchedule';
 import AdminCalendarPage from './pages/AdminCalendarPage';
 import WaiverPDF from './pages/WaiverPDF';
 import GymSchedule from './pages/GymSchedule';
-import AdminPage from './pages/AdminPage';
+import AdminManageAccountsPage from './pages/AdminManageAccountsPage';
+import LandingPage from './pages/LandingPage';
+import CoachCalendarPage from './pages/CoachCalendarPage';
+import CoachStudentsListPage from './pages/CoachStudentsListPage';
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
-import LandingPage from './pages/LandingPage';
+
 
 
 function App() {
@@ -27,8 +30,10 @@ function App() {
         <Route path='/admin-schedule' element={<AdminCalendarPage/>}/>
         <Route path='/gym-schedule' element={<GymSchedule/>}/>
         <Route path='/class-registration' element={<GymSchedule/>}/>
-        <Route path='/admin' element={<AdminPage/>}/>
+        <Route path='/admin-accounts' element={<AdminManageAccountsPage/>}/>
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
+        <Route path='/coach-schedule' element={<CoachCalendarPage/>}/>
+        <Route path='/students-list' element={<CoachStudentsListPage/>}/>
       </Routes>
   );
 }
