@@ -81,6 +81,7 @@ def add(request_data, ev_collection, accounts_collection):
         },
         "level": request_data["level"],
         "enrolled": [],
+        "capacity": request_data["capacity"],
         "coach": coach_name
     }
 
