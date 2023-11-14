@@ -329,6 +329,7 @@ def AdminAddCourseToUser():
         "Error: admin account not found"
         "Error: user not found"
         "Error: you do not have permission to perform this action"
+        "Error: event full"
     """
     return ad.add_event_user(request.get_json(), accounts_collection, courses_collection, "course")
 
@@ -347,6 +348,7 @@ def AdminAddEventToUser():
         "Error: admin account not found"
         "Error: user not found"
         "Error: you do not have permission to perform this action"
+        "Error: event full"
     """
     return ad.add_event_user(request.get_json(), accounts_collection, events_collection, "event")
     
