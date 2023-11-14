@@ -79,6 +79,10 @@ def add_event_user(request_data, accounts_collection, ev_collection, ev_type):
                     resp.status_code=400
                     resp.data=dumps("Error: user level too low")
                     return resp
+                if int(ev["capacity"]) <= len(enrolled): 
+                    resp.status_code=400
+                    resp.data=dumps("Error: event full") #TODO: UNTESTED
+                    return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
                 else:
