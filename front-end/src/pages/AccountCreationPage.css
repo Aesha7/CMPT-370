@@ -1,228 +1,398 @@
-.account-create-page  {
-    font-family: Arial, Helvetica, sans-serif;
+.account-creation-page  {
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: black;
+  text-align: left;
+  font-size: 95px;
+  font-weight:normal;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom right, transparent 0%, transparent 50%,  #ff9e0c 50%, #ff9e0c 100%);
+  z-index: 0;
   }
-  
-  .top-bar-button {
-    padding: 15px 32px;
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    transition-duration: 0.4s;
-    background-color: grey;
-    border: 4px solid white;
-    color: white;
-    margin: auto;
-    max-width: 100%;
-    margin-right: 0;
-  }
-  
-  .top-bar-button:hover {
-    background-color: white;
-    color: black;
-  }
-
-  .account-create-container {
-    background-color: lightgrey;
-    border-color: black;
-    height: auto;
-    width: auto;
-    margin: 50px;
-    padding: 5px;
-  }
-  
-  .account-create-container-toprow {
-    display: flex;
-    flex-direction: column; 
-    justify-content: space-between;
-  }
-  
-  .account-create-column-entry {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin: 25px;
-  }
-  .account-create-subcolumn-entry {
-    flex: 1;
-    display: inline;
-    flex-direction: column;
-    margin: 25px;
-  }
-  .account-create-row-entry {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin: 25px;
-  }
-  
-  .account-create-label {
-    font-size: 26px;
-    font-weight: bold;
-    text-align: left;
-    margin-bottom: 20px;
-    max-width: 100%;
-  }
-  
-  .text-field {
-    padding: 15px;
-    margin-bottom: 10px;
-    font-size: 16px;
-    border: 2px solid darkgray;
-  
-  }
-
-  .waiver-entry {
+    
+  .entryName {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    padding: auto;
-    /* justify-content: space-between; */
+    margin-top: -2vh;
+    margin-left: 3vw;
+    background-color: transparent;
+    z-index: 1;
   }
-  
+  .labelName {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-left: 74vw;
+    margin-right: -9vw;
+    z-index: 1;
+  }
+  .triangleName {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldName {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+    width: 11vw;
+  }
+
+  .entryEmail {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 0vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelEmail {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 14vw;
+    color: black;
+    margin-right: -6vw;
+    margin-left: 66.6vw;
+    z-index: 1;
+  }
+  .triangleEmail {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: -3vw;
+    z-index: 2;
+  }
+  .fieldEmail {
+    font-size: 18px;
+    border: 2px solid transparent;
+    z-index: 2;
+    width: 15vw;
+  }
+
+  .entryPword {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 54.1vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelPword {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-right: -9vw;
+    z-index: 1;
+  }
+  .trianglePword {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldPword {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+  }
+
+  .entryConf {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 0vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelConf {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 20px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-right: -9vw;
+    margin-left: 44.5vw;
+    z-index: 1;
+  }
+  .triangleConf {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldConf {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+  }
+
+  .entryPhone {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 35vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelPhone {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-right: -9vw;
+    z-index: 1;
+  }
+  .trianglePhone {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldPhone {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+  }
+
+  .entryBirthday {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 25.5vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelBirthday {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-right: -9vw;
+    z-index: 1;
+  }
+  .triangleBirthday {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldBirthday {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+  }
+
+  .entrySignature {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2vh;
+    margin-left: 16.05vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .labelSignature {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: left;
+    font-size: 28px;
+    font-weight: normal;
+    padding-left: 1vw;
+    background-color: gainsboro;
+    border: 2px solid transparent;
+    height: 7.5vh;
+    width: 17vw;
+    color: black;
+    margin-right: -9vw;
+    z-index: 1;
+  }
+  .triangleSignature {
+    width: 0; 
+    height: 0; 
+    border-left: 7.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 7.53vh solid white;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .fieldSignature {
+    font-size:18px;
+    border: 2px solid transparent;
+    z-index: 2;
+  }
+  .labelSigNote{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-align: center;
+    font-size: 30px;
+    font-weight: normal;
+    border: 2px solid transparent;
+    background-color: #ff9e0c;
+  }
+
+  .entryWaiver {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+    margin-left: 0vw;
+    background-color: transparent;
+    margin-left: 16.5vw;
+    z-index: 1;
+  }
+  .triangleWaiver {
+    width: 0; 
+    height: 0; 
+    border-left: 6.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 6.53vh solid #37c6ff;
+    margin-left: 0vw;
+    z-index: 2;
+  }
   .waiver-button {
-    padding: 15px 28px;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: normal;
     transition-duration: 0.4s;
-    background-color: white;
-    border: 2px solid darkgray;
+    background-color: #37c6ff;
+    border: 2px solid transparent;
     color: black;
-    max-width: 100%;
-    float: left;
-    margin-right: 50px;
+    width: 10vw;
+    height: 6.5vh;
+    margin-top: 0vh;
+    margin-left: 0vw;
   }
-
   .waiver-button:hover {
-    background-color: gray;
+    width: 11.5vw;
     color: white;
   }
-  
-  .checklist-2 {
-    display: block;
-    position: relative;
-    padding-left: 40px;
-    cursor: pointer;
-    user-select: none;
-    /* -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none; */
-    font-size: 18px;
-    margin: 0px;
-  }
-  
-  /* Hide the browser's default checkbox */
-   .checklist-2 input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-  }
-  
-  /* Create a custom checkbox */
-  .checkmark-2 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: white;
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .checklist-2:hover input ~ .checkmark-2 {
-    background-color: darkgrey;
-  }
-  
-  /* When the checkbox is checked, add a blue background */
-  .checklist-2 input:checked ~ .checkmark-2 {
-    background-color: blue;
-  }
-  
-  /* Create the checkmark/indicator (hidden when not checked) */
-  .checkmark-2:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the checkmark when checked */
-  .checklist-2 input:checked ~ .checkmark-2:after {
-    display: block;
-  }
-  
-  /* Style the checkmark/indicator */
-  .checklist-2 .checkmark-2:after {
-    left: 9px;
-    top: 5px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-  }   
-  
 
-  .account-create-submit-button {
-    padding: 15px 32px;
+  .entrySubmit {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+    margin-left: 9vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .buttonSubmit {
+    height: 6.5vh;
+    width: 10vw;
+    border: 2px solid transparent;
     text-align: center;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: normal;
     transition-duration: 0.4s;
-    background-color: white;
-    border: 2px solid darkgray;
+    background-color: #2df805;
     color: black;
-    margin-left: auto;
-    float: right;
-    margin-top: 20px;
-    max-width: 100%;
+    position:absolute;
+    z-index: 1;
+    margin-left: 6.45vw;
+    margin-top: 0vh;
   }
-
-  .account-create-submit-button:hover {
-    background-color: green;
+  .triangleSubmit {
+    width: 0; 
+    height: 0; 
+    border-left: 6.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 6.53vh solid #2df805;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .buttonSubmit:hover {
+    width: 11.5vw;
     color: white;
   }
-  
-  .button3 {
-    padding: 15px 32px;
+
+
+  .entryBack {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+    margin-left: 1.6vw;
+    background-color: transparent;
+    z-index: 1;
+  }
+  .buttonBack {
+    height: 6.5vh;
+    width: 10vw;
+    border: 2px solid transparent;
     text-align: center;
-    font-size: 24px;
-    font-weight: bold;
+    font-size: 28px;
+    font-weight: normal;
     transition-duration: 0.4s;
-    background-color: white;
-    border: 2px solid darkgray;
+    background-color: red;
     color: black;
-    display: block;
-    margin: 30px auto;
+    position:absolute;
+    z-index: 1;
+    margin-left: 6.4vw;
   }
-  
-  .button3:hover {
-    background-color: orange;
+  .triangleBack {
+    width: 0; 
+    height: 0; 
+    border-left: 6.5vw solid transparent;
+    border-right: 0vw solid transparent;
+    border-bottom: 6.6vh solid red;
+    margin-left: 0vw;
+    z-index: 2;
+  }
+  .buttonBack:hover {
+    width: 11.5vw;
     color: white;
   }
-  
 
-  /* Media query for smaller screens */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      margin: 10px 0;
-    }
-  
-    .button1, .button2, .button3, 
-    .account-create-submit-button, 
-    .waiver-button {
-      margin: 10px auto;
-      display: block;
-    }
-  
-    .label  {
-      width: 100%;
-      padding: 15px 20px;
-      box-sizing: border-box;
-    }
-  }
+
+
   
