@@ -361,6 +361,23 @@ const AccountView = () => {
 
   getRenders();
   return (
+    <div className="view-account-page">My Account
+    <div class="rectangleTop"></div>
+    <div class="triangleTop"></div>
+    <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
+    <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
+    <label className="ownerELabel" htmlFor="email">Email:</label>
+    <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
+    <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
+      
+      
+      {/* <div className="top-bar">
+        
+        <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
+
+        
+        
+      </div> */}
     <div className="view-account-page">
       <div className="top-bar">
         My Account
@@ -404,106 +421,60 @@ const AccountView = () => {
         </div>
       </div>
       <div className="view-account-container">
+
+        <div className="email-list">
+          <div className="emailOptions">
+            <label className="heading" htmlFor="email" type="emailList">
+              Email List:
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
             <label className="heading" htmlFor="member">
               Account Info:
             </label>
-          </div>
 
-          {/* name */}
-          <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="name">
-              {" "}
-              Name:{" "}
+            <label className="checklist">
+              Newsletter
+              <input type="checkbox" />
+              <span className="checkmark"></span>
             </label>
-            <label className="info-label" htmlFor="name" type="name" id="name">
-              {" "}
-              {name}{" "}
-            </label>
-          </div>
 
-          {/* email */}
-          <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="email">
-              {" "}
-              Email:{" "}
-            </label>
-            <label
-              className="info-label"
-              htmlFor="email"
-              type="email"
-              id="email"
-            >
-              {" "}
-              {email}{" "}
-            </label>
-          </div>
-
-          {/* phone */}
-          <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="phone">
-              {" "}
-              Phone:{" "}
-            </label>
-            <label
-              className="info-label"
-              htmlFor="phone"
-              type="phone"
-              id="phone"
-            >
-              {" "}
-              {phone}{" "}
-            </label>
-          </div>
-
-          {/* birthday */}
-          <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="birthday">
-              {" "}
-              Birthday:{" "}
-            </label>
-            <label
-              className="info-label"
-              htmlFor="email"
-              type="email"
-              id="email"
-            >
-              {" "}
-              {birthday}{" "}
+            <label className="checklist">
+              Promotions
+              <input type="checkbox" />
+              <span className="checkmark"></span>
             </label>
           </div>
         </div>
+        <div class="triangleEmOpt"></div>
 
         <div className="view-user-info-2">
           <div className="view-account-column-entry">
             <div className="family-bar">
               <label className="heading" htmlFor="family">
-                Family
+                Family Members
               </label>
+              <div class="triangleFamMems"></div>
               <button className="family-button" onClick={addFamilyMemberPopup}>
                 Add Family Member
               </button>
+              {/* <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
+                View Family Schedule
+              </button> */}
             </div>
             {/* looping through children*/}
             {renders}
 
             <div className="family-schedule">
-              <button
-                className="schedule-button"
-                onClick={viewFamilyScheduleRouteChange}
-              >
-                View Family Schedule
-              </button>
+            
             </div>
           </div>
         </div>
 
-        <div className="view-user-info-3">
+        <div className="currentMemberPanel">
           <div className="edit-family-info">
             <div className="view-account-column-entry">
-              <label className="heading" htmlFor="family">
-                Family Member Info:
+              <label className="headingCurrMem" htmlFor="family">
+                Current Member Info:
               </label>
             </div>
 
@@ -523,6 +494,22 @@ const AccountView = () => {
                 placeholder={currentName}
               ></input>
             </div>
+
+            {/* phone */}
+            <div className="view-account-column-entry"> 
+              <label className="account-label" htmlFor="phone">
+                {" "}
+                Phone:{" "}
+              </label>
+              <input
+                className="edit-label"
+                htmlFor="phone"
+                type="phone"
+                id="edit-phone"
+                disabled={true}
+                placeholder={currentPhone}
+              ></input> 
+             </div>
 
             {/* birthday */}
             <div className="view-account-column-entry">
@@ -599,6 +586,7 @@ const AccountView = () => {
               </button>
             </div>
           </div>
+
         </div>
 
         <div className="myForm-overlay"></div>
