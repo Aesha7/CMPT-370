@@ -409,7 +409,8 @@ const AdminCalendarPage = () => {
   // checks to see if a time is a valid representation using a regular expression
   function validTime(time) {
     // Regular expression for a valid email address
-    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/;
+    // /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/
+    const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
     return timeRegex.test(time);
   }
