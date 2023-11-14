@@ -308,7 +308,7 @@ const AccountCreatePage = (props) => {
 
             <div className="entryBack">
               <div class="triangleBack"></div>
-              <button className="buttonBack" onClick={backToLogin}>Back</button>
+              <button className="buttonBack" onClick={backToLandingPage}>Back</button>
             </div>
       
         </form>

@@ -360,271 +360,266 @@ const AccountView = () => {
   }
 
   getRenders();
-  return (
-    <div className="view-account-page">My Account
-    <div class="rectangleTop"></div>
-    <div class="triangleTop"></div>
-    <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
-    <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
-    <label className="ownerELabel" htmlFor="email">Email:</label>
-    <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
-    <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
+
+  return(
+    <div className="view-account-page"> My Account
+      <div class="rectangleTop"></div>
+      <div class="triangleTop"></div>
+      <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
+      <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
+      <label className="ownerELabel" htmlFor="email">Email:</label>
+      <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
+      <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
       
-      
-      {/* <div className="top-bar">
-        
-        <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
-
-        
-        
-      </div> */}
-    <div className="view-account-page">
-      <div className="top-bar">
-        My Account
-        <div className="allButtons">
-          <button
-            className="top-bar-button"
-            htmlFor="manageAccounts"
-            id="manageAccounts"
-            onClick={manageAccountsPageRoute}
-          >
-            Manage Accounts
-          </button>
-          <button
-            className="top-bar-button"
-            htmlFor="adminCalendar"
-            id="adminCalendar"
-            onClick={adminCalendarPageRoute}
-          >
-            Admin Calendar
-          </button>
-          <button
-            className="top-bar-button"
-            htmlFor="studentsList"
-            id="studentsList"
-            onClick={studentsListPageRoute}
-          >
-            Students List
-          </button>
-          <button
-            className="top-bar-button"
-            htmlFor="coachCalendar"
-            id="coachCalendar"
-            onClick={coachCalendarPageRoute}
-          >
-            Coach Calendar
-          </button>
-          <button className="top-bar-button" onClick={goBackToLogin}>
-            {" "}
-            Logout{" "}
-          </button>
-        </div>
-      </div>
-      <div className="view-account-container">
-
-        <div className="email-list">
-          <div className="emailOptions">
-            <label className="heading" htmlFor="email" type="emailList">
-              Email List:
-        <div className="view-user-info-1">
-          <div className="view-account-column-entry">
-            <label className="heading" htmlFor="member">
-              Account Info:
-            </label>
-
-            <label className="checklist">
-              Newsletter
-              <input type="checkbox" />
-              <span className="checkmark"></span>
-            </label>
-
-            <label className="checklist">
-              Promotions
-              <input type="checkbox" />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-        </div>
-        <div class="triangleEmOpt"></div>
-
-        <div className="view-user-info-2">
-          <div className="view-account-column-entry">
-            <div className="family-bar">
-              <label className="heading" htmlFor="family">
-                Family Members
-              </label>
-              <div class="triangleFamMems"></div>
-              <button className="family-button" onClick={addFamilyMemberPopup}>
-                Add Family Member
-              </button>
-              {/* <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
-                View Family Schedule
-              </button> */}
-            </div>
-            {/* looping through children*/}
-            {renders}
-
-            <div className="family-schedule">
-            
-            </div>
+      <div className="view-account-page">
+        <div className="top-bar">
+          My Account
+          <div className="allButtons">
+            <button
+              className="top-bar-button"
+              htmlFor="manageAccounts"
+              id="manageAccounts"
+              onClick={manageAccountsPageRoute}
+            >
+              Manage Accounts
+            </button>
+            <button
+              className="top-bar-button"
+              htmlFor="adminCalendar"
+              id="adminCalendar"
+              onClick={adminCalendarPageRoute}
+            >
+              Admin Calendar
+            </button>
+            <button
+              className="top-bar-button"
+              htmlFor="studentsList"
+              id="studentsList"
+              onClick={studentsListPageRoute}
+            >
+              Students List
+            </button>
+            <button
+              className="top-bar-button"
+              htmlFor="coachCalendar"
+              id="coachCalendar"
+              onClick={coachCalendarPageRoute}
+            >
+              Coach Calendar
+            </button>
+            <button className="top-bar-button" onClick={goBackToLogin}>
+              {" "}
+              Logout{" "}
+            </button>
           </div>
         </div>
 
-        <div className="currentMemberPanel">
-          <div className="edit-family-info">
-            <div className="view-account-column-entry">
-              <label className="headingCurrMem" htmlFor="family">
-                Current Member Info:
-              </label>
-            </div>
+        <div className="view-account-container">
 
-            {/* name */}
-            <div className="view-account-column-entry">
-              <label className="account-label" htmlFor="name">
-                {" "}
-                Name:{" "}
-              </label>
-              <input
-                onChange={handleChangedName}
-                className="edit-label"
-                htmlFor="name"
-                type="name"
-                id="edit-name"
-                disabled={true}
-                placeholder={currentName}
-              ></input>
-            </div>
-
-            {/* phone */}
-            <div className="view-account-column-entry"> 
-              <label className="account-label" htmlFor="phone">
-                {" "}
-                Phone:{" "}
-              </label>
-              <input
-                className="edit-label"
-                htmlFor="phone"
-                type="phone"
-                id="edit-phone"
-                disabled={true}
-                placeholder={currentPhone}
-              ></input> 
-             </div>
-
-            {/* birthday */}
-            <div className="view-account-column-entry">
-              <label className="account-label" htmlFor="birthday">
-                {" "}
-                Birthday:{" "}
-              </label>
-              <input
-                className="edit-label"
-                htmlFor="email"
-                type="email"
-                id="edit-birthday"
-                disabled={true}
-                placeholder={currentBirthday}
-              ></input>
-            </div>
-
-            {/* level */}
-            <div className="view-account-column-entry">
-              <label className="account-label" htmlFor="level">
-                {" "}
-                Level:{" "}
-              </label>
-              <input
-                className="edit-label"
-                htmlFor="level"
-                type="level"
-                id="level"
-                disabled={true}
-                placeholder={currentLevel}
-              ></input>
-            </div>
-            {/* edit the routers !!! */}
-            <div className="family-info">
-              <button className="edit-button" onClick={unlockInfo}>
-                Edit
-              </button>
-              <button className="save-button" onClick={saveInfo}>
-                Save
-              </button>
-            </div>
-          </div>
-
-          <div className="email-list">
-            <div className="view-account-column-entry">
+          {/* <div className="email-list">
+            <div className="emailOptions">
               <label className="heading" htmlFor="email" type="emailList">
-                Email List:
-              </label>
+                Email List: */}
 
-              <label className="checklist">
-                Newsletter
-                <input
-                  type="checkbox"
-                  checked={newsChecked}
-                  onChange={handleNewsChange}
-                />
-                <span className="checkmark"></span>
-              </label>
 
-              <br />
+              <div className="view-user-info-1">
+                <div className="view-account-column-entry">
+                  <label className="heading" htmlFor="member">
+                    Account Info:
+                  </label>
 
-              <label className="checklist">
-                Promotions
-                <input
-                  type="checkbox"
-                  checked={promChecked}
-                  onChange={handlePromChange}
-                />
-                <span className="checkmark"></span>
-              </label>
+                  <label className="checklist">
+                    Newsletter
+                    <input type="checkbox" />
+                    <span className="checkmark"></span>
+                  </label>
 
-              <button className="save-button" onClick={editSubscriptions}>
-                Save
-              </button>
+                  <label className="checklist">
+                    Promotions
+                    <input type="checkbox" />
+                    <span className="checkmark"></span>
+                  </label>
+                </div>
+              </div>
+
+
+          <div class="triangleEmOpt"></div>
+
+          <div className="view-user-info-2">
+            <div className="view-account-column-entry">
+              <div className="family-bar">
+                <label className="heading" htmlFor="family">
+                  Family Members
+                </label>
+                <div class="triangleFamMems"></div>
+                <button className="family-button" onClick={addFamilyMemberPopup}>
+                  Add Family Member
+                </button>
+                {/* <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
+                  View Family Schedule
+                </button> */}
+              </div>
+              {/* looping through children*/}
+              {renders}
+
+              <div className="family-schedule"></div>
             </div>
           </div>
 
-        </div>
+          <div className="currentMemberPanel">
+            <div className="edit-family-info">
+              <div className="view-account-column-entry">
+                <label className="headingCurrMem" htmlFor="family">
+                  Current Member Info:
+                </label>
+              </div>
 
-        <div className="myForm-overlay"></div>
+              {/* name */}
+              <div className="view-account-column-entry">
+                <label className="account-label" htmlFor="name">
+                  {" "}
+                  Name:{" "}
+                </label>
+                <input
+                  onChange={handleChangedName}
+                  className="edit-label"
+                  htmlFor="name"
+                  type="name"
+                  id="edit-name"
+                  disabled={true}
+                  placeholder={currentName}
+                ></input>
+              </div>
 
-        <div className="add-family-popup" id="myForm">
-          <form className="form-container">
-            <label htmlFor="name">
-              <b>Name</b>
-            </label>
-            <input type="name" onChange={handleNewName}></input>
+              {/* phone */}
+              {/* <div className="view-account-column-entry"> 
+                <label className="account-label" htmlFor="phone">
+                  {" "}
+                  Phone:{" "}
+                </label>
+                <input
+                  className="edit-label"
+                  htmlFor="phone"
+                  type="phone"
+                  id="edit-phone"
+                  disabled={true}
+                  placeholder={currentPhone}
+                ></input> 
+              </div> */}
 
-            <label htmlFor="birthday">
-              <b>Birthday</b>
-            </label>
-            <DatePicker
-              className="custom-datepicker"
-              selected={newBirthday}
-              onChange={handleNewBirthday}
-              dateFormat="MM/dd/yyyy"
-              minDate={new Date(1900, 0, 1)}
-              maxDate={new Date(2099, 11, 31)}
-              showMonthDropdown={true}
-              showYearDropdown={true}
-              todayButton="Today"
-              dropdownMode="select"
-              placeholderText="Select a date"
-            />
-            <button type="submit" className="btn" onClick={submitFamilyMember}>
-              Register
-            </button>
-            <button type="button" className="btn cancel" onClick={closeForm}>
-              Cancel
-            </button>
-          </form>
+              {/* birthday */}
+              <div className="view-account-column-entry">
+                <label className="account-label" htmlFor="birthday">
+                  {" "}
+                  Birthday:{" "}
+                </label>
+                <input
+                  className="edit-label"
+                  htmlFor="email"
+                  type="email"
+                  id="edit-birthday"
+                  disabled={true}
+                  placeholder={currentBirthday}
+                ></input>
+              </div>
+
+              {/* level */}
+              <div className="view-account-column-entry">
+                <label className="account-label" htmlFor="level">
+                  {" "}
+                  Level:{" "}
+                </label>
+                <input
+                  className="edit-label"
+                  htmlFor="level"
+                  type="level"
+                  id="level"
+                  disabled={true}
+                  placeholder={currentLevel}
+                ></input>
+              </div>
+              {/* edit the routers !!! */}
+              <div className="family-info">
+                <button className="edit-button" onClick={unlockInfo}>
+                  Edit
+                </button>
+                <button className="save-button" onClick={saveInfo}>
+                  Save
+                </button>
+              </div>
+            </div>
+
+            <div className="email-list">
+              <div className="view-account-column-entry">
+                <label className="heading" htmlFor="email" type="emailList">
+                  Email List:
+                </label>
+
+                <label className="checklist">
+                  Newsletter
+                  <input
+                    type="checkbox"
+                    checked={newsChecked}
+                    onChange={handleNewsChange}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+
+                <br />
+
+                <label className="checklist">
+                  Promotions
+                  <input
+                    type="checkbox"
+                    checked={promChecked}
+                    onChange={handlePromChange}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+
+                <button className="save-button" onClick={editSubscriptions}>
+                  Save
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="myForm-overlay">
+            <div className="add-family-popup" id="myForm">
+              <form className="form-container">
+                <label htmlFor="name">
+                  <b>Name</b>
+                </label>
+                <input type="name" onChange={handleNewName}></input>
+
+                <label htmlFor="birthday">
+                  <b>Birthday</b>
+                </label>
+                <DatePicker
+                  className="custom-datepicker"
+                  selected={newBirthday}
+                  onChange={handleNewBirthday}
+                  dateFormat="MM/dd/yyyy"
+                  minDate={new Date(1900, 0, 1)}
+                  maxDate={new Date(2099, 11, 31)}
+                  showMonthDropdown={true}
+                  showYearDropdown={true}
+                  todayButton="Today"
+                  dropdownMode="select"
+                  placeholderText="Select a date"
+                />
+                <button type="submit" className="btn" onClick={submitFamilyMember}>
+                  Register
+                </button>
+                <button type="button" className="btn cancel" onClick={closeForm}>
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
   );
-};
-
-export default AccountView;
+}; export default AccountView;
