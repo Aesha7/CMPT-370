@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router";
-import '../style/LoginPage.css';
+import "../style/LoginPage.css";
 
-const server_URL = "http://127.0.0.1:5000/" //URL to access server
+const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const LoginPage = () => {
 
@@ -12,15 +12,15 @@ const LoginPage = () => {
  const [accountID, setAccountID] = useState('');
  let [userID, setUserID] = useState('')
 
-// states for checking the errors
- const [submitted, setSubmitted] = useState(false);
- const [error, setError] = useState(false);
+  // States for checking the errors
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState(false);
 
  // state for viewing account list
  const [names, setNames] = useState('');
 
 
- let navigate = useNavigate(); 
+  let navigate = useNavigate();
 
  /**
  * Perform page routing
@@ -30,10 +30,10 @@ const LoginPage = () => {
   navigate(path);
 };
 
- const viewAccountPageRouteChange = () =>{
-  let path = '/my-account';
-  navigate(path, {state:userID})
- }
+  const viewAccountPageRouteChange = () => {
+    let path = "/my-account";
+    navigate(path, { state: userID });
+  };
 
  /**
  * Check for valid email address
@@ -43,20 +43,18 @@ const LoginPage = () => {
   return emailRegex.test(email);
 }
 
-/**
- * Handling form submittion
- */
-  const handleSubmit = (e) =>{
+  /**
+   * Handling form submittion
+   */
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(email === '' || password === ''){
-      alert("Please input all of the information.")
+    if (email === "" || password === "") {
+      alert("Please input all of the information.");
       setError(true);
-      alert("Please fill out every field.")
-    }
-    else if(!validEmail(email)){
-      alert("Please enter a valid email.")
-    }
-    else{
+      alert("Please fill out every field.");
+    } else if (!validEmail(email)) {
+      alert("Please enter a valid email.");
+    } else {
       try {
         // send request to backend and wait for the response
         fetch((server_URL+"get_id"), {
@@ -74,40 +72,39 @@ const LoginPage = () => {
                 'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
             }
         })
-        .then(function(response){
-          return response.json();
-        }).then(function(data){
-          if (data == "Password does not match."){
-            setSubmitted(false);
-            setError(true);
-            alert("Password does not match.");
-          }
-          else if (data == "Email not found."){
-            setSubmitted(false);
-            setError(true);
-            alert("Email not found.");
-          }
-          else {
-            setSubmitted(true);
-            setError(false);
-            userID = data;
-            viewAccountPageRouteChange();
-          }
-          return data
-        })
-    }catch (error){
-      console.log(error)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            if (data == "Password does not match.") {
+              setSubmitted(false);
+              setError(true);
+              alert("Password does not match.");
+            } else if (data == "Email not found.") {
+              setSubmitted(false);
+              setError(true);
+              alert("Email not found.");
+            } else {
+              setSubmitted(true);
+              setError(false);
+              userID = data;
+              viewAccountPageRouteChange();
+            }
+            return data;
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-}
+  };
 
-/**
- * Handling email change
- */
-const handleEmail = (e) => {
-  setEmail(e.target.value);
-  setSubmitted(false);
-};
+  /**
+   * Handling email change
+   */
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    setSubmitted(false);
+  };
 
 /**
  * Handling password change
@@ -115,45 +112,46 @@ const handleEmail = (e) => {
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setSubmitted(false);
-};
+  };
 
-const forgotPasswordDummy = (e) => {
-  alert("This is a dummy feature.")
-}
+  const forgotPasswordDummy = (e) => {
+    alert("This is a dummy feature.");
+  };
 
   // temporary, for testing 
   const viewAccounts = () => {
-    fetch("/view_account_list",{method: 'get',
-      dataType: 'json',
+    fetch("/view_account_list", {
+      method: "get",
+      dataType: "json",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     })
-    .then((response) => response.json())
-    .then(responseData => {
-      setNames(responseData)
-    }).catch((error) => {
+      .then((response) => response.json())
+      .then((responseData) => {
+        setNames(responseData);
+      })
+      .catch((error) => {
         if (error.response) {
-            console.log(error.response)
-            console.log(error.response.status)
-            console.log(error.response.headers)
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
         }
-    })
-    return
-  }
+      });
+    return;
+  };
 
   return (
-
     <div className="home-page">
-
-    <div className="top-bar">Login
-      <div className="allButtons">
-      <button className="top-bar-button" onClick={backToLandingPage}>
-          Home
-      </button>
+      <div className="top-bar">
+        Login
+        <div className="allButtons">
+          <button className="top-bar-button" onClick={backToLandingPage}>
+            Home
+          </button>
+        </div>
       </div>
-    </div>
 
     <div className="container">
 
@@ -168,20 +166,30 @@ const forgotPasswordDummy = (e) => {
             <button onClick={handleSubmit} className="button1" type="button">Login</button>          
           </div>
 
-          <div className="column-entry">
-            <label className="label" htmlFor="password">Password:</label>
-            <input onChange={handlePassword} className="text-field" value={password} type="password" id="password" />
-            <button className="button2" type="button" onClick={forgotPasswordDummy}>Forgot Password</button>
+            <div className="column-entry">
+              <label className="label" htmlFor="password">
+                Password:
+              </label>
+              <input
+                onChange={handlePassword}
+                className="text-field"
+                value={password}
+                type="password"
+                id="password"
+              />
+              <button
+                className="button2"
+                type="button"
+                onClick={forgotPasswordDummy}
+              >
+                Forgot Password
+              </button>
+            </div>
           </div>
-
-        </div>
-
-      </form>
-    
+        </form>
+      </div>
     </div>
-    </div>
-
   );
-}
+};
 
 export default LoginPage;

@@ -69,6 +69,7 @@
   flex-direction: column;
   margin: 25px;
   background-color: lightgray;
+
 }
 
 .view-account-column-entry .info-label {
@@ -87,6 +88,7 @@
   flex-direction: column;
   margin: 25px;
   position: relative;
+
 }
 
 .account-label {
@@ -95,6 +97,7 @@
   text-align: left;
   margin-bottom: 10px;
   max-width: 100%;
+
 }
 
 .info-label {
@@ -109,6 +112,7 @@
   margin-bottom: 10px;
   font-size: 16px;
   border: 2px solid darkgray;
+
 }
 
 .view-user-info-2 {
@@ -117,6 +121,7 @@
   flex-direction: column;
   margin: 25px;
   background-color: lightgray;
+
 }
 
 .view-user-info-2 .family-bar{
@@ -126,6 +131,7 @@
   padding-bottom: 30px;
   margin-top: auto;
   margin-bottom: 0;
+
 }
 
 .family-button{
@@ -165,6 +171,7 @@
   align-items: center;
   padding-top: 8px;
   padding-bottom: 8px;
+
 }
 
 .register-button{
@@ -296,7 +303,6 @@
   border: 2px solid green;
   color: black;
   margin-left: 10px;
-
 }
 
 .save-button:hover {
@@ -313,7 +319,7 @@
   cursor: pointer;
   user-select: none;
   font-size: 18px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
 }
 
 /* hide the browser's default checkbox */
@@ -460,6 +466,6 @@
   }
 }
 
-.custom-datepicker {
+/* .custom-datepicker {
   margin-left: 10px;
-}
+} */

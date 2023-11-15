@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
 import db_admin as ad
+# from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
 # Connecting to MongoDB: 
@@ -103,6 +104,18 @@ def GetAccountInfo():
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
 
+@app.route('/edit_subscriptions',methods=["POST"])
+@cross_origin(origins='*')
+def EditSubscriptions():
+    """Changes the user's subscription settings. 
+    Required request arguments: _id, prom, news
+
+    Returns: 
+    Possible error messages: 
+        "Error: account not found"
+    """
+    return ac.edit_subscriptions(request.get_json(), accounts_collection)
+
 @app.route('/admin_get_account_info',methods=["POST"])
 @cross_origin(origins='*')
 def AdminGetAccountInfo():
@@ -188,7 +201,7 @@ def EditFamily():
         Response
             Possible response data: "Success", "Error: No user by that name found",  "Error: account not found", "Error: user with name already exists in account"
     """
-    return ac.edit_family(request.get_json(),accounts_collection)
+    return ac.edit_family(request.get_json(),accounts_collection,events_collection,courses_collection)
 
 @app.route("/retrieve_family", methods=["POST"])
 @cross_origin(origins="*")
@@ -254,7 +267,7 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name, coach_email
+    Required request parameters: account_ID, name, coach_email, desc, start, end
     Required staff level: 1
 
     Returns: Response

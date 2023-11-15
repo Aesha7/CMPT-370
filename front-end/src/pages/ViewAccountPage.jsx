@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import "../style/ViewAccountPage.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -7,47 +7,50 @@ import "react-datepicker/dist/react-datepicker.css";
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const AccountView = () => {
-
   const location = useLocation();
+  let renders;
 
   // use these variables to set proper data
   let [name, setName] = useState("John Doe");
   let [phone, setPhone] = useState("(306) 123-4567");
   let [email, setEmail] = useState("email@domain.com");
   let [birthday, setBirthday] = useState("month/day/year");
-  let [level] = useState("1");
   let [userID, setUserID] = useState("");
-  let [staffLevel, setStaffLevel] = useState('')
+  let [staffLevel, setStaffLevel] = useState("");
 
   // the current data being displayed
   let [currentName, setCurrentName] = useState("");
-  let [currentPhone, setCurrentPhone] = useState("");
   let [currentLevel, setCurrentLevel] = useState("");
   let [currentBirthday, setCurrentBirthday] = useState("");
 
   // values that change user info
   let [newName, setNewName] = useState("");
-  let [newPhone, setNewPhone] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
+  let [changedName, setChangedName] = useState("");
 
   // the array of users (including the main one)
   const [users, setUsers] = useState([]);
-  let [accountData, setAccountData] = useState('')
 
   // index to modify user data
-  let currentUserIndex
-  // users = [{name: "name"},{name: 'name2'}]
+  let [currentUserIndex, setCurrentUserIndex] = useState(0);
 
+  // getting userID from previous page
   userID = location.state;
 
-  if(userID != null){
-    window.localStorage.setItem('_id', userID);
+  // saving it to local storage
+  if (userID != null) {
+    window.localStorage.setItem("_id", userID);
   }
-    
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
-  userID = window.localStorage.getItem('_id')
-  
-  const get_account_info = () =>{
+
+  // getting it from local storage
+  userID = window.localStorage.getItem("_id");
+
+  // for subscription checkboxes
+  const [promChecked, setPromChecked] = React.useState(false);
+  const [newsChecked, setNewsChecked] = React.useState(false);
+
+  // gets account information
+  const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
         method: "POST",
@@ -59,31 +62,34 @@ const AccountView = () => {
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       })
-      .then((response) => {
-        return response.text(); // get the response text
-      })
-      .then((text) => {
-        // parse the text as JSON
-        const data = JSON.parse(text);
-        setEmail(data.email);
-        setName(data.users[0].name);
-        setPhone(data.phone);
-        setBirthday(data.users[0].birthday)
-  
-        setAccountData(data)
-        setStaffLevel(data.staffLevel)
-  
-        setUsers(data.users)
-      })
+        .then((response) => {
+          return response.text(); // get the response text
+        })
+        .then((text) => {
+          // parse the text as JSON
+          const data = JSON.parse(text);
+          setEmail(data.email);
+          setName(data.users[0].name);
+          setPhone(data.phone);
+          setBirthday(data.users[0].birthday);
+
+          setStaffLevel(data.staffLevel);
+
+          setNewsChecked(data.news);
+          setPromChecked(data.prom);
+
+          setUsers(data.users);
+          getRenders();
+        });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    get_account_info()
+    get_account_info();
   }, []);
-  
+
   /**
    phone = ___;
    birthday = ___;
@@ -96,104 +102,184 @@ const AccountView = () => {
    */
   const registerChild = (e) => {
     let path = "/class-registration";
-    let user = users[e.target.value]
+    let user = users[e.target.value];
     let name = user.name;
-    console.log(userID)
-    navigate(path, {state:{_id: userID, curUserName: name}});
+    console.log(userID);
+    navigate(path, { state: { _id: userID, curUserName: name } });
   };
 
   /**
    * Display info for current user (parent or child)
    */
   const displayInfo = (e) => {
-    currentUserIndex = e.target.value
+    setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
-    setCurrentPhone(users[currentUserIndex.phone])
-    setCurrentBirthday(users[currentUserIndex].birthday)
-    setCurrentLevel(users[currentUserIndex].level)
-  };  
-  
-  // let renders = children.map(function (i) {
-    let j = -1
-    let renders = users.map(function (i) {
+    setCurrentBirthday(users[currentUserIndex].birthday);
+    setCurrentLevel(users[currentUserIndex].level);
+  };
+
+  // getting a list of html elements to display users and buttons
+  const getRenders = () => {
+    let j = -1;
+    renders = users.map(function (i) {
       j++;
       return (
-      <div className="family-member-row">
-        <label className="family-member-name" htmlFor="family">
-          {" "}
-          {i.name}{" "}
-        </label>
-        <button
-          className="register-button"
-          value={j}
-          type="button"
-          onClick={registerChild}
-        >
-          Register
-        </button>
-        <button
-          className="info-button"
-          value={j}
-          type="button"
-          onClick={displayInfo}
-        >
-          Info
-        </button>
-      </div>
-    );
-  });
+        <div className="family-member-row">
+          <label className="family-member-name" htmlFor="family">
+            {" "}
+            {i.name}{" "}
+          </label>
+          <button
+            className="register-button"
+            value={j}
+            type="button"
+            onClick={registerChild}
+          >
+            Register
+          </button>
+          <button
+            className="info-button"
+            value={j}
+            type="button"
+            onClick={displayInfo}
+          >
+            Info
+          </button>
+        </div>
+      );
+    });
+  };
 
   /**
    * Perform page routing
    */
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
-    navigate(path, {state: userID});
+    navigate(path, { state: userID });
   };
 
+  // logout button
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
   };
 
-  const adminCalendarPageRoute = () =>{
+  // go to admin calendar
+  const adminCalendarPageRoute = () => {
     let path = "/admin-schedule";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
 
-  const manageAccountsPageRoute = () =>{
+  // go to account management page
+  const manageAccountsPageRoute = () => {
     let path = "/admin-accounts";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
 
-  const coachCalendarPageRoute = () =>{
+  // go to coach calendar
+  const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
 
-  const studentsListPageRoute = () =>{
+  // go to student list page
+  const studentsListPageRoute = () => {
     let path = "/students-list";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
+
+  // handles news checkbox
+  const handleNewsChange = () => {
+    setNewsChecked(!newsChecked);
+  };
+
+  // handles promotions checkbox
+  const handlePromChange = () => {
+    setPromChecked(!promChecked);
+  };
+
+  // edit subsctiptions api call
+  const editSubscriptions = (e) => {
+    e.preventDefault();
+    try {
+      fetch(server_URL + "edit_subscriptions", {
+        method: "POST",
+        body: JSON.stringify({
+          _id: userID,
+          news: newsChecked,
+          prom: promChecked,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      }).then((response) => {
+        return response.text(); // get the response text
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   /**
    * Edit info fields
    */
-    const unlockInfo = () => {
+  const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
-    document.getElementById("edit-birthday").disabled = false;
-    document.getElementById("edit-phone").disabled = false;
-
   };
 
   /**
    * Save info fields
    */
-  const saveInfo = () => {
-    document.getElementById("edit-name").disabled = true;
-    document.getElementById("edit-birthday").disabled = true;
-    document.getElementById("edit-phone").disabled = true;
+  const saveInfo = (e) => {
+    e.preventDefault();
+    if (changedName === "") {
+      alert("Please input a name");
+    } else {
+      try {
+        fetch(server_URL + "edit_family", {
+          method: "POST",
+          body: JSON.stringify({
+            _id: userID,
+            new_name: changedName,
+            old_name: currentName,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        })
+          .then(function (response) {
+            return response.json(); // get the response text
+          })
+          .then(function (data) {
+            if (data == "Error: No user by that name found") {
+              alert("Error: No user by that name found");
+            } else if (data == "Error: account not found") {
+              alert("Error: account not found");
+            } else if (
+              data == "Error: user with name already exists in account"
+            ) {
+              alert("Error: user with name already exists in account");
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      if (currentUserIndex == 0) {
+        setName(changedName); // updates name displayed in Account Info column if parent was edited
+      }
+      setCurrentName(changedName);
+      document.getElementById("edit-name").disabled = true;
 
+      // updating data
+      get_account_info();
+      getRenders();
+    }
   };
 
   /**
@@ -205,93 +291,132 @@ const AccountView = () => {
   };
 
   /**
-  * Handling form submittion
-  */
+   * Handling form submittion
+   */
   const submitFamilyMember = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (newName == "" || newBirthday == "") {
       alert("Please input all fields.");
-    } 
-    else {
+    } else {
       // new child using newName, newPhone, newBirthday, level = 1
-      try{
+      try {
+        let dateArr = newBirthday.toString().split(" ");
+        let stringBirthday = dateArr[1] + " " + dateArr[2] + " " + dateArr[3];
         fetch(server_URL + "add_family", {
           method: "POST",
-          body: JSON.stringify({ _id: userID, name: newName, birthday: newBirthday}),
+          body: JSON.stringify({
+            _id: userID,
+            name: newName,
+            birthday: stringBirthday,
+          }),
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
-        }).then((response) => {
-          return response.text(); // get the response text
         })
-        .then((text) => {
-          // parse the text as JSON
-          text = text.substring(1, text.length -1)
-          if(text == 'Success'){
-            window.location.reload(false);
-            return text;
-          }
-          else if(text == "Error: name already in use"){
-            alert("Name is already in use.")
-          }
-        })
+          .then((response) => {
+            return response.text(); // Get the response text
+          })
+          .then((text) => {
+            // Parse the text as JSON
+            text = text.substring(1, text.length - 1);
+            if (text == "Success") {
+              window.location.reload(false);
+              return text;
+            } else if (text == "Error: name already in use") {
+              alert("Name is already in use.");
+            }
+          });
+      } catch (error) {
+        console.log(error);
       }
-        catch(error){
-          console.log(error)
-        }
 
       document.getElementById("myForm").style.display = "none";
     }
   };
 
+  // closes family member popup
   const closeForm = () => {
     // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
     document.querySelector(".myForm-overlay").style.display = "none";
   };
 
+  // handles new childs name
   const handleNewName = (e) => {
     setNewName(e.target.value);
   };
 
-  const handleNewPhone = (e) => {
-    setNewPhone(e.target.value);
+  // handles edited name
+  const handleChangedName = (e) => {
+    setChangedName(e.target.value);
   };
 
+  // handles new childs birthday
   const handleNewBirthday = (date) => {
-      setNewBirthday(date);
+    setNewBirthday(date);
   };
 
   // check if user account is admin
-  if(staffLevel == 3){
+  if (staffLevel == 3) {
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
   }
 
   // check if user account is coach
-  if(staffLevel == 1){
+  if (staffLevel == 1) {
     document.getElementById("studentsList").style.display = "block";
     document.getElementById("coachCalendar").style.display = "block";
   }
 
+  getRenders();
   return (
     <div className="view-account-page">
       <div className="top-bar">
         My Account
         <div className="allButtons">
-        <button className="top-bar-button" htmlFor="manageAccounts" id="manageAccounts" onClick={manageAccountsPageRoute}>Manage Accounts</button>
-        <button className="top-bar-button" htmlFor="adminCalendar" id="adminCalendar" onClick={adminCalendarPageRoute}>Admin Calendar</button>
-        <button className="top-bar-button" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
-        <button className="top-bar-button" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
-        <button className="top-bar-button" onClick={goBackToLogin}> Logout </button>      
+          <button
+            className="top-bar-button"
+            htmlFor="manageAccounts"
+            id="manageAccounts"
+            onClick={manageAccountsPageRoute}
+          >
+            Manage Accounts
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="adminCalendar"
+            id="adminCalendar"
+            onClick={adminCalendarPageRoute}
+          >
+            Admin Calendar
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="studentsList"
+            id="studentsList"
+            onClick={studentsListPageRoute}
+          >
+            Students List
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="coachCalendar"
+            id="coachCalendar"
+            onClick={coachCalendarPageRoute}
+          >
+            Coach Calendar
+          </button>
+          <button className="top-bar-button" onClick={goBackToLogin}>
+            {" "}
+            Logout{" "}
+          </button>
         </div>
       </div>
       <div className="view-account-container">
-
         {/* view account owner's info */}
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
@@ -335,7 +460,12 @@ const AccountView = () => {
               {" "}
               Phone:{" "}
             </label>
-            <label className="info-label" htmlFor="phone" type="phone" id="phone">
+            <label
+              className="info-label"
+              htmlFor="phone"
+              type="phone"
+              id="phone"
+            >
               {" "}
               {phone}{" "}
             </label>
@@ -357,7 +487,6 @@ const AccountView = () => {
               {birthday}{" "}
             </label>
           </div>
-          
         </div>
 
         <div className="view-user-info-2">
@@ -370,7 +499,7 @@ const AccountView = () => {
                 Add Family Member
               </button>
             </div>
-            {/* looping through children*/}
+            {/* looping through children */}
             {renders}
 
             <div className="family-schedule">
@@ -400,6 +529,7 @@ const AccountView = () => {
                 Name:{" "}
               </label>
               <input
+                onChange={handleChangedName}
                 className="edit-label"
                 htmlFor="name"
                 type="name"
@@ -440,7 +570,7 @@ const AccountView = () => {
                 placeholder={currentLevel}
               ></input>
             </div>
-
+            {/* edit the routers !!! */}
             <div className="family-info">
               <button className="edit-button" onClick={unlockInfo}>
                 Edit
@@ -460,42 +590,53 @@ const AccountView = () => {
 
               <label className="checklist">
                 Newsletter
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={newsChecked}
+                  onChange={handleNewsChange}
+                />
                 <span className="checkmark"></span>
               </label>
 
               <br />
-              
+
               <label className="checklist">
                 Promotions
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={promChecked}
+                  onChange={handlePromChange}
+                />
                 <span className="checkmark"></span>
               </label>
+
+              <button className="save-button" onClick={editSubscriptions}>
+                Save
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="myForm-overlay"></div>
+        <div className="myForm-overlay"></div>
 
         {/* add new family member */}
         <div className="add-family-popup" id="myForm">
-          
           <form className="form-container">
             <label htmlFor="name">
               <b>Name</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
+
             <label htmlFor="birthday">
               <b>Birthday</b>
             </label>
             <DatePicker
-              className="custom-datepicker" 
-              selected={newBirthday} 
+              className="custom-datepicker"
+              selected={newBirthday}
               onChange={handleNewBirthday}
               dateFormat="MM/dd/yyyy"
-              minDate={new Date(1900, 0, 1)} 
-              maxDate={new Date(2099, 11, 31)} 
-              isClearable={true}
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
               showMonthDropdown={true}
               showYearDropdown={true}
               todayButton="Today"
@@ -509,11 +650,9 @@ const AccountView = () => {
               Cancel
             </button>
           </form>
-
         </div>
       </div>
     </div>
-
   );
 };
 

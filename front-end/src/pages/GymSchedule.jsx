@@ -14,9 +14,7 @@ const GymSchedule = () => {
     let userID;
     let location = useLocation()
     userID = location.state._id;
-    console.log(userID)
     let curUserName = location.state.curUserName
-    console.log(curUserName)
 
     const [staffLevel, setStaffLevel] = useState("");
   
@@ -56,13 +54,15 @@ const get_db_events = () =>{
           let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
           let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
           let level = event.level
+          let enrolled = event.enrolled
 
           let newEvent = {
             name: name,
             desc: desc,
             start: start,
             end: end,
-            level: level
+            level: level,
+            enrolled: enrolled
           }
           if(filter == "-1"){
             tempEvents.push(newEvent)
@@ -114,7 +114,6 @@ const get_db_events = () =>{
 
   const register_for_event = () =>{
     try{
-      // alert(currentEvent.name)
       fetch(server_URL + "add_course_user", {
         method: "POST",
         body: JSON.stringify({ 
@@ -132,7 +131,6 @@ const get_db_events = () =>{
         return response.text()
       }).then((text) =>{
         const data = text;
-        // console.log(data)
         if(data == '"Error: event not found"'){
           alert("Event not found.")
         }
@@ -143,16 +141,62 @@ const get_db_events = () =>{
           alert("Account not found.")
         }
         else if(data == '"Error: event already on user\'s event list"'){
-          alert("You are already registered for this event")
+          alert("You are already registered for this event.")
         }
         else{
-          alert("Course Registered! (placeholder)")
+          alert("Course Registered!")
+          get_db_events();
+          closeForm();
         }
+
       })
     } catch(error){
       console.log(error)
     }
   }
+
+  const unregister = () =>{
+      console.log("curUser", curUser.name);
+      console.log("currentEvent", currentEvent);
+      console.log("userID", userID);
+  
+      try {
+        fetch(server_URL + "remove_course_user", {
+          method: "POST",
+          body: JSON.stringify({
+            _id: userID,
+            user_name: curUser.name,
+            event_name: currentEvent.name,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        })
+          .then((response) => {
+            return response.text();
+          })
+          .then((data) => {
+            if (data == '"Error: event not on user\'s list"') {
+              alert("There was an error with finding the event.");
+            } else if (data == '"Error: account not found"') {
+              alert("There was an error with getting your account.");
+            } else if (data == '"Error: user not found"') {
+              alert("There was an error with getting your account.");
+            } else if (data == '"Error: event not found"') {
+              alert("There was an error with finding the event.");
+            } else {
+              alert("Unregistration successful!");
+              closeForm();
+              get_db_events();
+            }
+          });
+      } catch (exception) {
+        console.log(exception);
+      }
+    };  
 
     // getting data initially
     useEffect(() => {
@@ -169,34 +213,36 @@ const get_db_events = () =>{
     }
 
     const showDetails = (calEvent) =>{
-        // alert(calEvent.description)
-        // console.log(calEvent)
         if(calEvent != currentEvent){
-          // setCurrentEvent(calEvent)
           currentEvent = calEvent
         }
-        console.log(currentEvent.title)
-
-
         openForm()
     }
 
     const openForm = () => {
-      // console.log(currentEvent)
         document.getElementById("myForm").style.display = "block";
         document.getElementById("eventTitle").innerHTML = currentEvent.name;
-        // console.log(currentEvent.desc)
         if(currentEvent.desc != ""){
         document.getElementById("eventDescription").innerHTML = currentEvent.desc;
-      }
-      else{
-        document.getElementById("eventDescription").innerHTML = "N/A"
-      }
+        }
+        else{
+          document.getElementById("eventDescription").innerHTML = "N/A"
+        }
+        console.log(curUser.name)
+        if(currentEvent.enrolled.find(user => user.name == curUser.name)){
+          document.getElementById("registrationChecker").innerHTML = "You are registered for this event"
+          document.getElementById("registrationButton").innerHTML = "Un-Register"
+        }
+        else{
+          document.getElementById("registrationChecker").innerHTML = "You are not registered for this event"
+          document.getElementById("registrationButton").innerHTML = "Register"
+        }
         };
 
 
     const closeForm = () =>{
         document.getElementById("myForm").style.display = "none";
+        currentEvent = null;
     }
 
     const registerForEvent = (e) =>{
@@ -205,9 +251,17 @@ const get_db_events = () =>{
         // close form
         e.preventDefault()
 
-        register_for_event();
+        if(currentEvent.enrolled.find(user => user.name == curUser.name)){
+          unregister()
+        }
+        else{
+          register_for_event();
+        }
+
         document.getElementById("myForm").style.display = "none";
     }
+
+
 
      const handleCurUser = (e) =>{
       setCurUser(users[e.target.value]);
@@ -272,7 +326,9 @@ const get_db_events = () =>{
 
                         <h5 id='eventDescription'>{currentEvent.desc}</h5>
 
-                        <button type="submit" className="btn" onClick={registerForEvent}>
+                        <h5 id="registrationChecker"></h5>
+
+                        <button type="submit" className="btn" onClick={registerForEvent} id="registrationButton">
                         Register
                         </button>
                         <button type="button" className="btn cancel" onClick={closeForm}>

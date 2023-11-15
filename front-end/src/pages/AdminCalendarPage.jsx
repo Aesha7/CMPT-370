@@ -1,58 +1,56 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
+import DatePicker from "react-datepicker";
 import moment from "moment";
 import "../style/AdminCalendarPage.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-// big calendar docs: https://jquense.github.io/react-big-calendar/examples/index.html?path=/docs/about-big-calendar--page
-
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
-
 
 const AdminCalendarPage = () => {
   const localizer = momentLocalizer(moment);
   const location = useLocation();
-
+  // for event
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [level, setLevel] = useState("");
-
   const [startYear, setStartYear] = useState("");
   const [startMonth, setStartMonth] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [startHr, setStartHr] = useState("");
-  const [startMin, setStartMin] = useState("");
-
-  const [endYear, setEndYear] = useState("");
-  const [endMonth, setEndMonth] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endHr, setEndHr] = useState("");
-  const [endMin, setEndMin] = useState("");
+  const [date, setDate] = useState();
+  const [startTime, setStartTime] = useState();
+  const [duration, setDuration] = useState();
 
   const [coach, setCoach] = useState("");
+  const [user, setUser] = useState();
 
-  // get relevant info from 'email'
-  //JSON, needs to be dynamic (backend)
-
+  // the list of events
   const [calEvents, setCalEvents] = useState([]);
+
+  // changes when you click on an event
+  let currentEvent = null;
+
+  // temporary variable to set calendar events
   let tempEvents = [];
 
+  // getting user ID from previous page
   let userID;
   userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
 
-
+  // saving the userID to local storage so it doesnt crash on page refresh
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
   }
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
-  
-  const get_db_events = () =>{
+
+  // getting the database events
+  const get_db_events = () => {
     // getting the events
-    try{
+    try {
       fetch(server_URL + "retrieve_courses", {
         method: "POST",
         body: JSON.stringify({}),
@@ -62,37 +60,63 @@ const AdminCalendarPage = () => {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
-      }).then((response) =>{
-        return response.text()
-      }).then((text) => {
-        const data = JSON.parse(text);
-        // let tempEvents = [];
-        data.forEach((event) => {
-          let name = event.name;
-          let desc = event.desc;
-          let start = new Date(event.start.year, event.start.month, event.start.date, event.start.hour, event.start.minute, 0)
-          let end = new Date(event.end.year, event.end.month, event.end.date, event.end.hour, event.end.minute, 0)
-          let level = event.level
-
-          let newEvent = {
-            name: name,
-            desc: desc,
-            start: start,
-            end: end,
-            level: level
-          }
-
-          tempEvents.push(newEvent)
-          });
-          setCalEvents(tempEvents)
-          // console.log(tempEvents)
+      })
+        .then((response) => {
+          return response.text();
         })
-      } catch(exception){
-      console.log(exception)
-    }
-  }
+        .then((text) => {
+          const data = JSON.parse(text);
+          // parsing through each event in the db
+          data.forEach((event) => {
+            // getting the actual data
 
-  const get_account_details = () =>{
+            let name = event.name;
+            let desc = event.desc;
+            let start = new Date(
+              event.start.year,
+              event.start.month,
+              event.start.date,
+              event.start.hour,
+              event.start.minute,
+              0
+            );
+            let end = new Date(
+              event.end.year,
+              event.end.month,
+              event.end.date,
+              event.end.hour,
+              event.end.minute,
+              0
+            );
+            let level = event.level;
+            let enrolled = event.enrolled;
+            let coach = event.coach;
+
+            // creating the new event to use in the array
+            let newEvent = {
+              name: name,
+              desc: desc,
+              start: start,
+              end: end,
+              level: level,
+              enrolled: enrolled,
+              coach: coach,
+            };
+
+            // adding to the array
+            tempEvents.push(newEvent);
+          });
+
+          // setting the events
+          setCalEvents(tempEvents);
+        });
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
+
+  // getting the account details from the db using the userID
+  const get_account_details = () => {
     try {
       fetch(server_URL + "get_account_info", {
         method: "POST",
@@ -111,68 +135,187 @@ const AdminCalendarPage = () => {
           // Parse the text as JSON
           const data = JSON.parse(text);
           setStaffLevel(data.staffLevel);
+          setUser(data);
         });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  // deleting an event from the database (goes through enrolled list too)
+  const delete_event_call = () => {
+    // removing for all enrolled members
+    // this should work when the backend is fixed
+    try {
+      fetch(server_URL + "delete_course", {
+        method: "POST",
+        body: JSON.stringify({
+          account_ID: userID,
+          event_name: currentEvent.name,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text();
+        })
+        .then((data) => {
+          // getting the updated db events
+
+          if (data == '"Error: account not found"') {
+            alert("Account not found.");
+          } else if (
+            data == '"Error: you do not have permission to perform this action"'
+          ) {
+            alert("You do not have permission to perform this action.");
+          } else if (data == '"Error: event not found"') {
+            alert("Event not found.");
+          } else {
+            // updating the events list and closing popup
+            get_db_events();
+            closeAllForms();
+          }
+        });
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
 
   // getting data initially
   useEffect(() => {
-    get_account_details()
-    get_db_events()
+    get_account_details();
+    get_db_events();
   }, []);
 
-  // months index starting at 0 (october is 9, january is 0...)
-  // dates are normal
-
-
-  
   const clickRef = useRef(null);
   let navigate = useNavigate();
 
-  const goBack = () =>{
+  // going to previous page
+  const goBack = () => {
     let path = "/my-account";
-    navigate(path, {state:userID})
-  }
+    navigate(path, { state: userID });
+  };
 
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
-    alert('Title: ' + calEvent.name + '\nDescription: ' + calEvent.desc + '\nLevel: ' + (parseInt(calEvent.level) + 1) + '/' + (parseInt(calEvent.level) + 2));
+    currentEvent = calEvent;
+    // opens the info popup
+    openEventInfoForm(calEvent);
   };
 
-  const openForm = () => {
-    document.getElementById("myForm").style.display = "block";
+  // opens the create event popup
+  const openEventCreateForm = () => {
+    // opening the createEvent form
+    document.getElementById("createEventForm").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
   };
 
-  const closeForm = () => {
+  const openEventInfoForm = (calEvent) => {
+    // setting html for event info & displaying the form
+
+    document.getElementById("clickInformation").style.display = "block";
+    document.getElementById("eventTitle").innerHTML = calEvent.name;
+    document.getElementById("eventDescription").innerHTML = calEvent.desc;
+    document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
+  };
+
+  const displayConfirmPopup = () => {
+    document.getElementById("confirmDeletionPopup").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
+  };
+
+  // closes all popups
+  const closeAllForms = () => {
     setTitle("");
     setDescription("");
 
-    document.getElementById("myForm").style.display = "none";
+    document.getElementById("createEventForm").style.display = "none";
+    document.getElementById("clickInformation").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
+    document.getElementById("confirmDeletionPopup").style.display = "none";
   };
 
+  // handles the title
   const handleTitle = (e) => {
     setTitle(e.target.value);
-    // setSubmitted(false);
   };
 
+  // handles the description
   const handleDesc = (e) => {
     setDescription(e.target.value);
-    // setSubmitted(false);
   };
 
+  // handles the level
   const handleLevel = (e) => {
     setLevel(e.target.value);
-    // setSubmitted(false);
   };
 
+  // handles the date
+  const handleDate = (inputDate) => {
+    // handles the datepicker event
+    setDate(inputDate);
+    let arr = inputDate.toString().split(" ");
+    let months = {
+      Jan: 0,
+      Feb: 1,
+      Mar: 2,
+      Apr: 3,
+      May: 4,
+      Jun: 5,
+      Jul: 6,
+      Aug: 7,
+      Sep: 8,
+      Oct: 9,
+      Nov: 10,
+      Dec: 11,
+    };
+
+    // parsing through the date to get relevent info
+    setStartDate(arr[2]);
+    setStartYear(arr[3]);
+    // mapping string to the month value
+    setStartMonth(months[arr[1]]);
+  };
+
+  // handles the coach
+  const handleCoach = (e) => {
+    setCoach(e.target.value);
+  };
+
+  // handles the start time
+  const handleStartTime = (e) => {
+    setStartTime(e.target.value);
+  };
+
+  // handles the duration of the event
+  const handleDuration = (e) => {
+    setDuration(e.target.value);
+  };
+
+  // creating the event
   const submitEvent = (e) => {
-    e.preventDefault()
-    if (title == "" || level == "" || startHr == "" || endHr == "") {
-      // error pop up
-      alert("This is not a valid event.");
+    e.preventDefault();
+    if (title == "") {
+      alert("Please insert a title.");
+    } else if (level == "") {
+      alert("Please select a level.");
+    } else if (coach == "") {
+      alert("Please include a coach.");
+    } else if (!validTime(startTime)) {
+      alert("Please insert a valid start time.");
+    } else if (startYear == "" || startMonth == "" || startDate == "") {
+      alert("Pleaase select a valid date");
+    } else if (!validTime(duration)) {
+      alert("Please insert a valid duration.");
     } else {
+      // getting relevent info for start and end time
+      let arr = startTime.split(":");
+      let arr2 = duration.split(":");
+
       let event = {
         name: title,
         desc: description,
@@ -180,21 +323,22 @@ const AdminCalendarPage = () => {
           year: startYear,
           month: startMonth,
           date: startDate,
-          hour: startHr,
-          minute: startMin
+          hour: arr[0],
+          minute: arr[1],
         },
         end: {
-          year: endYear,
-          month: endMonth,
-          date: endDate,
-          hour: endHr,
-          minute: endMin
+          year: startYear,
+          month: startMonth,
+          date: startDate,
+          hour: parseInt(arr[0]) + parseInt(arr2[0]),
+          minute: parseInt(arr[1]) + parseInt(arr2[1]),
         },
         level: level,
-        coach_email: coach
+        coach_email: coach,
       };
 
-      try{
+      // sending to database
+      try {
         fetch(server_URL + "add_course", {
           method: "POST",
           body: JSON.stringify({
@@ -212,7 +356,7 @@ const AdminCalendarPage = () => {
             endHour: event.end.hour,
             endMin: event.end.minute,
             level: event.level,
-            coach_email: coach
+            coach_email: coach,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -220,71 +364,64 @@ const AdminCalendarPage = () => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
-        }).then((response) =>{
-          return response.text()
-        }).then((data) => {
-          // console.log(data)
-          if(data != ""){
-            alert("There is alread an event with this name.")
-          }
-          else{
-            closeForm();
-            get_db_events();
-            // window.location.reload(false);
-          }
         })
-      } catch(exception){
-        console.log(exception)
+          .then((response) => {
+            return response.text();
+          })
+          .then((data) => {
+            if (data == '"Error: event name already exists"') {
+              alert("An event with this name already exists.");
+            } else if (
+              data ==
+              '"Error: you do not have permission to perform this action"'
+            ) {
+              alert("You do not have permission to add an event.");
+            } else if (
+              data == '"Error: target coach account is not a staff account"'
+            ) {
+              alert(
+                "The email you provided does not correspond to a coaches account."
+              );
+            } else if (data == '"Error: coach account not found"') {
+              alert(
+                "The email you provided does not correspond to a coaches account."
+              );
+            } else {
+              closeAllForms();
+              get_db_events();
+            }
+          });
+      } catch (exception) {
+        console.log(exception);
       }
-      // reloading
     }
   };
-  
-  const handleStartYear = (e) => {
-    setStartYear(e.target.value);
+
+  // deleting an event from the db with a button
+  const deleteEvent = (e) => {
+    e.preventDefault();
+
+    if (currentEvent.enrolled.length > 0) {
+      displayConfirmPopup();
+      // check
+      // delete_event_call();
+      // display the confirmation form
+    } else {
+      delete_event_call();
+    }
   };
 
-  const handleStartMonth = (e) => {
-    setStartMonth(e.target.value);
-  };
+  // checks to see if a time is a valid representation using a regular expression
+  function validTime(time) {
+    // Regular expression for a valid email address
+    // /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/
+    const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
-  const handleStartDate = (e) => {
-    setStartDate(e.target.value);
-  };
-
-  const handleStartHr = (e) => {
-    setStartHr(e.target.value);
-  };
-
-  const handleStartMin = (e) => {
-    setStartMin(e.target.value);
-  };
-
-  const handleEndYear = (e) => {
-    setEndYear(e.target.value);
-  };
-
-  const handleEndMonth = (e) => {
-    setEndMonth(e.target.value);
-  };
-
-  const handleEndDate = (e) => {
-    setEndDate(e.target.value);
-  };
-
-  const handleEndHr = (e) => {
-    setEndHr(e.target.value);
-  };
-
-  const handleEndMin = (e) => {
-    setEndMin(e.target.value);
-  };
-
-  const handleCoach = (e) => {
-    setCoach(e.target.value)
+    return timeRegex.test(time);
   }
 
-  if(staffLevel >= 2){
+  // overlay if the user shouldnt be able to see the page
+  if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
   }
 
@@ -293,13 +430,77 @@ const AdminCalendarPage = () => {
       <div className="top-bar">
         Gym Schedule
         <div className="allButtons">
-        <button className="top-bar-button" onClick={openForm}>Add Event</button>
-        <button className="top-bar-button" onClick={goBack}>Back</button>
+          <button className="top-bar-button" onClick={openEventCreateForm}>
+            Add Event
+          </button>
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
         </div>
       </div>
 
       <div className="">
-        <div className="form-popup" id="myForm">
+        <div className="form-popup" id="clickInformation">
+          <form className="form-container">
+            <label for="title">
+              <b>Title</b>
+            </label>
+            <h5 id="eventTitle">{}</h5>
+
+            <label for="desc">
+              <b>Description</b>
+            </label>
+
+            <h5 id="eventDescription">{}</h5>
+
+            <label for="enrolled">
+              <b>Enrolled Count</b>
+            </label>
+
+            <h5 id="eventEnroll">{}</h5>
+
+            <button type="button" className="btn cancel" onClick={deleteEvent}>
+              Delete Event
+            </button>
+
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+
+        <div className="myForm-overlay" id="myForm-overlay"></div>
+
+        <div className="add-family-popup" id="confirmDeletionPopup">
+          <form className="form-container">
+            <h4>
+              This event has enrolled members. Are you sure you would like to
+              delete it?
+            </h4>
+
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={delete_event_call}
+            >
+              Delete
+            </button>
+
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+
+        <div className="add-family-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
 
@@ -326,7 +527,7 @@ const AdminCalendarPage = () => {
             ></input>
 
             <br></br>
-<           label for="coach">
+            <label for="coach">
               <b>Coach Email * </b>
             </label>
             <input
@@ -348,194 +549,49 @@ const AdminCalendarPage = () => {
               <option value="1">2-3</option>
               <option value="2">3-4</option>
             </select>
-            <div>
-              <label for="start">
-                <b>Start Time * </b>
-              </label>
-              <div className="timeDrop">
-                <select onChange={handleStartYear}>
-                  <option value="">Year</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                </select>
-                <select onChange={handleStartMonth}>
-                  <option value="">Month</option>
-                  <option value="0">Jan</option>
-                  <option value="1">Feb</option>
-                  <option value="2">Mar</option>
-                  <option value="3">Apr</option>
-                  <option value="4">May</option>
-                  <option value="5">Jun</option>
-                  <option value="6">Jul</option>
-                  <option value="7">Aug</option>
-                  <option value="8">Sept</option>
-                  <option value="9">Oct</option>
-                  <option value="10">Nov</option>
-                  <option value="11">Dec</option>
-                </select>
-                <select onChange={handleStartDate}>
-                  <option value="">Date</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="15">15</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="25">25</option>
-                  <option value="26">26</option>
-                  <option value="27">27</option>
-                  <option value="28">28</option>
-                  <option value="29">29</option>
-                  <option value="30">30</option>
-                  <option value="31">31</option>
-                </select>
-                <select onChange={handleStartHr}>
-                  <option value="">hr</option>
-                  <option value="10">10am</option>
-                  <option value="11">11am</option>
-                  <option value="12">12pm</option>
-                  <option value="13">1pm</option>
-                  <option value="14">2pm</option>
-                  <option value="15">3pm</option>
-                  <option value="16">4pm</option>
-                  <option value="17">5pm</option>
-                  <option value="18">6pm</option>
-                  <option value="19">7pm</option>
-                  <option value="20">8pm</option>
-                  <option value="21">9pm</option>
-                </select>
-                <select onChange={handleStartMin}>
-                  <option value="0">min</option>
-                  <option value="0">:00</option>
-                  <option value="5">:05</option>
-                  <option value="10">:10</option>
-                  <option value="15">:15</option>
-                  <option value="20">:20</option>
-                  <option value="25">:25</option>
-                  <option value="30">:30</option>
-                  <option value="35">:35</option>
-                  <option value="40">:40</option>
-                  <option value="45">:45</option>
-                  <option value="50">:50</option>
-                  <option value="55">:55</option>
-                </select>
-              </div>
-            </div>
 
-            <div>
-              <label for="end">
-                <b>End Time *</b>
-              </label>
-              <div className="timeDrop">
-                <select onChange={handleEndYear}>
-                  <option value="">Year</option>
-                  <option value="2023">2023</option>
-                  <option value="2024">2024</option>
-                </select>
-                <select onChange={handleEndMonth}>
-                  <option value="">Month</option>
-                  <option value="0">Jan</option>
-                  <option value="1">Feb</option>
-                  <option value="2">Mar</option>
-                  <option value="3">Apr</option>
-                  <option value="4">May</option>
-                  <option value="5">Jun</option>
-                  <option value="6">Jul</option>
-                  <option value="7">Aug</option>
-                  <option value="8">Sept</option>
-                  <option value="9">Oct</option>
-                  <option value="10">Nov</option>
-                  <option value="11">Dec</option>
-                </select>
-                <select onChange={handleEndDate}>
-                  <option value="">Date</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  <option value="13">13</option>
-                  <option value="14">14</option>
-                  <option value="15">15</option>
-                  <option value="16">16</option>
-                  <option value="17">17</option>
-                  <option value="18">18</option>
-                  <option value="19">19</option>
-                  <option value="20">20</option>
-                  <option value="21">21</option>
-                  <option value="22">22</option>
-                  <option value="23">23</option>
-                  <option value="24">24</option>
-                  <option value="25">25</option>
-                  <option value="26">26</option>
-                  <option value="27">27</option>
-                  <option value="28">28</option>
-                  <option value="29">29</option>
-                  <option value="30">30</option>
-                  <option value="31">31</option>
-                </select>
-                <select onChange={handleEndHr}>
-                  <option value="">hr</option>
-                  <option value="10">10am</option>
-                  <option value="11">11am</option>
-                  <option value="12">12pm</option>
-                  <option value="13">1pm</option>
-                  <option value="14">2pm</option>
-                  <option value="15">3pm</option>
-                  <option value="16">4pm</option>
-                  <option value="17">5pm</option>
-                  <option value="18">6pm</option>
-                  <option value="19">7pm</option>
-                  <option value="20">8pm</option>
-                  <option value="21">9pm</option>
-                </select>
-                <select onChange={handleEndMin}>
-                  <option value="0">min</option>
-                  <option value="0">:00</option>
-                  <option value="5">:05</option>
-                  <option value="10">:10</option>
-                  <option value="15">:15</option>
-                  <option value="20">:20</option>
-                  <option value="25">:25</option>
-                  <option value="30">:30</option>
-                  <option value="35">:35</option>
-                  <option value="40">:40</option>
-                  <option value="45">:45</option>
-                  <option value="50">:50</option>
-                  <option value="55">:55</option>
-                </select>
-              </div>
-            </div>
+            <DatePicker
+              className="custom-datepicker"
+              selected={date}
+              onChange={handleDate}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
+            <label>
+              <b>Start Time*</b>
+            </label>
+            <input
+              placeholder="Hour:Minute"
+              onChange={handleStartTime}
+              type="startTime"
+              name="startTime"
+              required
+            ></input>
+            <label>
+              <b>Duration*</b>
+            </label>
+            <input
+              placeholder="Hour:Minute"
+              onChange={handleDuration}
+              type="duration"
+              name="duration"
+              required
+            ></input>
 
             <button type="submit" className="btn" onClick={submitEvent}>
               Create Event
             </button>
-            <button type="button" className="btn cancel" onClick={closeForm}>
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
               Cancel
             </button>
           </form>
@@ -553,32 +609,32 @@ const AdminCalendarPage = () => {
           onSelectEvent={onSelectEvent}
           min={new Date(0, 0, 0, 10, 0, 0)}
           max={new Date(0, 0, 0, 22, 0, 0)}
-          eventPropGetter={
-            (event, start, end, isSelected) =>{
-              let newStyle ={
-                backgroundColor: "lightgrey",
-                color: 'black',
-                borderRadius: "0px",
-                border: "none"
-              }
+          eventPropGetter={(event, start, end, isSelected) => {
+            let newStyle = {
+              backgroundColor: "lightgrey",
+              color: "black",
+              borderRadius: "0px",
+              border: "none",
+            };
 
-              if (event.level == 0) {
-                newStyle.backgroundColor = "#4e9b6f";
-              } else if (event.level == 1) {
-                newStyle.backgroundColor = "#f3c26e";
-                newStyle.color = "white";
-              } else if (event.level == 2) {
-                newStyle.backgroundColor = "#75caef";
-              }
-
-              return{className:"",
-            style: newStyle}
+            // setting event colours depending on level
+            if (event.level == 0) {
+              newStyle.backgroundColor = "#4e9b6f";
+            } else if (event.level == 1) {
+              newStyle.backgroundColor = "#f3c26e";
+              newStyle.color = "white";
+            } else if (event.level == 2) {
+              newStyle.backgroundColor = "#75caef";
             }
-          }
+
+            return { className: "", style: newStyle };
+          }}
           // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
-      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
+      <div className="overlay" id="overlay">
+        YOU DO NOT HAVE ACCESS TO THIS PAGE!
+      </div>
     </div>
   );
 };
