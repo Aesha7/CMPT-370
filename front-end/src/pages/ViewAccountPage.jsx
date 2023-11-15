@@ -79,6 +79,7 @@ const AccountView = () => {
           setPromChecked(data.prom);
 
           setUsers(data.users);
+          getRenders();
         });
     } catch (error) {
       console.log(error);
@@ -268,7 +269,7 @@ const AccountView = () => {
 
       // updating data
       get_account_info();
-      getRenders();
+      getRenders();      
     }
   };
 

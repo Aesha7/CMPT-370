@@ -5,37 +5,43 @@ import "../style/LoginPage.css";
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const LoginPage = () => {
-  // states for registration
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [accountID, setAccountID] = useState("");
-  let [userID, setUserID] = useState("");
+
+// states for registration
+ const [email, setEmail] = useState('');
+ const [password, setPassword] = useState('');
+ const [accountID, setAccountID] = useState('');
+ let [userID, setUserID] = useState('')
 
   // States for checking the errors
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
-  // state for viewing account list
-  const [names, setNames] = useState("");
+ // state for viewing account list
+ const [names, setNames] = useState('');
+
 
   let navigate = useNavigate();
 
-  const backToLandingPage = () => {
-    let path = "/";
-    navigate(path);
-  };
+ /**
+ * Perform page routing
+ */
+ const backToLandingPage = () => {
+  let path = "/";
+  navigate(path);
+};
 
   const viewAccountPageRouteChange = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
   };
 
+ /**
+ * Check for valid email address
+ */ 
   function validEmail(email) {
-    // Regular expression for a valid email address
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-
-    return emailRegex.test(email);
-  }
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return emailRegex.test(email);
+}
 
   /**
    * Handling form submittion
@@ -51,20 +57,20 @@ const LoginPage = () => {
     } else {
       try {
         // send request to backend and wait for the response
-        fetch(server_URL + "get_id", {
-          method: "POST",
-          // Data will be serialized and sent as json
-          body: JSON.stringify({
-            email: email,
-            password: password, //TODO: stores password in plain text! add proper password management
-          }),
-          // tell the server we're sending JSON
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
+        fetch((server_URL+"get_id"), {
+            method: "POST",
+            // data will be serialized and sent as json
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+            // tell the server we're sending JSON
+            headers: {
+                "Content-Type": "application/json",
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+            }
         })
           .then(function (response) {
             return response.json();
@@ -100,9 +106,9 @@ const LoginPage = () => {
     setSubmitted(false);
   };
 
-  /**
-   * Handling Password change
-   */
+/**
+ * Handling password change
+ */
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setSubmitted(false);
@@ -112,7 +118,7 @@ const LoginPage = () => {
     alert("This is a dummy feature.");
   };
 
-  //temporary, for testing
+  // temporary, for testing 
   const viewAccounts = () => {
     fetch("/view_account_list", {
       method: "get",
@@ -147,24 +153,18 @@ const LoginPage = () => {
         </div>
       </div>
 
-      <div className="container">
-        <form>
-          <div className="container-toprow">
-            <div className="column-entry">
-              <label className="label" htmlFor="email">
-                Email:
-              </label>
-              <input
-                onChange={handleEmail}
-                className="text-field"
-                value={email}
-                type="email"
-                id="email"
-              />
-              <button onClick={handleSubmit} className="button1" type="button">
-                Login
-              </button>
-            </div>
+    <div className="container">
+
+      <form>
+
+        <div className="container-toprow">
+          
+          {/* email and password inputs */}
+          <div className="column-entry">
+            <label className="label" htmlFor="email">Email:</label>
+            <input onChange={handleEmail} className="text-field" value={email} type="email" id="email" />
+            <button onClick={handleSubmit} className="button1" type="button">Login</button>          
+          </div>
 
             <div className="column-entry">
               <label className="label" htmlFor="password">
