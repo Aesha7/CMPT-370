@@ -97,7 +97,9 @@ const AccountView = () => {
    */
   let navigate = useNavigate();
 
-  // the children that are listed
+  /**
+   * Register child for a class
+   */
   const registerChild = (e) => {
     let path = "/class-registration";
     let user = users[e.target.value];
@@ -106,7 +108,9 @@ const AccountView = () => {
     navigate(path, { state: { _id: userID, curUserName: name } });
   };
 
-  // displays the info for the current user (parent or children)
+  /**
+   * Display info for current user (parent or child)
+   */
   const displayInfo = (e) => {
     setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
@@ -146,7 +150,9 @@ const AccountView = () => {
     });
   };
 
-  // takes you to the family schedule
+  /**
+   * Perform page routing
+   */
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
     navigate(path, { state: userID });
@@ -217,13 +223,16 @@ const AccountView = () => {
     }
   };
 
-  // unlocks the input fields
+  /**
+   * Edit info fields
+   */
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
   };
 
-  // Saves name user name to database
-  // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on.
+  /**
+   * Save info fields
+   */
   const saveInfo = (e) => {
     e.preventDefault();
     if (changedName === "") {
@@ -269,18 +278,21 @@ const AccountView = () => {
 
       // updating data
       get_account_info();
-      getRenders();      
+      getRenders();
     }
   };
 
-  // shows popup for adding a family member
+  /**
+   * Add new member to family account
+   */
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
   };
 
-
-  // api call for submitting family member
+  /**
+   * Handling form submittion
+   */
   const submitFamilyMember = (e) => {
     e.preventDefault();
 
@@ -348,13 +360,13 @@ const AccountView = () => {
     setNewBirthday(date);
   };
 
-
-  // checking to see if the user can see admin or coach buttons
+  // check if user account is admin
   if (staffLevel == 3) {
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
   }
 
+  // check if user account is coach
   if (staffLevel == 1) {
     document.getElementById("studentsList").style.display = "block";
     document.getElementById("coachCalendar").style.display = "block";
@@ -405,6 +417,7 @@ const AccountView = () => {
         </div>
       </div>
       <div className="view-account-container">
+        {/* view account owner's info */}
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
             <label className="heading" htmlFor="member">
@@ -500,6 +513,7 @@ const AccountView = () => {
           </div>
         </div>
 
+        {/* modify family member info */}
         <div className="view-user-info-3">
           <div className="edit-family-info">
             <div className="view-account-column-entry">
@@ -567,6 +581,7 @@ const AccountView = () => {
             </div>
           </div>
 
+          {/* subscribe to email / newsletter options */}
           <div className="email-list">
             <div className="view-account-column-entry">
               <label className="heading" htmlFor="email" type="emailList">
@@ -604,6 +619,7 @@ const AccountView = () => {
 
         <div className="myForm-overlay"></div>
 
+        {/* add new family member */}
         <div className="add-family-popup" id="myForm">
           <form className="form-container">
             <label htmlFor="name">
