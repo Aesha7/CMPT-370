@@ -49,7 +49,9 @@ const AccountView = () => {
   const [promChecked, setPromChecked] = React.useState(false);
   const [newsChecked, setNewsChecked] = React.useState(false);
 
-  // gets account information
+  /**
+   * gets the account info from the database
+   */
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -67,34 +69,31 @@ const AccountView = () => {
         })
         .then((text) => {
           // Parse the text as JSON
+          // setting relevent info as react states
           const data = JSON.parse(text);
           setEmail(data.email);
           setName(data.users[0].name);
           setPhone(data.phone);
           setBirthday(data.users[0].birthday);
-
           setStaffLevel(data.staffLevel);
-
+          
           setNewsChecked(data.news);
           setPromChecked(data.prom);
-
+          
           setUsers(data.users);
-          getRenders();
         });
     } catch (error) {
       console.log(error);
     }
   };
 
+  /**
+   * updates account info when states change
+   */
   useEffect(() => {
     get_account_info();
   }, []);
 
-  /**
-   phone = ___;
-   birthday = ___;
-   name = ___;
-   */
   let navigate = useNavigate();
 
   /**
@@ -104,7 +103,6 @@ const AccountView = () => {
     let path = "/class-registration";
     let user = users[e.target.value];
     let name = user.name;
-    console.log(userID);
     navigate(path, { state: { _id: userID, curUserName: name } });
   };
 
@@ -118,7 +116,10 @@ const AccountView = () => {
     setCurrentLevel(users[currentUserIndex].level);
   };
 
-  // getting a list of html elements to display users and buttons
+
+  /**
+   * getting a list of html elements to display for each user
+   */
   const getRenders = () => {
     let j = -1;
     renders = users.map(function (i) {
@@ -158,31 +159,43 @@ const AccountView = () => {
     navigate(path, { state: userID });
   };
 
-  // logout button
+/**
+ * page route back to the login page
+ */
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
   };
 
-  // go to admin calendar
+  /**
+   * page route to admin calendar page
+   */
   const adminCalendarPageRoute = () => {
     let path = "/admin-schedule";
     navigate(path, { state: userID });
   };
 
-  // go to account management page
+
+  /**
+   * page route to manage accounts page
+   */  
   const manageAccountsPageRoute = () => {
     let path = "/admin-accounts";
     navigate(path, { state: userID });
   };
 
-  // go to coach calendar
+  /**
+   * page route to coach calendar page
+   */
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
     navigate(path, { state: userID });
   };
 
-  // go to student list page
+
+  /**
+   * page route to coaches students list
+   */
   const studentsListPageRoute = () => {
     let path = "/students-list";
     navigate(path, { state: userID });
@@ -198,7 +211,9 @@ const AccountView = () => {
     setPromChecked(!promChecked);
   };
 
-  // edit subsctiptions api call
+  /**
+   * edits the email subscriptions in the backend
+   */
   const editSubscriptions = (e) => {
     e.preventDefault();
     try {
@@ -296,11 +311,13 @@ const AccountView = () => {
   const submitFamilyMember = (e) => {
     e.preventDefault();
 
+    // checking new name and birthday validity
     if (newName == "" || newBirthday == "") {
       alert("Please input all fields.");
     } else {
       // new child using newName, newPhone, newBirthday, level = 1
       try {
+        // splitting the birthday to the appropriate string
         let dateArr = newBirthday.toString().split(" ");
         let stringBirthday = dateArr[1] + " " + dateArr[2] + " " + dateArr[3];
         fetch(server_URL + "add_family", {
@@ -340,7 +357,6 @@ const AccountView = () => {
 
   // closes family member popup
   const closeForm = () => {
-    // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
     document.querySelector(".myForm-overlay").style.display = "none";
   };
@@ -372,7 +388,9 @@ const AccountView = () => {
     document.getElementById("coachCalendar").style.display = "block";
   }
 
+  // getting the renders
   getRenders();
+  
   return (
     <div className="view-account-page">
       <div className="top-bar">

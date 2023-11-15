@@ -44,10 +44,11 @@ const AdminCalendarPage = () => {
     window.localStorage.setItem("_id", userID);
   }
 
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
-  // getting the database events
+  /**
+   * getting Database events list
+   */
   const get_db_events = () => {
     // getting the events
     try {
@@ -68,7 +69,7 @@ const AdminCalendarPage = () => {
           const data = JSON.parse(text);
           // parsing through each event in the db
           data.forEach((event) => {
-            // getting the actual data
+            // getting the actual event data
 
             let name = event.name;
             let desc = event.desc;
@@ -115,7 +116,9 @@ const AdminCalendarPage = () => {
     }
   };
 
-  // getting the account details from the db using the userID
+  /**
+   *  getting the account details from the admin
+   */  
   const get_account_details = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -142,10 +145,10 @@ const AdminCalendarPage = () => {
     }
   };
 
-  // deleting an event from the database (goes through enrolled list too)
+  /**
+   * deleting an event from the database
+   */
   const delete_event_call = () => {
-    // removing for all enrolled members
-    // this should work when the backend is fixed
     try {
       fetch(server_URL + "delete_course", {
         method: "POST",
@@ -164,8 +167,6 @@ const AdminCalendarPage = () => {
           return response.text();
         })
         .then((data) => {
-          // getting the updated db events
-
           if (data == '"Error: account not found"') {
             alert("Account not found.");
           } else if (
@@ -185,21 +186,27 @@ const AdminCalendarPage = () => {
     }
   };
 
-  // getting data initially
+  // getting data when states are updated
   useEffect(() => {
     get_account_details();
     get_db_events();
   }, []);
 
-  const clickRef = useRef(null);
   let navigate = useNavigate();
 
-  // going to previous page
+  /**
+   * a page route to the previous page
+   */
   const goBack = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
   };
 
+  /**
+   * what happens when an event is clicked on
+   * opens an event info form
+   * @param calEvent The event that is clicked on 
+   */
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
     currentEvent = calEvent;
@@ -207,13 +214,20 @@ const AdminCalendarPage = () => {
     openEventInfoForm(calEvent);
   };
 
-  // opens the create event popup
+  /**
+   * opens the create event popup
+  */
   const openEventCreateForm = () => {
     // opening the createEvent form
     document.getElementById("createEventForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
   };
 
+
+  /**
+   * opens the event info popup
+   * @param {*} calEvent the event that was clicked on
+   */
   const openEventInfoForm = (calEvent) => {
     // setting html for event info & displaying the form
 
@@ -223,12 +237,17 @@ const AdminCalendarPage = () => {
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
   };
 
+  /**
+   * displays a popup to confirm event deletion
+   */
   const displayConfirmPopup = () => {
     document.getElementById("confirmDeletionPopup").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
   };
 
-  // closes all popups
+  /**
+   * closes all popups
+   */
   const closeAllForms = () => {
     setTitle("");
     setDescription("");
@@ -296,7 +315,9 @@ const AdminCalendarPage = () => {
     setDuration(e.target.value);
   };
 
-  // creating the event
+  /**
+   * creates the event in the database
+   */
   const submitEvent = (e) => {
     e.preventDefault();
     if (title == "") {
@@ -337,7 +358,7 @@ const AdminCalendarPage = () => {
         coach_email: coach,
       };
 
-      // sending to database
+      // Actually sending to database
       try {
         fetch(server_URL + "add_course", {
           method: "POST",
@@ -397,30 +418,34 @@ const AdminCalendarPage = () => {
     }
   };
 
-  // deleting an event from the db with a button
+  /**
+   * Deletes the selected event from the database
+   */
   const deleteEvent = (e) => {
     e.preventDefault();
 
     if (currentEvent.enrolled.length > 0) {
+      // display the popup
       displayConfirmPopup();
-      // check
-      // delete_event_call();
-      // display the confirmation form
     } else {
       delete_event_call();
     }
   };
 
-  // checks to see if a time is a valid representation using a regular expression
+/**
+ * checks a regular expression to determine if an inputted time is valid
+ * @param {*} time a string for time 
+ * @returns true if time is a valid time representation
+ */
   function validTime(time) {
     // Regular expression for a valid email address
-    // /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/
     const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
     return timeRegex.test(time);
   }
 
-  // overlay if the user shouldnt be able to see the page
+
+  // checking if the user is an admin, displays an overlay if not
   if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
   }
@@ -439,6 +464,7 @@ const AdminCalendarPage = () => {
         </div>
       </div>
 
+      {/*The form popup to display event info and delete button*/}
       <div className="">
         <div className="form-popup" id="clickInformation">
           <form className="form-container">
@@ -475,6 +501,7 @@ const AdminCalendarPage = () => {
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
 
+      {/*The form popup to confirm deletion*/}
         <div className="add-family-popup" id="confirmDeletionPopup">
           <form className="form-container">
             <h4>
@@ -500,6 +527,7 @@ const AdminCalendarPage = () => {
           </form>
         </div>
 
+      {/*The form popup to add an event*/}
         <div className="add-family-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
@@ -597,6 +625,7 @@ const AdminCalendarPage = () => {
           </form>
         </div>
 
+        {/*The Calendar Rendering*/}
         <Calendar
           localizer={localizer}
           events={calEvents}
@@ -629,7 +658,6 @@ const AdminCalendarPage = () => {
 
             return { className: "", style: newStyle };
           }}
-          // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
       <div className="overlay" id="overlay">
