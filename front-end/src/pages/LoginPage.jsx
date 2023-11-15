@@ -5,21 +5,26 @@ import '../style/LoginPage.css';
 const server_URL = "http://127.0.0.1:5000/" //URL to access server
 
 const LoginPage = () => {
+
 // states for registration
  const [email, setEmail] = useState('');
  const [password, setPassword] = useState('');
  const [accountID, setAccountID] = useState('');
  let [userID, setUserID] = useState('')
 
-// States for checking the errors
+// states for checking the errors
  const [submitted, setSubmitted] = useState(false);
  const [error, setError] = useState(false);
 
  // state for viewing account list
  const [names, setNames] = useState('');
 
+
  let navigate = useNavigate(); 
 
+ /**
+ * Perform page routing
+ */
  const backToLandingPage = () => {
   let path = "/";
   navigate(path);
@@ -30,10 +35,11 @@ const LoginPage = () => {
   navigate(path, {state:userID})
  }
 
- function validEmail(email) {
-  // Regular expression for a valid email address
+ /**
+ * Check for valid email address
+ */ 
+  function validEmail(email) {
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-
   return emailRegex.test(email);
 }
 
@@ -55,10 +61,10 @@ const LoginPage = () => {
         // send request to backend and wait for the response
         fetch((server_URL+"get_id"), {
             method: "POST",
-            // Data will be serialized and sent as json
+            // data will be serialized and sent as json
             body: JSON.stringify({
                 email: email,
-                password: password, //TODO: stores password in plain text! add proper password management
+                password: password,
             }),
             // tell the server we're sending JSON
             headers: {
@@ -104,7 +110,7 @@ const handleEmail = (e) => {
 };
 
 /**
- * Handling Password change
+ * Handling password change
  */
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -115,7 +121,7 @@ const forgotPasswordDummy = (e) => {
   alert("This is a dummy feature.")
 }
 
-  //temporary, for testing 
+  // temporary, for testing 
   const viewAccounts = () => {
     fetch("/view_account_list",{method: 'get',
       dataType: 'json',
@@ -155,6 +161,7 @@ const forgotPasswordDummy = (e) => {
 
         <div className="container-toprow">
           
+          {/* email and password inputs */}
           <div className="column-entry">
             <label className="label" htmlFor="email">Email:</label>
             <input onChange={handleEmail} className="text-field" value={email} type="email" id="email" />
@@ -169,14 +176,9 @@ const forgotPasswordDummy = (e) => {
 
         </div>
 
-        <p></p>
-        {/* <button onClick={viewAccounts} 
-        className="button3" type="button">View Accounts</button> 
-         */}
       </form>
     
     </div>
-      {/* <p>{names}</p> */}
     </div>
 
   );

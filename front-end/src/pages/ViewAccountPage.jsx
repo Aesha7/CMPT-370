@@ -6,10 +6,6 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
-async function fetchAddFamily(){
-
-}
-
 const AccountView = () => {
 
   const location = useLocation();
@@ -64,10 +60,10 @@ const AccountView = () => {
         },
       })
       .then((response) => {
-        return response.text(); // Get the response text
+        return response.text(); // get the response text
       })
       .then((text) => {
-        // Parse the text as JSON
+        // parse the text as JSON
         const data = JSON.parse(text);
         setEmail(data.email);
         setName(data.users[0].name);
@@ -87,9 +83,6 @@ const AccountView = () => {
   useEffect(() => {
     get_account_info()
   }, []);
-
-
-
   
   /**
    phone = ___;
@@ -98,12 +91,9 @@ const AccountView = () => {
    */
   let navigate = useNavigate();
 
-  // const displayChildren = () =>{
-
-  // }
-
-  // the children that are listed
-
+  /**
+   * Register child for a class
+   */
   const registerChild = (e) => {
     let path = "/class-registration";
     let user = users[e.target.value]
@@ -112,7 +102,9 @@ const AccountView = () => {
     navigate(path, {state:{_id: userID, curUserName: name}});
   };
 
-  // displays the info for the current user (parent or children)
+  /**
+   * Display info for current user (parent or child)
+   */
   const displayInfo = (e) => {
     currentUserIndex = e.target.value
     setCurrentName(users[currentUserIndex].name);
@@ -121,7 +113,6 @@ const AccountView = () => {
     setCurrentLevel(users[currentUserIndex].level)
   };  
   
-
   // let renders = children.map(function (i) {
     let j = -1
     let renders = users.map(function (i) {
@@ -152,7 +143,9 @@ const AccountView = () => {
     );
   });
 
-
+  /**
+   * Perform page routing
+   */
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
     navigate(path, {state: userID});
@@ -183,28 +176,37 @@ const AccountView = () => {
     navigate(path, {state:userID})
   }
 
-  // unlocks the input fields
-  const unlockInfo = () => {
+  /**
+   * Edit info fields
+   */
+    const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
     document.getElementById("edit-birthday").disabled = false;
     document.getElementById("edit-phone").disabled = false;
 
   };
 
+  /**
+   * Save info fields
+   */
   const saveInfo = () => {
-    // NEED TO EDIT INFO IN BACK END
-
     document.getElementById("edit-name").disabled = true;
     document.getElementById("edit-birthday").disabled = true;
     document.getElementById("edit-phone").disabled = true;
 
   };
 
+  /**
+   * Add new member to family account
+   */
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
   };
 
+  /**
+  * Handling form submittion
+  */
   const submitFamilyMember = (e) => {
     e.preventDefault()
     
@@ -224,10 +226,10 @@ const AccountView = () => {
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
           },
         }).then((response) => {
-          return response.text(); // Get the response text
+          return response.text(); // get the response text
         })
         .then((text) => {
-          // Parse the text as JSON
+          // parse the text as JSON
           text = text.substring(1, text.length -1)
           if(text == 'Success'){
             window.location.reload(false);
@@ -236,9 +238,6 @@ const AccountView = () => {
           else if(text == "Error: name already in use"){
             alert("Name is already in use.")
           }
-          // else if(data == ){
-
-          // }
         })
       }
         catch(error){
@@ -267,12 +266,13 @@ const AccountView = () => {
       setNewBirthday(date);
   };
 
-  // window.location.reload(false);
+  // check if user account is admin
   if(staffLevel == 3){
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
   }
 
+  // check if user account is coach
   if(staffLevel == 1){
     document.getElementById("studentsList").style.display = "block";
     document.getElementById("coachCalendar").style.display = "block";
@@ -292,6 +292,7 @@ const AccountView = () => {
       </div>
       <div className="view-account-container">
 
+        {/* view account owner's info */}
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
             <label className="heading" htmlFor="member">
@@ -359,8 +360,6 @@ const AccountView = () => {
           
         </div>
 
-        
-
         <div className="view-user-info-2">
           <div className="view-account-column-entry">
             <div className="family-bar">
@@ -385,6 +384,7 @@ const AccountView = () => {
           </div>
         </div>
 
+        {/* modify family member info */}
         <div className="view-user-info-3">
           <div className="edit-family-info">
             <div className="view-account-column-entry">
@@ -408,22 +408,6 @@ const AccountView = () => {
                 placeholder={currentName}
               ></input>
             </div>
-
-            {/* phone */}
-            {/* <div className="view-account-column-entry"> */}
-              {/* <label className="account-label" htmlFor="phone">
-                {" "}
-                Phone:{" "}
-              </label>
-              <input
-                className="edit-label"
-                htmlFor="phone"
-                type="phone"
-                id="edit-phone"
-                disabled={true}
-                placeholder={currentPhone}
-              ></input> */}
-            {/* </div> */}
 
             {/* birthday */}
             <div className="view-account-column-entry">
@@ -456,7 +440,7 @@ const AccountView = () => {
                 placeholder={currentLevel}
               ></input>
             </div>
-            {/* edit the routers !!! */}
+
             <div className="family-info">
               <button className="edit-button" onClick={unlockInfo}>
                 Edit
@@ -467,6 +451,7 @@ const AccountView = () => {
             </div>
           </div>
 
+          {/* subscribe to email / newsletter options */}
           <div className="email-list">
             <div className="view-account-column-entry">
               <label className="heading" htmlFor="email" type="emailList">
@@ -492,22 +477,17 @@ const AccountView = () => {
 
         <div class="myForm-overlay"></div>
 
+        {/* add new family member */}
         <div className="add-family-popup" id="myForm">
+          
           <form className="form-container">
             <label htmlFor="name">
               <b>Name</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
-
-            {/* <label htmlFor="phone">
-              <b>Phone Number</b>
-            </label>
-            <input type="phone" onChange={handleNewPhone}></input> */}
-
             <label htmlFor="birthday">
               <b>Birthday</b>
             </label>
-            {/* <input type="birthday" onChange={handleNewBirthday}></input> */}
             <DatePicker
               className="custom-datepicker" 
               selected={newBirthday} 
@@ -529,6 +509,7 @@ const AccountView = () => {
               Cancel
             </button>
           </form>
+
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import "../style/ViewAccountPage.css";
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const AccountCreatePage = (props) => {
+
   // states for registration
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,13 +17,16 @@ const AccountCreatePage = (props) => {
   const [signature, setSignature] = useState("");
   let [userID] = useState("");
 
-  // States for checking the errors
+  // states for checking the errors
   const [waiver, setWaiver] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
   let navigate = useNavigate();
 
+  /**
+  * Perform page routing
+  */
   const viewAccountPageRouteChange = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
@@ -38,10 +42,11 @@ const AccountCreatePage = (props) => {
     navigate(path);
   };
 
+   /**
+   * Check for valid email address
+   */ 
   function validEmail(email) {
-    // Regular expression for a valid email address
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-
     return emailRegex.test(email);
   }
 
@@ -77,10 +82,10 @@ const AccountCreatePage = (props) => {
         // send request to backend and wait for the response
         fetch(server_URL + "submit_application", {
           method: "POST",
-          // Data will be serialized and sent as json
+          // data will be serialized and sent as json
           body: JSON.stringify({
             email: email,
-            password: password, //TODO: stores password in plain text! add proper password management
+            password: password,
             name: name,
             phone: phone,
             birthday: birthday,
@@ -157,7 +162,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * saying they agree with the waiver
+   * Handling waiver form selection
    */
   const handleWaiver = (e) => {
     e.preventDefault();
@@ -181,7 +186,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling Password change
+   * Handling password change
    */
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -189,7 +194,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling Name change
+   * Handling name change
    */
   const handleName = (e) => {
     setName(e.target.value);
@@ -202,7 +207,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling Phone Number change
+   * Handling phone number change
    */
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -210,7 +215,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling Birthday change
+   * Handling birthday change
    */
   const handleBirthDay = (e) => {
     setBirthday(e.target.value);
@@ -218,7 +223,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling Signature change
+   * Handling signature change
    */
   const handleSignature = (e) => {
     setSignature(e.target.value);
@@ -236,6 +241,8 @@ const AccountCreatePage = (props) => {
       </div>
 
       <div className="account-create-container">
+
+        {/* input fields in form */}
         <form>
           <div className="account-create-container-toprow">
             <div className="column-entry">
@@ -263,7 +270,6 @@ const AccountCreatePage = (props) => {
                 type="email"
                 id="email"
               />
-              {/* <button onClick={handleSubmit} className="button1" type="button">Login</button>           */}
             </div>
 
             <div className="account-create-column-entry">
@@ -320,6 +326,7 @@ const AccountCreatePage = (props) => {
               />
             </div>
 
+            {/* waiver selection in form */}
             <div className="account-create-row-entry">
               <label className="account-create-label" htmlFor="waiver">
                 Waiver:
@@ -328,7 +335,6 @@ const AccountCreatePage = (props) => {
                 <button className="waiver-button" onClick={goToWaiver}>
                   Click Here To Open
                 </button>
-                {/* <button className="waiver-button" onClick={handleWaiver} id="waiver-button">I agree</button> */}
 
                 <label className="checklist">
                   I Agree
@@ -338,6 +344,7 @@ const AccountCreatePage = (props) => {
               </div>
             </div>
 
+            {/* adding signature in form */}
             <div className="account-create-column-entry">
               <label className="account-create-label" htmlFor="signature">
                 Signature:

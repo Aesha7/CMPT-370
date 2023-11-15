@@ -284,7 +284,7 @@ const AdminCalendarPage = () => {
     setCoach(e.target.value)
   }
 
-  if(staffLevel >= 1){
+  if(staffLevel >= 2){
     document.getElementById("overlay").style.display = "none";
   }
 

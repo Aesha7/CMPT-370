@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "added function for coach "
+git commit -m "updated documention"
 
 git push

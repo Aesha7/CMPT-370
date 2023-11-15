@@ -1,4 +1,4 @@
-.account-create-page  {
+  .account-creation-page  {
     font-family: Arial, Helvetica, sans-serif;
   }
 
@@ -23,6 +23,7 @@
     flex-direction: column;
     margin: 25px;
   }
+
   .account-create-subcolumn-entry {
     flex: 1;
     display: inline;
@@ -116,8 +117,7 @@
     color: white;
   }
   
-
-  /* Media query for smaller screens */
+  /* resizing for smaller screens */
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
