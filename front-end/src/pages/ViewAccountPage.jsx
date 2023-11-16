@@ -65,7 +65,7 @@ const AccountView = () => {
         },
       })
         .then((response) => {
-          return response.text(); // Get the response text
+          return response.text(); // get the response text
         })
         .then((text) => {
           // Parse the text as JSON
@@ -231,7 +231,7 @@ const AccountView = () => {
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       }).then((response) => {
-        return response.text(); // Get the response text
+        return response.text(); // get the response text
       });
     } catch (error) {
       console.log(error);
@@ -269,7 +269,7 @@ const AccountView = () => {
           },
         })
           .then(function (response) {
-            return response.json(); // Get the response text
+            return response.json(); // get the response text
           })
           .then(function (data) {
             if (data == "Error: No user by that name found") {
@@ -286,7 +286,7 @@ const AccountView = () => {
         console.log(error);
       }
       if (currentUserIndex == 0) {
-        setName(changedName); //Updates name displayed in Account Info column if parent was edited
+        setName(changedName); // updates name displayed in Account Info column if parent was edited
       }
       setCurrentName(changedName);
       document.getElementById("edit-name").disabled = true;
@@ -517,7 +517,7 @@ const AccountView = () => {
                 Add Family Member
               </button>
             </div>
-            {/* looping through children*/}
+            {/* looping through children */}
             {renders}
 
             <div className="family-schedule">

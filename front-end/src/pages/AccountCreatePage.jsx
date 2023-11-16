@@ -4,7 +4,6 @@ import "../style/AccountCreationPage.css";
 import "../style/ViewAccountPage.css";
 import DatePicker from "react-datepicker";
 
-
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const AccountCreatePage = (props) => {
@@ -230,7 +229,6 @@ const AccountCreatePage = (props) => {
     setSignature(e.target.value);
     setSubmitted(false);
   };
-
 
   return (
     <div className="account-creation-page">

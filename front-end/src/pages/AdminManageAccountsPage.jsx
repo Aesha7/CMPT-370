@@ -95,7 +95,7 @@ const AdminManageAccountsPage = () => {
     /**
     * Unhide page if admin account
     */
-    if(staffLevel >= 2){
+    if(staffLevel >= 3){
         document.getElementById("overlay").style.display = "none";
     }
 

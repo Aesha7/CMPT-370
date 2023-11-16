@@ -444,8 +444,7 @@ const AdminCalendarPage = () => {
     return timeRegex.test(time);
   }
 
-
-  // checking if the user is an admin, displays an overlay if not
+  // overlay if the user shouldnt be able to see the page
   if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
   }
