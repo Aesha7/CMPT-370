@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
 import db_admin as ad
+import internal as internal
 # from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
@@ -568,7 +569,11 @@ def ChangeLevel():
     """
     return ad.change_level(request.get_json(),accounts_collection)
 
-
+@app.route("/test_delete", methods=["POST"])
+@cross_origin(origins="*")
+def TestDelete():
+    #TODO: testing in progress
+    return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
 
 
 def _corsify(response):
