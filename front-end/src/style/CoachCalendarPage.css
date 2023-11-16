@@ -1,3 +1,9 @@
-.coach-calendar{
-  font-family: Arial, Helvetica, sans-serif;
+.coach-calendar-rbc {
+    width: 80%;
+    float: left;
+}
+
+.student-list {
+    width: 20%;
+    float: right;
 }
