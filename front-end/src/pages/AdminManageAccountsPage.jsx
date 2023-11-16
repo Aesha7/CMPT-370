@@ -9,7 +9,6 @@ const AdminManageAccountsPage = () => {
     let userID = location.state;
     const [staffLevel, setStaffLevel] = useState('')
 
-    console.log(userID);
     let userEmail;
 
     /**
@@ -76,8 +75,6 @@ const AdminManageAccountsPage = () => {
           .then((text) => {
             // parse the text as JSON
             const data = JSON.parse(text);
-            console.log(data)
-
             setStaffLevel(data.staffLevel)
             })
         } catch (error) {
