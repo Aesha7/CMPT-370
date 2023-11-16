@@ -11,17 +11,12 @@ const CoachStudentsListPage = () => {
 
   let navigate = useNavigate();
 
-  /**
-  * Perform page routing
-  */
   const goBack = () =>{
     let path = "/my-account";
     navigate(path, {state:userID})
   }
 
-  /**
-  * Unhide page if coach or admin account
-  */
+  // uncovering the page if a valid account
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
   }
@@ -34,10 +29,9 @@ const CoachStudentsListPage = () => {
         <button className="top-bar-button" onClick={goBack}>Back</button>
         </div>
       </div>
-        {/* display pop-up meesage for invalid user */}
-        <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
+      <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
     </div>
-  );
+        );
 
 };
 export default CoachStudentsListPage

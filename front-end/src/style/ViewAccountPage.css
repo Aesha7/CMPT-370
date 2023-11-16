@@ -1,4 +1,4 @@
-.view-account-page {
+.account-views-page {
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -72,6 +72,7 @@
 
 }
 
+
 .view-account-column-entry .info-label {
   background-color: white;
   padding: 7px;
@@ -124,6 +125,7 @@
 
 }
 
+
 .view-user-info-2 .family-bar{
   display: flex;
   align-items: center;
@@ -163,6 +165,7 @@
 .heading[type="emailList"]{
   margin-bottom: 25px;
 } 
+
 
 .view-user-info-2 .family-member-row {
   display: flex;
@@ -310,7 +313,7 @@
   color: white;
 }
 
-.checklist {
+ .checklist {
   display: block;
   justify-content: center;
   align-items: center;
@@ -322,8 +325,8 @@
   margin-bottom: 10px;
 }
 
-/* hide the browser's default checkbox */
-.checklist input {
+/* Hide the browser's default checkbox */
+ .checklist input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -331,7 +334,7 @@
   width: 0;
 }
 
-/* create a custom checkbox */
+/* Create a custom checkbox */
 .checkmark {
   position: absolute;
   top: 0;
@@ -341,27 +344,29 @@
   background-color: white;
 }
 
+/* On mouse-over, add a grey background color */
 .checklist:hover input ~ .checkmark {
   background-color: darkgrey;
 }
 
+/* When the checkbox is checked, add a blue background */
 .checklist input:checked ~ .checkmark {
   background-color: blue;
 }
 
-/* create the checkmark (hidden when not checked) */
+/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* show the checkmark when checked */
+/* Show the checkmark when checked */
 .checklist input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* style the checkmark */
+/* Style the checkmark/indicator */
 .checklist .checkmark:after {
   left: 9px;
   top: 5px;
@@ -374,6 +379,16 @@
   transform: rotate(45deg);
 }   
 
+/* The popup form - hidden by default
+.add-family-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+} */
+
 .myForm-overlay {
   display: none;
   position: fixed;
@@ -381,7 +396,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
   z-index: 998;
 }
 
@@ -399,6 +414,8 @@
   z-index: 999; 
 }
 
+
+/* Add styles to the form container */
 .add-family-container {
   max-width: 400px;
   padding: 10px;
@@ -415,11 +432,13 @@
   background: #f1f1f1;
 }
 
+/* When the inputs get focus, do something */
 .form-container input[type=name]:focus, .form-container input[type=description]:focus {
   background-color: #ddd;
   outline: none;
 }
 
+/* Set a style for the submit/login button */
 .form-container .btn {
   background-color: green;
   color: white;
@@ -432,11 +451,12 @@
   opacity: 1;
 }
 
+/* Add a red background color to the cancel button */
 .form-container .cancel {
   background-color: red;
 }
 
-/* resizing for smaller screens */
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   .view-account-container {
     flex-direction: column;

@@ -49,9 +49,7 @@ const AccountView = () => {
   const [promChecked, setPromChecked] = React.useState(false);
   const [newsChecked, setNewsChecked] = React.useState(false);
 
-  /**
-   * gets the account info from the database
-   */
+  // gets account information
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -65,21 +63,21 @@ const AccountView = () => {
         },
       })
         .then((response) => {
-          return response.text(); // get the response text
+          return response.text(); // Get the response text
         })
         .then((text) => {
           // Parse the text as JSON
-          // setting relevent info as react states
           const data = JSON.parse(text);
           setEmail(data.email);
           setName(data.users[0].name);
           setPhone(data.phone);
           setBirthday(data.users[0].birthday);
+
           setStaffLevel(data.staffLevel);
-          
+
           setNewsChecked(data.news);
           setPromChecked(data.prom);
-          
+
           setUsers(data.users);
         });
     } catch (error) {
@@ -87,28 +85,27 @@ const AccountView = () => {
     }
   };
 
-  /**
-   * updates account info when states change
-   */
   useEffect(() => {
     get_account_info();
   }, []);
 
+  /**
+   phone = ___;
+   birthday = ___;
+   name = ___;
+   */
   let navigate = useNavigate();
 
-  /**
-   * Register child for a class
-   */
+  // the children that are listed
   const registerChild = (e) => {
     let path = "/class-registration";
     let user = users[e.target.value];
     let name = user.name;
+    console.log(userID);
     navigate(path, { state: { _id: userID, curUserName: name } });
   };
 
-  /**
-   * Display info for current user (parent or child)
-   */
+  // displays the info for the current user (parent or children)
   const displayInfo = (e) => {
     setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
@@ -116,10 +113,7 @@ const AccountView = () => {
     setCurrentLevel(users[currentUserIndex].level);
   };
 
-
-  /**
-   * getting a list of html elements to display for each user
-   */
+  // getting a list of html elements to display users and buttons
   const getRenders = () => {
     let j = -1;
     renders = users.map(function (i) {
@@ -151,51 +145,37 @@ const AccountView = () => {
     });
   };
 
-  /**
-   * Perform page routing
-   */
+  // takes you to the family schedule
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
     navigate(path, { state: userID });
   };
 
-/**
- * page route back to the login page
- */
+  // logout button
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
   };
 
-  /**
-   * page route to admin calendar page
-   */
+  // go to admin calendar
   const adminCalendarPageRoute = () => {
     let path = "/admin-schedule";
     navigate(path, { state: userID });
   };
 
-
-  /**
-   * page route to manage accounts page
-   */  
+  // go to account management page
   const manageAccountsPageRoute = () => {
     let path = "/admin-accounts";
     navigate(path, { state: userID });
   };
 
-  /**
-   * page route to coach calendar page
-   */
+  // go to coach calendar
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
     navigate(path, { state: userID });
   };
 
-
-  /**
-   * page route to coaches students list
-   */
+  // go to student list page
   const studentsListPageRoute = () => {
     let path = "/students-list";
     navigate(path, { state: userID });
@@ -211,9 +191,7 @@ const AccountView = () => {
     setPromChecked(!promChecked);
   };
 
-  /**
-   * edits the email subscriptions in the backend
-   */
+  // edit subsctiptions api call
   const editSubscriptions = (e) => {
     e.preventDefault();
     try {
@@ -231,23 +209,20 @@ const AccountView = () => {
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       }).then((response) => {
-        return response.text(); // get the response text
+        return response.text(); // Get the response text
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  /**
-   * Edit info fields
-   */
+  // unlocks the input fields
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
   };
 
-  /**
-   * Save info fields
-   */
+  // Saves name user name to database
+  // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on.
   const saveInfo = (e) => {
     e.preventDefault();
     if (changedName === "") {
@@ -269,7 +244,7 @@ const AccountView = () => {
           },
         })
           .then(function (response) {
-            return response.json(); // get the response text
+            return response.json(); // Get the response text
           })
           .then(function (data) {
             if (data == "Error: No user by that name found") {
@@ -286,7 +261,7 @@ const AccountView = () => {
         console.log(error);
       }
       if (currentUserIndex == 0) {
-        setName(changedName); // updates name displayed in Account Info column if parent was edited
+        setName(changedName); //Updates name displayed in Account Info column if parent was edited
       }
       setCurrentName(changedName);
       document.getElementById("edit-name").disabled = true;
@@ -297,27 +272,22 @@ const AccountView = () => {
     }
   };
 
-  /**
-   * Add new member to family account
-   */
+  // shows popup for adding a family member
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
   };
 
-  /**
-   * Handling form submittion
-   */
+
+  // api call for submitting family member
   const submitFamilyMember = (e) => {
     e.preventDefault();
 
-    // checking new name and birthday validity
     if (newName == "" || newBirthday == "") {
       alert("Please input all fields.");
     } else {
       // new child using newName, newPhone, newBirthday, level = 1
       try {
-        // splitting the birthday to the appropriate string
         let dateArr = newBirthday.toString().split(" ");
         let stringBirthday = dateArr[1] + " " + dateArr[2] + " " + dateArr[3];
         fetch(server_URL + "add_family", {
@@ -357,6 +327,7 @@ const AccountView = () => {
 
   // closes family member popup
   const closeForm = () => {
+    // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
     document.querySelector(".myForm-overlay").style.display = "none";
   };
@@ -376,21 +347,19 @@ const AccountView = () => {
     setNewBirthday(date);
   };
 
-  // check if user account is admin
+
+  // checking to see if the user can see admin or coach buttons
   if (staffLevel == 3) {
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
   }
 
-  // check if user account is coach
   if (staffLevel == 1) {
     document.getElementById("studentsList").style.display = "block";
     document.getElementById("coachCalendar").style.display = "block";
   }
 
-  // getting the renders
   getRenders();
-  
   return (
     <div className="view-account-page">
       <div className="top-bar">
@@ -435,7 +404,6 @@ const AccountView = () => {
         </div>
       </div>
       <div className="view-account-container">
-        {/* view account owner's info */}
         <div className="view-user-info-1">
           <div className="view-account-column-entry">
             <label className="heading" htmlFor="member">
@@ -517,7 +485,7 @@ const AccountView = () => {
                 Add Family Member
               </button>
             </div>
-            {/* looping through children */}
+            {/* looping through children*/}
             {renders}
 
             <div className="family-schedule">
@@ -531,7 +499,6 @@ const AccountView = () => {
           </div>
         </div>
 
-        {/* modify family member info */}
         <div className="view-user-info-3">
           <div className="edit-family-info">
             <div className="view-account-column-entry">
@@ -599,7 +566,6 @@ const AccountView = () => {
             </div>
           </div>
 
-          {/* subscribe to email / newsletter options */}
           <div className="email-list">
             <div className="view-account-column-entry">
               <label className="heading" htmlFor="email" type="emailList">
@@ -637,7 +603,6 @@ const AccountView = () => {
 
         <div className="myForm-overlay"></div>
 
-        {/* add new family member */}
         <div className="add-family-popup" id="myForm">
           <form className="form-container">
             <label htmlFor="name">

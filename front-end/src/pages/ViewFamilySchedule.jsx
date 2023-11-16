@@ -21,15 +21,13 @@ const ViewFamilySchedule = () => {
   let [userID, setUserID] = useState("");
   userID = location.state;
 
-  // storing the userID in local storage so refreshing doesnt break the page
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
   }
+
+  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
-  /**
-   * getting the necessary user information from the backend
-   */
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -53,18 +51,15 @@ const ViewFamilySchedule = () => {
             curUser = data.users[0];
             setCurUser(data.users[0]);
           }
+          // get_user_events()
         });
     } catch (error) {
       console.log(error);
     }
   };
 
-  /**
-   * getting the user events from the backend
-   */
   const get_user_events = () => {
     if (curUser != "") {
-      // parsing through each event in the userEvents
       curUser.courses.forEach((event) => {
         try {
           fetch(server_URL + "get_course", {
@@ -83,8 +78,6 @@ const ViewFamilySchedule = () => {
               return response.text();
             })
             .then((data) => {
-
-              // getting each event
               let event = JSON.parse(data);
               let name = event.name;
               let desc = event.desc;
@@ -112,24 +105,23 @@ const ViewFamilySchedule = () => {
                 end: end,
                 level: level,
               };
-              // adding event to array
               temp.push(newEvent);
             });
         } catch (exception) {
           console.log(exception);
         }
       });
-
-      // setting the state
       setCalEvents(temp);
     }
   };
 
-  /**
-   * removing event from users course list  
-   */
   const unregister = (e) => {
     e.preventDefault();
+
+    console.log("curUser", curUser);
+    console.log("currentEvent", currentEvent);
+    console.log("userID", userID);
+
     try {
       fetch(server_URL + "remove_course_user", {
         method: "POST",
@@ -159,8 +151,6 @@ const ViewFamilySchedule = () => {
             alert("There was an error with finding the event.");
           } else {
             alert("Unregistration successful!");
-
-            // updating user events and closing the popup
             get_user_events();
             closeForm();
           }
@@ -170,38 +160,34 @@ const ViewFamilySchedule = () => {
     }
   };
 
-  // updates with state changes
   useEffect(() => {
     get_account_info();
+    console.log(curUser);
     get_user_events();
   }, [curUser]);
 
-  /**
-   * going back to previous page
-   */
   const goBack = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
   };
 
-  /**
-   * shows details of clicked on event
-   * @param {*} calEvent the clicked on event
-   */
   const showDetails = (calEvent) => {
+    // alert(calEvent.description)
+    // console.log(calEvent)
     if (calEvent != currentEvent) {
+      // setCurrentEvent(calEvent)
       currentEvent = calEvent;
     }
-    // opening the form
+    console.log(currentEvent.title);
+
     openForm();
   };
 
-  /**
-   * displays event details
-   */
   const openForm = () => {
+    // console.log(currentEvent)
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
+    // console.log(currentEvent.desc)
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
     } else {
@@ -209,31 +195,32 @@ const ViewFamilySchedule = () => {
     }
   };
 
-  /**
-   * closes the form
-   */
+  
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
   };
 
-  /**
-   * handles the user dropdown
-   * @param {} e 
-   */
   const handleUserChange = (e) => {
+    // e.preventDefault()
+    // curUser = users[e.target.value]
     setCurUser(users[e.target.value]);
     get_user_events();
   };
 
-  // rendering the user dropdown
   let j = -1;
   let nameDropDowns = users.map(function (i) {
     let element;
+    // if(curUser == i){
+    //   element = <option value={++j} key={i.name} selected>{i.name}</option>
+    // }
+    // else{
     element = (
       <option value={++j} key={i.name}>
         {i.name}
       </option>
     );
+    // }
+
     return element;
   });
 

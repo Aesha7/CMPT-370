@@ -4,16 +4,17 @@ import "../style/AdminManageAccountsPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
+
+
 const AdminManageAccountsPage = () => {
     const location = useLocation();
     let userID = location.state;
     const [staffLevel, setStaffLevel] = useState('')
 
+
+    console.log(userID);
     let userEmail;
 
-    /**
-    * Modify coach account
-    */
     const modifyAccountsStaff = () => {
       try {
         fetch(server_URL + "change_staff_level", {
@@ -29,7 +30,7 @@ const AdminManageAccountsPage = () => {
 
           return response.text();
         }).then((text) => {
-          // parse the text as JSON
+          // Parse the text as JSON
           const data = JSON.parse(text);
           
           if (text == '"Error: admin account not found"') {
@@ -55,6 +56,7 @@ const AdminManageAccountsPage = () => {
         window.localStorage.setItem('_id', userID);
       }
       userID = window.localStorage.getItem('_id')
+      
     
       // getting data initially
       useEffect(() => {
@@ -70,11 +72,13 @@ const AdminManageAccountsPage = () => {
             },
           })
           .then((response) => {
-            return response.text(); // get the response text
+            return response.text(); // Get the response text
           })
           .then((text) => {
-            // parse the text as JSON
+            // Parse the text as JSON
             const data = JSON.parse(text);
+            console.log(data)
+
             setStaffLevel(data.staffLevel)
             })
         } catch (error) {
@@ -84,18 +88,13 @@ const AdminManageAccountsPage = () => {
 
       let navigate = useNavigate();
 
-    /**
-    * Perform page routing
-    */
     const goBack = () =>{
       let path = "/my-account";
       navigate(path, {state:userID})
     }
 
-    /**
-    * Unhide page if admin account
-    */
-    if(staffLevel >= 3){
+    // uncovering the page if a valid account
+    if(staffLevel >= 1){
         document.getElementById("overlay").style.display = "none";
     }
 
@@ -107,7 +106,6 @@ const AdminManageAccountsPage = () => {
         <button className="top-bar-button" onClick={goBack}>Back</button>
         </div>
       </div>
-        {/* display pop-up meesage for invalid user */}
         <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
     </div>
         );

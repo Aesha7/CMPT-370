@@ -4,10 +4,10 @@ import "../style/AccountCreationPage.css";
 import "../style/ViewAccountPage.css";
 import DatePicker from "react-datepicker";
 
+
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const AccountCreatePage = (props) => {
-
   // states for registration
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,16 +18,13 @@ const AccountCreatePage = (props) => {
   const [signature, setSignature] = useState("");
   let [userID] = useState("");
 
-  // states for checking the errors
+  // States for checking the errors
   const [waiver, setWaiver] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
 
   let navigate = useNavigate();
 
-  /**
-  * Perform page routing
-  */
   const viewAccountPageRouteChange = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
@@ -43,11 +40,10 @@ const AccountCreatePage = (props) => {
     navigate(path);
   };
 
-   /**
-   * Check for valid email address
-   */ 
   function validEmail(email) {
+    // Regular expression for a valid email address
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
     return emailRegex.test(email);
   }
 
@@ -81,7 +77,7 @@ const AccountCreatePage = (props) => {
         // send request to backend and wait for the response
         fetch(server_URL + "submit_application", {
           method: "POST",
-          // data will be serialized and sent as json
+          // Data will be serialized and sent as json
           body: JSON.stringify({
             email: email,
             password: password,
@@ -161,7 +157,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling waiver form selection
+   * saying they agree with the waiver
    */
   const handleWaiver = (e) => {
     e.preventDefault();
@@ -185,7 +181,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling password change
+   * Handling Password change
    */
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -193,7 +189,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling name change
+   * Handling Name change
    */
   const handleName = (e) => {
     setName(e.target.value);
@@ -206,7 +202,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling phone number change
+   * Handling Phone Number change
    */
   const handlePhone = (e) => {
     setPhone(e.target.value);
@@ -214,7 +210,7 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling birthday change
+   * Handling Birthday change
    */
   const handleBirthDay = (date) => {
     let arr = date.toString().split(" ")
@@ -223,12 +219,13 @@ const AccountCreatePage = (props) => {
   };
 
   /**
-   * Handling signature change
+   * Handling Signature change
    */
   const handleSignature = (e) => {
     setSignature(e.target.value);
     setSubmitted(false);
   };
+
 
   return (
     <div className="account-creation-page">
@@ -240,8 +237,6 @@ const AccountCreatePage = (props) => {
       </div>
 
       <div className="account-create-container">
-
-        {/* input fields in form */}
         <form>
           <div className="account-create-container-toprow">
             <div className="column-entry">
@@ -331,7 +326,6 @@ const AccountCreatePage = (props) => {
             />
             </div>
 
-            {/* waiver selection in form */}
             <div className="account-create-row-entry">
               <label className="account-create-label" htmlFor="waiver">
                 Waiver:
@@ -348,7 +342,6 @@ const AccountCreatePage = (props) => {
               </div>
             </div>
 
-            {/* adding signature in form */}
             <div className="account-create-column-entry">
               <label className="account-create-label" htmlFor="signature">
                 Signature:
