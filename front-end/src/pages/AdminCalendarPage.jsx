@@ -44,10 +44,11 @@ const AdminCalendarPage = () => {
     window.localStorage.setItem("_id", userID);
   }
 
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
-  // getting the database events
+  /**
+   * getting Database events list
+   */
   const get_db_events = () => {
     // getting the events
     try {
@@ -68,8 +69,7 @@ const AdminCalendarPage = () => {
           const data = JSON.parse(text);
           // parsing through each event in the db
           data.forEach((event) => {
-
-            // getting the actual data
+            // getting the actual event data
 
             let name = event.name;
             let desc = event.desc;
@@ -101,7 +101,7 @@ const AdminCalendarPage = () => {
               end: end,
               level: level,
               enrolled: enrolled,
-              coach: coach
+              coach: coach,
             };
 
             // adding to the array
@@ -116,8 +116,9 @@ const AdminCalendarPage = () => {
     }
   };
 
-
-  // getting the account details from the db using the userID
+  /**
+   *  getting the account details from the admin
+   */  
   const get_account_details = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -144,11 +145,10 @@ const AdminCalendarPage = () => {
     }
   };
 
-
-  // deleting an event from the database (goes through enrolled list too)
+  /**
+   * deleting an event from the database
+   */
   const delete_event_call = () => {
-    // removing for all enrolled members
-    // this should work when the backend is fixed
     try {
       fetch(server_URL + "delete_course", {
         method: "POST",
@@ -167,44 +167,46 @@ const AdminCalendarPage = () => {
           return response.text();
         })
         .then((data) => {
-          // getting the updated db events
-          
-
-        if(data == '"Error: account not found"'){
-          alert("Account not found.")
-        }
-        else if(data == '"Error: you do not have permission to perform this action"'){
-          alert("You do not have permission to perform this action.")
-        }
-        else if(data == '"Error: event not found"'){
-          alert("Event not found.")
-        }
-        else{
-          // updating the events list and closing popup
-          get_db_events();
-          closeAllForms();
-        }
+          if (data == '"Error: account not found"') {
+            alert("Account not found.");
+          } else if (
+            data == '"Error: you do not have permission to perform this action"'
+          ) {
+            alert("You do not have permission to perform this action.");
+          } else if (data == '"Error: event not found"') {
+            alert("Event not found.");
+          } else {
+            // updating the events list and closing popup
+            get_db_events();
+            closeAllForms();
+          }
         });
     } catch (exception) {
       console.log(exception);
     }
   };
 
-  // getting data initially
+  // getting data when states are updated
   useEffect(() => {
     get_account_details();
     get_db_events();
   }, []);
 
-  const clickRef = useRef(null);
   let navigate = useNavigate();
 
-  // going to previous page
+  /**
+   * a page route to the previous page
+   */
   const goBack = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
   };
 
+  /**
+   * what happens when an event is clicked on
+   * opens an event info form
+   * @param calEvent The event that is clicked on 
+   */
   const onSelectEvent = (calEvent) => {
     // what happens when an event is clicked
     currentEvent = calEvent;
@@ -212,13 +214,20 @@ const AdminCalendarPage = () => {
     openEventInfoForm(calEvent);
   };
 
-  // opens the create event popup
+  /**
+   * opens the create event popup
+  */
   const openEventCreateForm = () => {
     // opening the createEvent form
     document.getElementById("createEventForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
   };
 
+
+  /**
+   * opens the event info popup
+   * @param {*} calEvent the event that was clicked on
+   */
   const openEventInfoForm = (calEvent) => {
     // setting html for event info & displaying the form
 
@@ -228,7 +237,17 @@ const AdminCalendarPage = () => {
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
   };
 
-  // closes all popups
+  /**
+   * displays a popup to confirm event deletion
+   */
+  const displayConfirmPopup = () => {
+    document.getElementById("confirmDeletionPopup").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
+  };
+
+  /**
+   * closes all popups
+   */
   const closeAllForms = () => {
     setTitle("");
     setDescription("");
@@ -236,6 +255,7 @@ const AdminCalendarPage = () => {
     document.getElementById("createEventForm").style.display = "none";
     document.getElementById("clickInformation").style.display = "none";
     document.getElementById("myForm-overlay").style.display = "none";
+    document.getElementById("confirmDeletionPopup").style.display = "none";
   };
 
   // handles the title
@@ -253,7 +273,7 @@ const AdminCalendarPage = () => {
     setLevel(e.target.value);
   };
 
-    // handles the date
+  // handles the date
   const handleDate = (inputDate) => {
     // handles the datepicker event
     setDate(inputDate);
@@ -295,7 +315,9 @@ const AdminCalendarPage = () => {
     setDuration(e.target.value);
   };
 
-  // creating the event
+  /**
+   * creates the event in the database
+   */
   const submitEvent = (e) => {
     e.preventDefault();
     if (title == "") {
@@ -336,7 +358,7 @@ const AdminCalendarPage = () => {
         coach_email: coach,
       };
 
-      // sending to database
+      // Actually sending to database
       try {
         fetch(server_URL + "add_course", {
           method: "POST",
@@ -368,20 +390,24 @@ const AdminCalendarPage = () => {
             return response.text();
           })
           .then((data) => {
-
-            if(data == '"Error: event name already exists"'){
-              alert("An event with this name already exists.")
-            }
-            else if(data == '"Error: you do not have permission to perform this action"'){
-              alert("You do not have permission to add an event.")
-            }
-            else if(data == '"Error: target coach account is not a staff account"'){
-              alert("The email you provided does not correspond to a coaches account.")
-            }
-            else if(data == '"Error: coach account not found"'){
-              alert("The email you provided does not correspond to a coaches account.")
-            }
-            else {
+            if (data == '"Error: event name already exists"') {
+              alert("An event with this name already exists.");
+            } else if (
+              data ==
+              '"Error: you do not have permission to perform this action"'
+            ) {
+              alert("You do not have permission to add an event.");
+            } else if (
+              data == '"Error: target coach account is not a staff account"'
+            ) {
+              alert(
+                "The email you provided does not correspond to a coaches account."
+              );
+            } else if (data == '"Error: coach account not found"') {
+              alert(
+                "The email you provided does not correspond to a coaches account."
+              );
+            } else {
               closeAllForms();
               get_db_events();
             }
@@ -392,24 +418,28 @@ const AdminCalendarPage = () => {
     }
   };
 
-  // deleting an event from the db with a button
+  /**
+   * Deletes the selected event from the database
+   */
   const deleteEvent = (e) => {
     e.preventDefault();
 
     if (currentEvent.enrolled.length > 0) {
-      alert("this event has enrolled members")
-      // check
-      delete_event_call();
-      // display the confirmation form
+      // display the popup
+      displayConfirmPopup();
     } else {
       delete_event_call();
     }
   };
 
-  // checks to see if a time is a valid representation using a regular expression
+/**
+ * checks a regular expression to determine if an inputted time is valid
+ * @param {*} time a string for time 
+ * @returns true if time is a valid time representation
+ */
   function validTime(time) {
     // Regular expression for a valid email address
-    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/;
+    const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
     return timeRegex.test(time);
   }
@@ -433,6 +463,7 @@ const AdminCalendarPage = () => {
         </div>
       </div>
 
+      {/*The form popup to display event info and delete button*/}
       <div className="">
         <div className="form-popup" id="clickInformation">
           <form className="form-container">
@@ -468,6 +499,34 @@ const AdminCalendarPage = () => {
         </div>
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
+
+      {/*The form popup to confirm deletion*/}
+        <div className="add-family-popup" id="confirmDeletionPopup">
+          <form className="form-container">
+            <h4>
+              This event has enrolled members. Are you sure you would like to
+              delete it?
+            </h4>
+
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={delete_event_call}
+            >
+              Delete
+            </button>
+
+            <button
+              type="button"
+              className="btn cancel"
+              onClick={closeAllForms}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+
+      {/*The form popup to add an event*/}
         <div className="add-family-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
@@ -531,17 +590,21 @@ const AdminCalendarPage = () => {
               dropdownMode="select"
               placeholderText="Select a date"
             />
-            <label><b>Start Time*</b></label>
-            <input 
+            <label>
+              <b>Start Time*</b>
+            </label>
+            <input
               placeholder="Hour:Minute"
               onChange={handleStartTime}
               type="startTime"
               name="startTime"
               required
-             ></input>
-            <label><b>Duration*</b></label>
-            <input 
-              placeholder="Hour:Minute" 
+            ></input>
+            <label>
+              <b>Duration*</b>
+            </label>
+            <input
+              placeholder="Hour:Minute"
               onChange={handleDuration}
               type="duration"
               name="duration"
@@ -561,6 +624,7 @@ const AdminCalendarPage = () => {
           </form>
         </div>
 
+        {/*The Calendar Rendering*/}
         <Calendar
           localizer={localizer}
           events={calEvents}
@@ -593,7 +657,6 @@ const AdminCalendarPage = () => {
 
             return { className: "", style: newStyle };
           }}
-          // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
       <div className="overlay" id="overlay">
