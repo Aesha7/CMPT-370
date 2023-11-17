@@ -79,7 +79,11 @@
     background-color: #ddd;
     border: 2px solid darkgray;
     cursor: pointer
-
+  }
+  
+  /* puts popup on top of layout */
+  .react-datepicker-popper {
+    z-index: 9999 !important;
   }
   
   .waiver-button {
