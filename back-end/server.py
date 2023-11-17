@@ -188,7 +188,7 @@ def DeleteFamily():
         "Error: user not found"
         "Error: cannot delete parent"
     """
-    return ac.delete_family(request.get_json(),accounts_collection)
+    return ac.delete_family(request.get_json(),accounts_collection,events_collection,courses_collection)
 
 @app.route("/edit_family", methods=["POST"])
 @cross_origin(origins="*")
