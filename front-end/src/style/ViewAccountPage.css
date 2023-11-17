@@ -852,7 +852,7 @@
 .add-family-label{
   margin: auto;
   font-size: 22px;
-  margin-left: 0.5vw;
+  color: black;
   padding-left: 1vw;
   padding-right: 1vw;
 }
@@ -871,6 +871,33 @@
 
 .family-form-container .cancel {
   background-color: red;
+}
+
+.custom-datepicker-addFamily{
+  padding: 15px 75px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid darkgray;
+  color: black;
+  margin:auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  
+}
+
+.custom-datepicker-addFamily:hover{
+  background-color: #ddd;
+  border: 2px solid darkgray;
+  cursor: pointer
+
+}
+
+.family-form-label{
+  color: black;
+  font-size: 22px;
 }
 
 

@@ -466,33 +466,7 @@ const AccountView = () => {
       <label className="family-bar">Family Members</label>
       <div class="triangleFamMems"></div>
       <div className="familyContainer">{renders}</div>
-      {/* <div className="view-account-container"> */}
-      {/* <div className="email-list">
-            <div className="emailOptions">
-              <label className="heading" htmlFor="email" type="emailList">
-                Email List: */}
-      {/* 
-
-              <div className="view-user-info-1">
-                <div className="view-account-column-entry">
-                  <label className="heading" htmlFor="member">
-                  </label>
-
-
-                </div>
-              </div> */}
-      {/* <div class="triangleEmOpt"></div> */}
-      {/* 
-          <div className="view-user-info-2">
-            <div className="view-account-column-entry"> */}
-      {/* <label className="heading" htmlFor="family">
-                  Family Members
-                </label> */}
-      {/* </div> */}
-      {/* looping through children*/}
-      {/* <div className="family-schedule"></div> */}
-      {/* </div> */}
-      {/* </div> */}
+     
       <div className="currentMemberPanel">
         <div className="edit-family-info">
           <div className="view-account-column-entry">
@@ -514,6 +488,7 @@ const AccountView = () => {
               id="edit-name"
               disabled={true}
               placeholder={currentName}
+              onChange={handleChangedName}
             ></input>
           </div>
 
@@ -557,57 +532,25 @@ const AccountView = () => {
               Save
             </button>
           </div>
-          {/* </div> */}
-
-          {/* <div className="email-list">
-              <div className="view-account-column-entry">
-                <label className="heading" htmlFor="email" type="emailList">
-                  Email List:
-                </label>
-
-                <label className="checklist">
-                  Newsletter
-                  <input
-                    type="checkbox"
-                    checked={newsChecked}
-                    onChange={handleNewsChange}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-
-                <br />
-
-                <label className="checklist">
-                  Promotions
-                  <input
-                    type="checkbox"
-                    checked={promChecked}
-                    onChange={handlePromChange}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-
-                <button className="save-button" onClick={editSubscriptions}>
-                  Save
-                </button>
-              </div>*/}
         </div>
 
+
+        {/* darkening overlay for adding a family member */}
         <div className="myForm-overlay"></div>
 
         {/* add new family member */}
         <div className="add-family-popup" id="myForm">
           <form className="family-form-container">
-            <label htmlFor="name">
-              <b>Name</b>
+            <label className="add-family-label" htmlFor="name">
+            <b>Name</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
-            <label htmlFor="birthday">
+            <label className="add-family-label" htmlFor="birthday">
               <b>Birthday</b>
             </label>
             <DatePicker
-              className="custom-datepicker"
+              className="custom-datepicker-addFamily"
               selected={newBirthday}
               onChange={handleNewBirthday}
               dateFormat="MM/dd/yyyy"
