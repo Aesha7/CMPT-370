@@ -49,7 +49,9 @@ const AccountView = () => {
   const [promChecked, setPromChecked] = React.useState(false);
   const [newsChecked, setNewsChecked] = React.useState(false);
 
-  // gets account information
+  /**
+   * gets the account info from the database
+   */
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -63,21 +65,21 @@ const AccountView = () => {
         },
       })
         .then((response) => {
-          return response.text(); // Get the response text
+          return response.text(); // get the response text
         })
         .then((text) => {
           // Parse the text as JSON
+          // setting relevent info as react states
           const data = JSON.parse(text);
           setEmail(data.email);
           setName(data.users[0].name);
           setPhone(data.phone);
           setBirthday(data.users[0].birthday);
-
           setStaffLevel(data.staffLevel);
-
+          
           setNewsChecked(data.news);
           setPromChecked(data.prom);
-
+          
           setUsers(data.users);
         });
     } catch (error) {
@@ -85,27 +87,28 @@ const AccountView = () => {
     }
   };
 
+  /**
+   * updates account info when states change
+   */
   useEffect(() => {
     get_account_info();
   }, []);
 
-  /**
-   phone = ___;
-   birthday = ___;
-   name = ___;
-   */
   let navigate = useNavigate();
 
-  // the children that are listed
+  /**
+   * Register child for a class
+   */
   const registerChild = (e) => {
     let path = "/class-registration";
     let user = users[e.target.value];
     let name = user.name;
-    console.log(userID);
     navigate(path, { state: { _id: userID, curUserName: name } });
   };
 
-  // displays the info for the current user (parent or children)
+  /**
+   * Display info for current user (parent or child)
+   */
   const displayInfo = (e) => {
     setCurrentUserIndex(e.target.value);
     setCurrentName(users[currentUserIndex].name);
@@ -113,7 +116,10 @@ const AccountView = () => {
     setCurrentLevel(users[currentUserIndex].level);
   };
 
-  // getting a list of html elements to display users and buttons
+
+  /**
+   * getting a list of html elements to display for each user
+   */
   const getRenders = () => {
     let j = -1;
     renders = users.map(function (i) {
@@ -145,37 +151,51 @@ const AccountView = () => {
     });
   };
 
-  // takes you to the family schedule
+  /**
+   * Perform page routing
+   */
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
     navigate(path, { state: userID });
   };
 
-  // logout button
+/**
+ * page route back to the login page
+ */
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
   };
 
-  // go to admin calendar
+  /**
+   * page route to admin calendar page
+   */
   const adminCalendarPageRoute = () => {
     let path = "/admin-schedule";
     navigate(path, { state: userID });
   };
 
-  // go to account management page
+
+  /**
+   * page route to manage accounts page
+   */  
   const manageAccountsPageRoute = () => {
     let path = "/admin-accounts";
     navigate(path, { state: userID });
   };
 
-  // go to coach calendar
+  /**
+   * page route to coach calendar page
+   */
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
     navigate(path, { state: userID });
   };
 
-  // go to student list page
+
+  /**
+   * page route to coaches students list
+   */
   const studentsListPageRoute = () => {
     let path = "/students-list";
     navigate(path, { state: userID });
@@ -191,7 +211,9 @@ const AccountView = () => {
     setPromChecked(!promChecked);
   };
 
-  // edit subsctiptions api call
+  /**
+   * edits the email subscriptions in the backend
+   */
   const editSubscriptions = (e) => {
     e.preventDefault();
     try {
@@ -209,20 +231,23 @@ const AccountView = () => {
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
       }).then((response) => {
-        return response.text(); // Get the response text
+        return response.text(); // get the response text
       });
     } catch (error) {
       console.log(error);
     }
   };
 
-  // unlocks the input fields
+  /**
+   * Edit info fields
+   */
   const unlockInfo = () => {
     document.getElementById("edit-name").disabled = false;
   };
 
-  // Saves name user name to database
-  // TODO: BUG: After editing a name and clicking "save", the name in the Name box no longer changes to match the user that is clicked on.
+  /**
+   * Save info fields
+   */
   const saveInfo = (e) => {
     e.preventDefault();
     if (changedName === "") {
@@ -244,7 +269,7 @@ const AccountView = () => {
           },
         })
           .then(function (response) {
-            return response.json(); // Get the response text
+            return response.json(); // get the response text
           })
           .then(function (data) {
             if (data == "Error: No user by that name found") {
@@ -261,7 +286,7 @@ const AccountView = () => {
         console.log(error);
       }
       if (currentUserIndex == 0) {
-        setName(changedName); //Updates name displayed in Account Info column if parent was edited
+        setName(changedName); // updates name displayed in Account Info column if parent was edited
       }
       setCurrentName(changedName);
       document.getElementById("edit-name").disabled = true;
@@ -272,22 +297,27 @@ const AccountView = () => {
     }
   };
 
-  // shows popup for adding a family member
+  /**
+   * Add new member to family account
+   */
   const addFamilyMemberPopup = (e) => {
     document.getElementById("myForm").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
   };
 
-
-  // api call for submitting family member
+  /**
+   * Handling form submittion
+   */
   const submitFamilyMember = (e) => {
     e.preventDefault();
 
+    // checking new name and birthday validity
     if (newName == "" || newBirthday == "") {
       alert("Please input all fields.");
     } else {
       // new child using newName, newPhone, newBirthday, level = 1
       try {
+        // splitting the birthday to the appropriate string
         let dateArr = newBirthday.toString().split(" ");
         let stringBirthday = dateArr[1] + " " + dateArr[2] + " " + dateArr[3];
         fetch(server_URL + "add_family", {
@@ -327,7 +357,6 @@ const AccountView = () => {
 
   // closes family member popup
   const closeForm = () => {
-    // console.log("clicked");
     document.getElementById("myForm").style.display = "none";
     document.querySelector(".myForm-overlay").style.display = "none";
   };
@@ -347,279 +376,302 @@ const AccountView = () => {
     setNewBirthday(date);
   };
 
-
-  // checking to see if the user can see admin or coach buttons
+  // check if user account is admin
   if (staffLevel == 3) {
     document.getElementById("manageAccounts").style.display = "block";
     document.getElementById("adminCalendar").style.display = "block";
   }
 
+  // check if user account is coach
   if (staffLevel == 1) {
     document.getElementById("studentsList").style.display = "block";
     document.getElementById("coachCalendar").style.display = "block";
   }
 
+  // getting the renders
   getRenders();
-
-  return(
-    <div className="view-account-page"> My Account
-      <div class="rectangleTop"></div>
-      <div class="triangleTop"></div>
-      <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
-      <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
-      <label className="ownerELabel" htmlFor="email">Email:</label>
-      <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
-      <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
-      
-      <div className="view-account-page">
-        <div className="top-bar">
-          My Account
-          <div className="allButtons">
-            <button
-              className="top-bar-button"
-              htmlFor="manageAccounts"
-              id="manageAccounts"
-              onClick={manageAccountsPageRoute}
-            >
-              Manage Accounts
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="adminCalendar"
-              id="adminCalendar"
-              onClick={adminCalendarPageRoute}
-            >
-              Admin Calendar
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="studentsList"
-              id="studentsList"
-              onClick={studentsListPageRoute}
-            >
-              Students List
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="coachCalendar"
-              id="coachCalendar"
-              onClick={coachCalendarPageRoute}
-            >
-              Coach Calendar
-            </button>
-            <button className="top-bar-button" onClick={goBackToLogin}>
-              {" "}
-              Logout{" "}
-            </button>
-          </div>
-        </div>
-
-        <div className="view-account-container">
-
-          {/* <div className="email-list">
-            <div className="emailOptions">
-              <label className="heading" htmlFor="email" type="emailList">
-                Email List: */}
-
-
-              <div className="view-user-info-1">
-                <div className="view-account-column-entry">
-                  <label className="heading" htmlFor="member">
-                    Account Info:
-                  </label>
-
-                  <label className="checklist">
-                    Newsletter
-                    <input type="checkbox" />
-                    <span className="checkmark"></span>
-                  </label>
-
-                  <label className="checklist">
-                    Promotions
-                    <input type="checkbox" />
-                    <span className="checkmark"></span>
-                  </label>
-                </div>
-              </div>
-
-
-          <div class="triangleEmOpt"></div>
-
-          <div className="view-user-info-2">
-            <div className="view-account-column-entry">
-              <div className="family-bar">
-                <label className="heading" htmlFor="family">
-                  Family Members
-                </label>
-                <div class="triangleFamMems"></div>
-                <button className="family-button" onClick={addFamilyMemberPopup}>
-                  Add Family Member
-                </button>
-                {/* <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
-                  View Family Schedule
-                </button> */}
-              </div>
-              {/* looping through children*/}
-              {renders}
-
-              <div className="family-schedule"></div>
-            </div>
-          </div>
-
-          <div className="currentMemberPanel">
-            <div className="edit-family-info">
-              <div className="view-account-column-entry">
-                <label className="headingCurrMem" htmlFor="family">
-                  Current Member Info:
-                </label>
-              </div>
-
-              {/* name */}
-              <div className="view-account-column-entry">
-                <label className="account-label" htmlFor="name">
-                  {" "}
-                  Name:{" "}
-                </label>
-                <input
-                  onChange={handleChangedName}
-                  className="edit-label"
-                  htmlFor="name"
-                  type="name"
-                  id="edit-name"
-                  disabled={true}
-                  placeholder={currentName}
-                ></input>
-              </div>
-
-              {/* phone */}
-              {/* <div className="view-account-column-entry"> 
-                <label className="account-label" htmlFor="phone">
-                  {" "}
-                  Phone:{" "}
-                </label>
-                <input
-                  className="edit-label"
-                  htmlFor="phone"
-                  type="phone"
-                  id="edit-phone"
-                  disabled={true}
-                  placeholder={currentPhone}
-                ></input> 
-              </div> */}
-
-              {/* birthday */}
-              <div className="view-account-column-entry">
-                <label className="account-label" htmlFor="birthday">
-                  {" "}
-                  Birthday:{" "}
-                </label>
-                <input
-                  className="edit-label"
-                  htmlFor="email"
-                  type="email"
-                  id="edit-birthday"
-                  disabled={true}
-                  placeholder={currentBirthday}
-                ></input>
-              </div>
-
-              {/* level */}
-              <div className="view-account-column-entry">
-                <label className="account-label" htmlFor="level">
-                  {" "}
-                  Level:{" "}
-                </label>
-                <input
-                  className="edit-label"
-                  htmlFor="level"
-                  type="level"
-                  id="level"
-                  disabled={true}
-                  placeholder={currentLevel}
-                ></input>
-              </div>
-              {/* edit the routers !!! */}
-              <div className="family-info">
-                <button className="edit-button" onClick={unlockInfo}>
-                  Edit
-                </button>
-                <button className="save-button" onClick={saveInfo}>
-                  Save
-                </button>
-              </div>
-            </div>
-
-            <div className="email-list">
-              <div className="view-account-column-entry">
-                <label className="heading" htmlFor="email" type="emailList">
-                  Email List:
-                </label>
-
-                <label className="checklist">
-                  Newsletter
-                  <input
-                    type="checkbox"
-                    checked={newsChecked}
-                    onChange={handleNewsChange}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-
-                <br />
-
-                <label className="checklist">
-                  Promotions
-                  <input
-                    type="checkbox"
-                    checked={promChecked}
-                    onChange={handlePromChange}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-
-                <button className="save-button" onClick={editSubscriptions}>
-                  Save
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="myForm-overlay">
-            <div className="add-family-popup" id="myForm">
-              <form className="form-container">
-                <label htmlFor="name">
-                  <b>Name</b>
-                </label>
-                <input type="name" onChange={handleNewName}></input>
-
-                <label htmlFor="birthday">
-                  <b>Birthday</b>
-                </label>
-                <DatePicker
-                  className="custom-datepicker"
-                  selected={newBirthday}
-                  onChange={handleNewBirthday}
-                  dateFormat="MM/dd/yyyy"
-                  minDate={new Date(1900, 0, 1)}
-                  maxDate={new Date(2099, 11, 31)}
-                  showMonthDropdown={true}
-                  showYearDropdown={true}
-                  todayButton="Today"
-                  dropdownMode="select"
-                  placeholderText="Select a date"
-                />
-                <button type="submit" className="btn" onClick={submitFamilyMember}>
-                  Register
-                </button>
-                <button type="button" className="btn cancel" onClick={closeForm}>
-                  Cancel
-                </button>
-              </form>
-            </div>
-          </div>
+  
+  return (
+    <div className="view-account-page">
+      <div className="top-bar">
+        My Account
+        <div className="allButtons">
+          <button
+            className="top-bar-button"
+            htmlFor="manageAccounts"
+            id="manageAccounts"
+            onClick={manageAccountsPageRoute}
+          >
+            Manage Accounts
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="adminCalendar"
+            id="adminCalendar"
+            onClick={adminCalendarPageRoute}
+          >
+            Admin Calendar
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="studentsList"
+            id="studentsList"
+            onClick={studentsListPageRoute}
+          >
+            Students List
+          </button>
+          <button
+            className="top-bar-button"
+            htmlFor="coachCalendar"
+            id="coachCalendar"
+            onClick={coachCalendarPageRoute}
+          >
+            Coach Calendar
+          </button>
+          <button className="top-bar-button" onClick={goBackToLogin}>
+            {" "}
+            Logout{" "}
+          </button>
         </div>
       </div>
-  </div>
+      <div className="view-account-container">
+        {/* view account owner's info */}
+        <div className="account-info-div">
+          <div className="view-account-column-entry">
+            <label className="heading" htmlFor="member">
+              Account Info:
+            </label>
+          </div>
+
+          {/* name */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="name">
+              {" "}
+              Name:{" "}
+            </label>
+            <label className="info-label" htmlFor="name" type="name" id="name">
+              {" "}
+              {name}{" "}
+            </label>
+          </div>
+
+          {/* email */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="email">
+              {" "}
+              Email:{" "}
+            </label>
+            <label
+              className="info-label"
+              htmlFor="email"
+              type="email"
+              id="email"
+            >
+              {" "}
+              {email}{" "}
+            </label>
+          </div>
+
+          {/* phone */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="phone">
+              {" "}
+              Phone:{" "}
+            </label>
+            <label
+              className="info-label"
+              htmlFor="phone"
+              type="phone"
+              id="phone"
+            >
+              {" "}
+              {phone}{" "}
+            </label>
+          </div>
+
+          {/* birthday */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="birthday">
+              {" "}
+              Birthday:{" "}
+            </label>
+            <label
+              className="info-label"
+              htmlFor="email"
+              type="email"
+              id="email"
+            >
+              {" "}
+              {birthday}{" "}
+            </label>
+          </div>
+        </div>
+
+        <div className="view-family-info">
+          <div className="view-account-column-entry">
+            <div className="family-bar">
+              <label className="heading" htmlFor="family">
+                Family
+              </label>
+              <button className="add-family-button" onClick={addFamilyMemberPopup}>
+                Add Family Member
+              </button>
+            </div>
+            {/* looping through children */}
+            {renders}
+
+            <div className="family-schedule">
+              <button
+                className="schedule-button"
+                onClick={viewFamilyScheduleRouteChange}
+              >
+                View Family Schedule
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* modify family member info */}
+        <div className="view-user-info-3">
+          <div className="edit-family-info">
+            <div className="view-account-column-entry">
+              <label className="heading" htmlFor="family">
+                Family Member Info:
+              </label>
+            </div>
+
+            {/* name */}
+            <div className="view-account-column-entry">
+              <label className="account-label" htmlFor="name">
+                {" "}
+                Name:{" "}
+              </label>
+              <input
+                onChange={handleChangedName}
+                className="edit-label"
+                htmlFor="name"
+                type="name"
+                id="edit-name"
+                disabled={true}
+                placeholder={currentName}
+              ></input>
+            </div>
+
+            {/* birthday */}
+            <div className="view-account-column-entry">
+              <label className="account-label" htmlFor="birthday">
+                {" "}
+                Birthday:{" "}
+              </label>
+              <input
+                className="edit-label"
+                htmlFor="email"
+                type="email"
+                id="edit-birthday"
+                disabled={true}
+                placeholder={currentBirthday}
+              ></input>
+            </div>
+
+            {/* level */}
+            <div className="view-account-column-entry">
+              <label className="account-label" htmlFor="level">
+                {" "}
+                Level:{" "}
+              </label>
+              <input
+                className="edit-label"
+                htmlFor="level"
+                type="level"
+                id="level"
+                disabled={true}
+                placeholder={currentLevel}
+              ></input>
+            </div>
+            {/* edit the routers !!! */}
+            <div className="family-info">
+              <button className="edit-button" onClick={unlockInfo}>
+                Edit
+              </button>
+              <button className="save-button" onClick={saveInfo}>
+                Save
+              </button>
+            </div>
+          </div>
+
+          {/* subscribe to email / newsletter options */}
+          <div className="email-list">
+            <div className="view-account-column-entry">
+              <label className="heading" htmlFor="email" type="emailList">
+                Email List:
+              </label>
+
+              <label className="checklist">
+                Newsletter
+                <input
+                  type="checkbox"
+                  checked={newsChecked}
+                  onChange={handleNewsChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+
+              <br />
+
+              <label className="checklist">
+                Promotions
+                <input
+                  type="checkbox"
+                  checked={promChecked}
+                  onChange={handlePromChange}
+                />
+                <span className="checkmark"></span>
+              </label>
+
+              <button className="save-button" onClick={editSubscriptions}>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="myForm-overlay"></div>
+
+        {/* add new family member */}
+        <div className="add-family-popup" id="myForm">
+          <form className="form-container">
+            <label htmlFor="name">
+              <b>Name</b>
+            </label>
+            <input type="name" onChange={handleNewName}></input>
+
+            <label htmlFor="birthday">
+              <b>Birthday</b>
+            </label>
+            <DatePicker
+              className="custom-datepicker"
+              selected={newBirthday}
+              onChange={handleNewBirthday}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
+            <button type="submit" className="btn" onClick={submitFamilyMember}>
+              Register
+            </button>
+            <button type="button" className="btn cancel" onClick={closeForm}>
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
-}; export default AccountView;
+};
+
+export default AccountView;

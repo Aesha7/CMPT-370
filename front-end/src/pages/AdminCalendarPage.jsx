@@ -215,8 +215,8 @@ const AdminCalendarPage = () => {
   // opens the create event popup
   const openEventCreateForm = () => {
     // opening the createEvent form
-    document.getElementById("createEventForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
+    document.getElementById("createEventForm").style.display = "block";
   };
 
   const openEventInfoForm = (calEvent) => {
@@ -468,7 +468,8 @@ const AdminCalendarPage = () => {
         </div>
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
-        <div className="add-family-popup" id="createEventForm">
+        
+        <div className="add-course-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
 

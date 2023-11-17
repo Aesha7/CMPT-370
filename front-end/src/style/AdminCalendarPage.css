@@ -32,11 +32,25 @@
   .form-container input[type=title], .form-container input[type=description], .form-container input[type=coach], .form-container input[type=startTime], .form-container input[type=duration] {
     width: 100%;
     padding: 15px;
-    margin: 5px 0 22px 0;
+    margin: 5px 0 10px 0;
     margin-right: 10px;
     max-width: 90%;
     border: none;
     background: #f1f1f1;
+  }
+
+  .add-course-popup {
+    display: none;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    width: 350px; 
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid gray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 999; 
   }
   
   /* When the inputs get focus, do something */
@@ -95,7 +109,7 @@
     cursor: pointer;
     width: 100%;
     margin-bottom:0px;
-    margin-top: 22px;
+    margin-top: 10px;
     opacity: 1;
   }
 
