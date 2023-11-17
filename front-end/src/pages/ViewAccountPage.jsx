@@ -396,64 +396,26 @@ const AccountView = () => {
       <div class="rectangleFamily"></div>
       <div class="rectangleMembers"></div>
       <div class="rectangleCurrent"></div>
-      <label className="ownerNLabel" htmlFor="name">
-        Owner:{" "}
-      </label>
-      <label className="ownerName" htmlFor="name" type="name" id="name">
-        {name}
-      </label>
-      <label className="ownerELabel" htmlFor="email">
-        Email:
-      </label>
-      <label className="ownerEmail" htmlFor="email" type="email" id="email">
-        {email}
-      </label>
-      <label className="checklistNews">
-        Newsletter
-        <input type="checkbox" />
+      <div class="rectangleSubs"></div>
+      <label className="emailSubs">Email Subscriptions</label> 
+      <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
+      <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
+      <label className="ownerELabel" htmlFor="email">Email:</label>
+      <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
+      <label className="checklistNews">Newsletter<input type="checkbox" checked={newsChecked} onChange={handleNewsChange}/>
         <span className="checkmarkNews"></span>
       </label>
-      <label className="checklistPromotions">
-        Promotions
-        <input type="checkbox" />
+      <label className="checklistPromotions">Promotions<input type="checkbox" checked={promChecked} onChange={handlePromChange} />
         <span className="checkmarkPromotions"></span>
       </label>
-      <button className="buttonLogout" onClick={goBackToLogin}>
-        Logout
-      </button>
-      <button
-        className="buttonManAcc"
-        htmlFor="manageAccounts"
-        id="manageAccounts"
-        onClick={manageAccountsPageRoute}
-      >
-        {" "}
-        Manage Accounts
-      </button>
-      <button
-        className="buttonAdmCal"
-        htmlFor="adminCalendar"
-        id="adminCalendar"
-        onClick={adminCalendarPageRoute}
-      >
-        Admin Calendar
-      </button>
-      <button
-        className="buttonStuList"
-        htmlFor="studentsList"
-        id="studentsList"
-        onClick={studentsListPageRoute}
-      >
-        Students List
-      </button>
-      <button
-        className="buttonCoCal"
-        htmlFor="coachCalendar"
-        id="coachCalendar"
-        onClick={coachCalendarPageRoute}
-      >
-        Coach Calendar
-      </button>
+      <button className="buttonSaveSubs" onClick={editSubscriptions}>
+                  Save
+                </button>
+      <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
+      <button className="buttonManAcc" htmlFor="manageAccounts" id="manageAccounts" onClick={manageAccountsPageRoute}> Manage Accounts</button>
+      <button className="buttonAdmCal" htmlFor="adminCalendar" id="adminCalendar" onClick={adminCalendarPageRoute}>Admin Calendar</button>
+      <button className="buttonStuList" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
+      <button className="buttonCoCal" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
       <button className="family-button" onClick={addFamilyMemberPopup}>
         Add Family Member
       </button>
