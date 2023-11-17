@@ -21,9 +21,10 @@ const AdminCalendarPage = () => {
   const [date, setDate] = useState();
   const [startTime, setStartTime] = useState();
   const [duration, setDuration] = useState();
+  const [capacity, setCapacity] = useState();
 
   const [coach, setCoach] = useState("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState("");
 
   // the list of events
   const [calEvents, setCalEvents] = useState([]);
@@ -295,6 +296,10 @@ const AdminCalendarPage = () => {
     setDuration(e.target.value);
   };
 
+  const handleCapacity=(e) =>{
+    setCapacity(e.target.value)
+  }
+
   // creating the event
   const submitEvent = (e) => {
     e.preventDefault();
@@ -310,7 +315,10 @@ const AdminCalendarPage = () => {
       alert("Pleaase select a valid date");
     } else if (!validTime(duration)) {
       alert("Please insert a valid duration.");
-    } else {
+    } else if(capacity == "") {
+      alert("Please input a valid capacity.");
+    }
+    else {
       // getting relevent info for start and end time
       let arr = startTime.split(":");
       let arr2 = duration.split(":");
@@ -356,6 +364,7 @@ const AdminCalendarPage = () => {
             endMin: event.end.minute,
             level: event.level,
             coach_email: coach,
+            capacity: capacity,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -518,6 +527,22 @@ const AdminCalendarPage = () => {
               <option value="1">2-3</option>
               <option value="2">3-4</option>
             </select>
+
+            <br></br>
+
+            <label for="capacity">
+              <b>Capacity *</b>
+            </label>
+
+            <input
+              type="number"
+              min="1" 
+              max="100"
+              placeholder="Please enter the Capacity"
+              name="capacity"
+              onChange={handleCapacity}
+              required
+            ></input>
 
             <DatePicker
               className="custom-datepicker"
