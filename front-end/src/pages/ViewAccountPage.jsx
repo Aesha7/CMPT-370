@@ -502,12 +502,12 @@ const AccountView = () => {
         {/* add new family member */}
         <div className="add-family-popup" id="myForm">
           <form className="family-form-container">
-            <label className="add-family-label" htmlFor="name">
+            <label className="add-family-label-name" htmlFor="name">
             <b>Name</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
-            <label className="add-family-label" htmlFor="birthday">
+            <label className="add-family-label-bday" htmlFor="birthday">
               <b>Birthday</b>
             </label>
             <DatePicker
@@ -523,10 +523,10 @@ const AccountView = () => {
               dropdownMode="select"
               placeholderText="Select a date"
             />
-            <button type="submit" className="btn" onClick={submitFamilyMember}>
+            <button type="submit" className="btn-sub" onClick={submitFamilyMember}>
               Register
             </button>
-            <button type="button" className="btn cancel" onClick={closeForm}>
+            <button type="button" className="btn-cancel" onClick={closeForm}>
               Cancel
             </button>
           </form>
