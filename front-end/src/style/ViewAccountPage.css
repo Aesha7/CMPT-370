@@ -1,85 +1,176 @@
-.view-account-page {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#manageAccounts {
-  display:none
-}
-
-#adminCalendar {
-  display:none
-}
-
-#studentsList {
-  display:none
-}
-
-#coachCalendar {
-  display:none
-}
-
-.top-bar  {
-  background-color: gray;
-  color: white;
-  padding: 30px;
-  text-align: left;
-  font-size: 40px;
-  font-weight: bolder;
-  align-items: center;
-  display: flex;
-}
-
-.top-bar .allButtons{
-  position: absolute;
-  right: 0;
-  gap: 30px;
-  display: flex;
-  margin: 30px;
-}
-
-.top-bar .top-bar-button {
-  padding: 15px 32px;
-  font-size: 18px;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: grey;
-  border: 4px solid white;
-  color: white;
-}
-
-.top-bar-button:hover {
-  background-color: white;
+.view-account-page{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: black;
+  text-align: left;
+  font-size: 95px;
+  font-weight:normal;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom right, transparent 0%, transparent 50%, #20f320 50%, #20f320 100%);
+  /* background: linear-gradient(to bottom, #20f320 0%, #20f320 15%, transparent 15%, transparent 100%); */
+
+  z-index: 0;
+}
+.triangleTop{
+  width: 0; 
+  height: 0; 
+  border-left: 0vw solid transparent;
+  border-right: 8.3vw solid transparent;
+  border-bottom: 0vh solid red;
+  border-top: 15vh solid #20f320;
+  margin-left: 29.99vw;
+  margin-top: -14.9vh;
+  z-index: 2;
+  position: absolute
+}
+.rectangleTop{
+  width: 30vw; 
+  height: 15vh;
+  background-color: #20f320;  
+  color:#20f320; 
+  margin-left: 0vw;
+  margin-top: -13.5vh;
+  z-index: 2;
+  /* position: absolute; */
+}
+.triangleEmOpt{
+  width: 0; 
+  height: 0; 
+  border-left: 0vw solid transparent;
+  border-right: 4vw solid transparent;
+  border-bottom: 0vh solid red;
+  border-top: 7.5vh solid #ddd;
+  z-index: 2;
+  /* margin-left: 6.9vw; */
+  position: relative;
+}
+
+.buttonLogout{
+  width: 8vw;
+  height: 7vh;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  font-weight: normal;
+  color: black;
+  z-index: 1;
+  /* padding: 15px 55px; */
+  text-align: left;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 92vw;
+  margin-top: -12vh;
+  position: absolute;
+}
+.buttonLogout:hover{
+  width: 11.5vw;
+  margin-left: 90vw;
+  color: white;
+}
+
+.ownerNLabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  background-color: #ddd;
+  position: absolute;
+  width: 12vw;
+  margin-left: 34vw;
+  margin-top: -15vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  /* height: 5v */
+  z-index: 1;
+}
+.ownerName{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  /* padding-top: 1vh; */
+  padding-left: 1vw;
+  text-align: left;
+  background-color: white;
+  position: absolute;
+  width: 25vw;
+  margin-left: 43.5vw;
+  margin-top: -15vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 2;
+}
+
+.ownerELabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  background-color: #ddd;
+  position: absolute;
+  width: 12vw;
+  margin-left: 30vw;
+  margin-top: -7vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 1;
+}
+.ownerEmail{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: left;
+  padding-left: 1vw;
+  background-color: white;
+  position: absolute;
+  width: 25vw;
+  margin-left: 39vw;
+  margin-top: -7vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 2;
+}
+
+.emailOptions {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: row;
+  /* margin: 25px; */
+  padding-left: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  position: relative;
+  background-color: #ddd;
+}
+
+
+#adminButton {
+  background-color: red;
+  float: right;
+  display:none
 }
 
 .view-account-container {
-  border-color: black;
-  height: auto;
-  width: auto;
-  margin: 50px;
-  padding: 5px;
+  /* background-color: lightgrey; */
   display: flex;
+  /* flex: 0.3; */
   flex-direction: row; 
 }
 
-.account-info-div {
-  flex: 0.3;
+.view-user-info-1 {
+  /* flex: 0.3; */
   display: flex;
   flex-direction: column;
-  margin: 25px;
-  background-color: lightgray;
-  /* background-color: red; */
-
+  /* margin: 25px; */
+  background-color: red;
 }
+
 
 .view-account-column-entry .info-label {
   background-color: white;
-  padding: 7px;
+  /* padding: 7px; */
 }
 
 .view-account-column-entry .edit-label {
   background-color: white;
   padding: 7px;
+  position: absolute;
+  margin-left: 5vw;
 }
 
 .view-account-column-entry {
@@ -94,7 +185,7 @@
   font-size: 22px;
   font-weight: bold;
   text-align: left;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   max-width: 100%;
 }
 
@@ -109,147 +200,212 @@
   padding: 16px;
   margin-bottom: 10px;
   font-size: 16px;
-  border: 2px solid darkgray;
-
+  border: 2px solid red;
 }
 
-.view-family-info {
+.view-user-info-2 {
   flex: 0.4;
   display: flex;
   flex-direction: column;
-  margin: 25px;
-  background-color: lightgray;
-
+  margin-top: 6vh;
+  margin-left: -25.4vw;
+  /* background-color: #ddd; */
+  /* padding-top: 10vh; */
 }
 
-.view-family-info .family-bar{
+
+.family-bar{
   display: flex;
   align-items: center;
+  /* text-align: center; */
   flex-direction: row;
-  padding-bottom: 30px;
-  margin-top: auto;
-  margin-bottom: 0;}
-
-.add-family-button{
-  padding: 10px 28px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid purple;
-  color: black;
-  margin: auto;
-  margin-right: 0px;
+  /* padding-bottom: 30px; */
+  background-color: #ddd;
+  padding-left: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  width: 10vw;
 }
 
-.add-family-button:hover{
-  background-color: purple;
+.triangleFamMems{
+    width: 0; 
+    height: 0; 
+    border-left: 0vw solid transparent;
+    border-right: 4vw solid transparent;
+    border-bottom: 0vh solid red;
+    border-top: 7.5vh solid #ddd;
+    z-index: 2;
+    margin-left: 10vw;
+    position: absolute;
+    /* position: relative; */
+}
+
+.family-button{
+  /* padding: 10px 28px; */
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: orange;
+  border: 2px solid transparent;
+  color: black;
+  /* margin: auto; */
+  position: absolute;
+  margin-left: 10vw;
+  margin-top: 0vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 3vw;
+}
+.schedule-button{
+
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #ca09ca;
+  border: 2px solid transparent;
+  color: black;
+  position: absolute;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  margin-top: 28vh;
+  margin-left: -1vw;
+}
+
+.family-button:hover{
+  /* background-color: purple; */
   color: white;
+  padding-left: 4.5vw;
+}
+.schedule-button:hover {
+  /* background-color: orange; */
+  color: white;
+  padding-left: 2.5vw;
 }
 
 .heading{
   font-size: 24px;
   font-weight: bold;
   margin-left: 0px;
-  float: left;
+  /* float: left; */
+  text-align: center;
   max-width: 100%;
+  /* background-color: orange; */
 }
-
+.headingCurrMem{
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 0px;
+  /* float: left; */
+  text-align: left;
+  max-width: 100%;
+  /* background-color: orange; */
+}
+/* 
 .heading[type="emailList"]{
-  margin-bottom: 25px;
+  margin-bottom: 25px; */
+  /* background-color: aqua;
+}  */
 
-} 
 
-.view-family-info .family-member-row {
+.family-member-row {
   display: flex;
   flex-direction: row; 
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #ddd;
+  margin-top: 1vh;
+  width: 23vw;
+
 }
 
 .register-button{
-  padding: 10px 25px;
+  padding-left: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-right: 1vw;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid green;
+  background-color: #20f320;
+  border: 2px solid transparent;
   color: black;
-  margin-left: 10px;
+  margin-left: 10vw;
+  position: absolute;
 }
 
 .register-button:hover {
-  background-color: green;
+  /* background-color: green; */
   color: white;
 }
 
 .family-member-name {
   margin: auto;
-  font-size: 18px;
-  margin-left: 0px;
+  font-size: 22px;
+  margin-left: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  /* background-color: #ddd; */
 }
 
 .info-button{
-  padding: 10px 25px;
+  /* padding: 10px 25px; */
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid blue;
+  background-color: #0bbaff;
+  border: 2px solid transparent;
   color: black;
-  margin-left: 10px;
+  margin-left: 18vw;
+  position: absolute;
 }
 
 .info-button:hover {
-  background-color: blue;
+  /* background-color: blue; */
   color: white;
 }
 
-.view-family-info .family-schedule {
+
+.family-schedule {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 50%;
-  margin-bottom: 0px;
+  margin-top: 100%;
 }
 
-.schedule-button{
-  padding: 10px 25px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid orange;
-  color: black;
-  bottom: 0;
-}
 
-.schedule-button:hover {
-  background-color: orange;
-  color: white;
-}
 
-.view-user-info-3 {
+
+
+.currentMemberPanel {
   flex: 0.3;
   display: flex;
-  flex-direction: column;
-  margin: 25px;
+  flex-direction: row;
+  /* margin: 25px; */
+  background-color: #0bbaff;
+  margin-top: 8.65vh;
+  margin-left: 60vw;
+  position: absolute;
+  padding-right: 5vw;
 }
 
-.view-user-info-3 .edit-family-info {
-  background-color: lightgray;
-  flex: 0.3;
+.currentMemberPanel .edit-family-info {
+  /* background-color: #0bbaff; */
+  /* flex: 0.3; */
   display: flex;
   flex-direction: column;
-  margin-top: 0;
-  margin-bottom: auto;
+  /* margin-left: -5vw; */
 }
 
 .view-user-info-3 .email-list {
@@ -257,8 +413,7 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
-  margin-top: auto;
-  margin-bottom: 0;
+  margin-top: 50px;
 }
 
 .family-info {
@@ -266,9 +421,9 @@
   flex-direction: row; 
   justify-content: right;
   align-items: center;
-  padding-top: 25px;
+  /* padding-top: 25px;
   padding-bottom: 25px;
-  padding-right: 25px;
+  padding-right: 25px; */
 }
 
 .edit-button{
@@ -298,6 +453,7 @@
   border: 2px solid green;
   color: black;
   margin-left: 10px;
+
 }
 
 .save-button:hover {
@@ -305,29 +461,35 @@
   color: white;
 }
 
-.checklist {
+ .checklist {
   display: block;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  padding-left: 40px;
+  padding-top: 0.5vh;
+  padding-left: 2vw;
   cursor: pointer;
   user-select: none;
+
   font-size: 18px;
-  margin-bottom: 10px;
+  /* margin-bottom: 0px;
+  padding-bottom: 20px; */
+  /* background-color: aqua; */
 }
 
-/* hide the browser's default checkbox */
-.checklist input {
+/* Hide the browser's default checkbox */
+ .checklist input {
+  /* margin-left: 1vw; */
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
+  /* background-color: red; */
 }
 
-/* create a custom checkbox */
+/* Create a custom checkbox */
 .checkmark {
+  margin-top: 0.5vh;
+  margin-left: 0.5vw;
   position: absolute;
   top: 0;
   left: 0;
@@ -336,28 +498,31 @@
   background-color: white;
 }
 
+/* On mouse-over, add a grey background color */
 .checklist:hover input ~ .checkmark {
   background-color: darkgrey;
 }
 
+/* When the checkbox is checked, add a blue background */
 .checklist input:checked ~ .checkmark {
   background-color: blue;
 }
 
-/* create the checkmark (hidden when not checked) */
+/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* show the checkmark when checked */
+/* Show the checkmark when checked */
 .checklist input:checked ~ .checkmark:after {
   display: block;
 }
 
-/* style the checkmark */
+/* Style the checkmark/indicator */
 .checklist .checkmark:after {
+  
   left: 9px;
   top: 5px;
   width: 5px;
@@ -368,7 +533,6 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }   
-
 .myForm-overlay {
   display: none;
   position: fixed;
@@ -415,6 +579,14 @@
   outline: none;
 }
 
+.add-family-label{
+  margin: auto;
+  font-size: 22px;
+  margin-left: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
 .form-container .btn {
   background-color: green;
   color: white;
@@ -431,15 +603,16 @@
   background-color: red;
 }
 
-/* resizing for smaller screens */
+
+/* Media query for smaller screens */
 @media (max-width: 768px) {
   .view-account-container {
     flex-direction: column;
     margin: 10px;
   }
 
-  .view-account-column-entry, .account-info-div,
-  .view-family-info, .view-user-info-3,
+  .view-account-column-entry, .view-user-info-1,
+  .view-user-info-2, .view-user-info-3,
   .view-user-info-3 .edit-label,
   .view-user-info-3 .email-list {
     flex: 1;
@@ -460,7 +633,3 @@
     justify-content: center;
   }
 }
-
-/* .custom-datepicker {
-  margin-left: 10px;
-} */
