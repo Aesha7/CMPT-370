@@ -3,6 +3,7 @@
 from flask import Response
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+import internal
 
 def _build_cors_preflight_response():
     response = Response()
@@ -20,6 +21,7 @@ def submit_account(request_data, accounts_collection):
         "staffLevel": 0,
         "news": False,
         "prom": True,
+        "teaching": [], #list of events/courses parent of account leads - should always be empty for non-coaches, but it's convenient to add here
         "users": [{
             "_id": ObjectId(),
             "name": request_data["name"],
@@ -119,7 +121,7 @@ def add_family(request_data, accounts_collection):
     resp.data=dumps("Success")
     return resp
     
-def delete_family(request_data, accounts_collection):
+def delete_family(request_data, accounts_collection, events_collection, courses_collection):
     #TODO: remove from events/courses
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
@@ -137,6 +139,7 @@ def delete_family(request_data, accounts_collection):
                     resp.status_code=400
                     resp.data=dumps("Error: cannot delete parent")
                     return resp
+                internal.clear_user_schedule(user["_id"], accounts_collection,events_collection,courses_collection) #removes user from enrollments
                 family_list.remove(user)
                 # Updates users list to new list
                 accounts_collection.update_one({"_id": ObjectId(request_data["_id"])},{"$set":{"users":family_list}})
