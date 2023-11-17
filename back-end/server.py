@@ -14,6 +14,7 @@ from bson.json_util import dumps
 import db_accounts as ac
 import db_events as ev
 import db_admin as ad
+import internal as internal
 # from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
@@ -267,7 +268,7 @@ def GetEvent():
 @cross_origin(origins="*")
 def AddEvent():
     """Endpoint for adding an event.
-    Required request parameters: account_ID, name, coach_email, desc, start, end
+    Required request parameters: account_ID, name, coach_email, desc, start, end, capacity
     Required staff level: 1
 
     Returns: Response
@@ -284,7 +285,7 @@ def AddEvent():
 @cross_origin(origins="*")
 def AddCourse():
     """Endpoint for adding a course.
-    Required request parameters: account_ID, name, coach_email, desc, start, end
+    Required request parameters: account_ID, name, coach_email, desc, start, end, capacity
     Required staff level: 1
 
     Returns: Response
@@ -310,6 +311,7 @@ def AddCourseToUser():
         "Error: event already on user's event list"
         "Error: account not found"
         "Error: user not found"
+        "Error: event full"
     """
     return ac.add_event(request.get_json(), accounts_collection, courses_collection, "course")
 
@@ -328,6 +330,7 @@ def AdminAddCourseToUser():
         "Error: admin account not found"
         "Error: user not found"
         "Error: you do not have permission to perform this action"
+        "Error: event full"
     """
     return ad.add_event_user(request.get_json(), accounts_collection, courses_collection, "course")
 
@@ -346,6 +349,7 @@ def AdminAddEventToUser():
         "Error: admin account not found"
         "Error: user not found"
         "Error: you do not have permission to perform this action"
+        "Error: event full"
     """
     return ad.add_event_user(request.get_json(), accounts_collection, events_collection, "event")
     
@@ -361,6 +365,7 @@ def AddEventToUser():
         "Error: event already on user's event list"
         "Error: account not found"
         "Error: user not found"
+        "Error: event full"
     """
     return ac.add_event(request.get_json(), accounts_collection, events_collection, "event")
 
@@ -564,7 +569,11 @@ def ChangeLevel():
     """
     return ad.change_level(request.get_json(),accounts_collection)
 
-
+@app.route("/test_delete", methods=["POST"])
+@cross_origin(origins="*")
+def TestDelete():
+    #TODO: testing in progress
+    return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
 
 
 def _corsify(response):

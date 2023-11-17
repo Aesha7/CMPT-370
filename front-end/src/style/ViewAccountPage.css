@@ -1,4 +1,40 @@
 
+.top-bar  {
+  background-color: gray;
+  color: white;
+  padding: 30px;
+  text-align: left;
+  font-size: 40px;
+  font-weight: bolder;
+  align-items: center;
+  display: flex;
+}
+
+.top-bar .allButtons{
+  position: absolute;
+  right: 0;
+  gap: 30px;
+  display: flex;
+  margin: 30px;
+}
+
+.top-bar .top-bar-button {
+  padding: 15px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: grey;
+  border: 4px solid white;
+  color: white;
+}
+
+.top-bar-button:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
 
 .view-account-page{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -399,6 +435,8 @@
   margin-left: 0.5vw;
   margin-top: 42vh;
   position: absolute;
+
+  visibility: hidden;
 }
 .buttonManAcc:hover{
   width: 6.5vw;
@@ -421,6 +459,9 @@
   margin-left: 0.5vw;
   margin-top: 50vh;
   position: absolute;
+
+  visibility: hidden;
+  /* display: none; */
 }
 .buttonAdmCal:hover{
   width: 6.5vw;
@@ -443,6 +484,8 @@
   margin-left: 0.5vw;
   margin-top: 26vh;
   position: absolute;
+
+  visibility: hidden;
 }
 .buttonStuList:hover{
   width: 6.5vw;
@@ -465,6 +508,8 @@
   margin-left: 0.5vw;
   margin-top: 34vh;
   position: absolute;
+
+  visibility: hidden;
 }
 .buttonCoCal:hover{
   width: 6.5vw;
@@ -688,19 +733,6 @@
   background-color: #cf0202;
 }
 
-
-.family-schedule {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 100%;
-}
-
-
-
-
-
 .currentMemberPanel {
   padding-top:2vh;
   padding-bottom: 2vh;
@@ -714,11 +746,8 @@
 }
 
 .currentMemberPanel .edit-family-info {
-  /* background-color: #0bbaff; */
-  /* flex: 0.3; */
   display: flex;
   flex-direction: column;
-  /* margin-left: -5vw; */
 }
 
 .view-user-info-3 .email-list {
@@ -726,7 +755,6 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
-  /* margin-top: 50px; */
 }
 
 .family-info {
@@ -734,9 +762,6 @@
   flex-direction: row; 
   justify-content: right;
   align-items: center;
-  /* padding-top: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px; */
 }
 
 .edit-button{
@@ -750,10 +775,6 @@
   color: white;
   width: 5vw;
   height: 4vh;
-  /* padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw; */
 }
 
 .edit-button:hover {
@@ -773,12 +794,6 @@
   margin-left: 1vw;
   width:5vw;
   height:4vh;
-  /* position: absolute; */
-  /* padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw; */
-
 }
 .save-button:hover {
   background-color: #cf0202;
@@ -786,27 +801,70 @@
   color: white;
 }
 
-/* The popup form - hidden by default */
+/* On mouse-over, add a grey background color */
+.checklist:hover input ~ .checkmark {
+  background-color: darkgrey;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checklist input:checked ~ .checkmark {
+  background-color: blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checklist input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checklist .checkmark:after {
+  
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}   
+
+.myForm-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
 .add-family-popup {
   display: none;
   position: fixed;
   bottom: 0;
   right: 15px;
   border: 3px solid #f1f1f1;
-  font-size: 20;
-  color: Black;
-  /* background-color: orange; */
   z-index: 9;
 }
 
 /* Add styles to the form container */
-/* .add-family-container {
+.add-family-container {
   max-width: 400px;
   padding: 10px;
   background-color: white;
 } */
 
-.form-container input[type=name], .form-container input[type=phone], .form-container input[type=birthday], .form-container input[type=startTime], .form-container input[type=endTime] {
+.family-form-container input[type=name], .family-form-container input[type=phone], .family-form-container input[type=birthday], .family-form-container input[type=startTime], .family-form-container input[type=endTime] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -816,14 +874,20 @@
   background: blue;
 }
 
-/* When the inputs get focus, do something */
-.form-container input[type=name]:focus, .form-container input[type=description]:focus {
+.family-form-container input[type=name]:focus, .family-form-container input[type=description]:focus {
   background-color: #ddd;
   outline: none;
 }
 
-/* Set a style for the submit/login button */
-.form-container .btn {
+.add-family-label{
+  margin: auto;
+  font-size: 22px;
+  color: black;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.family-form-container .btn {
   background-color: green;
   color: white;
   padding: 16px 20px;
@@ -831,14 +895,37 @@
   cursor: pointer;
   width: 100%;
   margin-bottom:0px;
-  margin-top: 22px;
+  margin-top: 0px;
   opacity: 1;
 }
 
-/* Add a red background color to the cancel button */
-.form-container .cancel {
+.family-form-container .cancel {
   background-color: red;
 }
+
+.custom-datepicker-addFamily{
+  padding: 15px 75px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid darkgray;
+  color: black;
+  margin:auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  width: 60%;
+
+}
+
+.custom-datepicker-addFamily:hover{
+  background-color: #ddd;
+  border: 2px solid darkgray;
+  cursor: pointer
+
+}
+
 
 /* Media query for smaller screens */
 /* @media (max-width: 768px) {

@@ -51,6 +51,12 @@ const AccountCreatePage = (props) => {
     return emailRegex.test(email);
   }
 
+  function validatePhoneNumber(input_str) {
+    var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+  
+    return re.test(input_str);
+  }
+
   /**
    * Handling form submittion
    */
@@ -76,7 +82,11 @@ const AccountCreatePage = (props) => {
     } else if (password != confirmPassword) {
       alert("Passwords do not match.");
       setError(true);
-    } else {
+    } else if(!validatePhoneNumber(phone)){
+      alert("Please ender a valid phone number.")
+    } 
+    
+    else {
       try {
         // send request to backend and wait for the response
         fetch(server_URL + "submit_application", {
@@ -278,10 +288,24 @@ const AccountCreatePage = (props) => {
             </div>
 
             <div className="entryBirthday">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
               <button onClick={null} className="labelBirthday" type="button">Birthday:</button> 
               <div class="triangleBirthday"></div>
-              <input onChange={handleBirthDay} className="fieldBirthday" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/>
+              {/* <input onChange={handleBirthDay} className="fieldBirthday" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/> */}
+              
+            <DatePicker
+              className="custom-datepicker-createAccount"
+              selected={birthday}
+              onChange={handleBirthDay}
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              placeholderText="Select a date"
+            />
+            
             </div>
 
             <div className="entrySignature">

@@ -120,6 +120,7 @@ def add_family(request_data, accounts_collection):
     return resp
     
 def delete_family(request_data, accounts_collection):
+    #TODO: remove from events/courses
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
@@ -153,6 +154,7 @@ def delete_family(request_data, accounts_collection):
     return resp
 
 def edit_family(request_data, accounts_collection, events_collection, courses_collection):
+    #TODO: update name in events
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
@@ -259,6 +261,10 @@ def add_event(request_data, accounts_collection, ev_collection, ev_type):
                 if user["level"]<int(ev["level"]):
                     resp.status_code=400
                     resp.data=dumps("Error: user level too low")
+                    return resp
+                if int(ev["capacity"]) <= len(enrolled):
+                    resp.status_code=400
+                    resp.data=dumps("Error: event full") #TODO: UNTESTED
                     return resp
                 if ev_type=="course":
                     ev_list = user["courses"]
