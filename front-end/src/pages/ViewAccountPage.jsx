@@ -393,7 +393,9 @@ const AccountView = () => {
       My Account
       <div class="rectangleTop"></div>
       <div class="rectangleButtons"></div>
-      <div class="rectangleFamily"></div>
+      <div class="rectangleFamReg"></div>
+      <div class="rectangleFamInf"></div>
+
       <div class="rectangleMembers"></div>
       <div class="rectangleCurrent"></div>
       <div class="rectangleSubs"></div>
@@ -417,13 +419,10 @@ const AccountView = () => {
       <button className="buttonStuList" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
       <button className="buttonCoCal" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
       <button className="family-button" onClick={addFamilyMemberPopup}>
-        Add Family Member
-      </button>
-      <button
-        className="schedule-button"
-        onClick={viewFamilyScheduleRouteChange}
-      >
-        View Family Schedule
+                  Add Family Member
+                </button>
+      <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
+                  View Schedule
       </button>
       <label className="family-bar">Family Members</label>
       <div class="triangleFamMems"></div>

@@ -17,6 +17,7 @@ const AccountCreatePage = (props) => {
   const [phone, setPhone] = useState("");
   const [signature, setSignature] = useState("");
   let [userID] = useState("");
+  const [date, setDate] = useState("")
 
   // States for checking the errors
   const [waiver, setWaiver] = useState(false);
@@ -226,8 +227,9 @@ const AccountCreatePage = (props) => {
   /**
    * Handling Birthday change
    */
-  const handleBirthDay = (date) => {
-    let arr = date.toString().split(" ")
+  const handleBirthDay = (inputDate) => {
+    setDate(inputDate)
+    let arr = inputDate.toString().split(" ")
     setBirthday(arr[1] + " " + arr[2] + " "+ arr[3]);
     setSubmitted(false);
   };
@@ -294,7 +296,7 @@ const AccountCreatePage = (props) => {
               
             <DatePicker
               className="custom-datepicker-createAccount"
-              selected={birthday}
+              selected={date}
               onChange={handleBirthDay}
               dateFormat="MM/dd/yyyy"
               minDate={new Date(1900, 0, 1)}

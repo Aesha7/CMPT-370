@@ -60,7 +60,7 @@
   }
 
   .custom-datepicker-createAccount{
-    padding: 15px 75px;
+    padding: 22px 75px;
     text-align: center;
     font-size: 12px;
     font-weight: bold;
@@ -68,8 +68,13 @@
     background-color: white;
     border: 2px solid darkgray;
     color: black;
-    margin: auto;
+    position: absolute;
+    margin-top: -8.7vw;
   }
+
+  .react-datepicker-popper {
+    z-index: 9999 !important;
+}
 
   .custom-datepicker-createAccount:hover{
     background-color: #ddd;
