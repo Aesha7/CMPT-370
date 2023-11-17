@@ -17,3 +17,29 @@
 "coach_email":"cameron@gmail.com",
 "account_ID":"653bfd5465c42a80fef326d7"}
 
+// add account
+{"email":"email@email.com",
+"password":"password",
+"name":"name",
+"birthday":"birthday",
+"phone":"phone",
+"waiver":true}
+
+// add event (special, for testing)
+{"startYear":2023,
+ "startMonth":11,
+ "startDate":17,
+ "startHour":9,
+"startMin":0,
+"endYear":2023,
+ "endMonth":11,
+ "endDate":17,
+ "endHour":9,
+"endMin":0,
+"capacity":5,
+"name": "Deletion Testing",
+"level":1,
+"desc":"event to remove",
+"coach_email":"coach@coach.com",
+"account_ID":"653bfd5465c42a80fef326d7"}
+
