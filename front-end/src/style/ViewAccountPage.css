@@ -533,6 +533,7 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }   
+
 .myForm-overlay {
   display: none;
   position: fixed;
@@ -595,7 +596,7 @@
   cursor: pointer;
   width: 100%;
   margin-bottom:0px;
-  margin-top: 22px;
+  margin-top: 0px;
   opacity: 1;
 }
 
