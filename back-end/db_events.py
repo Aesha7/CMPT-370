@@ -113,11 +113,11 @@ def delete(request_data, collection,accounts_collection,ev_type):
         return resp
     
     ev = collection.find_one({"name": request_data["event_name"]})
-    ev_id = ev["_id"]
     if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")
         return resp
+    ev_id = ev["_id"]
 
     # Goes through all users from enrolled list, finds that user, and removes event from their list
     for user1 in ev["enrolled"]:
@@ -145,8 +145,8 @@ def delete(request_data, collection,accounts_collection,ev_type):
                     break
 
     # Finds coach and removes event from their "teaching" list
-    coach_teaching_list = accounts_collection.find_one({"email":ev["coach"]})["teaching"]
-    coach_teaching_list = [i for i in coach_teaching_list if not (i['_id'] == ev_id)]
+    coach_teaching_list = accounts_collection.find_one({"email":ev["coach_email"]})["teaching"]
+    coach_teaching_list = [i for i in coach_teaching_list if not (i == ev_id)]
     accounts_collection.update_one({"email":ev["coach_email"]},{"$set":{"teaching":coach_teaching_list}})
 
     # Delete event
