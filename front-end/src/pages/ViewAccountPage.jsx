@@ -408,6 +408,7 @@ const AccountView = () => {
       <button className="buttonLogout" onClick={goBackToLogin}>
         Logout
       </button>
+      <button onClick={adminCalendarPageRoute}>admin calendar</button>
       {/* <div className="top-bar">
         
         <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
