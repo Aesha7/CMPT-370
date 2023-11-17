@@ -364,107 +364,76 @@ const AccountView = () => {
   return(
     <div className="view-account-page"> My Account
       <div class="rectangleTop"></div>
-      <div class="triangleTop"></div>
+      <div class="rectangleButtons"></div>
+      <div class="rectangleFamily"></div>
+      <div class="rectangleMembers"></div>
+      <div class="rectangleCurrent"></div>
       <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
       <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
       <label className="ownerELabel" htmlFor="email">Email:</label>
       <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
+      <label className="checklistNews">Newsletter<input type="checkbox" />
+        <span className="checkmarkNews"></span>
+      </label>
+      <label className="checklistPromotions">Promotions<input type="checkbox" />
+        <span className="checkmarkPromotions"></span>
+      </label>
       <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
+      <button className="buttonManAcc" htmlFor="manageAccounts" id="manageAccounts" onClick={manageAccountsPageRoute}> Manage Accounts</button>
+      <button className="buttonAdmCal" htmlFor="adminCalendar" id="adminCalendar" onClick={adminCalendarPageRoute}>Admin Calendar</button>
+      <button className="buttonStuList" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
+      <button className="buttonCoCal" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
+      <button className="family-button" onClick={addFamilyMemberPopup}>
+                  Add Family Member
+                </button>
+      <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
+                  View Family Schedule
+      </button>
+      <label className="family-bar">Family Members</label>     
+      <div class="triangleFamMems"></div>
+      <div className="familyContainer">
+        {renders}
+      </div>
       
-      <div className="view-account-page">
-        <div className="top-bar">
-          My Account
-          <div className="allButtons">
-            <button
-              className="top-bar-button"
-              htmlFor="manageAccounts"
-              id="manageAccounts"
-              onClick={manageAccountsPageRoute}
-            >
-              Manage Accounts
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="adminCalendar"
-              id="adminCalendar"
-              onClick={adminCalendarPageRoute}
-            >
-              Admin Calendar
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="studentsList"
-              id="studentsList"
-              onClick={studentsListPageRoute}
-            >
-              Students List
-            </button>
-            <button
-              className="top-bar-button"
-              htmlFor="coachCalendar"
-              id="coachCalendar"
-              onClick={coachCalendarPageRoute}
-            >
-              Coach Calendar
-            </button>
-            <button className="top-bar-button" onClick={goBackToLogin}>
-              {" "}
-              Logout{" "}
-            </button>
-          </div>
-        </div>
+      
 
-        <div className="view-account-container">
+
+        {/* <div className="view-account-container"> */}
 
           {/* <div className="email-list">
             <div className="emailOptions">
               <label className="heading" htmlFor="email" type="emailList">
                 Email List: */}
-
+{/* 
 
               <div className="view-user-info-1">
                 <div className="view-account-column-entry">
                   <label className="heading" htmlFor="member">
-                    Account Info:
                   </label>
 
-                  <label className="checklist">
-                    Newsletter
-                    <input type="checkbox" />
-                    <span className="checkmark"></span>
-                  </label>
 
-                  <label className="checklist">
-                    Promotions
-                    <input type="checkbox" />
-                    <span className="checkmark"></span>
-                  </label>
                 </div>
-              </div>
+              </div> */}
 
 
-          <div class="triangleEmOpt"></div>
-
+          {/* <div class="triangleEmOpt"></div> */}
+{/* 
           <div className="view-user-info-2">
-            <div className="view-account-column-entry">
-              <div className="family-bar">
-                <label className="heading" htmlFor="family">
+            <div className="view-account-column-entry"> */}
+             
+                {/* <label className="heading" htmlFor="family">
                   Family Members
-                </label>
-                <div class="triangleFamMems"></div>
-                <button className="family-button" onClick={addFamilyMemberPopup}>
-                  Add Family Member
-                </button>
-                {/* <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
-                  View Family Schedule
-                </button> */}
-              </div>
+                </label> */}
+                
+               
+               
+              {/* </div> */}
               {/* looping through children*/}
-              {renders}
 
-              <div className="family-schedule"></div>
-            </div>
-          </div>
+
+              {/* <div className="family-schedule"></div> */}
+            {/* </div> */}
+          {/* </div> */}
 
           <div className="currentMemberPanel">
             <div className="edit-family-info">
@@ -547,9 +516,9 @@ const AccountView = () => {
                   Save
                 </button>
               </div>
-            </div>
+            {/* </div> */}
 
-            <div className="email-list">
+            {/* <div className="email-list">
               <div className="view-account-column-entry">
                 <label className="heading" htmlFor="email" type="emailList">
                   Email List:
@@ -581,7 +550,7 @@ const AccountView = () => {
                   Save
                 </button>
               </div>
-            </div>
+            </div> */}
 
           </div>
 
@@ -619,7 +588,7 @@ const AccountView = () => {
             </div>
           </div>
         </div>
-      </div>
+      {/* </div> */}
   </div>
   );
 }; export default AccountView;
