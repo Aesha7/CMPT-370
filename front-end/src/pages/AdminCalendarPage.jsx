@@ -21,9 +21,10 @@ const AdminCalendarPage = () => {
   const [date, setDate] = useState();
   const [startTime, setStartTime] = useState();
   const [duration, setDuration] = useState();
+  const [capacity, setCapacity] = useState();
 
   const [coach, setCoach] = useState("");
-  const [user, setUser] = useState();
+  const [user, setUser] = useState("");
 
   // the list of events
   const [calEvents, setCalEvents] = useState([]);
@@ -215,8 +216,8 @@ const AdminCalendarPage = () => {
   // opens the create event popup
   const openEventCreateForm = () => {
     // opening the createEvent form
-    document.getElementById("createEventForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
+    document.getElementById("createEventForm").style.display = "block";
   };
 
   const openEventInfoForm = (calEvent) => {
@@ -295,6 +296,10 @@ const AdminCalendarPage = () => {
     setDuration(e.target.value);
   };
 
+  const handleCapacity=(e) =>{
+    setCapacity(e.target.value)
+  }
+
   // creating the event
   const submitEvent = (e) => {
     e.preventDefault();
@@ -310,7 +315,10 @@ const AdminCalendarPage = () => {
       alert("Pleaase select a valid date");
     } else if (!validTime(duration)) {
       alert("Please insert a valid duration.");
-    } else {
+    } else if(capacity == "") {
+      alert("Please input a valid capacity.");
+    }
+    else {
       // getting relevent info for start and end time
       let arr = startTime.split(":");
       let arr2 = duration.split(":");
@@ -356,6 +364,7 @@ const AdminCalendarPage = () => {
             endMin: event.end.minute,
             level: event.level,
             coach_email: coach,
+            capacity: capacity,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -409,7 +418,7 @@ const AdminCalendarPage = () => {
   // checks to see if a time is a valid representation using a regular expression
   function validTime(time) {
     // Regular expression for a valid email address
-    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5]?[0-9])(●?[AP]M)?$/;
+    const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
     return timeRegex.test(time);
   }
@@ -468,7 +477,8 @@ const AdminCalendarPage = () => {
         </div>
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
-        <div className="add-family-popup" id="createEventForm">
+        
+        <div className="add-course-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>
 
@@ -517,6 +527,22 @@ const AdminCalendarPage = () => {
               <option value="1">2-3</option>
               <option value="2">3-4</option>
             </select>
+
+            <br></br>
+
+            <label for="capacity">
+              <b>Capacity *</b>
+            </label>
+
+            <input
+              type="number"
+              min="1" 
+              max="100"
+              placeholder="Please enter the Capacity"
+              name="capacity"
+              onChange={handleCapacity}
+              required
+            ></input>
 
             <DatePicker
               className="custom-datepicker"

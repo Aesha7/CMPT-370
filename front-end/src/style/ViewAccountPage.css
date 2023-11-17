@@ -1,22 +1,3 @@
-.account-views-page {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-#manageAccounts {
-  display:none
-}
-
-#adminCalendar {
-  display:none
-}
-
-#studentsList {
-  display:none
-}
-
-#coachCalendar {
-  display:none
-}
 
 .top-bar  {
   background-color: gray;
@@ -52,53 +33,518 @@
   color: black;
 }
 
-.view-account-container {
-  /* background-color: lightgrey; */
-  border-color: black;
-  height: auto;
-  width: auto;
-  margin: 50px;
-  padding: 5px;
+
+
+
+.view-account-page{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: white;
+  text-align: left;
+  font-size: 80px;
+  font-weight:normal;
+  height: 100vh;  
+  width: 100vw;
+  /* background: linear-gradient(to bottom right, transparent 0%, transparent 50%, #20f320 50%, #20f320 100%); */
+  background: linear-gradient(to top, #8b8b8b83 0%, white 20%, transparent 50%);
+/* padding-left: 2vw; */
+/* background-color: #f5ecec; */
+  z-index: 0;
+}
+
+.rectangleTop{
+  width: 100vw; 
+  height: 18vh;
+  background-color: red;  
+  margin-top: -13.5vh;
+  z-index: 0;
+  /* position: absolute; */
+}
+.rectangleButtons{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: red;  
+  color: #ddd; 
+  margin-left: 1vw;
+
+  z-index: 0s;
+  position: absolute;
+}
+.rectangleFamReg{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: red;  
+  color: #ddd; 
+  margin-top: 0vh;
+  margin-left: 45.7vw;
+  z-index: 0s;
+  position: absolute;
+}
+.rectangleFamInf{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: red;  
+  color: #ddd; 
+  margin-top: 0vh;
+  margin-left: 49vw;
+  z-index: 0s;
+  position: absolute;
+}
+.rectangleMembers{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: #a39e9e;  
+  color: #ddd; 
+  margin-top: 0vh;
+  margin-left: 15.5vw;
+  z-index: 0s;
+  position: absolute;
+}
+.rectangleCurrent{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: #a39e9e;  
+  color: #ddd; 
+  margin-top: 0vh;
+  margin-left: 60vw;
+  z-index: 0s;
+  position: absolute;
+}
+.rectangleSubs{
+  width: 0.25vw; 
+  height: 84.4vh;
+  background-color: red;  
+  color: #ddd; 
+  margin-top: 0vh;
+  margin-left: 85vw;
+  z-index: 0s;
+  position: absolute;
+}
+
+
+.ownerNLabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: left;
+  /* background-color: #ddd; */
+  position: absolute;
+  width: 12vw;
+  margin-left: 23.6vw;
+  margin-top: -13vh;
+  /* padding-top: 1vh; */
+  /* padding-bottom: 1vh; */
+  /* height: 5v */
+  z-index: 1;
+}
+.ownerName{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  /* padding-top: 1vh; */
+  padding-left: 1vw;
+  text-align: left;
+  /* background-color: white; */
+  position: absolute;
+  width: 25vw;
+  margin-left: 29vw;
+  margin-top: -13vh;
+  /* padding-top: 1vh; */
+  /* padding-bottom: 1vh; */
+  z-index: 2;
+}
+
+.ownerELabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  /* background-color: #ddd; */
+  position: absolute;
+  width: 12vw;
+  margin-left: 20vw;
+  margin-top: -8vh;
+  /* padding-top: 1vh;
+  padding-bottom: 1vh; */
+  z-index: 1;
+}
+.ownerEmail{
+  /* background-color: #20f320; */
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: left;
+  /* padding-left: 1vw; */
+  /* background-color: white; */
+  position: absolute;
+  width: 25vw;
+  margin-left: 30vw;
+  margin-top: -8vh;
+  /* padding-top: 1vh;
+  padding-bottom: 1vh; */
+  z-index: 1;
+}
+
+.emailSubs{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  position: absolute;
+  /* display: flex; */
+  /* align-items: center; */
+  text-align: center;
+  /* flex-direction: row; */
+  /* padding-bottom: 30px; */
+  background-color: red;
+  /* padding-left: 0vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh; */
+  padding-top: 1.55vh;
+  padding-bottom: 1.55vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  margin-left: 84.5vw;
+  margin-top: 2vh;
+}
+.checklistPromotions {
+  background-color: red;
+  display: block;
+  position: absolute;
+  padding-top: 1vh;
+  padding-left: 3vw;
+  padding-right:1vw;
+  padding-bottom: 1vh;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 16vh;
+  margin-left: 84.5vw;
+  font-size: 18px;
+  /* height: 1vh; */
+  /* margin-bottom: 0px;
+  padding-bottom: 20px; */
+  /* background-color: aqua; */
+}
+/* Hide the browser's default checkbox */
+ .checklistPromotions input {
+  /* margin-left: 1vw; */
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  /* background-color: red; */
+}
+/* Create a custom checkbox */
+.checkmarkPromotions {
+  margin-top: 1vh;
+  margin-left: 1vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+}
+/* On mouse-over, add a grey background color */
+.checklistPromotions:hover input ~ .checkmarkPromotions {
+  background-color: darkgrey;
+}
+/* When the checkbox is checked, add a blue background */
+.checklistPromotions input:checked ~ .checkmarkPromotions {
+  background-color: gray;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmarkPromotions:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.checklistPromotions input:checked ~ .checkmarkPromotions:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.checklistPromotions .checkmarkPromotions:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+} 
+
+
+.checklistNews {
+  background-color: red;
+  /* display: block; */
+  position: absolute;
+  padding-top: 1vh;
+  padding-left: 3vw;
+  padding-right:1vw;
+  padding-bottom: 1vh;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 10vh;
+  margin-left: 84.5vw;
+  font-size: 18px;
+  z-index: 2;
+}
+/* Hide the browser's default checkbox */
+ .checklistNews input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+/* Create a custom checkbox */
+.checkmarkNews {
+  margin-top: 1vh;
+  margin-left: 1vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+}
+/* On mouse-over, add a grey background color */
+.checklistNews:hover input ~ .checkmarkNews {
+  background-color: darkgrey;
+}
+/* When the checkbox is checked, add a blue background */
+.checklistNews input:checked ~ .checkmarkNews {
+  background-color: gray;
+}
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmarkNews:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+/* Show the checkmark when checked */
+.checklistNews input:checked ~ .checkmarkNews:after {
+  display: block;
+}
+/* Style the checkmark/indicator */
+.checklistNews .checkmarkNews:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+} 
+
+
+
+.emailOptions {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: row;
+  /* margin: 25px; */
+  padding-left: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  position: relative;
+  background-color: #ddd;
+}
+
+
+/* #adminButton {
+  background-color: red;
+  float: right;
+  display:none
+} */
+
+/* .view-account-container {
   display: flex;
   flex-direction: row; 
-}
+} */
 
-.view-user-info-1 {
+/* .view-user-info-1 {
   flex: 0.3;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; 
   margin: 25px;
-  background-color: lightgray;
+  background-color: red;
+  margin-left: 20vw;
+  margin-top: 50vh;
+  position: absolute;
+} */
 
+.buttonSaveSubs{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 84.5vw;
+  margin-top: 22vh;
+  position: absolute;
+}
+.buttonSaveSubs:hover{
+  width: 6.5vw;
+  /* height: 6.5vh; */
+  /* color: black; */
+  background-color: #cf0202;
 }
 
+.buttonLogout{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 0.5vw;
+  margin-top: 2vh;
+  position: absolute;
+}
+.buttonLogout:hover{
+  width: 6.5vw;
+  /* height: 6.5vh; */
+  /* color: black; */
+  background-color: #cf0202;
+}
+
+.buttonManAcc{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 0.5vw;
+  margin-top: 42vh;
+  position: absolute;
+
+  visibility: hidden;
+}
+.buttonManAcc:hover{
+  width: 6.5vw;
+  /* height: 8vh; */
+  background-color: #cf0202;
+}
+
+.buttonAdmCal{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 0.5vw;
+  margin-top: 50vh;
+  position: absolute;
+
+  visibility: hidden;
+  /* display: none; */
+}
+.buttonAdmCal:hover{
+  width: 6.5vw;
+  /* height: 8vh; */
+  background-color: #cf0202;
+}
+
+.buttonStuList{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 0.5vw;
+  margin-top: 26vh;
+  position: absolute;
+
+  /* visibility: hidden; */
+}
+.buttonStuList:hover{
+  width: 6.5vw;
+  /* height: 8vh; */
+  background-color: #cf0202;
+}
+
+.buttonCoCal{
+  width: 6vw;
+  height: 6vh;
+  color: white;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  z-index: 1;
+  text-align: center;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 0.5vw;
+  margin-top: 34vh;
+  position: absolute;
+
+  /* visibility: hidden; */
+}
+.buttonCoCal:hover{
+  width: 6.5vw;
+  /* height: 8vh; */
+  background-color: #cf0202;
+}
 
 .view-account-column-entry .info-label {
   background-color: white;
-  padding: 7px;
+  /* padding: 7px; */
 }
 
 .view-account-column-entry .edit-label {
   background-color: white;
   padding: 7px;
+  position: absolute;
+  margin-left: 5.5vw;
 }
 
 .view-account-column-entry {
   /* flex: 1; */
+  background-color: #a39e9e;
   display: flex;
   flex-direction: column;
-  margin: 25px;
+  margin-bottom: 5vh;
   position: relative;
-
+  /* margin-top: 20vh; */
 }
 
 .account-label {
   font-size: 22px;
   font-weight: bold;
   text-align: left;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   max-width: 100%;
-
 }
 
 .info-label {
@@ -112,152 +558,196 @@
   padding: 16px;
   margin-bottom: 10px;
   font-size: 16px;
-  border: 2px solid darkgray;
-
+  border: 2px solid red;
+  /* margin-left: 20vw; */
 }
 
-.view-user-info-2 {
-  flex: 0.4;
-  display: flex;
-  flex-direction: column;
-  margin: 25px;
-  background-color: lightgray;
-
+.family-bar{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+  font-weight: normal;
+  position: absolute;
+  /* display: flex; */
+  /* align-items: center; */
+  text-align: center;
+  /* flex-direction: row; */
+  /* padding-bottom: 30px; */
+  background-color: #a39e9e;
+  /* padding-left: 0vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh; */
+  padding-top: 1.55vh;
+  padding-bottom: 1.55vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  margin-left: 15vw;
+  margin-top: 2vh;
 }
 
 
-.view-user-info-2 .family-bar{
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  padding-bottom: 30px;
-  margin-top: auto;
-  margin-bottom: 0;
-
-}
 
 .family-button{
-  padding: 10px 28px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 6vh;
+  width: 6vw;
   text-align: center;
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: normal;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid purple;
-  color: black;
-  margin: auto;
-  margin-right: 0px;
+  background-color: red;
+  border: 2px solid transparent;
+  color: white;
+  /* margin: auto; */
+  position: absolute;
+  margin-left: 0.5vw;
+  margin-top: 10vh;
+  /* padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 2vw; */
+}
+.schedule-button{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  transition-duration: 0.4s;
+  background-color: red;
+  border: 2px solid transparent;
+  color: white;
+  /* margin: auto; */
+  position: absolute;
+  margin-left: 0.5vw;
+  margin-top: 18vh;
+  height: 6vh;
+  width: 6vw;
+  /* padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw; */
 }
 
 .family-button:hover{
-  background-color: purple;
-  color: white;
+  background-color: #cf0202;
+  width: 6.5vw;
+  /* color: white; */
+  /* padding-left: 4.5vw; */
+}
+.schedule-button:hover {
+  background-color: #cf0202;
+  width:6.5vw;
 }
 
-.heading{
+/* .heading{
   font-size: 24px;
   font-weight: bold;
   margin-left: 0px;
-  float: left;
+  
+  text-align: center;
   max-width: 100%;
+  
+} */
+.headingCurrMem{
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 0px;
+  /* float: left; */
+  text-align: left;
+  max-width: 100%;
+  /* background-color: orange; */
 }
 
-.heading[type="emailList"]{
-  margin-bottom: 25px;
-} 
+.familyContainer{
+  position: absolute;
+  margin-top: 8.5vh;
+  margin-left: 13.5vw;
+}
 
-
-.view-user-info-2 .family-member-row {
+.family-member-row {
   display: flex;
   flex-direction: row; 
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #a39e9e;
+  margin-top: 2vh;
+  margin-left: 1.5vw;
+  width: 23vw;
 
 }
 
 .register-button{
-  padding: 10px 25px;
+  padding-left: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-right: 1vw;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid green;
-  color: black;
-  margin-left: 10px;
+  background-color: red;
+  border: 2px solid transparent;
+  color: white;
+  /* margin-top: 10vh; */
+  margin-left: 25vw;
+  position: absolute;
 }
 
 .register-button:hover {
-  background-color: green;
-  color: white;
+  padding-right: 1.5vw;
+  margin-left: 24.5vw;
+  background-color: #cf0202;
 }
 
 .family-member-name {
   margin: auto;
-  font-size: 18px;
-  margin-left: 0px;
+  font-size: 22px;
+  margin-left: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  /* background-color: #ddd; */
 }
 
 .info-button{
-  padding: 10px 25px;
+  /* padding: 10px 25px; */
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid blue;
-  color: black;
-  margin-left: 10px;
-
+  background-color: red;
+  border: 2px solid transparent;
+  color: white;
+  margin-left: 33.7vw;
+  position: absolute;
 }
 
 .info-button:hover {
-  background-color: blue;
-  color: white;
+  padding-left: 1.5vw;
+  margin-left: 35.5;
+  background-color: #cf0202;
 }
 
-.view-user-info-2 .family-schedule {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 100%;
-  margin-bottom: 0px;
+.currentMemberPanel {
+  padding-top:2vh;
+  padding-bottom: 2vh;
+  padding-left: 2vw;
+  padding-right: 5vw;
+  background-color: #a39e9e;
+  margin-top: 20vh;
+  margin-left: 59.5vw;
+  position: absolute;
+  
 }
 
-.schedule-button{
-  padding: 10px 25px;
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid orange;
-  color: black;
-  bottom: 0;
-}
-
-.schedule-button:hover {
-  background-color: orange;
-  color: white;
-}
-
-.view-user-info-3 {
-  flex: 0.3;
+.currentMemberPanel .edit-family-info {
   display: flex;
   flex-direction: column;
-  margin: 25px;
-}
-
-.view-user-info-3 .edit-family-info {
-  background-color: lightgray;
-  flex: 0.3;
-  display: flex;
-  flex-direction: column;
-  margin-top: 0;
-  margin-bottom: auto;
 }
 
 .view-user-info-3 .email-list {
@@ -265,8 +755,6 @@
   flex: 0.3;
   display: flex;
   flex-direction: column;
-  margin-top: auto;
-  margin-bottom: 0;
 }
 
 .family-info {
@@ -274,74 +762,43 @@
   flex-direction: row; 
   justify-content: right;
   align-items: center;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  padding-right: 25px;
 }
 
 .edit-button{
-  padding: 10px 25px;
+  /* padding: 10px 25px; */
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid red;
-  color: black;
-  margin-left: 10px;
+  background-color: red;
+  border: 2px transparent;
+  color: white;
+  width: 5vw;
+  height: 4vh;
 }
 
 .edit-button:hover {
-  background-color: red;
+  background-color: #cf0202;
   color: white;
 }
 
 .save-button{
-  padding: 10px 25px;
+  /* padding: 10px 25px; */
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: white;
-  border: 2px solid green;
-  color: black;
-  margin-left: 10px;
-}
-
-.save-button:hover {
-  background-color: green;
+  background-color: red;
+  border: 2px transparent;
   color: white;
+  margin-left: 1vw;
+  width:5vw;
+  height:4vh;
 }
-
- .checklist {
-  display: block;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  padding-left: 40px;
-  cursor: pointer;
-  user-select: none;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-/* Hide the browser's default checkbox */
- .checklist input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: white;
+.save-button:hover {
+  background-color: #cf0202;
+  /* height: 4.5vh; */
+  color: white;
 }
 
 /* On mouse-over, add a grey background color */
@@ -368,6 +825,7 @@
 
 /* Style the checkmark/indicator */
 .checklist .checkmark:after {
+  
   left: 9px;
   top: 5px;
   width: 5px;
@@ -379,85 +837,151 @@
   transform: rotate(45deg);
 }   
 
-/* The popup form - hidden by default
-.add-family-popup {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-} */
-
-.myForm-overlay {
+/* .myForm-overlay {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+  background-color: rgba(151, 147, 147, 0.925);
   z-index: 998;
-}
+} */
 
 .add-family-popup {
+  /* display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: center; */
   display: none;
   position: fixed;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%); 
-  width: 350px; 
-  padding: 20px;
-  background-color: #fff;
-  border: 2px solid gray;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  z-index: 999; 
+  bottom: 0;
+  width:30vw;
+  height: 30vh;
+  border: 3px solid red;
+  background-color: white;  
+  z-index: 9;
 }
 
-
 /* Add styles to the form container */
-.add-family-container {
+/* .add-family-container {
+   display: flex;
+  flex-direction: row; 
   max-width: 400px;
   padding: 10px;
   background-color: white;
-}
+}  */
 
-.form-container input[type=name], .form-container input[type=phone], .form-container input[type=birthday], .form-container input[type=startTime], .form-container input[type=endTime] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  margin-right: 10px;
-  max-width: 90%;
+.family-form-container input[type=name], .family-form-container input[type=phone], .family-form-container input[type=birthday], .family-form-container input[type=startTime], .family-form-container input[type=endTime] {
+  /* width: 100%; */
+  /* padding: 15px; */
+  /* margin: 5px 0 22px 0; */
+  /* margin-right: 10px; */
+  /* max-width: 90%; */
   border: none;
-  background: #f1f1f1;
+  background-color: white;
+  border: 2px solid red;
+  position: absolute;
+  margin-top: 2.7vh;
+  margin-left: 7vw;
+  width: 16.2vw;
+  height: 5vh;
+  z-index: 9;
 }
 
-/* When the inputs get focus, do something */
-.form-container input[type=name]:focus, .form-container input[type=description]:focus {
-  background-color: #ddd;
-  outline: none;
+
+
+.add-family-label-name{
+  margin: auto;
+  font-size: 22px;
+  color: black;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  margin-top: 3.5vh;
+  position: absolute;
+}
+.add-family-label-bday{
+  font-size: 22px;
+  color: black;
+  margin-top: 12.5vh;
+  margin-left: 1vw;
+  position: absolute;
 }
 
-/* Set a style for the submit/login button */
-.form-container .btn {
-  background-color: green;
+.family-form-container .btn-sub {
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition-duration: 0.4s;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  background-color: red;
   color: white;
-  padding: 16px 20px;
+  /* padding: 16px 20px; */
   border: none;
   cursor: pointer;
-  width: 100%;
-  margin-bottom:0px;
-  margin-top: 22px;
-  opacity: 1;
+  /* width: 100%; */
+  /* margin-bottom:0px; */
+  margin-top: 23vh;
+  margin-left: 2vw;
+  width: 10vw;
+  height: 5vh;
+  position: absolute;
+  z-index: 10;
+}
+.btn-sub:hover{
+  width:10.5vw;
+  background-color: #cf0202;
 }
 
-/* Add a red background color to the cancel button */
-.form-container .cancel {
+
+.family-form-container .btn-cancel {
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition-duration: 0.4s;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
   background-color: red;
+  border: none;
+  position: absolute;
+  z-index: 10;
+  margin-top: 23vh;
+  margin-left: 18vw;
+  width: 10vw;
+  height: 5vh;
 }
+.btn-cancel:hover{
+  width:10.5vw;
+  background-color: #cf0202;
+}
+
+.custom-datepicker-addFamily{
+  padding: 15px 75px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid darkgray;
+  color: black;
+  /* margin:auto; */
+  margin-top: 3vh;
+  margin-left: 7vw;
+  /* width: 60%; */
+  height:2vh;
+  position: absolute;
+}
+
+.custom-datepicker-addFamily:hover{
+  background-color: #ddd;
+  border: 2px solid darkgray;
+  cursor: pointer
+
+}
+
 
 /* Media query for smaller screens */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .view-account-container {
     flex-direction: column;
     margin: 10px;
@@ -483,9 +1007,5 @@
     padding-top: 0;
     margin-top: 10px;
     justify-content: center;
-  }
-}
-
-/* .custom-datepicker {
-  margin-left: 10px;
-} */
+  } */
+/* } */
