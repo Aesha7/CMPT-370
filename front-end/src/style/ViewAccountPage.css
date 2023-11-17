@@ -853,6 +853,7 @@
   flex-direction: row; 
   justify-content: space-between;
   align-items: center; */
+  display: none;
   position: fixed;
   bottom: 0;
   width:30vw;
