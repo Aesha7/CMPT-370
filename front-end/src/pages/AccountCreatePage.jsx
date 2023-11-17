@@ -40,6 +40,10 @@ const AccountCreatePage = (props) => {
     navigate(path);
   };
 
+  const acceptWaiver = () =>{
+
+  }
+
   function validEmail(email) {
     // Regular expression for a valid email address
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -63,8 +67,8 @@ const AccountCreatePage = (props) => {
     ) {
       setError(true);
       alert("Please fill out every field.");
-    } else if(!waiver){
-      alert("Please agree to the waiver.")
+    // } else if(!waiver){
+    //   alert("Please agree to the waiver.")
     } 
     else if (!validEmail(email)) {
       alert("Please enter a valid email.");
@@ -228,145 +232,87 @@ const AccountCreatePage = (props) => {
 
 
   return (
-    <div className="account-creation-page">
-      <div className="top-bar">
-        Create Account
-        <div className="allButtons">
-        <button className="top-bar-button" onClick={backToLandingPage}>Home</button>
-        </div>
-      </div>
+    <div className="account-creation-page">CREATE ACCOUNT
+      {/* <div className="top-bar">Create Account</div> */}
 
-      <div className="account-create-container">
+      {/* <div className="account-create-container"> */}
         <form>
-          <div className="account-create-container-toprow">
-            <div className="column-entry">
-              <label className="account-create-label" htmlFor="name">
-                Name:
-              </label>
-              <input
-                onChange={handleName}
-                className="text-field"
-                value={name}
-                type="name"
-                id="name"
-                placeholder="First Last"
-              />
+          
+          {/* <div className="account-create-container-toprow"> */}
+            <div className="entryName">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+            
+              <button onClick={null} className="labelName" type="button">Name:</button> 
+              <div class="triangleName"></div>
+              <input onChange={handleName} className="fieldName" value={name} type="name" id="name" placeholder="First / Last"/>
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="email">
-                Email:
-              </label>
-              <input
-                onChange={handleEmail}
-                className="text-field"
-                value={email}
-                type="email"
-                id="email"
-              />
+            <div className="entryEmail">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+            
+              <button onClick={null} className="labelEmail" type="button">Email:</button> 
+              <div class="triangleEmail"></div>
+              <input onChange={handleEmail} className="fieldEmail" value={email} type="email" id="email" placeholder="someone@somewhere.com"/>
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="password">
-                Password:
-              </label>
-              <input
-                onChange={handlePassword}
-                className="text-field"
-                value={password}
-                type="password"
-                id="password"
-              />
+            <div className="entryPword">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+              <button onClick={null} className="labelPword" type="button">Password:</button> 
+              <div class="trianglePword"></div>
+              <input onChange={handlePassword} className="fieldPword" value={password} type="password" id="password" placeholder="openSesame1!"/>
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="password">
-                Confirm Password:
-              </label>
-              <input
-                onChange={handleConfirmPassword}
-                className="text-field"
-                value={confirmPassword}
-                type="password"
-                id="password"
-              />
+            <div className="entryConf">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+           
+              <button onClick={null} className="labelConf" type="button">Confirm Password:</button> 
+              <div class="triangleConf"></div>
+              <input onChange={handleConfirmPassword} className="fieldConf" value={confirmPassword} type="password" id="password" placeholder="openSesame1!"/>
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="phone-number">
-                Phone Number:
-              </label>
-              <input
-                onChange={handlePhone}
-                className="text-field"
-                value={phone}
-                type="phone"
-                id="phone"
-                placeholder="(123) 456-6789"
-              />
+            <div className="entryPhone">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+              <button onClick={null} className="labelPhone" type="button">Phone:</button> 
+              <div class="trianglePhone"></div>
+              <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123)456-7890"/>
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="birthday">
-                Birthday:
-              </label>
-
-            <DatePicker
-              className="custom-datepicker-createAccount"
-              selected={birthday}
-              onChange={handleBirthDay}
-              dateFormat="MM/dd/yyyy"
-              minDate={new Date(1900, 0, 1)}
-              maxDate={new Date(2099, 11, 31)}
-              showMonthDropdown={true}
-              showYearDropdown={true}
-              todayButton="Today"
-              dropdownMode="select"
-              placeholderText="Select a date"
-            />
+            <div className="entryBirthday">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+              <button onClick={null} className="labelBirthday" type="button">Birthday:</button> 
+              <div class="triangleBirthday"></div>
+              <input onChange={handleBirthDay} className="fieldBirthday" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/>
             </div>
 
-            <div className="account-create-row-entry">
-              <label className="account-create-label" htmlFor="waiver">
-                Waiver:
-              </label>
-              <div className="waiver-entry">
-                <button className="waiver-button" onClick={goToWaiver}>
-                  Click Here To Open
-                </button>
-                <label className="checklist">
-                  I Agree
-                  <input type="checkbox" />
-                  <span className="checkmark" onClick={handleWaiver} id="waiver-button"></span>
-                </label>
-              </div>
+            <div className="entrySignature">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+              <button onClick={null} className="labelSignature" type="button">Signature:</button> 
+              <div class="triangleSignature"></div>
+              <input onChange={handleSignature} className="fieldSignature" value={signature} type="signature" id="signature" placeholder="Fullname"/>
+              {/* <button onClick={null} className="labelSigNote" type="button">*Signing states that you accept the terms and conditions  of the waiver*</button>         */}
             </div>
 
-            <div className="account-create-column-entry">
-              <label className="account-create-label" htmlFor="signature">
-                Signature:
-              </label>
-              <input
-                onChange={handleSignature}
-                className="text-field"
-                value={signature}
-                type="signature"
-                id="signature"
-                placeholder="Full Name"
-              />
+            <div className="entryWaiver">
+              {/* <label className="labelName" htmlFor="name">Name:</label> */}
+              {/* <button onClick={null} className="labelWaiver" type="button">Waiver:</button>  */}
+              <div class="triangleWaiver"></div>
+              <button className="waiver-button" onClick={goToWaiver}>Open Waiver</button>
+            
+              {/* <button className="buttonAccept" onClick={null}>I Accept</button> */}
             </div>
 
-            <div className="account-create-column-entry">
-              <button
-                className="account-create-submit-button"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
+            <div className="entrySubmit">
+              <div class="triangleSubmit"></div>
+              <button className="buttonSubmit" onClick={handleSubmit}>Submit</button>
             </div>
-          </div>
+
+            <div className="entryBack">
+              <div class="triangleBack"></div>
+              <button className="buttonBack" onClick={backToLandingPage}>Back</button>
+            </div>
+      
         </form>
-      </div>
+      
     </div>
   );
 };

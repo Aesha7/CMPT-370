@@ -489,3 +489,621 @@
 /* .custom-datepicker {
   margin-left: 10px;
 } */
+
+
+.view-account-page{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: black;
+  text-align: left;
+  font-size: 95px;
+  font-weight:normal;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to bottom right, transparent 0%, transparent 50%, #20f320 50%, #20f320 100%);
+  /* background: linear-gradient(to bottom, #20f320 0%, #20f320 15%, transparent 15%, transparent 100%); */
+
+  z-index: 0;
+}
+.triangleTop{
+  width: 0; 
+  height: 0; 
+  border-left: 0vw solid transparent;
+  border-right: 8.3vw solid transparent;
+  border-bottom: 0vh solid red;
+  border-top: 15vh solid #20f320;
+  margin-left: 29.99vw;
+  margin-top: -14.9vh;
+  z-index: 2;
+  position: absolute
+}
+.rectangleTop{
+  width: 30vw; 
+  height: 15vh;
+  background-color: #20f320;  
+  color:#20f320; 
+  margin-left: 0vw;
+  margin-top: -13.5vh;
+  z-index: 2;
+  /* position: absolute; */
+}
+.triangleEmOpt{
+  width: 0; 
+  height: 0; 
+  border-left: 0vw solid transparent;
+  border-right: 4vw solid transparent;
+  border-bottom: 0vh solid red;
+  border-top: 7.5vh solid #ddd;
+  z-index: 2;
+  /* margin-left: 6.9vw; */
+  position: relative;
+}
+
+.buttonLogout{
+  width: 8vw;
+  height: 7vh;
+  background-color: red;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  font-weight: normal;
+  color: black;
+  z-index: 1;
+  /* padding: 15px 55px; */
+  text-align: left;
+  transition-duration: 0.2s;
+  border: 2px solid transparent;
+  margin-left: 92vw;
+  margin-top: -12vh;
+  position: absolute;
+}
+.buttonLogout:hover{
+  width: 11.5vw;
+  margin-left: 90vw;
+  color: white;
+}
+
+.ownerNLabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  background-color: #ddd;
+  position: absolute;
+  width: 12vw;
+  margin-left: 34vw;
+  margin-top: -15vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  /* height: 5v */
+  z-index: 1;
+}
+.ownerName{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  /* padding-top: 1vh; */
+  padding-left: 1vw;
+  text-align: left;
+  background-color: white;
+  position: absolute;
+  width: 25vw;
+  margin-left: 43.5vw;
+  margin-top: -15vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 2;
+}
+
+.ownerELabel{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: center;
+  background-color: #ddd;
+  position: absolute;
+  width: 12vw;
+  margin-left: 30vw;
+  margin-top: -7vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 1;
+}
+.ownerEmail{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 35px;
+  text-align: left;
+  padding-left: 1vw;
+  background-color: white;
+  position: absolute;
+  width: 25vw;
+  margin-left: 39vw;
+  margin-top: -7vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  z-index: 2;
+}
+
+.emailOptions {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: row;
+  /* margin: 25px; */
+  padding-left: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  position: relative;
+  background-color: #ddd;
+}
+
+
+#adminButton {
+  background-color: red;
+  float: right;
+  display:none
+}
+
+.view-account-container {
+  /* background-color: lightgrey; */
+  display: flex;
+  /* flex: 0.3; */
+  flex-direction: row; 
+}
+
+.view-user-info-1 {
+  /* flex: 0.3; */
+  display: flex;
+  flex-direction: column;
+  /* margin: 25px; */
+  background-color: red;
+}
+
+
+.view-account-column-entry .info-label {
+  background-color: white;
+  /* padding: 7px; */
+}
+
+.view-account-column-entry .edit-label {
+  background-color: white;
+  padding: 7px;
+  position: absolute;
+  margin-left: 5vw;
+}
+
+.view-account-column-entry {
+  /* flex: 1; */
+  display: flex;
+  flex-direction: column;
+  margin: 25px;
+  position: relative;
+}
+
+.account-label {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: left;
+  /* margin-bottom: 10px; */
+  max-width: 100%;
+}
+
+.info-label {
+  font-size: 16px;
+  text-align: left;
+  max-width: 100%;
+  border: 2px solid darkgray;
+}
+
+.view-account-text-field {
+  padding: 16px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 2px solid red;
+}
+
+.view-user-info-2 {
+  flex: 0.4;
+  display: flex;
+  flex-direction: column;
+  margin-top: 6vh;
+  margin-left: -25.4vw;
+  /* background-color: #ddd; */
+  /* padding-top: 10vh; */
+}
+
+
+.family-bar{
+  display: flex;
+  align-items: center;
+  /* text-align: center; */
+  flex-direction: row;
+  /* padding-bottom: 30px; */
+  background-color: #ddd;
+  padding-left: 1vw;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  width: 10vw;
+}
+
+.triangleFamMems{
+    width: 0; 
+    height: 0; 
+    border-left: 0vw solid transparent;
+    border-right: 4vw solid transparent;
+    border-bottom: 0vh solid red;
+    border-top: 7.5vh solid #ddd;
+    z-index: 2;
+    margin-left: 10vw;
+    position: absolute;
+    /* position: relative; */
+}
+
+.family-button{
+  /* padding: 10px 28px; */
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: orange;
+  border: 2px solid transparent;
+  color: black;
+  /* margin: auto; */
+  position: absolute;
+  margin-left: 10vw;
+  margin-top: 0vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 3vw;
+}
+.schedule-button{
+
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #ca09ca;
+  border: 2px solid transparent;
+  color: black;
+  position: absolute;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  margin-top: 28vh;
+  margin-left: -1vw;
+}
+
+.family-button:hover{
+  /* background-color: purple; */
+  color: white;
+  padding-left: 4.5vw;
+}
+.schedule-button:hover {
+  /* background-color: orange; */
+  color: white;
+  padding-left: 2.5vw;
+}
+
+.heading{
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 0px;
+  /* float: left; */
+  text-align: center;
+  max-width: 100%;
+  /* background-color: orange; */
+}
+.headingCurrMem{
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 0px;
+  /* float: left; */
+  text-align: left;
+  max-width: 100%;
+  /* background-color: orange; */
+}
+/* 
+.heading[type="emailList"]{
+  margin-bottom: 25px; */
+  /* background-color: aqua;
+}  */
+
+
+.family-member-row {
+  display: flex;
+  flex-direction: row; 
+  /* justify-content: space-between; */
+  align-items: center;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #ddd;
+  margin-top: 1vh;
+  width: 23vw;
+
+}
+
+.register-button{
+  padding-left: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-right: 1vw;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #20f320;
+  border: 2px solid transparent;
+  color: black;
+  margin-left: 10vw;
+  position: absolute;
+}
+
+.register-button:hover {
+  /* background-color: green; */
+  color: white;
+}
+
+.family-member-name {
+  margin: auto;
+  font-size: 22px;
+  margin-left: 0.5vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  /* background-color: #ddd; */
+}
+
+.info-button{
+  /* padding: 10px 25px; */
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #0bbaff;
+  border: 2px solid transparent;
+  color: black;
+  margin-left: 18vw;
+  position: absolute;
+}
+
+.info-button:hover {
+  /* background-color: blue; */
+  color: white;
+}
+
+
+.family-schedule {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100%;
+}
+
+
+
+
+
+.currentMemberPanel {
+  flex: 0.3;
+  display: flex;
+  flex-direction: row;
+  /* margin: 25px; */
+  background-color: #0bbaff;
+  margin-top: 8.65vh;
+  margin-left: 60vw;
+  position: absolute;
+  padding-right: 5vw;
+}
+
+.currentMemberPanel .edit-family-info {
+  /* background-color: #0bbaff; */
+  /* flex: 0.3; */
+  display: flex;
+  flex-direction: column;
+  /* margin-left: -5vw; */
+}
+
+.view-user-info-3 .email-list {
+  background-color: lightgray;
+  flex: 0.3;
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.family-info {
+  display: flex;
+  flex-direction: row; 
+  justify-content: right;
+  align-items: center;
+  /* padding-top: 25px;
+  padding-bottom: 25px;
+  padding-right: 25px; */
+}
+
+.edit-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid red;
+  color: black;
+  margin-left: 10px;
+}
+
+.edit-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.save-button{
+  padding: 10px 25px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: white;
+  border: 2px solid green;
+  color: black;
+  margin-left: 10px;
+
+}
+
+.save-button:hover {
+  background-color: green;
+  color: white;
+}
+
+ .checklist {
+  display: block;
+  position: relative;
+  padding-top: 0.5vh;
+  padding-left: 2vw;
+  cursor: pointer;
+  user-select: none;
+
+  font-size: 18px;
+  /* margin-bottom: 0px;
+  padding-bottom: 20px; */
+  /* background-color: aqua; */
+}
+
+/* Hide the browser's default checkbox */
+ .checklist input {
+  /* margin-left: 1vw; */
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  /* background-color: red; */
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  margin-top: 0.5vh;
+  margin-left: 0.5vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: white;
+}
+
+/* On mouse-over, add a grey background color */
+.checklist:hover input ~ .checkmark {
+  background-color: darkgrey;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checklist input:checked ~ .checkmark {
+  background-color: blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checklist input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checklist .checkmark:after {
+  
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}   
+
+/* The popup form - hidden by default */
+.add-family-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+.add-family-container {
+  max-width: 400px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container input[type=name], .form-container input[type=phone], .form-container input[type=birthday], .form-container input[type=startTime], .form-container input[type=endTime] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  margin-right: 10px;
+  max-width: 90%;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=name]:focus, .form-container input[type=description]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  background-color: green;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:0px;
+  margin-top: 22px;
+  opacity: 1;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .view-account-container {
+    flex-direction: column;
+    margin: 10px;
+  }
+
+  .view-account-column-entry, .view-user-info-1,
+  .view-user-info-2, .view-user-info-3,
+  .view-user-info-3 .edit-label,
+  .view-user-info-3 .email-list {
+    flex: 1;
+    margin: 10px;
+  }
+
+  .register-button,
+  .info-button,
+  .schedule-button, 
+  .save-button,
+  .edit-button {
+    margin-left: 10px;
+  }
+
+  .family-schedule {
+    padding-top: 0;
+    margin-top: 10px;
+    justify-content: center;
+  }
+}
