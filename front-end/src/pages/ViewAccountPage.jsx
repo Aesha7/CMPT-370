@@ -365,7 +365,9 @@ const AccountView = () => {
     <div className="view-account-page"> My Account
       <div class="rectangleTop"></div>
       <div class="rectangleButtons"></div>
-      <div class="rectangleFamily"></div>
+      <div class="rectangleFamReg"></div>
+      <div class="rectangleFamInf"></div>
+
       <div class="rectangleMembers"></div>
       <div class="rectangleCurrent"></div>
       <div class="rectangleSubs"></div>
@@ -392,7 +394,7 @@ const AccountView = () => {
                   Add Family Member
                 </button>
       <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
-                  View Family Schedule
+                  View Schedule
       </button>
       <label className="family-bar">Family Members</label>     
       <div class="triangleFamMems"></div>
