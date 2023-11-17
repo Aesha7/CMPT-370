@@ -565,7 +565,7 @@
   background-color: white;
 }
 
-.form-container input[type=name], .form-container input[type=phone], .form-container input[type=birthday], .form-container input[type=startTime], .form-container input[type=endTime] {
+.family-form-container input[type=name], .family-form-container input[type=phone], .family-form-container input[type=birthday], .family-form-container input[type=startTime], .family-form-container input[type=endTime] {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -575,7 +575,7 @@
   background: #f1f1f1;
 }
 
-.form-container input[type=name]:focus, .form-container input[type=description]:focus {
+.family-form-container input[type=name]:focus, .family-form-container input[type=description]:focus {
   background-color: #ddd;
   outline: none;
 }
@@ -588,7 +588,7 @@
   padding-right: 1vw;
 }
 
-.form-container .btn {
+.family-form-container .btn {
   background-color: green;
   color: white;
   padding: 16px 20px;
@@ -600,7 +600,7 @@
   opacity: 1;
 }
 
-.form-container .cancel {
+.family-form-container .cancel {
   background-color: red;
 }
 

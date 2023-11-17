@@ -76,10 +76,10 @@ const AccountView = () => {
           setPhone(data.phone);
           setBirthday(data.users[0].birthday);
           setStaffLevel(data.staffLevel);
-          
+
           setNewsChecked(data.news);
           setPromChecked(data.prom);
-          
+
           setUsers(data.users);
         });
     } catch (error) {
@@ -115,7 +115,6 @@ const AccountView = () => {
     setCurrentBirthday(users[currentUserIndex].birthday);
     setCurrentLevel(users[currentUserIndex].level);
   };
-
 
   /**
    * getting a list of html elements to display for each user
@@ -159,9 +158,9 @@ const AccountView = () => {
     navigate(path, { state: userID });
   };
 
-/**
- * page route back to the login page
- */
+  /**
+   * page route back to the login page
+   */
   const goBackToLogin = () => {
     let path = "/";
     navigate(path);
@@ -175,10 +174,9 @@ const AccountView = () => {
     navigate(path, { state: userID });
   };
 
-
   /**
    * page route to manage accounts page
-   */  
+   */
   const manageAccountsPageRoute = () => {
     let path = "/admin-accounts";
     navigate(path, { state: userID });
@@ -191,7 +189,6 @@ const AccountView = () => {
     let path = "/coach-schedule";
     navigate(path, { state: userID });
   };
-
 
   /**
    * page route to coaches students list
@@ -390,18 +387,27 @@ const AccountView = () => {
 
   // getting the renders
   getRenders();
-  
+
   return (
-    <div className="view-account-page">My Account
-    <div class="rectangleTop"></div>
-    <div class="triangleTop"></div>
-    <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
-    <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
-    <label className="ownerELabel" htmlFor="email">Email:</label>
-    <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
-    <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
-      
-      
+    <div className="view-account-page">
+      My Account
+      <div class="rectangleTop"></div>
+      <div class="triangleTop"></div>
+      <label className="ownerNLabel" htmlFor="name">
+        Owner:{" "}
+      </label>
+      <label className="ownerName" htmlFor="name" type="name" id="name">
+        {name}
+      </label>
+      <label className="ownerELabel" htmlFor="email">
+        Email:
+      </label>
+      <label className="ownerEmail" htmlFor="email" type="email" id="email">
+        {email}
+      </label>
+      <button className="buttonLogout" onClick={goBackToLogin}>
+        Logout
+      </button>
       {/* <div className="top-bar">
         
         <button className="top-bar-button" htmlFor="adminButton" id="adminButton" onClick={adminPageRoute}>AdminPage</button>
@@ -410,7 +416,6 @@ const AccountView = () => {
         
       </div> */}
       <div className="view-account-container">
-
         <div className="email-list">
           <div className="emailOptions">
             <label className="heading" htmlFor="email" type="emailList">
@@ -449,9 +454,7 @@ const AccountView = () => {
             {/* looping through children*/}
             {renders}
 
-            <div className="family-schedule">
-            
-            </div>
+            <div className="family-schedule"></div>
           </div>
         </div>
 
@@ -510,7 +513,7 @@ const AccountView = () => {
                 placeholder={currentLevel}
               ></input>
             </div>
-            {/* edit the routers !!! */}
+
             <div className="family-info">
               <button className="edit-button" onClick={unlockInfo}>
                 Edit
@@ -520,22 +523,19 @@ const AccountView = () => {
               </button>
             </div>
           </div>
-
-
         </div>
-
 
         <div className="myForm-overlay"></div>
 
         {/* add new family member */}
         <div className="add-family-popup" id="myForm">
-          <form className="form-container">
-            <label htmlFor="name" className="add-family-label">
+          <form className="family-form-container">
+            <label htmlFor="name">
               <b>Name</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
-            <label htmlFor="birthday" className="add-family-label">
+            <label htmlFor="birthday">
               <b>Birthday</b>
             </label>
             <DatePicker
