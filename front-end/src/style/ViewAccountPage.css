@@ -485,7 +485,7 @@
   margin-top: 26vh;
   position: absolute;
 
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 .buttonStuList:hover{
   width: 6.5vw;
@@ -509,7 +509,7 @@
   margin-top: 34vh;
   position: absolute;
 
-  visibility: hidden;
+  /* visibility: hidden; */
 }
 .buttonCoCal:hover{
   width: 6.5vw;
@@ -843,73 +843,122 @@
   transform: rotate(45deg);
 }   
 
-.myForm-overlay {
+/* .myForm-overlay {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(151, 147, 147, 0.925);
   z-index: 998;
-}
+} */
 
 .add-family-popup {
+  /* display: flex;
+  flex-direction: row; 
+  justify-content: space-between;
+  align-items: center; */
   display: none;
   position: fixed;
   bottom: 0;
-  right: 15px;
-  border: 3px solid #f1f1f1;
-  font-size: 20;
-  color: Black;
-  /* background-color: orange; */
+  width:30vw;
+  height: 30vh;
+  border: 3px solid red;
+  background-color: white;  
   z-index: 9;
 }
 
 /* Add styles to the form container */
 /* .add-family-container {
+   display: flex;
+  flex-direction: row; 
   max-width: 400px;
   padding: 10px;
   background-color: white;
-} */
+}  */
 
 .family-form-container input[type=name], .family-form-container input[type=phone], .family-form-container input[type=birthday], .family-form-container input[type=startTime], .family-form-container input[type=endTime] {
-  width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
-  margin-right: 10px;
-  max-width: 90%;
+  /* width: 100%; */
+  /* padding: 15px; */
+  /* margin: 5px 0 22px 0; */
+  /* margin-right: 10px; */
+  /* max-width: 90%; */
   border: none;
-  background: blue;
+  background-color: white;
+  border: 2px solid red;
+  position: absolute;
+  margin-top: 2.7vh;
+  margin-left: 7vw;
+  width: 16.2vw;
+  height: 5vh;
+  z-index: 9;
 }
 
-.family-form-container input[type=name]:focus, .family-form-container input[type=description]:focus {
-  background-color: #ddd;
-  outline: none;
-}
 
-.add-family-label{
+
+.add-family-label-name{
   margin: auto;
   font-size: 22px;
   color: black;
   padding-left: 1vw;
   padding-right: 1vw;
+  margin-top: 3.5vh;
+  position: absolute;
+}
+.add-family-label-bday{
+  font-size: 22px;
+  color: black;
+  margin-top: 12.5vh;
+  margin-left: 1vw;
+  position: absolute;
 }
 
-.family-form-container .btn {
-  background-color: green;
+.family-form-container .btn-sub {
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition-duration: 0.4s;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  background-color: red;
   color: white;
-  padding: 16px 20px;
+  /* padding: 16px 20px; */
   border: none;
   cursor: pointer;
-  width: 100%;
-  margin-bottom:0px;
-  margin-top: 0px;
-  opacity: 1;
+  /* width: 100%; */
+  /* margin-bottom:0px; */
+  margin-top: 23vh;
+  margin-left: 2vw;
+  width: 10vw;
+  height: 5vh;
+  position: absolute;
+  z-index: 10;
+}
+.btn-sub:hover{
+  width:10.5vw;
+  background-color: #cf0202;
 }
 
-.family-form-container .cancel {
+
+.family-form-container .btn-cancel {
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition-duration: 0.4s;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
   background-color: red;
+  border: none;
+  position: absolute;
+  z-index: 10;
+  margin-top: 23vh;
+  margin-left: 18vw;
+  width: 10vw;
+  height: 5vh;
+}
+.btn-cancel:hover{
+  width:10.5vw;
+  background-color: #cf0202;
 }
 
 .custom-datepicker-addFamily{
@@ -921,11 +970,12 @@
   background-color: white;
   border: 2px solid darkgray;
   color: black;
-  margin:auto;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  width: 60%;
-
+  /* margin:auto; */
+  margin-top: 3vh;
+  margin-left: 7vw;
+  /* width: 60%; */
+  height:2vh;
+  position: absolute;
 }
 
 .custom-datepicker-addFamily:hover{
