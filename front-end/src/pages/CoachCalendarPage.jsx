@@ -8,18 +8,15 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 
-
 const CoachCalendarPage = () => {
   const location = useLocation();
   const localizer = momentLocalizer(moment);
 
   const [staffLevel, setStaffLevel] = useState("");
-  let [coachName, setcoachName] = useState("");
+  const [coachName, setcoachName] = useState("");
   const [calEvents, setCalEvents] = useState([]);
   const [currentCalEvent, setCurrentCalEvent] = useState([]);
   const [updateDummy, forceUpdate] = useState(0);
-  //const [students, setStudents] = useState([]);
-  //const [currentAttendance, setCurrentAttendance] = useState([]);
 
   let [userID, setUserID] = useState("");
   userID = location.state;
@@ -63,9 +60,7 @@ const CoachCalendarPage = () => {
         .then((text) => {
           //// Parse the text as JSON
           const data = JSON.parse(text);
-          // setcoachName(data.users[0].name);
-          coachName = data.users[0].name;
-          get_db_events()
+          setcoachName(data.users[0].name);
         });
     } catch (error) {
       console.log(error);
