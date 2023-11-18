@@ -99,6 +99,7 @@ const AdminManageAccountsPage = () => {
         document.getElementById("overlay").style.display = "none";
     }
 
+    // gets list of accounts from the database
     const get_account_list = () =>{
       // getting list of accounts
       try{
@@ -135,7 +136,8 @@ const AdminManageAccountsPage = () => {
       }
     }
     
-
+    //TODO: display list of accounts under ManageAccounts
+    //TODO Enable editing of the user info by clicking Account button
     return (
     <div className="admin-page">
       <div className="top-bar">
