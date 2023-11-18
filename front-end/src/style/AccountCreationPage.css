@@ -62,15 +62,15 @@
   .custom-datepicker-createAccount{
     /* padding: 15px 75px; */
     text-align: center;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 1.7vh;
+    font-weight: normal;
     transition-duration: 0.4s;
     background-color: white;
     border: 2px solid transparent;
     color: black;
     /* margin: auto; */
-    margin-top: -10.7vh;
-    height: 6.8vh;
+    margin-top: -11vh;
+    height: 6.9vh;
     position: absolute;
     z-index: 1;
   }
@@ -87,9 +87,9 @@
   }
   
   .waiver-button {
-    padding: 15px 28px;
+    /* padding: 15px 28px; */
     text-align: center;
-    font-size: 18px;
+    font-size: 1.8vh;
     font-weight: bold;
     transition-duration: 0.4s;
     background-color: white;
@@ -106,9 +106,9 @@
   }
 
   .account-create-submit-button {
-    padding: 15px 32px;
+    /* padding: 15px 32px; */
     text-align: center;
-    font-size: 18px;
+    font-size: 1.8vh;
     font-weight: bold;
     transition-duration: 0.4s;
     background-color: white;
@@ -116,7 +116,7 @@
     color: black;
     margin-left: auto;
     float: right;
-    margin-top: 20px;
+    /* margin-top: 20px; */
     max-width: 100%;
   }
 
@@ -126,9 +126,9 @@
   }
   
   .button3 {
-    padding: 15px 32px;
+    /* padding: 15px 32px; */
     text-align: center;
-    font-size: 24px;
+    font-size: 2.4vh;
     font-weight: bold;
     transition-duration: 0.4s;
     background-color: white;
@@ -145,7 +145,7 @@
   
 
   /* Media query for smaller screens */
-  @media (max-width: 768px) {
+  /* @media (max-width: 768px) {
     .container {
       flex-direction: column;
       margin: 10px 0;
@@ -163,13 +163,13 @@
       padding: 15px 20px;
       box-sizing: border-box;
     }
-  }
+  } */
 
   .account-creation-page  {
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: black;
     text-align: left;
-    font-size: 95px;
+    font-size: 10.2vh;
     font-weight:normal;
     height: 100vh;
     width: 100vw;
@@ -188,7 +188,7 @@
     .labelName {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -205,12 +205,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       z-index: 2;
     }
     .fieldName {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
       z-index: 2;
       width: 11vw;
@@ -227,7 +227,7 @@
     .labelEmail {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -244,12 +244,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: -3vw;
       z-index: 2;
     }
     .fieldEmail {
-      font-size: 18px;
+      font-size: 1.8vh;
       border: 2px solid transparent;
       z-index: 2;
       width: 15vw;
@@ -266,7 +266,7 @@
     .labelPword {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -282,12 +282,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       z-index: 2;
     }
     .fieldPword {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
       z-index: 2;
     }
@@ -303,7 +303,7 @@
     .labelConf {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 20px;
+      font-size: 2.2vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -320,12 +320,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       z-index: 2;
     }
     .fieldConf {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
       z-index: 2;
     }
@@ -341,7 +341,7 @@
     .labelPhone {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -349,7 +349,7 @@
       height: 7.5vh;
       width: 17vw;
       color: black;
-      margin-right: -9vw;
+      margin-right: -9.1vw;
       z-index: 1;
     }
     .trianglePhone {
@@ -357,12 +357,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       z-index: 2;
     }
     .fieldPhone {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
       z-index: 2;
     }
@@ -378,7 +378,7 @@
     .labelBirthday {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -394,12 +394,12 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       z-index: 2;
     }
     .fieldBirthday {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
       z-index: 2;
     }
@@ -408,14 +408,14 @@
       display: flex;
       flex-direction: row;
       margin-top: 2vh;
-      margin-left: 16.05vw;
+      margin-left: 15.4vw;
       background-color: transparent;
       z-index: 1;
     }
     .labelSignature {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: left;
-      font-size: 28px;
+      font-size: 2.8vh;
       font-weight: normal;
       padding-left: 1vw;
       background-color: gainsboro;
@@ -432,22 +432,22 @@
       height: 0; 
       border-left: 7.5vw solid transparent;
       border-right: 0vw solid transparent;
-      border-bottom: 7.53vh solid white;
+      border-bottom: 7.54vh solid white;
       margin-left: 0vw;
       margin-top: -5.5vh;
       z-index: 2;
     }
     .fieldSignature {
-      font-size:18px;
+      font-size:1.8vh;
       border: 2px solid transparent;
-      height:6.8vh;
+      height:6.9vh;
       margin-top: -5.5vh;
       z-index: 2;
     }
     .labelSigNote{
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: center;
-      font-size: 30px;
+      font-size: 3.5vh;
       font-weight: normal;
       border: 2px solid transparent;
       background-color: #ff9e0c;
@@ -468,13 +468,13 @@
       border-left: 6.5vw solid transparent;
       border-right: 0vw solid transparent;
       border-bottom: 6.53vh solid #37c6ff;
-      margin-left: 0vw;
+      margin-left: -.75vw;
       z-index: 2;
     }
     .waiver-button {
       font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       text-align: center;
-      font-size: 22px;
+      font-size: 2.4vh;
       font-weight: normal;
       transition-duration: 0.4s;
       background-color: #37c6ff;
@@ -504,14 +504,14 @@
       width: 10vw;
       border: 2px solid transparent;
       text-align: center;
-      font-size: 28px;
+      font-size: 2.9vh;
       font-weight: normal;
       transition-duration: 0.4s;
       background-color: #2df805;
       color: black;
       position:absolute;
       z-index: 1;
-      margin-left: 6.3vw;
+      margin-left: 5.7vw;
       margin-top: 0vh;
     }
     .triangleSubmit {
@@ -520,7 +520,7 @@
       border-left: 6.5vw solid transparent;
       border-right: 0vw solid transparent;
       border-bottom: 6.53vh solid #2df805;
-      margin-left: -0.1vw;
+      margin-left: -0.7vw;
       z-index: 2;
     }
     .buttonSubmit:hover {
@@ -542,14 +542,14 @@
       width: 10vw;
       border: 2px solid transparent;
       text-align: center;
-      font-size: 28px;
+      font-size: 2.9vh;
       font-weight: normal;
       transition-duration: 0.4s;
       background-color: red;
       color: black;
       position:absolute;
       z-index: 1;
-      margin-left: 6.4vw;
+      margin-left: 5.7vw;
     }
     .triangleBack {
       width: 0; 
@@ -557,7 +557,7 @@
       border-left: 6.5vw solid transparent;
       border-right: 0vw solid transparent;
       border-bottom: 6.5vh solid red;
-      margin-left: 0vw;
+      margin-left: -.7vw;
       z-index: 2;
     }
     .buttonBack:hover {
