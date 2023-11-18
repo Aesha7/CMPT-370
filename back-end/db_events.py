@@ -81,7 +81,8 @@ def add(request_data, ev_collection, accounts_collection):
         },
         "level": request_data["level"],
         "enrolled": [],
-        "coach": coach_name
+        "coach": coach_name,
+        "attendance": []
     }
 
     if ev_collection.find_one({"name": request_data["name"]}):
@@ -92,7 +93,7 @@ def add(request_data, ev_collection, accounts_collection):
         ev_collection.insert_one(event_details)
         return resp
     
-def delete(request_data, collection,accounts_collection,ev_type):
+def delete(request_data, collection, ev_collection, accounts_collection, ev_type):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
@@ -140,4 +141,23 @@ def delete(request_data, collection,accounts_collection,ev_type):
                     break
 
     collection.delete_one({"name": request_data["event_name"]})
+    return resp
+
+
+def edit_attendance(request_data, accounts_collection, events_collection, courses_collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+
+    # Checks to see if user is a staff account
+    account= accounts_collection.find_one({"_id": ObjectId(request_data["account_ID"])})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    if not (account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    courses_collection.update_one({"name": request_data["name"]}, {"$set": {"attendance": request_data["attendance"]}})
     return resp

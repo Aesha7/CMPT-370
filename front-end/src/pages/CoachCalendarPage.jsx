@@ -15,8 +15,9 @@ const CoachCalendarPage = () => {
   const [staffLevel, setStaffLevel] = useState("");
   const [coachName, setcoachName] = useState("");
   const [calEvents, setCalEvents] = useState([]);
-  const [currentCalEvent, setCurrentCalEvent] = useState("");
+  const [currentCalEvent, setCurrentCalEvent] = useState([]);
   const [students, setStudents] = useState([]);
+  const [currentAttendance, setCurrentAttendance] = useState([]);
 
   let [userID, setUserID] = useState("");
   userID = location.state;
@@ -105,8 +106,9 @@ const CoachCalendarPage = () => {
               let level = event.level;
               let enrolled = event.enrolled;
               let coach = event.coach;
+              let attendance = event.attendance
 
-              // c reating the new event to use in the array
+              // creating the new event to use in the array
               let newEvent = {
                 name: name,
                 desc: desc,
@@ -114,9 +116,9 @@ const CoachCalendarPage = () => {
                 end: end,
                 level: level,
                 enrolled: enrolled,
-                coach: coach
+                coach: coach,
+                attendance: attendance
               };
-
               tempEvents.push(newEvent);
             }
 
@@ -130,23 +132,72 @@ const CoachCalendarPage = () => {
     }
   };
 
+  let tempDay
+
   const onSelectEvent = (calEvent) => {
+    setCurrentCalEvent(calEvent);
+    if(currentCalEvent.attendance == undefined){
+      currentCalEvent.attendance = [];
+    }
+    console.log(currentCalEvent);
+    if(currentCalEvent.attendance != []){
+      //tempDay = calEvent.attendance.find(element => element.date.isSame(moment(), "day"))
+    }
+    setCurrentAttendance(tempDay)
+    if(tempDay == undefined){
+      tempDay = {date: moment(), attendanceDate: []};
+      calEvent.enrolled.forEach(enrolledStudent => tempDay.attendanceDate.push({name: enrolledStudent, present: false, feedback: ""}))
+      setCurrentAttendance(tempDay)
+      currentCalEvent.attendance.push(currentAttendance);
+    };
     
-    setCurrentCalEvent(calEvent.name);
+    setCurrentAttendance(tempDay)
+    
+    console.log(currentCalEvent);
     setStudents(calEvent.enrolled);
   }
 
   const onCheckChange = (student) => (event) => {
-    //console.log(student);
-    //student.name = "test student2";
+    //update checkboxes
+    currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).present = !event.target.checked;
+  }
+
+  const onFeedbackChange = (student) => (event) => {
+    //read feedback
+    currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).feedback = event.target.value;
+  }
+
+  const saveAttendance = (event) => {
+    //push attendance info to database
+    try {
+      fetch(server_URL + "edit_attendance", {
+        method: "POST",
+        body: JSON.stringify({
+          account_ID: userID,
+          name: currentCalEvent.name,
+          attendance: currentCalEvent.attendance
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text();
+        })
+    } catch (exception) {
+      console.log(exception);
+    }
   }
 
 
   useEffect(() => {
+    //inti calendar
     get_coach_name();
     get_db_events();
   }, [])
-
 
   return (
 
@@ -179,7 +230,7 @@ const CoachCalendarPage = () => {
               border: "none",
             };
 
-            // setting event colours depending on level
+            /// setting event colours depending on level
             if (event.level == 0) {
               newStyle.backgroundColor = "#4e9b6f";
             } else if (event.level == 1) {
@@ -195,20 +246,29 @@ const CoachCalendarPage = () => {
         <div className="student-list">
           Student Attendance
           <div>
-            {currentCalEvent}
+            {"Course: " + currentCalEvent.name}
           </div>
           {students.map(student => {
             return (
               <div>
-                <input
-                  type="checkbox"
-                  checked={false}
-                  onChange={onCheckChange(student)}
-                />
-                {student.name}
+                <div>
+                  <input
+                    type="checkbox"
+                    checked={currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).present}
+                    onChange={onCheckChange(student)}
+                  />
+                  {student}
+                </div>
+                <div>
+                  feedback
+                  <input onChange={onFeedbackChange(student)} />
+                </div>
               </div>
             )
           }) }
+          <button onClick={saveAttendance}>
+            Save Attendance/Feedback
+          </button>
         </div>
       </div>
     </div>

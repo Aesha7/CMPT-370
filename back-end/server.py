@@ -298,6 +298,22 @@ def AddCourse():
     # TODO: add event to coach's list of coached events 
     return ev.add(request.get_json(), courses_collection, accounts_collection)
 
+@app.route("/edit_attendance", methods=["POST"])
+@cross_origin(origins="*")
+def EditAttendance():
+    """Endpoint for updating attendance info.
+    Required request parameters: account_ID, name, coach_email, attendance data
+    Required staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: you do not have permission to perform this action"
+        "Error: target coach account is not a staff account"
+        "Error: coach account not found"
+    """
+    # TODO: add event parameters
+    return ev.edit_attendance(request.get_json(), accounts_collection, events_collection, courses_collection)
+
 @app.route("/add_course_user", methods=["POST"])
 @cross_origin(origins="*")
 def AddCourseToUser():
