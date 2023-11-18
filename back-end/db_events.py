@@ -42,7 +42,7 @@ def add(request_data, ev_collection, accounts_collection):
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
     
-    coach = account=accounts_collection.find_one({"email":request_data["coach_email"]})
+    coach = accounts_collection.find_one({"email":request_data["coach_email"]})
     if not coach:
         resp.status_code=400
         resp.data=dumps("Error: coach account not found")
@@ -82,7 +82,8 @@ def add(request_data, ev_collection, accounts_collection):
         "level": request_data["level"],
         "enrolled": [],
         "capacity": request_data["capacity"],
-        "coach": coach_name
+        "coach": coach_name,
+        "coach_email": request_data["coach_email"]
     }
 
     if ev_collection.find_one({"name": request_data["name"]}):
@@ -90,7 +91,10 @@ def add(request_data, ev_collection, accounts_collection):
         resp.data=dumps("Error: event name already exists")
         return resp
     else:
-        ev_collection.insert_one(event_details)
+        ev_collection.insert_one(event_details) #adds event to event/course col
+        coach_ev_list = coach["teaching"]
+        coach_ev_list.append(event_details["_id"])
+        accounts_collection.update_one({"email":request_data["coach_email"]},{"$set":{"teaching" : coach_ev_list}}) # updates coach's teaching list
         return resp
     
 def delete(request_data, collection,accounts_collection,ev_type):
@@ -108,12 +112,12 @@ def delete(request_data, collection,accounts_collection,ev_type):
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
     
-
     ev = collection.find_one({"name": request_data["event_name"]})
     if not ev:
         resp.status_code=400
         resp.data=dumps("Error: event not found")
         return resp
+    ev_id = ev["_id"]
 
     # Goes through all users from enrolled list, finds that user, and removes event from their list
     for user1 in ev["enrolled"]:
@@ -140,5 +144,11 @@ def delete(request_data, collection,accounts_collection,ev_type):
                                                         {"$set":{"users.$.events" : ev_list}})
                     break
 
+    # Finds coach and removes event from their "teaching" list
+    coach_teaching_list = accounts_collection.find_one({"email":ev["coach_email"]})["teaching"]
+    coach_teaching_list = [i for i in coach_teaching_list if not (i == ev_id)]
+    accounts_collection.update_one({"email":ev["coach_email"]},{"$set":{"teaching":coach_teaching_list}})
+
+    # Delete event
     collection.delete_one({"name": request_data["event_name"]})
     return resp
