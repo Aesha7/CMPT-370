@@ -9,6 +9,7 @@ const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
 const GymSchedule = () => {
     const [calEvents, setCalEvents] = useState([]);
+    
     let tempEvents = [];
   
     let userID;

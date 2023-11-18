@@ -10,7 +10,8 @@ const AdminManageAccountsPage = () => {
     const location = useLocation();
     let userID = location.state;
     const [staffLevel, setStaffLevel] = useState('')
-
+    let tempUsers = [];
+    const [users, setUsers] = useState([]);
 
     console.log(userID);
     let userEmail;
@@ -97,6 +98,43 @@ const AdminManageAccountsPage = () => {
     if(staffLevel >= 1){
         document.getElementById("overlay").style.display = "none";
     }
+
+    const get_account_list = () =>{
+      // getting list of accounts
+      try{
+        fetch(server_URL + "get_all_accounts", {
+          method: "POST",
+          body: JSON.stringify({ admin_ID : userID,  level: 1  }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }).then((response) =>{
+          return response.text()
+        }).then((text) => {
+          const data = JSON.parse(text);
+          // console.log(data)
+          data.forEach((event) => {
+            let email = event.email;
+            let staffLevel = event.staffLevel;
+  
+            let newUser = {
+              email: email,
+              staffLevel : staffLevel
+            }
+            tempUsers.push(newUser)
+            
+            });
+
+            setUsers(tempUsers)
+          })
+        } catch(exception){
+        console.log(exception)
+      }
+    }
+    
 
     return (
     <div className="admin-page">
