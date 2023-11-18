@@ -17,8 +17,9 @@ const CoachCalendarPage = () => {
   let [coachName, setcoachName] = useState("");
   const [calEvents, setCalEvents] = useState([]);
   const [currentCalEvent, setCurrentCalEvent] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [currentAttendance, setCurrentAttendance] = useState([]);
+  const [updateDummy, forceUpdate] = useState(0);
+  //const [students, setStudents] = useState([]);
+  //const [currentAttendance, setCurrentAttendance] = useState([]);
 
   let [userID, setUserID] = useState("");
   userID = location.state;
@@ -29,6 +30,15 @@ const CoachCalendarPage = () => {
     let path = "/my-account";
     navigate(path, {state:userID})
   }
+
+  // prevent crash from undefined student array before selecting a class
+  if(currentCalEvent.enrolled == undefined){
+    currentCalEvent.enrolled = [];
+  }
+  if(currentCalEvent.attendance == undefined){
+    currentCalEvent.attendance = [];
+  }
+  
 
   if(staffLevel >= 1){
     document.getElementById("overlay").style.display = "none";
@@ -51,7 +61,7 @@ const CoachCalendarPage = () => {
           return response.text(); // Get the response text
         })
         .then((text) => {
-          // Parse the text as JSON
+          //// Parse the text as JSON
           const data = JSON.parse(text);
           // setcoachName(data.users[0].name);
           coachName = data.users[0].name;
@@ -109,9 +119,19 @@ const CoachCalendarPage = () => {
               let level = event.level;
               let enrolled = event.enrolled;
               let coach = event.coach;
-              let attendance = event.attendance
+              let attendance
+              try{
+                attendance = event.attendance;
+              } catch{
+                attendance = [];
+              }
 
-              // creating the new event to use in the array
+              if(enrolled === undefined){
+                enrolled = [];
+              }
+              
+
+              //// creating the new event to use in the array
               let newEvent = {
                 name: name,
                 desc: desc,
@@ -127,47 +147,39 @@ const CoachCalendarPage = () => {
 
           });
 
-          // setting the events
+          /// setting the events
           setCalEvents(tempEvents);
         });
     } catch (exception) {
       console.log(exception);
     }
+    forceUpdate(updateDummy + 1);
   };
 
-  let tempDay
-
   const onSelectEvent = (calEvent) => {
+    /// handle no attendance data
+    if(calEvent.attendance == undefined){
+      calEvent.attendance = [];
+    }
+    if(calEvent.attendance.length == 0){
+      calEvent.attendance.push({date: moment(), attendanceDate: []})
+      
+      calEvent.enrolled.forEach(enrolledStudent => calEvent.attendance[(calEvent.attendance).length-1].attendanceDate.push({name: enrolledStudent.name, present: false, feedback: ""}));
+    }
+    
     setCurrentCalEvent(calEvent);
-    if(currentCalEvent.attendance == undefined){
-      currentCalEvent.attendance = [];
-    }
-    console.log(currentCalEvent);
-    if(currentCalEvent.attendance != []){
-      //tempDay = calEvent.attendance.find(element => element.date.isSame(moment(), "day"))
-    }
-    setCurrentAttendance(tempDay)
-    if(tempDay == undefined){
-      tempDay = {date: moment(), attendanceDate: []};
-      calEvent.enrolled.forEach(enrolledStudent => tempDay.attendanceDate.push({name: enrolledStudent, present: false, feedback: ""}))
-      setCurrentAttendance(tempDay)
-      currentCalEvent.attendance.push(currentAttendance);
-    };
-    
-    setCurrentAttendance(tempDay)
-    
-    console.log(currentCalEvent);
-    setStudents(calEvent.enrolled);
   }
 
   const onCheckChange = (student) => (event) => {
     //update checkboxes
-    currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).present = !event.target.checked;
+    currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student).present = event.target.checked;
+    forceUpdate(updateDummy + 1);
   }
 
   const onFeedbackChange = (student) => (event) => {
     //read feedback
-    currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).feedback = event.target.value;
+    currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student).feedback = event.target.value;
+    forceUpdate(updateDummy + 1);
   }
 
   const saveAttendance = (event) => {
@@ -200,6 +212,7 @@ const CoachCalendarPage = () => {
     //inti calendar
     get_coach_name();
     get_db_events();
+    forceUpdate(updateDummy + 1);
   }, [])
 
   return (
@@ -251,24 +264,26 @@ const CoachCalendarPage = () => {
           <div>
             {"Course: " + currentCalEvent.name}
           </div>
-          {students.map(student => {
+          {currentCalEvent.enrolled.map(student => {
             return (
               <div>
                 <div>
                   <input
                     type="checkbox"
-                    checked={currentAttendance.attendanceDate.find(currentStudent => currentStudent.name === student).present}
-                    onChange={onCheckChange(student)}
+                    checked={currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student.name).present}
+                    onChange={onCheckChange(student.name)}
                   />
-                  {student}
+                  {student.name}
                 </div>
                 <div>
                   feedback
-                  <input onChange={onFeedbackChange(student)} />
+                  <input onChange={onFeedbackChange(student.name)} 
+                  value={currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student.name).feedback}/>
                 </div>
               </div>
             )
-          }) }
+          })
+        }
           <button onClick={saveAttendance}>
             Save Attendance/Feedback
           </button>
