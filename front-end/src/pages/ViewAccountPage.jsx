@@ -380,7 +380,7 @@ const AccountView = () => {
   }
 
   // check if user account is coach
-  if (staffLevel == 1) {
+  if (staffLevel >= 1) {
     document.getElementById("studentsList").style.visibility = "visible";
     document.getElementById("coachCalendar").style.visibility = "visible";
   }

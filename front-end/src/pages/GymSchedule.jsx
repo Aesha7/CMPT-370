@@ -144,6 +144,9 @@ const get_db_events = () =>{
         else if(data == '"Error: event already on user\'s event list"'){
           alert("You are already registered for this event.")
         }
+        else if(data == '"Error: user level too low"'){
+          alert("You are not a high enough level.")
+        }
         else{
           alert("Course Registered!")
           get_db_events();

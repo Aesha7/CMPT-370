@@ -286,7 +286,7 @@ const AccountCreatePage = (props) => {
               {/* <label className="labelName" htmlFor="name">Name:</label> */}
               <button onClick={null} className="labelPhone" type="button">Phone:</button> 
               <div class="trianglePhone"></div>
-              <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123)456-7890"/>
+              <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123) 456 7890"/>
             </div>
 
             <div className="entryBirthday">
