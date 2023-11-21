@@ -8,6 +8,7 @@
   font-weight: bolder;
   align-items: center;
   display: flex;
+  padding: 20px
 }
 
 .top-bar .allButtons{
