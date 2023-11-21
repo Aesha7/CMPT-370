@@ -98,7 +98,7 @@ def add(request_data, ev_collection, accounts_collection):
         accounts_collection.update_one({"email":request_data["coach_email"]},{"$set":{"teaching" : coach_ev_list}}) # updates coach's teaching list
         return resp
     
-def delete(request_data, collection, ev_collection, accounts_collection, ev_type):
+def delete(request_data, collection, accounts_collection, ev_type):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
 
