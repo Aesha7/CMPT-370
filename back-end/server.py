@@ -526,7 +526,7 @@ def DeleteCourse():
         "Error: you do not have permission to perform this action"
         "Error: account not found"
     """
-    return ev.delete(request.get_json(), courses_collection,accounts_collection,"course")
+    return ev.delete(request.get_json(), courses_collection, accounts_collection, "course")
 
 @app.route("/change_staff_level", methods=["POST"])
 @cross_origin(origins="*")

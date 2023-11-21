@@ -228,6 +228,12 @@ const AdminCalendarPage = () => {
     document.getElementById("eventDescription").innerHTML = calEvent.desc;
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
   };
+  
+  const displayConfirmPopup = () =>{
+    document.getElementById("confirmDeletionPopup").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
+  };
+
 
   // closes all popups
   const closeAllForms = () => {
@@ -237,6 +243,9 @@ const AdminCalendarPage = () => {
     document.getElementById("createEventForm").style.display = "none";
     document.getElementById("clickInformation").style.display = "none";
     document.getElementById("myForm-overlay").style.display = "none";
+    document.getElementById("confirmDeletionPopup").style.display = "none";
+
+
   };
 
   // handles the title
@@ -406,9 +415,10 @@ const AdminCalendarPage = () => {
     e.preventDefault();
 
     if (currentEvent.enrolled.length > 0) {
-      alert("this event has enrolled members")
+      // alert("this event has enrolled members")
       // check
-      delete_event_call();
+      // delete_event_call();
+      displayConfirmPopup();
       // display the confirmation form
     } else {
       delete_event_call();
@@ -477,6 +487,21 @@ const AdminCalendarPage = () => {
         </div>
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
+
+        <div className="add-family-popup" id="confirmDeletionPopup">
+        <form className="form-container">
+
+          <h4>This event has enrolled members. Are you sure you would like to delete it?</h4>
+          
+          <button type="button" className="btn cancel" onClick={delete_event_call}>
+            Delete    
+          </button>
+
+          <button type="button" className="btn cancel" onClick={closeAllForms}>Cancel</button>
+          </form>
+
+        </div>
+s
         
         <div className="add-course-popup" id="createEventForm">
           <form className="form-container">
