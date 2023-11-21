@@ -12,11 +12,12 @@ import AdminManageAccountsPage from './pages/AdminManageAccountsPage';
 import LandingPage from './pages/LandingPage';
 import CoachCalendarPage from './pages/CoachCalendarPage';
 import CoachStudentsListPage from './pages/CoachStudentsListPage';
-
+import HomePage from './pages/HomePage';
+import UserLevelPage from './pages/UserLevelPage';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {  } from 'react-router'
-import HomePage from './pages/HomePage';
+
 
 
 
@@ -35,6 +36,7 @@ function App() {
         <Route path='/waiver-form' element={<WaiverPDF/>}/>
         <Route path='/coach-schedule' element={<CoachCalendarPage/>}/>
         <Route path='/students-list' element={<CoachStudentsListPage/>}/>
+        <Route path='/user-level' element={<UserLevelPage/>}/>
       </Routes>
   );
 }

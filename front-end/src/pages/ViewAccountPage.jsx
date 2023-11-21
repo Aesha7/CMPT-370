@@ -107,6 +107,16 @@ const AccountView = () => {
   };
 
   /**
+   * goes to level page for the user selected 
+   */
+  const goToLevelInfo = (e) =>{
+    let path = "/user-level";
+    let user = users[e.target.value];
+    let name = user.name;
+    navigate(path, { state: { _id: userID, curUserName: name } });
+  }
+
+  /**
    * Display info for current user (parent or child)
    */
   const displayInfo = (e) => {
@@ -144,6 +154,14 @@ const AccountView = () => {
             onClick={displayInfo}
           >
             Info
+          </button>
+          <button
+
+            value={j}
+            type="button"
+            onClick={goToLevelInfo}
+          >
+            Level Info
           </button>
         </div>
       );
