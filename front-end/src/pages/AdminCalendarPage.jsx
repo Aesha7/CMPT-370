@@ -632,13 +632,7 @@ const AdminCalendarPage = () => {
             <label for="coach">
               <b>Coach Email * </b>
             </label>
-            {/* <input
-              type="coach"
-              placeholder="Enter the coach's email"
-              name="coach"
-              onChange={handleCoach}
-              required
-            ></input> */}
+
             <select
             className="level-dropdown"
             onChange={handleCoach}
