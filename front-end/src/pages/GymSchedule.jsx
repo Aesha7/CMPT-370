@@ -228,6 +228,10 @@ const GymSchedule = () => {
   };
 
   const openForm = () => {
+    let enrolledList = currentEvent.enrolled.map(a => a.name)
+    console.log(enrolledList)
+    console.log(curUser.name)
+
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
     if (currentEvent.desc != "") {
@@ -235,6 +239,7 @@ const GymSchedule = () => {
     } else {
       document.getElementById("eventDescription").innerHTML = "N/A";
     }
+
     if (currentEvent.enrolled.find((user) => user.name == curUser.name)) {
       document.getElementById("registrationChecker").innerHTML =
         "You are registered for this event";

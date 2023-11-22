@@ -51,7 +51,6 @@ const ViewFamilySchedule = () => {
             curUser = data.users[0];
             setCurUser(data.users[0]);
           }
-          // get_user_events()
         });
     } catch (error) {
       console.log(error);
@@ -170,7 +169,6 @@ const ViewFamilySchedule = () => {
   useEffect(() => {
     get_account_info();
     get_user_events();
-    get_user_events();
   }, []);
 
   const goBack = () => {
@@ -210,9 +208,7 @@ const ViewFamilySchedule = () => {
   };
 
   const handleUserChange = (e) => {
-    // e.preventDefault()
     curUser = users[e.target.value];
-    // setCurUser(users[e.target.value]);
     get_user_events();
   };
 
@@ -284,7 +280,6 @@ const ViewFamilySchedule = () => {
         >
           Cancel
         </button>
-        ={" "}
       </div>
 
       <div className="">
