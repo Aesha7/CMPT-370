@@ -318,11 +318,13 @@ const AdminCalendarPage = () => {
       alert("Please select a level.");
     } else if (coach == "") {
       alert("Please include a coach.");
-    } else if (!validTime(startTime)) {
+    } else if (!validTimeRepresentation(startTime)) {
       alert("Please insert a valid start time.");
+    } else if( tooLateTime(startTime) ) {
+      alert("Please input a start time that is later than the current time.")
     } else if (startYear == "" || startMonth == "" || startDate == "") {
-      alert("Pleaase select a valid date");
-    } else if (!validTime(duration)) {
+      alert("Please select a valid date");
+    } else if (!validTimeRepresentation(duration)) {
       alert("Please insert a valid duration.");
     } else if(capacity == "") {
       alert("Please input a valid capacity.");
@@ -426,11 +428,45 @@ const AdminCalendarPage = () => {
   };
 
   // checks to see if a time is a valid representation using a regular expression
-  function validTime(time) {
+  function validTimeRepresentation(time) {
     // Regular expression for a valid email address
     const timeRegex = /^(?:[01]?[0-9]|2[0-3]):[0-5][0-9](?::[0-5][0-9])?$/;
 
     return timeRegex.test(time);
+  }
+
+  /**
+   * checking to see if the inputted hour and minute is after the current time
+   * @param {String} time the start time for an event
+   * @returns true if the time is too late (same day and the hour is within the current hour)
+   */
+  function tooLateTime(time){
+    let currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+    let setDate = new Date(startYear, startMonth, startDate, 0, 0, 0, 0);
+    let arr = time.split(":");
+    let startHour = parseInt(arr[0])
+
+    // creating an event on the same date as today
+    if(currentDate.toDateString() == setDate.toDateString()){
+      // return set time < cur time
+      // getting current hours
+      currentDate = new Date();
+      let curHour = currentDate.getHours();
+    
+      // too late
+      if(startHour < curHour + 1){
+        return true;
+      }
+      // not too late
+      else{
+        return false;
+      }
+    }
+    // start date after today
+    else{
+      return false;
+    }
   }
 
   // overlay if the user shouldnt be able to see the page
@@ -574,13 +610,14 @@ s
               selected={date}
               onChange={handleDate}
               dateFormat="MM/dd/yyyy"
-              minDate={new Date(1900, 0, 1)}
+              minDate={new Date()}
               maxDate={new Date(2099, 11, 31)}
               showMonthDropdown={true}
               showYearDropdown={true}
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
+              showDisabledMonthNavigation
             />
             <label><b>Start Time*</b></label>
             <input 
