@@ -58,27 +58,33 @@ const ViewFamilySchedule = () => {
     }
   };
 
+  /**
+   * gets list of all events and filters the ones where 
+   * the current username is included in the enrolled list
+   */
   const get_user_events = () => {
-    if (curUser != "") {
-      curUser.courses.forEach((event) => {
-        try {
-          fetch(server_URL + "get_course", {
-            method: "POST",
-            body: JSON.stringify({
-              name: event.name,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Headers": "Content-Type",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-            },
-          })
-            .then((response) => {
-              return response.text();
-            })
-            .then((data) => {
-              let event = JSON.parse(data);
+    // getting the events
+    try {
+      fetch(server_URL + "retrieve_courses", {
+        method: "POST",
+        body: JSON.stringify({}),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text();
+        })
+        .then((text) => {
+          const data = JSON.parse(text);
+          let tempEvents = [];
+          data.forEach((event) => {
+            let enrolledList = event.enrolled.map((a) => a.name);
+
+            if (enrolledList.includes(curUser.name)) {
               let name = event.name;
               let desc = event.desc;
               let start = new Date(
@@ -98,29 +104,29 @@ const ViewFamilySchedule = () => {
                 0
               );
               let level = event.level;
+              let enrolled = event.enrolled;
+
               let newEvent = {
                 name: name,
                 desc: desc,
                 start: start,
                 end: end,
                 level: level,
+                enrolled: enrolled,
               };
-              temp.push(newEvent);
-            });
-        } catch (exception) {
-          console.log(exception);
-        }
-      });
-      setCalEvents(temp);
+
+              tempEvents.push(newEvent);
+            }
+          });
+          setCalEvents(tempEvents);
+        });
+    } catch (exception) {
+      console.log(exception);
     }
   };
 
   const unregister = (e) => {
     e.preventDefault();
-
-    console.log("curUser", curUser);
-    console.log("currentEvent", currentEvent);
-    console.log("userID", userID);
 
     try {
       fetch(server_URL + "remove_course_user", {
@@ -163,9 +169,9 @@ const ViewFamilySchedule = () => {
 
   useEffect(() => {
     get_account_info();
-    console.log(curUser);
     get_user_events();
-  }, [curUser]);
+    get_user_events();
+  }, []);
 
   const goBack = () => {
     let path = "/my-account";
@@ -173,22 +179,16 @@ const ViewFamilySchedule = () => {
   };
 
   const showDetails = (calEvent) => {
-    // alert(calEvent.description)
-    // console.log(calEvent)
     if (calEvent != currentEvent) {
-      // setCurrentEvent(calEvent)
       currentEvent = calEvent;
     }
-    console.log(currentEvent.title);
 
     openForm();
   };
 
   const openForm = () => {
-    // console.log(currentEvent)
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
-    // console.log(currentEvent.desc)
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
     } else {
@@ -196,40 +196,42 @@ const ViewFamilySchedule = () => {
     }
   };
 
-  
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
   };
 
-  const openConfirmationForm = (e) =>{
-    e.preventDefault()
+  const openConfirmationForm = (e) => {
+    e.preventDefault();
     document.getElementById("confirmationForm").style.display = "block";
-  }
+  };
 
-  const closeConfirmation = () =>{
+  const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
-  }
+  };
 
   const handleUserChange = (e) => {
     // e.preventDefault()
-    // curUser = users[e.target.value]
-    setCurUser(users[e.target.value]);
+    curUser = users[e.target.value];
+    // setCurUser(users[e.target.value]);
     get_user_events();
   };
 
   let j = -1;
   let nameDropDowns = users.map(function (i) {
     let element;
-    // if(curUser == i){
-    //   element = <option value={++j} key={i.name} selected>{i.name}</option>
-    // }
-    // else{
-    element = (
-      <option value={++j} key={i.name}>
-        {i.name}
-      </option>
-    );
-    // }
+    if (curUser == i) {
+      element = (
+        <option value={++j} key={i.name} selected>
+          {i.name}
+        </option>
+      );
+    } else {
+      element = (
+        <option value={++j} key={i.name}>
+          {i.name}
+        </option>
+      );
+    }
 
     return element;
   });
@@ -239,12 +241,12 @@ const ViewFamilySchedule = () => {
       <div className="top-bar">
         Family Schedule
         <div className="allButtons">
-        <select className="top-bar-button" onChange={handleUserChange}>
-          {nameDropDowns}
-        </select>
-        <button className="top-bar-button" onClick={goBack}>
-          Back
-        </button>
+          <select className="top-bar-button" onChange={handleUserChange}>
+            {nameDropDowns}
+          </select>
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
         </div>
       </div>
 
@@ -270,24 +272,20 @@ const ViewFamilySchedule = () => {
         </form>
       </div>
 
-      
       <div className="confirm-form-popup" id="confirmationForm">
-        {/* <form className="form-container"> */}
-          <h4>Are you sure you would like to un-enroll?</h4>
-          <button
-            type="submit"
-            className="btn"
-            onClick={unregister}
-          >
-            Un-enroll
-          </button>
-
-          <button type="button" className="btn cancel" onClick={closeConfirmation}>
-            Cancel
-          </button>
-        {/* </form> */}
+        <h4>Are you sure you would like to un-enroll?</h4>
+        <button type="submit" className="btn" onClick={unregister}>
+          Un-enroll
+        </button>
+        <button
+          type="button"
+          className="btn cancel"
+          onClick={closeConfirmation}
+        >
+          Cancel
+        </button>
+        ={" "}
       </div>
-
 
       <div className="">
         <Calendar
