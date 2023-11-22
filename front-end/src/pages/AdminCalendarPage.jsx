@@ -576,7 +576,9 @@ const AdminCalendarPage = () => {
             </button>
           </form>
         </div>
+
         <div className="myForm-overlay" id="myForm-overlay"></div>
+
         <div className="add-family-popup" id="confirmDeletionPopup">
           <form className="form-container">
             <h4>
@@ -601,7 +603,7 @@ const AdminCalendarPage = () => {
             </button>
           </form>
         </div>
-        s
+        
         <div className="add-course-popup" id="createEventForm">
           <form className="form-container">
             <h1>Add Event</h1>

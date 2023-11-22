@@ -152,6 +152,7 @@ const ViewFamilySchedule = () => {
           } else {
             alert("Unregistration successful!");
             get_user_events();
+            closeConfirmation();
             closeForm();
           }
         });
@@ -199,6 +200,15 @@ const ViewFamilySchedule = () => {
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
   };
+
+  const openConfirmationForm = (e) =>{
+    e.preventDefault()
+    document.getElementById("confirmationForm").style.display = "block";
+  }
+
+  const closeConfirmation = () =>{
+    document.getElementById("confirmationForm").style.display = "none";
+  }
 
   const handleUserChange = (e) => {
     // e.preventDefault()
@@ -251,7 +261,7 @@ const ViewFamilySchedule = () => {
 
           <h5 id="eventDescription">{currentEvent.desc}</h5>
 
-          <button type="submit" className="btn" onClick={unregister}>
+          <button type="submit" className="btn" onClick={openConfirmationForm}>
             Un-Register
           </button>
           <button type="button" className="btn cancel" onClick={closeForm}>
@@ -259,6 +269,25 @@ const ViewFamilySchedule = () => {
           </button>
         </form>
       </div>
+
+      
+      <div className="confirm-form-popup" id="confirmationForm">
+        {/* <form className="form-container"> */}
+          <h4>Are you sure you would like to un-enroll?</h4>
+          <button
+            type="submit"
+            className="btn"
+            onClick={unregister}
+          >
+            Un-enroll
+          </button>
+
+          <button type="button" className="btn cancel" onClick={closeConfirmation}>
+            Cancel
+          </button>
+        {/* </form> */}
+      </div>
+
 
       <div className="">
         <Calendar
