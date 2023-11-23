@@ -166,7 +166,6 @@ const GymSchedule = () => {
   };
 
   const unregister = () => {
-
     try {
       fetch(server_URL + "remove_course_user", {
         method: "POST",
@@ -197,7 +196,7 @@ const GymSchedule = () => {
           } else {
             alert("Unregistration successful!");
             closeForm();
-            closeConfirmation()
+            closeConfirmation();
             get_db_events();
           }
         });
@@ -228,9 +227,9 @@ const GymSchedule = () => {
   };
 
   const openForm = () => {
-    let enrolledList = currentEvent.enrolled.map(a => a.name)
-    console.log(enrolledList)
-    console.log(curUser.name)
+    let enrolledList = currentEvent.enrolled.map((a) => a.name);
+    console.log(enrolledList);
+    console.log(curUser.name);
 
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -251,13 +250,15 @@ const GymSchedule = () => {
     }
   };
 
-  const openConfirmationForm = () =>{
+  const openConfirmationForm = () => {
     document.getElementById("confirmationForm").style.display = "block";
-  }
+    document.getElementById("overlay").style.display = "block";
+  };
 
-  const closeConfirmation = () =>{
+  const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
-  }
+    document.getElementById("overlay").style.display = "none";
+  };
 
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
@@ -273,15 +274,13 @@ const GymSchedule = () => {
 
     if (currentEvent.enrolled.find((user) => user.name == curUser.name)) {
       // unregister();
-      openConfirmationForm()
+      openConfirmationForm();
     } else {
       register_for_event();
       document.getElementById("myForm").style.display = "none";
-
     }
 
     // document.getElementById("myForm").style.display = "none";
-
   };
 
   const handleCurUser = (e) => {
@@ -317,28 +316,29 @@ const GymSchedule = () => {
       <div className="top-bar">
         Gym Schedule
         <div className="allButtons">
+
+          {/* dropdown of children names*/}
+          <select
+            className="childDropDown"
+            id="childDropDown"
+            onChange={handleCurUser}
+          >
+            {nameDropDowns}
+          </select>
+          <select
+            className="childDropDown"
+            id="levelDropDown"
+            onChange={handleFilter}
+          >
+            <option value="-1">All</option>
+            <option value="0">Level: 1-2</option>
+            <option value="1">Level: 2-3</option>
+            <option value="2">Level: 3-4</option>
+          </select>
           <button className="top-bar-button" onClick={goBack}>
             Back
           </button>
         </div>
-        {/* dropdown of children names (does nothing right now)*/}
-        <select
-          className="childDropDown"
-          id="childDropDown"
-          onChange={handleCurUser}
-        >
-          {nameDropDowns}
-        </select>
-        <select
-          className="childDropDown"
-          id="levelDropDown"
-          onChange={handleFilter}
-        >
-          <option value="-1">All</option>
-          <option value="0">Level: 1-2</option>
-          <option value="1">Level: 2-3</option>
-          <option value="2">Level: 3-4</option>
-        </select>
       </div>
 
       <div className="form-popup" id="myForm">
@@ -371,25 +371,23 @@ const GymSchedule = () => {
         </form>
       </div>
 
-
+      <div className="myForm-overlay" id="overlay"></div>
       <div className="confirm-form-popup" id="confirmationForm">
         {/* <form className="form-container"> */}
-          <h4>Are you sure you would like to un-enroll?</h4>
-          <button
-            type="submit"
-            className="btn"
-            onClick={unregister}
-          >
-            Un-enroll
-          </button>
+        <h4>Are you sure you would like to un-enroll?</h4>
+        <button type="submit" className="btn" onClick={unregister}>
+          Un-enroll
+        </button>
 
-          <button type="button" className="btn cancel" onClick={closeConfirmation}>
-            Cancel
-          </button>
+        <button
+          type="button"
+          className="btn cancel"
+          onClick={closeConfirmation}
+        >
+          Cancel
+        </button>
         {/* </form> */}
       </div>
-
-      
 
       <div className="">
         <Calendar

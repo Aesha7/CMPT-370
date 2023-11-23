@@ -201,10 +201,14 @@ const ViewFamilySchedule = () => {
   const openConfirmationForm = (e) => {
     e.preventDefault();
     document.getElementById("confirmationForm").style.display = "block";
+    document.getElementById("overlay").style.display = "block";
+
   };
 
   const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
+    document.getElementById("overlay").style.display = "none";
+
   };
 
   const handleUserChange = (e) => {
@@ -237,7 +241,7 @@ const ViewFamilySchedule = () => {
       <div className="top-bar">
         Family Schedule
         <div className="allButtons">
-          <select className="top-bar-button" onChange={handleUserChange}>
+          <select className="childDropDown" onChange={handleUserChange}>
             {nameDropDowns}
           </select>
           <button className="top-bar-button" onClick={goBack}>
@@ -268,9 +272,10 @@ const ViewFamilySchedule = () => {
         </form>
       </div>
 
+      <div className="myForm-overlay" id="overlay"></div>
       <div className="confirm-form-popup" id="confirmationForm">
-        <h4>Are you sure you would like to un-enroll?</h4>
-        <button type="submit" className="btn" onClick={unregister}>
+        <h4 className="confirm-form-popup-header">Are you sure you would like to un-enroll?</h4>
+        <button type="" className="" onClick={unregister}>
           Un-enroll
         </button>
         <button

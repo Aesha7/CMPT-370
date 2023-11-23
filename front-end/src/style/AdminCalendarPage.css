@@ -23,11 +23,18 @@
     display: none;
     position: fixed;
     bottom: 0;
-    right: 15px;
+    right: 35vw;
+    bottom: 50vh;
     border: 3px solid #f1f1f1;
     z-index: 1000 !important;
     background-color: lightgray;
   }
+
+  .confirm-form-popup-header {
+    padding: 2vh
+  }
+
+  
 
 
   
