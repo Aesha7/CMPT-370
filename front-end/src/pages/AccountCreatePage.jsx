@@ -244,7 +244,7 @@ const AccountCreatePage = (props) => {
 
 
   return (
-    <div className="account-creation-page">CREATE ACCOUNT
+    <div className="account-creation-page">&nbsp;CREATE ACCOUNT
       {/* <div className="top-bar">Create Account</div> */}
 
       {/* <div className="account-create-container"> */}
