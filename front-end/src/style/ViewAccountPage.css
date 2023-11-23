@@ -50,12 +50,14 @@
 /* padding-left: 2vw; */
 /* background-color: #f5ecec; */
   z-index: 0;
+  padding-top: 2vh;
 }
 
 .rectangleTop{
   width: 100vw; 
   height: 18vh;
-  background-color: red;  
+  background-color: #2c3c4c;  
+  color: white;
   margin-top: -13.5vh;
   z-index: 0;
   /* position: absolute; */
@@ -63,8 +65,8 @@
 .rectangleButtons{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: red;  
-  color: #ddd; 
+  background-color: #2f2f2f;  
+  color: black; 
   margin-left: 1vw;
 
   z-index: 0s;
@@ -73,7 +75,7 @@
 .rectangleFamReg{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: red;  
+  background-color: #dbd9bf;  
   color: #ddd; 
   margin-top: 0vh;
   margin-left: 45.7vw;
@@ -83,17 +85,17 @@
 .rectangleFamInf{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: red;  
+  background-color: #dbd9bf;  
   color: #ddd; 
   margin-top: 0vh;
-  margin-left: 49vw;
+  margin-left: 52.1vw;
   z-index: 0s;
   position: absolute;
 }
 .rectangleMembers{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: #a39e9e;  
+  background-color: #d8d9d9;  
   color: #ddd; 
   margin-top: 0vh;
   margin-left: 15.5vw;
@@ -103,7 +105,7 @@
 .rectangleCurrent{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: #a39e9e;  
+  background-color: #6a6969;  
   color: #ddd; 
   margin-top: 0vh;
   margin-left: 60vw;
@@ -113,7 +115,7 @@
 .rectangleSubs{
   width: 0.25vw; 
   height: 84.4vh;
-  background-color: red;  
+  background-color: #d8d9d9;  
   color: #ddd; 
   margin-top: 0vh;
   margin-left: 85vw;
@@ -129,7 +131,7 @@
   /* background-color: #ddd; */
   position: absolute;
   width: 12vw;
-  margin-left: 23.3vw;
+  margin-left: 40%;
   margin-top: -13vh;
   /* padding-top: 1vh; */
   /* padding-bottom: 1vh; */
@@ -145,7 +147,7 @@
   /* background-color: white; */
   position: absolute;
   width: 25vw;
-  margin-left: 29vw;
+  margin-left: 46vw;
   margin-top: -13vh;
   /* padding-top: 1vh; */
   /* padding-bottom: 1vh; */
@@ -155,11 +157,11 @@
 .ownerELabel{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 4vh;
-  text-align: center;
+  text-align: left;
   /* background-color: #ddd; */
   position: absolute;
   width: 12vw;
-  margin-left: 20vw;
+  margin-left: 40%;
   margin-top: -8vh;
   /* padding-top: 1vh;
   padding-bottom: 1vh; */
@@ -174,7 +176,7 @@
   /* background-color: white; */
   position: absolute;
   width: 25vw;
-  margin-left: 30vw;
+  margin-left: 46vw;
   margin-top: -8vh;
   /* padding-top: 1vh;
   padding-bottom: 1vh; */
@@ -183,15 +185,15 @@
 
 .emailSubs{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 3vh;
-  font-weight: normal;
+  font-size: 2.7vh;
+  font-weight: bold;
   position: absolute;
   /* display: flex; */
   /* align-items: center; */
   text-align: center;
   /* flex-direction: row; */
   /* padding-bottom: 30px; */
-  background-color: red;
+  background-color: #7d8f97;
   /* padding-left: 0vw;
   padding-top: 2vh;
   padding-bottom: 2vh; */
@@ -203,7 +205,7 @@
   margin-top: 2vh;
 }
 .checklistPromotions {
-  background-color: red;
+  background-color: #7d8f97;
   display: block;
   position: absolute;
   padding-top: 1vh;
@@ -243,11 +245,11 @@
 }
 /* On mouse-over, add a grey background color */
 .checklistPromotions:hover input ~ .checkmarkPromotions {
-  background-color: darkgrey;
+  background-color: #0e3421;
 }
 /* When the checkbox is checked, add a blue background */
 .checklistPromotions input:checked ~ .checkmarkPromotions {
-  background-color: gray;
+  background-color: #34624d;
 }
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmarkPromotions:after {
@@ -274,7 +276,7 @@
 
 
 .checklistNews {
-  background-color: red;
+  background-color: #7d8f97;
   /* display: block; */
   position: absolute;
   padding-top: 1vh;
@@ -309,11 +311,11 @@
 }
 /* On mouse-over, add a grey background color */
 .checklistNews:hover input ~ .checkmarkNews {
-  background-color: darkgrey;
+  background-color: #0e3421;
 }
 /* When the checkbox is checked, add a blue background */
 .checklistNews input:checked ~ .checkmarkNews {
-  background-color: gray;
+  background-color: #34624d;
 }
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmarkNews:after {
@@ -353,13 +355,13 @@
 }
 
 .buttonSaveSubs{
-  width: 6vw;
-  height: 6vh;
+  width: 5vw;
+  height: 5vh;
   color: white;
-  background-color: red;
+  background-color: #e7bf6a;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 2.5vh;
-  font-weight: normal;
+  font-size: 2.1vh;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -369,20 +371,20 @@
   position: absolute;
 }
 .buttonSaveSubs:hover{
-  width: 6.5vw;
+  width: 5.5vw;
   /* height: 6.5vh; */
   /* color: black; */
-  background-color: #cf0202;
+  background-color: #b3975a;
 }
 
 .buttonLogout{
-  width: 6vw;
+  width: 7.5vw;
   height: 6vh;
   color: white;
-  background-color: red;
+  background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2.5vh;
-  font-weight: normal;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -392,20 +394,20 @@
   position: absolute;
 }
 .buttonLogout:hover{
-  width: 6.5vw;
+  width: 8vw;
   /* height: 6.5vh; */
   /* color: black; */
-  background-color: #cf0202;
+  background-color: #2c3c4c;
 }
 
 .buttonManAcc{
-  width: 6vw;
+  width: 7.5vw;
   height: 6vh;
   color: white;
-  background-color: red;
+  background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
-  font-weight: normal;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -417,19 +419,19 @@
   visibility: hidden;
 }
 .buttonManAcc:hover{
-  width: 6.5vw;
+  width: 8vw;
   /* height: 8vh; */
-  background-color: #cf0202;
+  background-color: #2c3c4c;
 }
 
 .buttonAdmCal{
-  width: 6vw;
+  width: 7.5vw;
   height: 6vh;
   color: white;
-  background-color: red;
+  background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
-  font-weight: normal;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -442,19 +444,19 @@
   /* display: none; */
 }
 .buttonAdmCal:hover{
-  width: 6.5vw;
+  width: 8vw;
   /* height: 8vh; */
-  background-color: #cf0202;
+  background-color: #2c3c4c;
 }
 
 .buttonStuList{
-  width: 6vw;
+  width: 7.5vw;
   height: 6vh;
   color: white;
-  background-color: red;
+  background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
-  font-weight: normal;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -467,20 +469,20 @@
   /* visibility: hidden; */
 }
 .buttonStuList:hover{
-  width: 6.5vw;
+  width: 8vw;
   /* height: 8vh; */
-  background-color: #cf0202;
+  background-color: #2c3c4c;
 }
 
 .buttonCoCal{
-  width: 6vw;
+  width: 7.5vw;
   height: 6vh;
   color: white;
   /* color:red; */
-  background-color: red;
+  background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
-  font-weight: normal;
+  font-weight: bold;
   z-index: 1;
   text-align: center;
   transition-duration: 0.2s;
@@ -492,9 +494,9 @@
   visibility: hidden;
 }
 .buttonCoCal:hover{
-  width: 6.5vw;
+  width: 8vw;
   /* height: 8vh; */
-  background-color: #cf0202;
+  background-color: #2c3c4c;
 }
 
 .view-account-column-entry .info-label {
@@ -507,16 +509,6 @@
   padding: 0.7vh;
   position: absolute;
   margin-left: 5.5vw;
-}
-
-.view-account-column-entry {
-  /* flex: 1; */
-  background-color: #a39e9e;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 5vh;
-  position: relative;
-  /* margin-top: 20vh; */
 }
 
 .account-label {
@@ -542,17 +534,37 @@
   /* margin-left: 20vw; */
 }
 
+.familyContainer{
+  position: absolute;
+  margin-top: 8.5vh;
+  margin-left: 13.5vw;
+}
+
+.family-member-row {
+  display: flex;
+  flex-direction: row; 
+  /* justify-content: space-between; */
+  align-items: center;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  background-color: #7d8f97;
+  margin-top: 2vh;
+  margin-left: 1.5vw;
+  width: 23vw;
+
+}
+
 .family-bar{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 2.5vh;
-  font-weight: normal;
+  font-size: 2.7vh;
+  font-weight: bold;
   position: absolute;
   /* display: flex; */
   /* align-items: center; */
   text-align: center;
   /* flex-direction: row; */
   /* padding-bottom: 30px; */
-  background-color: #a39e9e;
+  background-color: #7d8f97;
   /* padding-left: 0vw;
   padding-top: 2vh;
   padding-bottom: 2vh; */
@@ -569,12 +581,12 @@
 .family-button{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   height: 6vh;
-  width: 6vw;
+  width: 7.5vw;
   text-align: center;
   font-size: 2.1vh;
-  font-weight: normal;
+  font-weight: bold;
   transition-duration: 0.4s;
-  background-color: red;
+  background-color: #4b7588;
   border: 2px solid transparent;
   color: white;
   /* margin: auto; */
@@ -591,9 +603,9 @@
 
   text-align: center;
   font-size: 2vh;
-  font-weight: normal;
+  font-weight: bold;
   transition-duration: 0.4s;
-  background-color: red;
+  background-color: #4b7588;
   border: 2px solid transparent;
   color: white;
   /* margin: auto; */
@@ -601,7 +613,7 @@
   margin-left: 0.5vw;
   margin-top: 18vh;
   height: 6vh;
-  width: 6vw;
+  width: 7.5vw;
   /* padding-top: 1vh;
   padding-bottom: 1vh;
   padding-left: 1vw;
@@ -609,14 +621,14 @@
 }
 
 .family-button:hover{
-  background-color: #cf0202;
-  width: 6.5vw;
+  background-color: #2c3c4c;
+  width: 8vw;
   /* color: white; */
   /* padding-left: 4.5vw; */
 }
 .schedule-button:hover {
-  background-color: #cf0202;
-  width:6.5vw;
+  background-color: #2c3c4c;
+  width: 8vw;
 }
 
 /* .heading{
@@ -629,7 +641,7 @@
   
 } */
 .headingCurrMem{
-  font-size: 2.5vh;
+  font-size: 2.7vh;
   font-weight: bold;
   /* margin-left: 0px; */
   /* float: left; */
@@ -638,24 +650,24 @@
   /* background-color: orange; */
 }
 
-.familyContainer{
-  position: absolute;
-  margin-top: 8.5vh;
-  margin-left: 13.5vw;
+.level-button{
+  display: flex;  /* Use flex display to make children (words) side by side */
+  align-items: center;  /* Align items vertically in the center */
+  padding: 1vh 1vw;
+  text-align: center;
+  font-size: 2.1vh;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #cece42;
+  border: 2px solid transparent;
+  color: white;
+  margin-right: 1vw; /* Adjust the spacing between buttons as needed */
 }
 
-.family-member-row {
-  display: flex;
-  flex-direction: row; 
-  /* justify-content: space-between; */
-  align-items: center;
-  padding-top: 2vh;
-  padding-bottom: 2vh;
-  background-color: #a39e9e;
-  margin-top: 2vh;
-  margin-left: 1.5vw;
-  width: 23vw;
-
+.level-button:hover {
+  padding-right: 1.5vw;
+  /* margin-left: 24.5vw; */
+  background-color: #a2a24d;
 }
 
 .register-button{
@@ -667,7 +679,7 @@
   font-size: 2.1vh;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: red;
+  background-color: #5ba996;
   border: 2px solid transparent;
   color: white;
   /* margin-top: 10vh; */
@@ -678,7 +690,30 @@
 .register-button:hover {
   padding-right: 1.5vw;
   margin-left: 24.5vw;
-  background-color: #cf0202;
+  background-color: #4c786d;
+}
+
+.info-button{
+  padding-left: 1vw;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
+  padding-right: 1vw;
+  text-align: center;
+  font-size: 2.1vh;
+  font-weight: bold;
+  transition-duration: 0.4s;
+  background-color: #db936f;
+  border: 2px solid transparent;
+  color: white;
+  /* margin-top: 10vh; */
+  margin-left: 33.7vw;
+  position: absolute;
+}
+
+.info-button:hover {
+  padding-right: 1.5vw;
+  margin-left: 33.2vw;
+  background-color: #a9745a;
 }
 
 .family-member-name {
@@ -690,27 +725,14 @@
   /* background-color: #ddd; */
 }
 
-.info-button{
-  /* padding: 10px 25px; */
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw;
-  text-align: center;
-  font-size: 2.2vh;
-  font-weight: bold;
-  transition-duration: 0.4s;
-  background-color: red;
-  border: 2px solid transparent;
-  color: white;
-  margin-left: 33.7vw;
-  position: absolute;
-}
-
-.info-button:hover {
-  padding-left: 1.5vw;
-  margin-left: 35.5;
-  background-color: #cf0202;
+.view-account-column-entry {
+  /* flex: 1; */
+  background-color: #a48c7c;
+  display: flex;
+  /* flex-direction: column; */
+  margin-bottom: 5vh;
+  position: relative;
+  /* margin-top: 20vh; */
 }
 
 .currentMemberPanel {
@@ -718,8 +740,8 @@
   padding-bottom: 2vh;
   padding-left: 2vw;
   padding-right: 5vw;
-  background-color: #a39e9e;
-  margin-top: 20vh;
+  background-color: #a48c7c;
+  margin-top: 2vh;
   margin-left: 59.5vw;
   position: absolute;
   
@@ -750,7 +772,7 @@
   font-size: 2vh;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: red;
+  background-color: #e7bf6a;
   border: 2px transparent;
   color: white;
   width: 5vw;
@@ -758,7 +780,7 @@
 }
 
 .edit-button:hover {
-  background-color: #cf0202;
+  background-color: #b3975a;
   color: white;
 }
 
@@ -768,7 +790,7 @@
   font-size: 2vh;
   font-weight: bold;
   transition-duration: 0.4s;
-  background-color: red;
+  background-color: #e7bf6a;
   border: 2px transparent;
   color: white;
   margin-left: 1vw;
@@ -782,7 +804,7 @@
 
 }
 .save-button:hover {
-  background-color: #cf0202;
+  background-color: #b3975a;
   /* height: 4.5vh; */
   color: white;
 }
@@ -995,3 +1017,4 @@
     justify-content: center;
   } */
 /* } */
+
