@@ -43,7 +43,33 @@ def update_skill_template(request_data, templates_collection, accounts_collectio
                                             {"$set":{"users.$.skills" : updated_skills}})
     return resp
 
+def get_skills(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
 
+    # Check account credentials
+    account= accounts_collection.find_one({"email": request_data["email"]})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found (from email)")
+        return resp
+    if not ((account["_id"]==ObjectId(request_data["_id"]))): # If user's _id doesn't match requested account's id 
+        x = accounts_collection.find_one({"_id":ObjectId(request_data["_id"])})
+        if not x:
+            resp.status_code=400
+            resp.data=dumps("Error: account not found (from _id)")
+            return resp
+        if not (x["staffLevel"] > 0):
+            resp.status_code=400
+            resp.data=dumps("Error: you do not have permission to perform this action")
+            return resp
+    
+    dict = {}
+    for user in account["users"]:
+        dict[user["name"]]=user["skills"]
+    resp.data=dumps(dict)
+    return resp
+    
 
     
 

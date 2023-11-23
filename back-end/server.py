@@ -607,6 +607,21 @@ def UpdateSkillTemplates():
     """
     return sk.update_skill_template(request.get_json(), templates_collection, accounts_collection)
 
+@app.route('/get_skills', methods=["POST"])
+@cross_origin(origins="*")
+def GetSkills():
+    """Retrieves the skills of all users, in format {<user1's name>:<skill object>,...}
+    Required request parameters: email, _id
+    The method is allowed if the account of the _id is a staff account or if the _id matches the _id of email's account (i.e. customers can see their own family's skills, but not anyone else's)
+
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action
+        "Error: account not found (from _id)"
+        "Error: account not found (from email)"
+    """
+    return sk.get_skills(request.get_json(), accounts_collection)
+
 @app.route("/test_delete", methods=["POST"])
 @cross_origin(origins="*")
 def TestDelete():
