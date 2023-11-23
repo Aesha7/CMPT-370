@@ -156,7 +156,7 @@ const AccountView = () => {
             Info
           </button>
           <button
-
+            className="level-button"
             value={j}
             type="button"
             onClick={goToLevelInfo}
@@ -408,7 +408,7 @@ const AccountView = () => {
 
   return (
     <div className="view-account-page">
-      My Account
+      &nbsp;&nbsp;MY ACCOUNT
       <div class="rectangleTop"></div>
       <div class="rectangleButtons"></div>
       <div class="rectangleFamReg"></div>
@@ -450,7 +450,7 @@ const AccountView = () => {
         <div className="edit-family-info">
           <div className="view-account-column-entry">
             <label className="headingCurrMem" htmlFor="family">
-              Current Member Info:
+              Current Member Info
             </label>
           </div>
 
