@@ -305,6 +305,8 @@ const AccountView = () => {
       }
       setCurrentName(changedName);
       document.getElementById("edit-name").disabled = true;
+      document.getElementById("edit-name").value = "";
+
 
       // updating data
       get_account_info();
