@@ -156,8 +156,19 @@
       text-align: center;
     }
 
+
+
     .info-data-label{
       color: rgb(100, 100, 100, 99);
-      text-indent: 20px;
-      padding: 0px
+      /* text-indent: 20px; */
+      font-weight: normal;
+    }
+
+    .event-info-label{
+      /* text-indent: 20px; */
+    }
+
+    .info-text-div{
+      margin-left: 10px;
+      margin-right: 10px;
     }

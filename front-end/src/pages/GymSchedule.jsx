@@ -116,7 +116,12 @@ const GymSchedule = () => {
           // Parse the text as JSON
           const data = JSON.parse(text);
           setUsers(data.users);
-          setCurUser(data.users[0]);
+          // set cur user to corresponding curUserName
+          data.users.forEach(user =>{
+            if(user.name == curUserName){
+              setCurUser(user);
+            }
+          })
         });
     } catch (error) {
       console.log(error);
@@ -229,8 +234,7 @@ const GymSchedule = () => {
   const openForm = () => {
     document.getElementById("myForm-overlay").style.display = "block";
     let enrolledList = currentEvent.enrolled.map(a => a.name)
-    console.log(enrolledList)
-    console.log(curUser.name)
+
 
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -312,8 +316,6 @@ const GymSchedule = () => {
     get_db_events();
   };
 
-  console.log(curUser)
-
   return (
     <div className="view-gym-schedule">
       <div className="top-bar">&nbsp;&nbsp;GYM SCHEDULE
@@ -345,19 +347,21 @@ const GymSchedule = () => {
 
       <div className="form-popup" id="myForm">
         <form className="form-container">
-          <h4 className="info-name-label">{curUser.name}</h4>
-          <label for="title">
-            <b>Title</b>
-          </label>
-          <h5 className="info-data-label" id="eventTitle">{currentEvent.name}</h5>
+          <div className="info-text-div">
+            <h4 className="info-name-label">{curUser.name}</h4>
+            <label for="title" className="event-info-label">
+              <b>Title</b>
+            </label>
+            <h5 className="info-data-label" id="eventTitle">{currentEvent.name}</h5>
 
-          <label for="desc">
-            <b>Description</b>
-          </label>
+            <label for="desc" className="event-info-label">
+              <b>Description</b>
+            </label>
 
-          <h5 className="info-data-label" id="eventDescription">{currentEvent.desc}</h5>
+            <h5 className="info-data-label" id="eventDescription">{currentEvent.desc}</h5>
 
-          <h5 className="info-data-label" id="registrationChecker"></h5>
+            <h5 className="info-data-label" id="registrationChecker" style={{color: "black"}}></h5>
+          </div>
 
           <button
             type="submit"
