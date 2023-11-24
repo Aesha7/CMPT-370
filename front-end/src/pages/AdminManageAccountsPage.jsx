@@ -13,6 +13,8 @@ const AdminManageAccountsPage = () => {
 
   let userEmail;
 
+  let accountRenders;
+
   const modifyAccountsStaff = () => {
     try {
       fetch(server_URL + "change_staff_level", {
@@ -172,8 +174,38 @@ const AdminManageAccountsPage = () => {
     }
   };
 
+
+  const getAccountRenders = () =>{
+    let j = -1;
+    accountRenders = users.map(function (user) {
+      j++;
+      let childIndex = -1;
+      let innerAccountRenders = user.users.map(function (child) {
+        childIndex++;
+        if(childIndex > 0){
+          return (
+          <div className="family-member-row">
+            <label>{child.name}</label>
+            <button value={childIndex}>info</button>
+          </div>
+          );
+        } else{
+          return null;
+        }
+      })
+
+      return(
+        <div className="family-member-row">
+          <label>{user.users[0].name}</label>
+          <button>info</button>
+          <div>{innerAccountRenders}</div>
+        </div>
+      );
+    })
+  }
+
   // users is set
-  console.log(users)
+  getAccountRenders()
   return (
     <div className="admin-page">
       <div className="top-bar">
@@ -187,6 +219,8 @@ const AdminManageAccountsPage = () => {
       <div className="overlay" id="overlay">
         YOU DO NOT HAVE ACCESS TO THIS PAGE!
       </div>
+
+      <div>{accountRenders}</div>
     </div>
   );
 };
