@@ -120,10 +120,11 @@ const AccountView = () => {
    * Display info for current user (parent or child)
    */
   const displayInfo = (e) => {
-    setCurrentUserIndex(e.target.value);
-    setCurrentName(users[e.target.value].name);
-    setCurrentBirthday(users[e.target.value].birthday);
-    setCurrentLevel(users[e.target.value].level);
+    let index = e.target.value
+    setCurrentUserIndex(index);
+    setCurrentName(users[index].name);
+    setCurrentBirthday(users[index].birthday);
+    setCurrentLevel(users[index].level);
     };
 
   /**
