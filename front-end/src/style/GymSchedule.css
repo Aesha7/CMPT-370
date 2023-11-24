@@ -151,3 +151,13 @@
     .confirm-form-popup .cancel:hover {
       background-color: #a9745a;
     }
+
+    .info-name-label{
+      text-align: center;
+    }
+
+    .info-data-label{
+      color: rgb(100, 100, 100, 99);
+      text-indent: 20px;
+      padding: 0px
+    }

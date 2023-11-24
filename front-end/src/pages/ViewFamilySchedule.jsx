@@ -78,6 +78,7 @@ const ViewFamilySchedule = () => {
           return response.text();
         })
         .then((text) => {
+          console.log(curUser)
           const data = JSON.parse(text);
           let tempEvents = [];
           data.forEach((event) => {
@@ -185,6 +186,7 @@ const ViewFamilySchedule = () => {
   };
 
   const openForm = () => {
+    console.log(curUser.name)
     document.getElementById("myForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -203,18 +205,19 @@ const ViewFamilySchedule = () => {
   const openConfirmationForm = (e) => {
     e.preventDefault();
     document.getElementById("confirmationForm").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
 
   };
 
   const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
 
   };
 
   const handleUserChange = (e) => {
     curUser = users[e.target.value];
+    setCurUser(users[e.target.value])
     get_user_events();
   };
 
@@ -253,16 +256,19 @@ const ViewFamilySchedule = () => {
 
       <div className="form-popup" id="myForm">
         <form className="form-container">
+
+          <h4 className="info-name-label">{curUser.name}</h4>
+
           <label for="title">
             <b>Title</b>
           </label>
-          <h5 id="eventTitle">{currentEvent.name}</h5>
+          <h5 className="info-data-label" id="eventTitle">{currentEvent.name}</h5>
 
           <label for="desc">
             <b>Description</b>
           </label>
 
-          <h5 id="eventDescription">{currentEvent.desc}</h5>
+          <h5 className="info-data-label" id="eventDescription">{currentEvent.desc}</h5>
 
           <button type="submit" className="btn" onClick={openConfirmationForm}>
             Un-Register
@@ -277,7 +283,7 @@ const ViewFamilySchedule = () => {
 
       <div className="confirm-form-popup" id="confirmationForm">
         <h4 className="confirm-form-popup-header">Are you sure you would like to un-enroll?</h4>
-        <button type="" className="" onClick={unregister}>
+        <button type="" className="btn" onClick={unregister}>
           Un-enroll
         </button>
         <button

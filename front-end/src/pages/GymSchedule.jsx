@@ -308,16 +308,17 @@ const GymSchedule = () => {
   // handling the filter
   const handleFilter = (e) => {
     e.preventDefault();
-    // setFilter(e.target.value)
     filter = e.target.value;
     get_db_events();
   };
+
+  console.log(curUser)
 
   return (
     <div className="view-gym-schedule">
       <div className="top-bar">&nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
-        {/* dropdown of children names (does nothing right now)*/}
+        {/* dropdown of children names*/}
         <select
           className="top-bar-buttons"
           id="childDropDown"
@@ -344,19 +345,19 @@ const GymSchedule = () => {
 
       <div className="form-popup" id="myForm">
         <form className="form-container">
-          <h4>{curUser.name}</h4>
+          <h4 className="info-name-label">{curUser.name}</h4>
           <label for="title">
             <b>Title</b>
           </label>
-          <h5 id="eventTitle">{currentEvent.name}</h5>
+          <h5 className="info-data-label" id="eventTitle">{currentEvent.name}</h5>
 
           <label for="desc">
             <b>Description</b>
           </label>
 
-          <h5 id="eventDescription">{currentEvent.desc}</h5>
+          <h5 className="info-data-label" id="eventDescription">{currentEvent.desc}</h5>
 
-          <h5 id="registrationChecker"></h5>
+          <h5 className="info-data-label" id="registrationChecker"></h5>
 
           <button
             type="submit"
