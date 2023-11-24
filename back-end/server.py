@@ -15,6 +15,8 @@ import db_accounts as ac
 import db_events as ev
 import db_admin as ad
 import internal as internal
+import db_testing as TESTING
+import db_skills as sk
 # from flask_login import UserMixin
 # from passlib.hash import sha256_crypt
 
@@ -36,8 +38,11 @@ except Exception as e:
 db = client.CMPT370_Team25
 my_collection = db["db_1"]
 accounts_collection = db["accounts_collection"]
+#accounts_collection = db["test_accounts"] # Used for testing; clear after use, leave only admin@admin.com
+testing_accounts_collection = db["test_accounts"] #same as above, used for test methods that should never affect main collection
 events_collection = db["events_collection"]
 courses_collection = db["courses_collection"]
+templates_collection =db["templates"]
 
 app = Flask(__name__)
 CORS(app)
@@ -585,12 +590,63 @@ def ChangeLevel():
     """
     return ad.change_level(request.get_json(),accounts_collection)
 
+@app.route('/update_skills_templates', methods=["POST"])
+@cross_origin(origins="*")
+def UpdateSkillTemplates():
+    """Updates all users to have a skill list matching the skill template stored in the database. 
+    If user already has a skill on their list, keeps it
+    If user did not already have a skill on their list, adds it
+    If user has a skill that's not in the template (based on name), deletes it 
+    You should call this method through Postman once if you update the skills list template.
+    Required request arguments: _id (requires staff level >0)
+
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action
+        "Error: admin account not found"
+    """
+    return sk.update_skill_template(request.get_json(), templates_collection, accounts_collection)
+
+@app.route('/get_skills', methods=["POST"])
+@cross_origin(origins="*")
+def GetSkills():
+    """Retrieves the skills of all users, in format {<user1's name>:<skill object>,...}
+    Required request parameters: email, _id
+    The method is allowed if the account of the _id is a staff account or if the _id matches the _id of email's account (i.e. customers can see their own family's skills, but not anyone else's)
+
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action
+        "Error: account not found (from _id)"
+        "Error: account not found (from email)"
+    """
+    return sk.get_skills(request.get_json(), accounts_collection)
+
 @app.route("/test_delete", methods=["POST"])
 @cross_origin(origins="*")
 def TestDelete():
     #TODO: testing in progress
     return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+#
+#
+#TODO: TESTING, remove for production
+@app.route("/test_add_admin", methods=["POST"])
+@cross_origin(origins="*")
+def TestAddAdmin():
+    return TESTING.add_admin(testing_accounts_collection)
+
+@app.route("/test_add_skill_account", methods=["POST"])
+@cross_origin(origins="*")
+def TestAddSkillsAccount():
+    return TESTING.add_skill_test_account(testing_accounts_collection)
+
+@app.route("/test_clear_collection", methods=["POST"])
+@cross_origin(origins="*")
+def TestClearCollection():
+    return TESTING.clear_collection(testing_accounts_collection)
 
 def _corsify(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -602,6 +658,8 @@ def _build_cors_preflight_response():
     response.headers.add('Access-Control-Allow-Headers', "*")
     response.headers.add('Access-Control-Allow-Methods', "*")
     return response
+
+
 
 if(__name__ == "__main__"):
     app.run(debug=True)
