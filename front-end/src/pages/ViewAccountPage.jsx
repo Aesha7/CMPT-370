@@ -521,12 +521,12 @@ const AccountView = () => {
         <div className="add-family-popup" id="myForm">
           <form className="family-form-container">
             <label className="add-family-label-name" htmlFor="name">
-            <b>Name</b>
+            <b>Name:</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
             <label className="add-family-label-bday" htmlFor="birthday">
-              <b>Birthday</b>
+              <b>Birthday:</b>
             </label>
             <DatePicker
               className="custom-datepicker-addFamily"

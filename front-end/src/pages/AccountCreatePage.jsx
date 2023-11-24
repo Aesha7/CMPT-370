@@ -288,7 +288,7 @@ const AccountCreatePage = (props) => {
               <div class="trianglePhone"></div>
               <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123) 456 7890"/>
             </div>
-
+            
             <div className="entryBirthday">
               <button onClick={null} className="labelBirthday" type="button">Birthday:</button> 
               <div class="triangleBirthday"></div>
