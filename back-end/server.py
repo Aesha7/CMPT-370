@@ -622,9 +622,9 @@ def GetSkills():
     """
     return sk.get_skills(request.get_json(), accounts_collection)
 
-@app.route('/toggle_skill', methods=["POST"])
+@app.route('/toggle_skills', methods=["POST"])
 @cross_origin(origins="*")
-def ToggleSkill():
+def ToggleSkills():
     """Toggles whether or not a user's skill is checked. 
     Required request parameters: email, _id, user_name, toggle_list 
     toggle_list is a [list] of skill names (strings) that should be toggled
@@ -635,7 +635,7 @@ def ToggleSkill():
         "Error: account not found" #This can happen if the user isn't in the account
         "Error: admin account not found"
     """
-    return sk.toggle_skill(request.get_json(), accounts_collection)
+    return sk.toggle_skills(request.get_json(), accounts_collection)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #

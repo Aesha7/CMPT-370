@@ -70,7 +70,7 @@ def get_skills(request_data, accounts_collection):
     resp.data=dumps(dict)
     return resp
     
-def toggle_skill(request_data, accounts_collection):
+def toggle_skills(request_data, accounts_collection):
     resp = Response()
     resp.headers['Access-Control-Allow-Headers']="*"
 
