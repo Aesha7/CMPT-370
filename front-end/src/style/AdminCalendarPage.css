@@ -68,6 +68,8 @@
     border: 2px solid gray;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 999; 
+    overflow-y: scroll;
+    height: 90vh
   }
   
   /* When the inputs get focus, do something */

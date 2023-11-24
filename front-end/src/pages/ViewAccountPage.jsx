@@ -470,14 +470,7 @@ const AccountView = () => {
       >
         Admin Calendar
       </button>
-      {/* <button
-        className="buttonStuList"
-        htmlFor="studentsList"
-        id="studentsList"
-        onClick={studentsListPageRoute}
-      >
-        Students List
-      </button> */}
+
       <button
         className="buttonCoCal"
         htmlFor="coachCalendar"
