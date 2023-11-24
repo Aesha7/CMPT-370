@@ -78,8 +78,6 @@ const AdminManageAccountsPage = () => {
           .then((text) => {
             // Parse the text as JSON
             const data = JSON.parse(text);
-            console.log(data)
-
             setStaffLevel(data.staffLevel)
             })
         } catch (error) {
@@ -115,7 +113,6 @@ const AdminManageAccountsPage = () => {
           return response.text()
         }).then((text) => {
           const data = JSON.parse(text);
-          // console.log(data)
           data.forEach((event) => {
             let email = event.email;
             let staffLevel = event.staffLevel;

@@ -22,7 +22,7 @@ const UserLevelPage = () => {
 
       
     useEffect(() =>{
-        console.log(userID, userName)
+        // console.log(userID, userName)
     }, [])
 
 

@@ -63,7 +63,6 @@ const ViewFamilySchedule = () => {
    */
   const get_user_events = () => {
     // getting the events
-    console.log(curUser.name);
     try {
       fetch(server_URL + "retrieve_courses", {
         method: "POST",

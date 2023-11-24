@@ -277,7 +277,6 @@ const AdminCalendarPage = () => {
   const openEventInfoForm = (calEvent) => {
     // setting html for event info & displaying the form
 
-    console.log(calEvent)
     document.getElementById("clickInformation").style.display = "block";
     document.getElementById("eventTitle").innerHTML = calEvent.name;
     if(calEvent.desc == ""){
