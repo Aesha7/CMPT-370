@@ -147,7 +147,7 @@ const forgotPasswordDummy = (e) => {
   return (
 
     
-    <div className="home-page">EMPIRE PARKOUR
+    <div className="home-page">&nbsp;EMPIRE PARKOUR
       
         <form>
             <div className="emailLine">
