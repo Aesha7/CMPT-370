@@ -296,6 +296,7 @@ const AccountCreatePage = (props) => {
               
             <DatePicker
               className="custom-datepicker-createAccount"
+              showPopperArrow={false}
               selected={date}
               onChange={handleBirthDay}
               dateFormat="MM/dd/yyyy"

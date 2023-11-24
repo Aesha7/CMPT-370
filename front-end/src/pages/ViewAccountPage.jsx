@@ -576,6 +576,7 @@ const AccountView = () => {
             </label>
             <DatePicker
               className="custom-datepicker-addFamily"
+              showPopperArrow={false}
               selected={newBirthday}
               onChange={handleNewBirthday}
               dateFormat="MM/dd/yyyy"
@@ -586,6 +587,19 @@ const AccountView = () => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
+
+              popperPlacement="top-start"
+              popperModifiers={{
+                offset: {
+                  enabled: true,
+                  offset: [20, 20]
+                },
+                preventOverflow: {
+                  enabled: true,
+                  escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                  boundariesElement: 'viewport'
+                }
+              }}
             />
             <button
               type="submit"
