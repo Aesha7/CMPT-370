@@ -139,7 +139,7 @@ const AdminManageAccountsPage = () => {
     return (
     <div className="admin-page">
       <div className="top-bar">
-        Manage Accounts
+        &nbsp;&nbsp;MANAGE ACCOUNTS
         <div className="allButtons">
         <button className="top-bar-button" onClick={goBack}>Back</button>
         </div>

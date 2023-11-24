@@ -211,10 +211,10 @@ const AccountView = () => {
   /**
    * page route to coaches students list
    */
-  const studentsListPageRoute = () => {
-    let path = "/students-list";
-    navigate(path, { state: userID });
-  };
+  // const studentsListPageRoute = () => {
+  //   let path = "/students-list";
+  //   navigate(path, { state: userID });
+  // };
 
   // handles news checkbox
   const handleNewsChange = () => {
@@ -401,7 +401,7 @@ const AccountView = () => {
 
   // check if user account is coach
   if (staffLevel >= 1) {
-    document.getElementById("studentsList").style.visibility = "visible";
+    // document.getElementById("studentsList").style.visibility = "visible";
     document.getElementById("coachCalendar").style.visibility = "visible";
   }
 
@@ -472,14 +472,7 @@ const AccountView = () => {
       >
         Admin Calendar
       </button>
-      <button
-        className="buttonStuList"
-        htmlFor="studentsList"
-        id="studentsList"
-        onClick={studentsListPageRoute}
-      >
-        Students List
-      </button>
+
       <button
         className="buttonCoCal"
         htmlFor="coachCalendar"
@@ -574,12 +567,12 @@ const AccountView = () => {
         <div className="add-family-popup" id="myForm">
           <form className="family-form-container">
             <label className="add-family-label-name" htmlFor="name">
-              <b>Name</b>
+            <b>Name:</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
             <label className="add-family-label-bday" htmlFor="birthday">
-              <b>Birthday</b>
+              <b>Birthday:</b>
             </label>
             <DatePicker
               className="custom-datepicker-addFamily"

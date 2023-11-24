@@ -214,7 +214,7 @@ const CoachCalendarPage = () => {
 
     <div className="coach-calendar">
     <div className="top-bar">
-      Gym Schedule
+      &nbsp;&nbsp;GYM SCHEDULE
       <div className="allButtons">
       <button className="top-bar-button" onClick={goBack}>Back</button>
       </div>
@@ -241,14 +241,16 @@ const CoachCalendarPage = () => {
               border: "none",
             };
 
-            /// setting event colours depending on level
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
 
             return { className: "", style: newStyle };

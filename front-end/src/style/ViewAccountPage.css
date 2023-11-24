@@ -1,5 +1,5 @@
 
-.top-bar  {
+/* .top-bar  {
   background-color: gray;
   color: white;
 
@@ -33,7 +33,7 @@
   background-color: white;
   color: black;
 }
-
+ */
 
 
 
@@ -383,7 +383,7 @@
   color: white;
   background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 2.5vh;
+  font-size: 2.4vh;
   font-weight: bold;
   z-index: 1;
   text-align: center;
@@ -413,10 +413,10 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 42vh;
+  margin-top: 34vh;
   position: absolute;
-
   visibility: hidden;
+
 }
 .buttonManAcc:hover{
   width: 8vw;
@@ -425,6 +425,7 @@
 }
 
 .buttonAdmCal{
+
   width: 7.5vw;
   height: 6vh;
   color: white;
@@ -437,12 +438,11 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 50vh;
+  margin-top: 42vh;
   position: absolute;
-
   visibility: hidden;
-  /* display: none; */
 }
+
 .buttonAdmCal:hover{
   width: 8vw;
   /* height: 8vh; */
@@ -478,7 +478,6 @@
   width: 7.5vw;
   height: 6vh;
   color: white;
-  /* color:red; */
   background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
@@ -488,9 +487,8 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 34vh;
+  margin-top: 26vh;
   position: absolute;
-  
   visibility: hidden;
 }
 .buttonCoCal:hover{
@@ -776,7 +774,7 @@
   border: 2px transparent;
   color: white;
   width: 5vw;
-  height: 4vh;
+  height: 5vh;
 }
 
 .edit-button:hover {
@@ -793,9 +791,10 @@
   background-color: #e7bf6a;
   border: 2px transparent;
   color: white;
-  margin-left: 1vw;
+  margin-left: 2vw;
+  margin-right: -1vw;
   width:5vw;
-  height:4vh;
+  height:5vh;
   /* position: absolute; */
   /* padding-top: 1vh;
   padding-bottom: 1vh;
@@ -855,18 +854,17 @@
   background-color: rgba(114, 114, 114, 0.925);
   z-index: 2;
 }
-
 .add-family-popup {
-  /* display: flex;
-  flex-direction: row; 
-  justify-content: space-between;
-  align-items: center; */
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%); 
   display: none;
   position: fixed;
   bottom: 0;
-  width:30vw;
+  width: 30vw;
   height: 30vh;
-  border: 3px solid red;
+  padding: 30px;
+  border: 3px solid #2c3c4c;
   background-color: white;  
   z-index: 9;
 }
@@ -888,15 +886,14 @@
   /* max-width: 90%; */
   border: none;
   background-color: white;
-  border: 2px solid red;
+  border: 2px solid #2c3c4c;
   position: absolute;
   margin-top: 2.7vh;
   margin-left: 7vw;
-  width: 16.2vw;
+  width: 19.2vw;
   height: 5vh;
   z-index: 9;
 }
-
 
 
 .add-family-label-name{
@@ -920,9 +917,9 @@
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   transition-duration: 0.4s;
   text-align: center;
-  font-size: 2.1vh;
-  font-weight: normal;
-  background-color: red;
+  font-size: 2vh;
+  font-weight: bold;
+  background-color: #e7bf6a;
   color: white;
   /* padding: 16px 20px; */
   border: none;
@@ -937,8 +934,8 @@
   z-index: 10;
 }
 .btn-sub:hover{
-  width:10.5vw;
-  background-color: #cf0202;
+  /* width:10.5vw; */
+  background-color: #b3975a;
 }
 
 
@@ -946,10 +943,10 @@
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   transition-duration: 0.4s;
   text-align: center;
-  font-size: 2.1vh;
-  font-weight: normal;
+  font-size: 2vh;
+  font-weight: bold;
   color: white;
-  background-color: red;
+  background-color: #e7bf6a;
   border: none;
   position: absolute;
   z-index: 10;
@@ -959,9 +956,10 @@
   height: 5vh;
 }
 .btn-cancel:hover{
-  width:10.5vw;
-  background-color: #cf0202;
+  /* width:10.5vw; */
+  background-color: #b3975a;
 }
+
 
 .custom-datepicker-addFamily{
   padding: 1.5vh 3.25vw;
@@ -978,6 +976,7 @@
   /* width: 60%; */
   height:2vh;
   position: absolute;
+  width: 13vw;
 }
 
 .custom-datepicker-addFamily:hover{
@@ -986,6 +985,7 @@
   cursor: pointer
 
 }
+
 
 
 /* Media query for smaller screens */

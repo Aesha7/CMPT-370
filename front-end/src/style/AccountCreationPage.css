@@ -78,7 +78,7 @@
 .custom-datepicker-createAccount:hover{
   background-color: #ddd;
   border: 2px solid darkgray;
-  cursor: pointer
+  cursor: pointer;
 }
 
 /* puts popup on top of layout */

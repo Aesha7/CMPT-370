@@ -1,6 +1,6 @@
-.admin-shedule{
+/* .admin-shedule{
     font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 /* .gym-schedule-top-bar {
     background-color: gray;
@@ -11,7 +11,7 @@
     font-weight: bolder;
   } */
 
-.childDropDown{
+/* .childDropDown{
     padding: 10px 10px;
     text-align: center;
     font-size: 15px;
@@ -25,7 +25,7 @@
     margin-right: 0px;
     margin-left: 10px;
     float: right;
-}
+} */
 
 /* .gym-top-bar-button {
     padding: 15px 32px;
@@ -47,3 +47,107 @@
     background-color: white;
     color: black;
   } */
+
+  .top-bar  {
+    background-color: #2c3c4c;
+    color: white;
+    text-align: left;
+    font-size: 8vh;
+    font-weight: normal;
+    align-items: center;
+    display: flex;
+    padding-top: 3vh;
+    width: 100vw; 
+    height: 18vh;
+    z-index: 0;
+    margin-top: -5vh;
+  }
+  
+  .top-bar .allButtons{
+    position: absolute;
+    right: 0;
+    gap: 30px;
+    display: flex;
+    margin: 30px;
+  }
+  
+  .top-bar .top-bar-button{
+    /* padding: 10px 25px; */
+    text-align: center;
+    font-size: 2.5vh;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: #b8b843;
+    border: 2px transparent;
+    color: white;
+    width: 7.5vw;
+    height: 6vh;
+  }
+  
+  .top-bar .top-bar-button:hover {
+    background-color: #878735;
+    color: white;
+  }
+
+  .top-bar .top-bar-buttons{
+    /* padding: 10px 25px; */
+    text-align: center;
+    font-size: 2.5vh;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: #7d8f97;
+    border: 2px transparent;
+    color: white;
+    width: 7.5vw;
+    height: 6vh;
+    right: 0;
+  }
+  
+  .top-bar .top-bar-buttons:hover {
+    background-color: #667378;
+    color: white;
+  }
+
+  .confirm-form-popup {
+    display: none;
+    position: fixed;
+    border: 3px solid #acaeae;
+    z-index: 1000 !important;
+    background-color: #dfdfdf;
+    width: 25vw;
+    text-align: center;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+  }
+  
+    .confirm-form-popup .btn {
+      font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: bold;
+      font-size: 2.1vh;
+      background-color: #5ba996;
+      color: white;
+      width: 7.5vw;
+      height: 6vh;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 3vh;
+      margin-top: 2vh;
+      opacity: 1;
+      margin-left: 3vw;
+    }
+  
+    .confirm-form-popup .btn:hover {
+      background-color: #4c786d;
+    }
+  
+  
+    /* Add a red background color to the cancel button */
+  .confirm-form-popup .cancel {
+      background-color: #db936f;
+      margin-right: 3vw;
+    }
+  
+    .confirm-form-popup .cancel:hover {
+      background-color: #a9745a;
+    }
