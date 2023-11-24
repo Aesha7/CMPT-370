@@ -568,6 +568,21 @@ def GetAllAccounts():
     """
     return ad.get_all_accounts(request.get_json(),accounts_collection)
 
+
+@app.route("/get_all_account_id", methods=["POST"])
+@cross_origin(origins="*")
+def GetAllAccountsObject():
+    """Returns a list of all the account user ID's.
+    requires admin_ID
+    requires staff level: 1
+
+    Returns: Response
+    Possible error messages:
+        "Error: admin account not found"
+        "Error: you do not have permission to perform this action"
+    """
+    return ad.get_account_object_list(request.get_json(), accounts_collection)
+
 @app.route("/change_level", methods=["POST"])
 @cross_origin(origins="*")
 def ChangeLevel():

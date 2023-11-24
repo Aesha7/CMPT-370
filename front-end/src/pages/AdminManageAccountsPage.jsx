@@ -4,145 +4,194 @@ import "../style/AdminManageAccountsPage.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
-
-
 const AdminManageAccountsPage = () => {
-    const location = useLocation();
-    let userID = location.state;
-    const [staffLevel, setStaffLevel] = useState('')
-    let tempUsers = [];
-    const [users, setUsers] = useState([]);
+  const location = useLocation();
+  let userID = location.state;
+  const [staffLevel, setStaffLevel] = useState("");
+  let tempUsers = [];
+  const [users, setUsers] = useState([]);
 
-    console.log(userID);
-    let userEmail;
+  // console.log(userID);
+  let userEmail;
 
-    const modifyAccountsStaff = () => {
-      try {
-        fetch(server_URL + "change_staff_level", {
-          method: "POST",
-          body: JSON.stringify({ admin_ID: userID, email: userEmail, level: 1 }),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
-        }).then((response) => {
-
+  const modifyAccountsStaff = () => {
+    try {
+      fetch(server_URL + "change_staff_level", {
+        method: "POST",
+        body: JSON.stringify({ admin_ID: userID, email: userEmail, level: 1 }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
           return response.text();
-        }).then((text) => {
+        })
+        .then((text) => {
           // Parse the text as JSON
           const data = JSON.parse(text);
-          
+
           if (text == '"Error: admin account not found"') {
             alert('"Error: admin account not found"');
           }
           if (data == '"Error: user account not found"') {
             alert('"Error: user account not found"');
           }
-          if (data == '"Error: you do not have permission to perform this action"') {
+          if (
+            data == '"Error: you do not have permission to perform this action"'
+          ) {
             alert('"Error: you do not have permission to perform this action"');
           }
-          if (data == '"Error: target account\'s staff level is too high to change."') {
-            alert('"Error: target account\'s staff level is too high to change."');
+          if (
+            data ==
+            '"Error: target account\'s staff level is too high to change."'
+          ) {
+            alert(
+              '"Error: target account\'s staff level is too high to change."'
+            );
           }
+        });
+    } catch (exception) {
+      console.log(exception);
+    }
+  };
+
+  if (userID != null) {
+    window.localStorage.setItem("_id", userID);
+  }
+  userID = window.localStorage.getItem("_id");
+
+  const get_account_info = () => {
+    try {
+      fetch(server_URL + "get_account_info", {
+        method: "POST",
+        body: JSON.stringify({ _id: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
         })
-      }
-      catch (exception){
-        console.log(exception)
-      }
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+          setStaffLevel(data.staffLevel);
+        });
+    } catch (error) {
+      console.log(error);
     }
+  };
+  
 
-    if(userID != null){
-        window.localStorage.setItem('_id', userID);
-      }
-      userID = window.localStorage.getItem('_id')
-      
-    
-      // getting data initially
-      useEffect(() => {
-        try {
-          fetch(server_URL + "get_account_info", {
-            method: "POST",
-            body: JSON.stringify({ _id: userID }),
-            headers: {
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Headers": "Content-Type",
-              "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-            },
-          })
-          .then((response) => {
-            return response.text(); // Get the response text
-          })
-          .then((text) => {
-            // Parse the text as JSON
-            const data = JSON.parse(text);
-            setStaffLevel(data.staffLevel)
-            })
-        } catch (error) {
-          console.log(error);
-        }
-      }, []);
+/**
+ * sets users to a list of all users found in the database
+ */
+  const get_user_obj_list = () => {
+    try {
+      fetch(server_URL + "get_all_account_id", {
+        method: "POST",
+        body: JSON.stringify({ admin_ID: userID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // Get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          let data = JSON.parse(text);
 
-      let navigate = useNavigate();
+          setUsers(data);
 
-    const goBack = () =>{
-      let path = "/my-account";
-      navigate(path, {state:userID})
+        });
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    // uncovering the page if a valid account
-    if(staffLevel >= 1){
-        document.getElementById("overlay").style.display = "none";
-    }
+  // getting data initially
+  useEffect(() => {
+    get_account_info();
+    get_user_obj_list();
+  }, []);
 
-    const get_account_list = () =>{
-      // getting list of accounts
-      try{
-        fetch(server_URL + "get_all_accounts", {
-          method: "POST",
-          body: JSON.stringify({ admin_ID : userID,  level: 1  }),
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "Content-Type",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-          },
-        }).then((response) =>{
-          return response.text()
-        }).then((text) => {
+  let navigate = useNavigate();
+
+  const goBack = () => {
+    let path = "/my-account";
+    navigate(path, { state: userID });
+  };
+
+  // uncovering the page if a valid account
+  if (staffLevel >= 1) {
+    document.getElementById("overlay").style.display = "none";
+  }
+
+
+
+
+  const get_account_list = () => {
+    // getting list of accounts
+    try {
+      fetch(server_URL + "get_all_accounts", {
+        method: "POST",
+        body: JSON.stringify({ admin_ID: userID, level: 1 }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text();
+        })
+        .then((text) => {
           const data = JSON.parse(text);
           data.forEach((event) => {
             let email = event.email;
             let staffLevel = event.staffLevel;
-  
+
             let newUser = {
               email: email,
-              staffLevel : staffLevel
-            }
-            tempUsers.push(newUser)
-            
-            });
+              staffLevel: staffLevel,
+            };
+            tempUsers.push(newUser);
+          });
 
-            setUsers(tempUsers)
-          })
-        } catch(exception){
-        console.log(exception)
-      }
+          setUsers(tempUsers);
+        });
+    } catch (exception) {
+      console.log(exception);
     }
-    
+  };
 
-    return (
+  // users is set
+  console.log(users)
+  return (
     <div className="admin-page">
       <div className="top-bar">
         &nbsp;&nbsp;MANAGE ACCOUNTS
         <div className="allButtons">
-        <button className="top-bar-button" onClick={goBack}>Back</button>
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
         </div>
       </div>
-        <div className="overlay" id="overlay">YOU DO NOT HAVE ACCESS TO THIS PAGE!</div>
+      <div className="overlay" id="overlay">
+        YOU DO NOT HAVE ACCESS TO THIS PAGE!
+      </div>
     </div>
-        );
+  );
 };
-export default AdminManageAccountsPage
+export default AdminManageAccountsPage;

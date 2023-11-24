@@ -267,7 +267,7 @@ def get_all_accounts(request_data, accounts_collection):
 #     return resp
 
 # get list of account_ID's
-def get_accountID_list(request_data, accounts_collection):
+def get_account_object_list(request_data, accounts_collection):
     resp = Response()
     resp.headers['Access-Control-Allow-Headers']="*"
     admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
@@ -281,12 +281,12 @@ def get_accountID_list(request_data, accounts_collection):
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
     
-    idList = []
+    accountObjList = []
     accounts = accounts_collection.find()
     for account in accounts:
-        idList.append(account.pop("_id"))
+        accountObjList.append(account)
     
-    resp.data=dumps(idList)
+    resp.data=dumps(accountObjList)
     return resp
             
 
