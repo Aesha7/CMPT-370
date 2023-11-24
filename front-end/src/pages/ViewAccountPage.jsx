@@ -211,10 +211,10 @@ const AccountView = () => {
   /**
    * page route to coaches students list
    */
-  const studentsListPageRoute = () => {
-    let path = "/students-list";
-    navigate(path, { state: userID });
-  };
+  // const studentsListPageRoute = () => {
+  //   let path = "/students-list";
+  //   navigate(path, { state: userID });
+  // };
 
   // handles news checkbox
   const handleNewsChange = () => {
@@ -399,7 +399,7 @@ const AccountView = () => {
 
   // check if user account is coach
   if (staffLevel >= 1) {
-    document.getElementById("studentsList").style.visibility = "visible";
+    // document.getElementById("studentsList").style.visibility = "visible";
     document.getElementById("coachCalendar").style.visibility = "visible";
   }
 
@@ -470,14 +470,14 @@ const AccountView = () => {
       >
         Admin Calendar
       </button>
-      <button
+      {/* <button
         className="buttonStuList"
         htmlFor="studentsList"
         id="studentsList"
         onClick={studentsListPageRoute}
       >
         Students List
-      </button>
+      </button> */}
       <button
         className="buttonCoCal"
         htmlFor="coachCalendar"

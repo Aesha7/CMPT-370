@@ -253,12 +253,12 @@ const GymSchedule = () => {
 
   const openConfirmationForm = () => {
     document.getElementById("confirmationForm").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
   };
 
   const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
   };
 
   const closeForm = () => {

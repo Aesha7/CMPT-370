@@ -413,10 +413,10 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 42vh;
+  margin-top: 34vh;
   position: absolute;
-
   visibility: hidden;
+
 }
 .buttonManAcc:hover{
   width: 8vw;
@@ -425,6 +425,7 @@
 }
 
 .buttonAdmCal{
+
   width: 7.5vw;
   height: 6vh;
   color: white;
@@ -437,12 +438,11 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 50vh;
+  margin-top: 42vh;
   position: absolute;
-
   visibility: hidden;
-  /* display: none; */
 }
+
 .buttonAdmCal:hover{
   width: 8vw;
   /* height: 8vh; */
@@ -478,7 +478,6 @@
   width: 7.5vw;
   height: 6vh;
   color: white;
-  /* color:red; */
   background-color: #4b7588;
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 2vh;
@@ -488,9 +487,8 @@
   transition-duration: 0.2s;
   border: 2px solid transparent;
   margin-left: 0.5vw;
-  margin-top: 34vh;
+  margin-top: 26vh;
   position: absolute;
-  
   visibility: hidden;
 }
 .buttonCoCal:hover{
