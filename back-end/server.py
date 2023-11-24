@@ -616,18 +616,26 @@ def GetSkills():
 
     Returns: response
     Possible error messages:
-        "Error: you do not have permission to perform this action
+        "Error: you do not have permission to perform this action"
         "Error: account not found (from _id)"
         "Error: account not found (from email)"
     """
     return sk.get_skills(request.get_json(), accounts_collection)
 
-@app.route("/test_delete", methods=["POST"])
+@app.route('/toggle_skills', methods=["POST"])
 @cross_origin(origins="*")
-def TestDelete():
-    #TODO: testing in progress
-    return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
+def ToggleSkills():
+    """Toggles whether or not a user's skill is checked. 
+    Required request parameters: email, _id, user_name, toggle_list 
+    toggle_list is a [list] of skill names (strings) that should be toggled
 
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action"
+        "Error: account not found" #This can happen if the user isn't in the account
+        "Error: admin account not found"
+    """
+    return sk.toggle_skills(request.get_json(), accounts_collection)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #
@@ -647,6 +655,11 @@ def TestAddSkillsAccount():
 @cross_origin(origins="*")
 def TestClearCollection():
     return TESTING.clear_collection(testing_accounts_collection)
+
+@app.route("/test_delete", methods=["POST"])
+@cross_origin(origins="*")
+def TestDelete():
+    return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
 
 def _corsify(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
