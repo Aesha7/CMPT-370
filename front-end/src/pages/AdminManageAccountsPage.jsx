@@ -11,7 +11,6 @@ const AdminManageAccountsPage = () => {
   let tempUsers = [];
   const [users, setUsers] = useState([]);
 
-  // console.log(userID);
   let userEmail;
 
   const modifyAccountsStaff = () => {
@@ -112,7 +111,6 @@ const AdminManageAccountsPage = () => {
           let data = JSON.parse(text);
 
           setUsers(data);
-
         });
     } catch (error) {
       console.log(error);
@@ -133,11 +131,9 @@ const AdminManageAccountsPage = () => {
   };
 
   // uncovering the page if a valid account
-  if (staffLevel >= 1) {
+  if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
   }
-
-
 
 
   const get_account_list = () => {
