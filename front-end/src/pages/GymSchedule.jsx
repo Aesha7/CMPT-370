@@ -227,9 +227,10 @@ const GymSchedule = () => {
   };
 
   const openForm = () => {
-    let enrolledList = currentEvent.enrolled.map((a) => a.name);
-    console.log(enrolledList);
-    console.log(curUser.name);
+    document.getElementById("myForm-overlay").style.display = "block";
+    let enrolledList = currentEvent.enrolled.map(a => a.name)
+    console.log(enrolledList)
+    console.log(curUser.name)
 
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -262,6 +263,7 @@ const GymSchedule = () => {
 
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
 
     currentEvent = null;
   };
@@ -313,31 +315,30 @@ const GymSchedule = () => {
 
   return (
     <div className="view-gym-schedule">
-      <div className="top-bar">
-        Gym Schedule
+      <div className="top-bar">&nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
+        {/* dropdown of children names (does nothing right now)*/}
+        <select
+          className="top-bar-buttons"
+          id="childDropDown"
+          onChange={handleCurUser}
+        >
+          {nameDropDowns}
+        </select>
+        <select
+          className="top-bar-buttons"
+          id="levelDropDown"
+          onChange={handleFilter}
+        >
+          <option value="-1">All</option>
+          <option value="0">Level: 1-2</option>
+          <option value="1">Level: 2-3</option>
+          <option value="2">Level: 3-4</option>
+        </select>
 
-          {/* dropdown of children names*/}
-          <select
-            className="childDropDown"
-            id="childDropDown"
-            onChange={handleCurUser}
-          >
-            {nameDropDowns}
-          </select>
-          <select
-            className="childDropDown"
-            id="levelDropDown"
-            onChange={handleFilter}
-          >
-            <option value="-1">All</option>
-            <option value="0">Level: 1-2</option>
-            <option value="1">Level: 2-3</option>
-            <option value="2">Level: 3-4</option>
-          </select>
-          <button className="top-bar-button" onClick={goBack}>
+        <button className="top-bar-button" onClick={goBack}>
             Back
-          </button>
+        </button>
         </div>
       </div>
 
@@ -371,7 +372,8 @@ const GymSchedule = () => {
         </form>
       </div>
 
-      <div className="myForm-overlay" id="overlay"></div>
+      <div className="myForm-overlay" id="myForm-overlay"></div>
+
       <div className="confirm-form-popup" id="confirmationForm">
         {/* <form className="form-container"> */}
         <h4>Are you sure you would like to un-enroll?</h4>
@@ -410,15 +412,18 @@ const GymSchedule = () => {
               border: "none",
             };
 
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
-
+            
             return { className: "", style: newStyle };
           }}
         ></Calendar>
