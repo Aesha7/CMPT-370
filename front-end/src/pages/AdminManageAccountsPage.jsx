@@ -9,12 +9,21 @@ const AdminManageAccountsPage = () => {
   let userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
   let tempUsers = [];
-  const [users, setUsers] = useState([]);
+  const [listedUsers, setListedUsers] = useState([]);
+
+  let [currentDisplayName, setCurrentDisplayName] = useState("")
+  let [currentPhoneNumber, setCurrentPhoneNumber] = useState("")
+  let [currentEmail, setCurrentEmail] = useState("")
+  let [currentStaffLevel, setCurrentStaffLevel] = useState("")
+  let [currentLevel, setCurrentLevel] = useState("")
+  let [currentParentID, setCurrentParentID] = useState("")
+  let [currentChildID, setCurrentChildID] = useState("")
+  let [currentBirthday, setCurrentBirthday] = useState("")
 
   let userEmail;
 
   let accountRenders;
-
+  
   const modifyAccountsStaff = () => {
     try {
       fetch(server_URL + "change_staff_level", {
@@ -64,6 +73,10 @@ const AdminManageAccountsPage = () => {
   }
   userID = window.localStorage.getItem("_id");
 
+
+ /**
+ * checks if current user on the page is an admin 
+ */
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -112,7 +125,7 @@ const AdminManageAccountsPage = () => {
           // Parse the text as JSON
           let data = JSON.parse(text);
 
-          setUsers(data);
+          setListedUsers(data);
         });
     } catch (error) {
       console.log(error);
@@ -138,47 +151,13 @@ const AdminManageAccountsPage = () => {
   }
 
 
-  const get_account_list = () => {
-    // getting list of accounts
-    try {
-      fetch(server_URL + "get_all_accounts", {
-        method: "POST",
-        body: JSON.stringify({ admin_ID: userID, level: 1 }),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-      })
-        .then((response) => {
-          return response.text();
-        })
-        .then((text) => {
-          const data = JSON.parse(text);
-          data.forEach((event) => {
-            let email = event.email;
-            let staffLevel = event.staffLevel;
-
-            let newUser = {
-              email: email,
-              staffLevel: staffLevel,
-            };
-            tempUsers.push(newUser);
-          });
-
-          setUsers(tempUsers);
-        });
-    } catch (exception) {
-      console.log(exception);
-    }
-  };
-
-
+/**
+ * get all user accounts from database
+ */
   const getAccountRenders = () =>{
-    let j = -1;
-    accountRenders = users.map(function (user) {
-      j++;
+    let userIndex = -1;
+    accountRenders = listedUsers.map(function (user) {
+      userIndex++;
       let childIndex = -1;
       let innerAccountRenders = user.users.map(function (child) {
         childIndex++;
@@ -186,7 +165,7 @@ const AdminManageAccountsPage = () => {
           return (
           <div className="family-member-row">
             <label>{child.name}</label>
-            <button value={childIndex}>info</button>
+            <button value={[userIndex, childIndex]} onClick={openInfoPopup}>info</button>
           </div>
           );
         } else{
@@ -197,11 +176,42 @@ const AdminManageAccountsPage = () => {
       return(
         <div className="family-member-row">
           <label>{user.users[0].name}</label>
-          <button>info</button>
+          <button value={[userIndex, 0]} onClick={openInfoPopup}>info</button>
           <div>{innerAccountRenders}</div>
         </div>
       );
     })
+  }
+
+/**
+ * show user info
+ */
+  const openInfoPopup = (e) =>{
+    // console.log(e.target.value);
+    let string = e.target.value;
+    let indicies = string.split(',');
+    let parentUser = listedUsers[indicies[0]];
+    let subUser = parentUser.users[indicies[1]];
+
+    // name, birthday, phone number, email, staff level, level, both id's
+    setCurrentDisplayName(subUser.name);    
+    setCurrentPhoneNumber(subUser.phoneNumber);
+    setCurrentEmail(parentUser.email);
+    setCurrentBirthday(subUser.birthday)
+
+    if (indicies[1] != 0) {
+      setCurrentStaffLevel(parentUser.staffLevel);
+    }
+    else {
+      setStaffLevel(null);
+    }
+
+    setStaffLevel(subUser.level);
+    setCurrentParentID(parentUser._id);
+    setCurrentChildID(subUser._id);
+
+    // from user.users name, birthday, phone, 
+    
   }
 
   // users is set
@@ -216,6 +226,76 @@ const AdminManageAccountsPage = () => {
           </button>
         </div>
       </div>
+
+
+      <div className="edit-family-info">
+          <div className="view-account-column-entry">
+            <label className="headingCurrMem" htmlFor="family">
+              Current Member Info
+            </label>
+          </div>
+
+          {/* name */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="name" id="info-name">
+              {" "}
+              Name:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="name"
+              type="name"
+              id="edit-name"
+              disabled={true}
+              placeholder={currentDisplayName}
+            ></input>
+          </div>
+
+          {/* birthday */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="birthday" id="info-birthday">
+              {" "}
+              Birthday:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-birthday"
+              disabled={true}
+              placeholder={currentBirthday}
+            ></input>
+          </div>
+
+          {/* level */}
+          <div className="view-account-column-entry">
+            <label className="account-label" htmlFor="level" id="info-level">
+              {" "}
+              Level:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="level"
+              type="level"
+              id="level"
+              disabled={true}
+              placeholder={currentLevel}
+            ></input>
+          </div>
+
+          <div className="family-info">
+            <button className="edit-button">
+              Edit
+            </button>
+            <button className="save-button">
+              Save
+            </button>
+          </div>
+        </div>
+
+
+
+
       <div className="overlay" id="overlay">
         YOU DO NOT HAVE ACCESS TO THIS PAGE!
       </div>
