@@ -15,3 +15,16 @@
     color: blue;
     font-size: 20px;
 }
+
+.all-accounts-info-button{
+    float: right;
+}
+
+.all-accounts-child-row{
+    background-color: red;
+
+}
+
+.all-accounts-parent-row{
+    background-color: blue;
+}

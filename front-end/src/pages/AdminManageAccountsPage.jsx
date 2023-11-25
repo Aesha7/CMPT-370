@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
 import "../style/AdminManageAccountsPage.css";
+import { element } from "prop-types";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -11,19 +12,21 @@ const AdminManageAccountsPage = () => {
   let tempUsers = [];
   const [listedUsers, setListedUsers] = useState([]);
 
-  let [currentDisplayName, setCurrentDisplayName] = useState("")
-  let [currentPhoneNumber, setCurrentPhoneNumber] = useState("")
-  let [currentEmail, setCurrentEmail] = useState("")
-  let [currentStaffLevel, setCurrentStaffLevel] = useState("")
-  let [currentLevel, setCurrentLevel] = useState("")
-  let [currentParentID, setCurrentParentID] = useState("")
-  let [currentChildID, setCurrentChildID] = useState("")
-  let [currentBirthday, setCurrentBirthday] = useState("")
+  let [currentDisplayName, setCurrentDisplayName] = useState("");
+  let [currentPhoneNumber, setCurrentPhoneNumber] = useState("");
+  let [currentEmail, setCurrentEmail] = useState("");
+  let [currentStaffLevel, setCurrentStaffLevel] = useState("");
+  let [currentLevel, setCurrentLevel] = useState("");
+  let [currentParentID, setCurrentParentID] = useState("");
+  let [currentChildID, setCurrentChildID] = useState("");
+  let [currentBirthday, setCurrentBirthday] = useState("");
+
+  let staffLevelDiv = null;
 
   let userEmail;
 
   let accountRenders;
-  
+
   const modifyAccountsStaff = () => {
     try {
       fetch(server_URL + "change_staff_level", {
@@ -73,10 +76,9 @@ const AdminManageAccountsPage = () => {
   }
   userID = window.localStorage.getItem("_id");
 
-
- /**
- * checks if current user on the page is an admin 
- */
+  /**
+   * checks if current user on the page is an admin
+   */
   const get_account_info = () => {
     try {
       fetch(server_URL + "get_account_info", {
@@ -101,11 +103,10 @@ const AdminManageAccountsPage = () => {
       console.log(error);
     }
   };
-  
 
-/**
- * sets users to a list of all users found in the database
- */
+  /**
+   * sets users to a list of all users found in the database
+   */
   const get_user_obj_list = () => {
     try {
       fetch(server_URL + "get_all_account_id", {
@@ -150,72 +151,90 @@ const AdminManageAccountsPage = () => {
     document.getElementById("overlay").style.display = "none";
   }
 
-
-/**
- * get all user accounts from database
- */
-  const getAccountRenders = () =>{
+  /**
+   * get all user accounts from database
+   */
+  const getAccountRenders = () => {
     let userIndex = -1;
     accountRenders = listedUsers.map(function (user) {
       userIndex++;
       let childIndex = -1;
       let innerAccountRenders = user.users.map(function (child) {
         childIndex++;
-        if(childIndex > 0){
+        if (childIndex > 0) {
           return (
-          <div className="family-member-row">
-            <label>{child.name}</label>
-            <button value={[userIndex, childIndex]} onClick={openInfoPopup}>info</button>
-          </div>
+            <div className="all-accounts-child-row">
+              <label>{child.name}</label>
+              <button
+                className="all-accounts-info-button"
+                value={[userIndex, childIndex]}
+                onClick={openInfoPopup}
+              >
+                info
+              </button>
+            </div>
           );
-        } else{
+        } else {
           return null;
         }
-      })
+      });
 
-      return(
-        <div className="family-member-row">
-          <label>{user.users[0].name}</label>
-          <button value={[userIndex, 0]} onClick={openInfoPopup}>info</button>
+      return (
+        <div className="">
+          <div className="all-accounts-parent-row">
+            <label>{user.users[0].name}</label>
+            <button
+              className="all-accounts-info-button"
+              value={[userIndex, 0]}
+              onClick={openInfoPopup}
+            >
+              info
+            </button>
+          </div>
           <div>{innerAccountRenders}</div>
         </div>
       );
-    })
-  }
+    });
+  };
 
-/**
- * show user info
- */
-  const openInfoPopup = (e) =>{
+  /**
+   * show user info
+   */
+  const openInfoPopup = (e) => {
     // console.log(e.target.value);
     let string = e.target.value;
-    let indicies = string.split(',');
+    let indicies = string.split(",");
     let parentUser = listedUsers[indicies[0]];
     let subUser = parentUser.users[indicies[1]];
 
     // name, birthday, phone number, email, staff level, level, both id's
-    setCurrentDisplayName(subUser.name);    
-    setCurrentPhoneNumber(subUser.phoneNumber);
+    setCurrentDisplayName(subUser.name);
+    setCurrentPhoneNumber(parentUser.phone);
     setCurrentEmail(parentUser.email);
-    setCurrentBirthday(subUser.birthday)
+    setCurrentBirthday(subUser.birthday);
+    setCurrentLevel(subUser.level)
 
-    if (indicies[1] != 0) {
+    if (indicies[1] == 0) {
       setCurrentStaffLevel(parentUser.staffLevel);
-    }
-    else {
+    } else {
       setStaffLevel(null);
     }
 
     setStaffLevel(subUser.level);
-    setCurrentParentID(parentUser._id);
-    setCurrentChildID(subUser._id);
+    setCurrentParentID(parentUser._id["$oid"]);
+    setCurrentChildID(subUser._id["$oid"]);
 
-    // from user.users name, birthday, phone, 
-    
+
+    // from user.users name, birthday, phone,
+    document.getElementById("edit-accout-info").style.display = "block"
+  };
+
+  const closeForm = () =>{
+    document.getElementById("edit-accout-info").style.display = "none"
   }
 
   // users is set
-  getAccountRenders()
+  getAccountRenders();
   return (
     <div className="admin-page">
       <div className="top-bar">
@@ -227,8 +246,8 @@ const AdminManageAccountsPage = () => {
         </div>
       </div>
 
-
-      <div className="edit-family-info">
+      <div className="form-popup" id="edit-accout-info">
+        <div className="edit-family-info">
           <div className="view-account-column-entry">
             <label className="headingCurrMem" htmlFor="family">
               Current Member Info
@@ -253,7 +272,11 @@ const AdminManageAccountsPage = () => {
 
           {/* birthday */}
           <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="birthday" id="info-birthday">
+            <label
+              className="account-label"
+              htmlFor="birthday"
+              id="info-birthday"
+            >
               {" "}
               Birthday:{" "}
             </label>
@@ -283,24 +306,124 @@ const AdminManageAccountsPage = () => {
             ></input>
           </div>
 
+          {/* phone */}
+          <div className="view-account-column-entry">
+            <label
+              className="account-label"
+              htmlFor="phone"
+              id="info-phone"
+            >
+              {" "}
+              Phone:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-phone"
+              disabled={true}
+              placeholder={currentPhoneNumber}
+            ></input>
+          </div>
+
+          {/* Email */}
+          <div className="view-account-column-entry">
+            <label
+              className="account-label"
+              htmlFor="email"
+              id="info-email"
+            >
+              {" "}
+              Email:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-email"
+              disabled={true}
+              placeholder={currentEmail}
+            ></input>
+          </div>
+
+          {/* parent ID */}
+          <div className="view-account-column-entry">
+            <label
+              className="account-label"
+              htmlFor="parentID"
+              id="info-parentID"
+            >
+              {" "}
+              Parent Account ID:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-email"
+              disabled={true}
+              placeholder={currentParentID}
+            ></input>
+          </div>
+
+          {/* user ID */}
+          <div className="view-account-column-entry">
+            <label
+              className="account-label"
+              htmlFor="userID"
+              id="info-userID"
+            >
+              {" "}
+              Account ID:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-email"
+              disabled={true}
+              placeholder={currentChildID}
+            ></input>
+          </div>
+
+          {/* staffLevel */}
+          <div className="view-account-column-entry">
+            <label
+              className="account-label"
+              htmlFor="staffLevel"
+              id="info-staffLevel"
+            >
+              {" "}
+              Staff Level:{" "}
+            </label>
+            <input
+              className="edit-label"
+              htmlFor="email"
+              type="email"
+              id="edit-email"
+              disabled={true}
+              placeholder={currentStaffLevel}
+            ></input>
+          </div>
+
+          
+
           <div className="family-info">
-            <button className="edit-button">
-              Edit
-            </button>
-            <button className="save-button">
-              Save
-            </button>
+            <button className="edit-button" onClick={closeForm}>Close</button>
+            <button className="edit-button">Edit</button>
+            <button className="save-button">Save</button>
           </div>
         </div>
-
-
-
+      </div>
 
       <div className="overlay" id="overlay">
         YOU DO NOT HAVE ACCESS TO THIS PAGE!
       </div>
 
-      <div>{accountRenders}</div>
+      {/* rendering the accounts */}
+      <div>
+        <div>{accountRenders}</div>
+      </div>
     </div>
   );
 };
