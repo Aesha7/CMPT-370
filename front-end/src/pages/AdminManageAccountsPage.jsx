@@ -26,6 +26,7 @@ const AdminManageAccountsPage = () => {
   let userEmail;
 
   let accountRenders;
+  let staffRenders;
 
   const modifyAccountsStaff = () => {
     try {
@@ -158,44 +159,89 @@ const AdminManageAccountsPage = () => {
     let userIndex = -1;
     accountRenders = listedUsers.map(function (user) {
       userIndex++;
-      let childIndex = -1;
-      let innerAccountRenders = user.users.map(function (child) {
-        childIndex++;
-        if (childIndex > 0) {
-          return (
-            <div className="all-accounts-child-row">
-              <label>{child.name}</label>
+      if (user.staffLevel == 0) {
+        let childIndex = -1;
+        let innerAccountRenders = user.users.map(function (child) {
+          childIndex++;
+          if (childIndex > 0) {
+            return (
+              <div className="all-accounts-child-row">
+                <label>{child.name}</label>
+                <button
+                  className="all-accounts-info-button"
+                  value={[userIndex, childIndex]}
+                  onClick={openInfoPopup}
+                >
+                  info
+                </button>
+              </div>
+            );
+          } else {
+            return null;
+          }
+        });
+
+        return (
+          <div className="all-accounts-family">
+            <div className="all-accounts-parent-row">
+              <label>{user.users[0].name}</label>
               <button
                 className="all-accounts-info-button"
-                value={[userIndex, childIndex]}
+                value={[userIndex, 0]}
                 onClick={openInfoPopup}
               >
                 info
               </button>
             </div>
-          );
-        } else {
-          return null;
-        }
-      });
-
-      return (
-        <div className="">
-          <div className="all-accounts-parent-row">
-            <label>{user.users[0].name}</label>
-            <button
-              className="all-accounts-info-button"
-              value={[userIndex, 0]}
-              onClick={openInfoPopup}
-            >
-              info
-            </button>
+            <div>{innerAccountRenders}</div>
           </div>
-          <div>{innerAccountRenders}</div>
-        </div>
-      );
+        );
+      }
     });
-  };
+
+      userIndex = -1;
+      staffRenders = listedUsers.map(function (user) {
+        userIndex++;
+        if (user.staffLevel >= 1) {
+        let childIndex = -1;
+        let innerAccountRenders = user.users.map(function (child) {
+          childIndex++;
+          if (childIndex > 0) {
+            return (
+              <div className="all-accounts-child-row">
+                <label>{child.name}</label>
+                <button
+                  className="all-accounts-info-button"
+                  value={[userIndex, childIndex]}
+                  onClick={openInfoPopup}
+                >
+                  info
+                </button>
+              </div>
+            );
+          } else {
+            return null;
+          }
+        });
+
+        return (
+          <div className="all-accounts-family">
+            <div className="all-accounts-parent-row">
+              <label>{user.users[0].name}</label>
+              <button
+                className="all-accounts-info-button"
+                value={[userIndex, 0]}
+                onClick={openInfoPopup}
+              >
+                info
+              </button>
+            </div>
+            <div>{innerAccountRenders}</div>
+          </div>
+        );
+      }
+  })
+};
 
   /**
    * show user info
@@ -212,7 +258,7 @@ const AdminManageAccountsPage = () => {
     setCurrentPhoneNumber(parentUser.phone);
     setCurrentEmail(parentUser.email);
     setCurrentBirthday(subUser.birthday);
-    setCurrentLevel(subUser.level)
+    setCurrentLevel(subUser.level);
 
     if (indicies[1] == 0) {
       setCurrentStaffLevel(parentUser.staffLevel);
@@ -224,14 +270,13 @@ const AdminManageAccountsPage = () => {
     setCurrentParentID(parentUser._id["$oid"]);
     setCurrentChildID(subUser._id["$oid"]);
 
-
     // from user.users name, birthday, phone,
-    document.getElementById("edit-accout-info").style.display = "block"
+    document.getElementById("edit-accout-info").style.display = "block";
   };
 
-  const closeForm = () =>{
-    document.getElementById("edit-accout-info").style.display = "none"
-  }
+  const closeForm = () => {
+    document.getElementById("edit-accout-info").style.display = "none";
+  };
 
   // users is set
   getAccountRenders();
@@ -247,21 +292,21 @@ const AdminManageAccountsPage = () => {
       </div>
 
       <div className="form-popup" id="edit-accout-info">
-        <div className="edit-family-info">
-          <div className="view-account-column-entry">
+        <div className="admin-edit-account">
+          <div className="admin-edit-div">
             <label className="headingCurrMem" htmlFor="family">
               Current Member Info
             </label>
           </div>
 
           {/* name */}
-          <div className="view-account-column-entry">
+          <div className="admin-edit-div">
             <label className="account-label" htmlFor="name" id="info-name">
               {" "}
               Name:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="name"
               type="name"
               id="edit-name"
@@ -271,7 +316,7 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* birthday */}
-          <div className="view-account-column-entry">
+          <div className="admin-edit-div">
             <label
               className="account-label"
               htmlFor="birthday"
@@ -281,7 +326,7 @@ const AdminManageAccountsPage = () => {
               Birthday:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-birthday"
@@ -291,13 +336,13 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* level */}
-          <div className="view-account-column-entry">
+          <div className="admin-edit-div">
             <label className="account-label" htmlFor="level" id="info-level">
               {" "}
               Level:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="level"
               type="level"
               id="level"
@@ -307,17 +352,13 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* phone */}
-          <div className="view-account-column-entry">
-            <label
-              className="account-label"
-              htmlFor="phone"
-              id="info-phone"
-            >
+          <div className="admin-edit-div">
+            <label className="account-label" htmlFor="phone" id="info-phone">
               {" "}
               Phone:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-phone"
@@ -327,17 +368,13 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* Email */}
-          <div className="view-account-column-entry">
-            <label
-              className="account-label"
-              htmlFor="email"
-              id="info-email"
-            >
+          <div className="admin-edit-div">
+            <label className="account-label" htmlFor="email" id="info-email">
               {" "}
               Email:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-email"
@@ -347,7 +384,7 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* parent ID */}
-          <div className="view-account-column-entry">
+          <div className="admin-edit-div">
             <label
               className="account-label"
               htmlFor="parentID"
@@ -357,7 +394,7 @@ const AdminManageAccountsPage = () => {
               Parent Account ID:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-email"
@@ -367,17 +404,13 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* user ID */}
-          <div className="view-account-column-entry">
-            <label
-              className="account-label"
-              htmlFor="userID"
-              id="info-userID"
-            >
+          <div className="admin-edit-div">
+            <label className="account-label" htmlFor="userID" id="info-userID">
               {" "}
               Account ID:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-email"
@@ -387,7 +420,7 @@ const AdminManageAccountsPage = () => {
           </div>
 
           {/* staffLevel */}
-          <div className="view-account-column-entry">
+          <div className="admin-edit-div">
             <label
               className="account-label"
               htmlFor="staffLevel"
@@ -397,7 +430,7 @@ const AdminManageAccountsPage = () => {
               Staff Level:{" "}
             </label>
             <input
-              className="edit-label"
+              className="manage-account-edit"
               htmlFor="email"
               type="email"
               id="edit-email"
@@ -406,12 +439,14 @@ const AdminManageAccountsPage = () => {
             ></input>
           </div>
 
-          
-
-          <div className="family-info">
-            <button className="edit-button" onClick={closeForm}>Close</button>
+          {/* <div className="family-info">
+           */}
+          <div className="">
+            <button className="edit-button" onClick={closeForm}>
+              Close
+            </button>
             <button className="edit-button">Edit</button>
-            <button className="save-button">Save</button>
+            <button className="edit-button">Save</button>
           </div>
         </div>
       </div>
@@ -421,8 +456,11 @@ const AdminManageAccountsPage = () => {
       </div>
 
       {/* rendering the accounts */}
-      <div>
-        <div>{accountRenders}</div>
+      <div className="admin-parent-div">
+        <div className="admin-account-div">{accountRenders}</div>
+        <div className="admin-account-div">
+          {staffRenders}
+        </div>
       </div>
     </div>
   );
