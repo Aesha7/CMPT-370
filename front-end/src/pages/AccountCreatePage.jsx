@@ -45,6 +45,10 @@ const AccountCreatePage = (props) => {
 
   }
 
+  /**
+   * @param {} email the email string
+   * @returns true if its a valid email
+   */
   function validEmail(email) {
     // Regular expression for a valid email address
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -52,6 +56,10 @@ const AccountCreatePage = (props) => {
     return emailRegex.test(email);
   }
 
+  /**
+   * @param {} input_str phone number
+   * @returns true if its a valid phone number
+   */
   function validatePhoneNumber(input_str) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
   
@@ -230,7 +238,7 @@ const AccountCreatePage = (props) => {
   const handleBirthDay = (inputDate) => {
     setDate(inputDate)
     let arr = inputDate.toString().split(" ")
-    setBirthday(arr[1] + " " + arr[2] + " "+ arr[3]);
+    setBirthday(arr[1] + " " + arr[2] + " " + arr[3]);
     setSubmitted(false);
   };
 

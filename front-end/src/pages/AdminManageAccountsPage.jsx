@@ -22,6 +22,15 @@ const AdminManageAccountsPage = () => {
   let [currentChildID, setCurrentChildID] = useState("");
   let [currentBirthday, setCurrentBirthday] = useState("");
 
+
+  let [newName, setNewName] = useState("");
+  let [newBirthday, setNewBirthday] = useState("");
+  let [newLevel, setNewLevel] = useState("");
+  let [newPhone, setNewPhone] = useState("");
+  let [newEmail, setNewEmail] = useState("");
+  let [newStaffLevel, setNewStaffLevel] = useState("");
+
+
   let staffLevelDiv = null;
 
   let userEmail;
@@ -147,6 +156,118 @@ const AdminManageAccountsPage = () => {
     let path = "/my-account";
     navigate(path, { state: userID });
   };
+
+
+  const handleNewName = (e) => {
+    setNewName(e.target.value);
+  }
+
+  const handleNewBirthday = (date) =>{
+    setNewBirthday(date);
+  }
+
+  const handleNewLevel = (e) =>{
+    setNewLevel(e.target.value)
+  }
+
+  const handleNewPhone = (e) =>{
+    setNewPhone(e.target.value)
+  }
+
+  const handleNewEmail = (e) =>{
+    setNewEmail(e.target.value)
+  }
+
+  const handleNewStaffLevel = (e) =>{
+    setNewStaffLevel(e.target.value)
+  }
+
+
+
+  /**
+   * @param {} email the email string
+   * @returns true if its a valid email
+   */
+  function validEmail(email) {
+    // Regular expression for a valid email address
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    return emailRegex.test(email);
+  }
+
+  /**
+   * @param {} input_str phone number
+   * @returns true if its a valid phone number
+   */
+  function validatePhoneNumber(input_str) {
+    var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+  
+    return re.test(input_str);
+  }
+
+// SAVING INFO ##############
+const saveInfo = (e) =>{
+  e.preventDefault();
+  let error = false;
+  // case where they dont modify a field
+  if(newName == ""){
+    newName = currentDisplayName;
+  }
+  if(newBirthday == ""){
+    newBirthday = currentBirthday;
+  }
+  if(newLevel == ""){
+    newLevel = currentLevel;
+  }
+  if(newPhone == ""){
+    newPhone = currentPhoneNumber
+  }
+  if(newEmail == ""){
+    newEmail = currentEmail;
+  }
+  if(newStaffLevel == ""){
+    newStaffLevel = currentStaffLevel
+  }
+
+  // All input checking
+
+  // name can be anything?
+
+  // birthday only from datepicker
+  let arr = newBirthday.toString().split(" ")
+  newBirthday = arr[1] + " " + arr[2] + " " + arr[3]
+  // level is a number
+  if(isNaN(newLevel)){
+    alert("Please enter a number for the new level.")
+    error = true
+  }
+  else if(newLevel > 3 || newLevel < 0){
+    alert("Please ensure the new level is between 3 and 0.")
+    error = true
+  }
+  else if(!validatePhoneNumber(newPhone)){
+    alert("Please ensure the new phone number is in the form \"(123) 456 7890\".")
+    error = true
+  }
+  else if(!validEmail(newEmail)){
+    alert("Please ensure the new email is valid.")
+    error = true
+  }
+  else if(isNaN(newStaffLevel)){
+    alert("Please enter a number for the staff level.")
+    error = true
+  }
+  else if(newStaffLevel > 3 || newStaffLevel < 0){
+    alert("Please ensure the new staff level is between 3 and 0.")
+    error = true
+  }
+  else{
+    // API CALL GOES HERE
+    // CAN SEND ALL INFO, Might need new route
+    // can probably use currentAccountID to get to the right user
+  }
+}
+
 
   // uncovering the page if a valid account
   if (staffLevel >= 3) {
@@ -313,6 +434,7 @@ const AdminManageAccountsPage = () => {
         </div>
       </div>
 
+      {/* the popup for modifying account info */}
       <div className="form-popup" id="edit-accout-info">
         <div className="admin-edit-account">
           <div className="admin-edit-div">
@@ -333,6 +455,7 @@ const AdminManageAccountsPage = () => {
               type="name"
               id="edit-name"
               disabled={true}
+              onChange={handleNewName}
               placeholder={currentDisplayName}
             ></input>
           </div>
@@ -352,6 +475,9 @@ const AdminManageAccountsPage = () => {
             className="manage-account-edit-dp" 
             id="edit-birthday"
             placeholderText={currentBirthday}
+            selected={newBirthday}
+            onChange={handleNewBirthday}
+
             portalId="root-portal"
             showPopperArrow={true} //getting rid of arrow
             dateFormat="MM/dd/yyyy"
@@ -383,6 +509,7 @@ const AdminManageAccountsPage = () => {
               type="level"
               id="edit-level"
               disabled={true}
+              onChange={handleNewLevel}
               placeholder={currentLevel}
             ></input>
           </div>
@@ -399,6 +526,7 @@ const AdminManageAccountsPage = () => {
               type="email"
               id="edit-phone"
               disabled={true}
+              onChange={handleNewPhone}
               placeholder={currentPhoneNumber}
             ></input>
           </div>
@@ -415,11 +543,12 @@ const AdminManageAccountsPage = () => {
               type="email"
               id="edit-email"
               disabled={true}
+              onChange={handleNewEmail}
               placeholder={currentEmail}
             ></input>
           </div>
 
-          {/* parent ID */}
+          {/* parent ID CANT CHANGE*/}
           <div className="admin-edit-div">
             <label
               className="account-label"
@@ -439,7 +568,7 @@ const AdminManageAccountsPage = () => {
             ></input>
           </div>
 
-          {/* user ID */}
+          {/* user ID CANT CHANGE*/}
           <div className="admin-edit-div">
             <label className="account-label" htmlFor="userID" id="info-userID">
               {" "}
@@ -472,6 +601,7 @@ const AdminManageAccountsPage = () => {
               id="edit-staff-level"
               disabled={true}
               placeholder={currentStaffLevel}
+              onChange={handleNewStaffLevel}
             ></input>
           </div>
 
@@ -482,7 +612,7 @@ const AdminManageAccountsPage = () => {
               Close
             </button>
             <button className="edit-button" onClick={unlockInput}>Edit</button>
-            <button className="edit-button">Save</button>
+            <button className="edit-button" onClick={saveInfo}>Save</button>
           </div>
         </div>
       </div>
