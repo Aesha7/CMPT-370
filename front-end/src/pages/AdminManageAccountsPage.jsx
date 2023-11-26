@@ -210,11 +210,16 @@ const saveInfo = (e) =>{
   e.preventDefault();
   let error = false;
   // case where they dont modify a field
+
   if(newName == ""){
     newName = currentDisplayName;
   }
   if(newBirthday == ""){
     newBirthday = currentBirthday;
+  }
+  else{
+    let arr = newBirthday.toString().split(" ")
+    newBirthday = arr[1] + " " + arr[2] + " " + arr[3]
   }
   if(newLevel == ""){
     newLevel = currentLevel;
@@ -233,9 +238,6 @@ const saveInfo = (e) =>{
 
   // name can be anything?
 
-  // birthday only from datepicker
-  let arr = newBirthday.toString().split(" ")
-  newBirthday = arr[1] + " " + arr[2] + " " + arr[3]
   // level is a number
   if(isNaN(newLevel)){
     alert("Please enter a number for the new level.")
@@ -262,6 +264,8 @@ const saveInfo = (e) =>{
     error = true
   }
   else{
+    // all variables you will need
+    console.log("NEW ", newName, newBirthday, newLevel, newPhone, newEmail, newStaffLevel)
     // API CALL GOES HERE
     // CAN SEND ALL INFO, Might need new route
     // can probably use currentAccountID to get to the right user
