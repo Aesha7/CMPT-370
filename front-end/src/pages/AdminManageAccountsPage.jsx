@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, useNavigate, useLocation } from "react-router";
+import DatePicker from "react-datepicker";
+
 import "../style/AdminManageAccountsPage.css";
-import { element } from "prop-types";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
@@ -276,7 +277,28 @@ const AdminManageAccountsPage = () => {
 
   const closeForm = () => {
     document.getElementById("edit-accout-info").style.display = "none";
+
+    document.getElementById("edit-name").disabled = true
+    document.getElementById("edit-birthday").prefentOpenOnFocus = true
+    document.getElementById("edit-level").disabled = true
+    document.getElementById("edit-phone").disabled = true
+    document.getElementById("edit-email").disabled = true
+    document.getElementById("edit-staff-level").disabled = true
   };
+
+  const unlockInput = () =>{
+    document.getElementById("edit-name").disabled = false
+    // document.getElementById("edit-birthday").disabled = false
+
+
+    document.getElementById("edit-birthday").prefentOpenOnFocus = false
+
+    document.getElementById("edit-level").disabled = false
+    document.getElementById("edit-phone").disabled = false
+    document.getElementById("edit-email").disabled = false
+    document.getElementById("edit-staff-level").disabled = false
+
+  }
 
   // users is set
   getAccountRenders();
@@ -325,14 +347,28 @@ const AdminManageAccountsPage = () => {
               {" "}
               Birthday:{" "}
             </label>
-            <input
-              className="manage-account-edit"
-              htmlFor="email"
-              type="email"
-              id="edit-birthday"
-              disabled={true}
-              placeholder={currentBirthday}
-            ></input>
+  
+            <DatePicker 
+            className="manage-account-edit-dp" 
+            id="edit-birthday"
+            placeholderText={currentBirthday}
+            portalId="root-portal"
+            showPopperArrow={true} //getting rid of arrow
+            dateFormat="MM/dd/yyyy"
+            minDate={new Date(1900, 0, 1)}
+            maxDate={new Date(2099, 11, 31)}
+            showMonthDropdown={true}
+            showYearDropdown={true}
+            todayButton="Today"
+            dropdownMode="select"
+            inputReadOnly={true}
+            // readOnly={true}
+            preventOpenOnFocus = {true}
+
+
+            popperPlacement="auto"
+            ></DatePicker>
+            
           </div>
 
           {/* level */}
@@ -345,7 +381,7 @@ const AdminManageAccountsPage = () => {
               className="manage-account-edit"
               htmlFor="level"
               type="level"
-              id="level"
+              id="edit-level"
               disabled={true}
               placeholder={currentLevel}
             ></input>
@@ -433,7 +469,7 @@ const AdminManageAccountsPage = () => {
               className="manage-account-edit"
               htmlFor="email"
               type="email"
-              id="edit-email"
+              id="edit-staff-level"
               disabled={true}
               placeholder={currentStaffLevel}
             ></input>
@@ -445,7 +481,7 @@ const AdminManageAccountsPage = () => {
             <button className="edit-button" onClick={closeForm}>
               Close
             </button>
-            <button className="edit-button">Edit</button>
+            <button className="edit-button" onClick={unlockInput}>Edit</button>
             <button className="edit-button">Save</button>
           </div>
         </div>
@@ -457,7 +493,9 @@ const AdminManageAccountsPage = () => {
 
       {/* rendering the accounts */}
       <div className="admin-parent-div">
-        <div className="admin-account-div">{accountRenders}</div>
+        <div className="admin-account-div">
+          {accountRenders}
+        </div>
         <div className="admin-account-div">
           {staffRenders}
         </div>
