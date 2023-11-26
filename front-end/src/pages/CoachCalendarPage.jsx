@@ -115,7 +115,7 @@ const CoachCalendarPage = () => {
               let enrolled = event.enrolled;
               let coach = event.coach;
               let attendance
-              try{
+              try {
                 attendance = event.attendance;
               } catch{
                 attendance = [];

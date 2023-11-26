@@ -296,7 +296,8 @@ const AccountCreatePage = (props) => {
               
             <DatePicker
               className="custom-datepicker-createAccount"
-              showPopperArrow={false}
+              portalId="root-portal"
+              showPopperArrow={false} //getting rid of 
               selected={date}
               onChange={handleBirthDay}
               dateFormat="MM/dd/yyyy"
@@ -307,6 +308,21 @@ const AccountCreatePage = (props) => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
+
+              // popperPlacement="top-start"
+              popperPlacement= "right-start"
+
+              popperModifiers={{
+                offset: {
+                  enabled: false,
+                  offset: [0, 0]
+                },
+                preventOverflow: {
+                  enabled: false,
+                  escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                  boundariesElement: 'viewport'
+                }
+              }}
             />
             
             </div>

@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "updated UI for all nav bar buttons + view shedule"
+git commit -m "implemented api route + front-end for manage account page"
 
 git push

@@ -15,3 +15,60 @@
     color: blue;
     font-size: 20px;
 }
+
+.all-accounts-info-button{
+    float: right;
+}
+
+.all-accounts-child-row{
+    /* background-color: red; */
+    margin-left: 40px;
+    margin-bottom: 10px;
+    width: 95.5%;
+}
+
+.all-accounts-parent-row{
+    /* background-color: blue; */
+    margin-bottom: 10px;
+}
+
+.all-accounts-family{
+    /* background-color: red; */
+    margin-bottom: 20px;
+    border: 2px solid darkcyan;
+}
+
+.admin-edit-account{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px;
+    width: 18vw;
+}
+
+.admin-edit-div{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.manage-account-edit{
+    float: right;
+}
+
+.manage-account-edit-dp{
+    float: right;
+}
+
+
+.admin-parent-div{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+}
+
+.admin-account-div{
+    flex: 1;
+    margin: 10px;
+    padding: 30px;
+    background-color: #ccc;
+}

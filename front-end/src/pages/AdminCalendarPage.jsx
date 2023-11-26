@@ -682,6 +682,7 @@ const AdminCalendarPage = () => {
 
             <DatePicker
               className="custom-datepicker"
+              portalId="root-portal"
               showPopperArrow={false}
               selected={date}
               onChange={handleDate}

@@ -11,10 +11,10 @@ const AccountView = () => {
   let renders;
 
   // use these variables to set proper data
-  let [name, setName] = useState("John Doe");
-  let [phone, setPhone] = useState("(306) 123-4567");
-  let [email, setEmail] = useState("email@domain.com");
-  let [birthday, setBirthday] = useState("month/day/year");
+  let [name, setName] = useState("");
+  let [phone, setPhone] = useState("");
+  let [email, setEmail] = useState("");
+  let [birthday, setBirthday] = useState("");
   let [userID, setUserID] = useState("");
   let [staffLevel, setStaffLevel] = useState("");
 
@@ -120,10 +120,11 @@ const AccountView = () => {
    * Display info for current user (parent or child)
    */
   const displayInfo = (e) => {
-    setCurrentUserIndex(e.target.value);
-    setCurrentName(users[e.target.value].name);
-    setCurrentBirthday(users[e.target.value].birthday);
-    setCurrentLevel(users[e.target.value].level);
+    let index = e.target.value
+    setCurrentUserIndex(index);
+    setCurrentName(users[index].name);
+    setCurrentBirthday(users[index].birthday);
+    setCurrentLevel(users[index].level);
     };
 
   /**
@@ -576,6 +577,7 @@ const AccountView = () => {
             </label>
             <DatePicker
               className="custom-datepicker-addFamily"
+              portalId="root-portal"
               showPopperArrow={false}
               selected={newBirthday}
               onChange={handleNewBirthday}
@@ -588,11 +590,13 @@ const AccountView = () => {
               dropdownMode="select"
               placeholderText="Select a date"
 
-              popperPlacement="top-start"
+              popperPlacement="right-end"
+              // popperPlacement="top"
+
               popperModifiers={{
                 offset: {
                   enabled: true,
-                  offset: [20, 20]
+                  offset: [5, 40]
                 },
                 preventOverflow: {
                   enabled: true,
