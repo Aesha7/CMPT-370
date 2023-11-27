@@ -206,16 +206,9 @@ const AccountView = () => {
    */
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
-    navigate(path, { state: userID });
+    navigate(path, {state:{userID: userID, coachName: name}});
   };
 
-  /**
-   * page route to coaches students list
-   */
-  // const studentsListPageRoute = () => {
-  //   let path = "/students-list";
-  //   navigate(path, { state: userID });
-  // };
 
   // handles news checkbox
   const handleNewsChange = () => {

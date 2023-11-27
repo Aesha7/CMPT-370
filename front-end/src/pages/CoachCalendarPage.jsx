@@ -12,13 +12,15 @@ const CoachCalendarPage = () => {
   const localizer = momentLocalizer(moment);
 
   const [staffLevel, setStaffLevel] = useState("");
-  const [coachName, setcoachName] = useState("");
+  let [coachName, setcoachName] = useState("");
   const [calEvents, setCalEvents] = useState([]);
   const [currentCalEvent, setCurrentCalEvent] = useState([]);
   const [updateDummy, forceUpdate] = useState(0);
 
   let [userID, setUserID] = useState("");
-  userID = location.state;
+  userID = location.state.userID;
+  coachName = location.state.coachName;
+
 
   let navigate = useNavigate();
 
@@ -228,7 +230,7 @@ const CoachCalendarPage = () => {
 
   useEffect(() => {
     //inti calendar
-    get_coach_name();
+    // get_coach_name();
     get_db_events();
     forceUpdate(updateDummy + 1);
   }, []);
