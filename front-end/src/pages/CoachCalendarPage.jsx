@@ -160,12 +160,10 @@ const CoachCalendarPage = () => {
     }
 
     setCurrentCalEvent(calEvent);
-    if(calEvent.enrolled.length != 0){
-      document.getElementById("save-feedback-button").style.display= "block";
-    }
-    else{
-      document.getElementById("save-feedback-button").style.display= "none";
-
+    if (calEvent.enrolled.length != 0) {
+      document.getElementById("save-feedback-button").style.display = "block";
+    } else {
+      document.getElementById("save-feedback-button").style.display = "none";
     }
   };
 
@@ -207,6 +205,21 @@ const CoachCalendarPage = () => {
         },
       }).then((response) => {
         return response.text();
+
+      }).then((data) =>{
+        if(data == "\"Error: you do not have permission to perform this action\""){
+
+          alert("Error: you do not have permission to perform this action")
+        }
+        else if(data == "\"Error: target coach account is not a staff account\""){
+          alert("Error: target coach account is not a staff account")
+        }
+        else if(data == "\"Error: coach account not found\""){
+          alert("Error: coach account not found")
+        }
+        else{
+          alert("Attendance and feedback saved.")
+        }
       });
     } catch (exception) {
       console.log(exception);
@@ -274,58 +287,69 @@ const CoachCalendarPage = () => {
             return { className: "", style: newStyle };
           }}
         ></Calendar>
-        <div className="student-list">
-          
-          Student Attendance
-          <div>{"Course: " + currentCalEvent.name}</div>
-          {currentCalEvent.enrolled.map((student) => {
-            return (
-              <div className="student-feedback-div">
-                <div>
-                  <input
-                    type="checkbox"
-                    className="attendance-checkbox"
-                    checked={
-                      currentCalEvent.attendance[
-                        currentCalEvent.attendance.length - 1
-                      ].attendanceDate.find(
-                        (currentStudent) => currentStudent.name === student.name
-                      ).present
-                    }
-                    onChange={onCheckChange(student.name)}
-                  />
+        <div>
 
-                  {student.name}
-                </div>
-                <div className="feedback-input-div">
-                  <label className="feedback-label">feedback: </label>
-                  <textarea
-                    className="student-feedback"
-                    onChange={onFeedbackChange(student.name)}
-                    rows="40"
-                    cols="4"
-                    value={
-                      currentCalEvent.attendance[
-                        currentCalEvent.attendance.length - 1
-                      ].attendanceDate.find(
-                        (currentStudent) => currentStudent.name === student.name
-                      ).feedback
-                    }      
-                    onInput={auto_height}
-                  />
-                </div>
-              </div>
-            );
-          })}
+          <div className="student-list">
+            <div className="student-list-header">
+              <label className="student-attendance-header">
+                Student Attendance
+              </label>
+              <label className="coach-courseName-header">
+                {"Course: " + currentCalEvent.name}
 
-          <button 
-            className="save-feedback-button" 
-            onClick={saveAttendance}
-            id="save-feedback-button"
-          >
-            Save Attendance/Feedback
-          </button>
+              </label>
+            </div>
+
+            {currentCalEvent.enrolled.map((student) => {
+              return (
+                <div className="student-feedback-div">
+                  <div>
+                    <input
+                      type="checkbox"
+                      className="attendance-checkbox"
+                      checked={
+                        currentCalEvent.attendance[
+                          currentCalEvent.attendance.length - 1
+                        ].attendanceDate.find(
+                          (currentStudent) =>
+                            currentStudent.name === student.name
+                        ).present
+                      }
+                      onChange={onCheckChange(student.name)}
+                    />
+
+                    {student.name}
+                  </div>
+                  <div className="feedback-input-div">
+                    <label className="feedback-label">feedback: </label>
+                    <textarea
+                      className="student-feedback"
+                      onChange={onFeedbackChange(student.name)}
+                      rows="40"
+                      cols="4"
+                      value={
+                        currentCalEvent.attendance[
+                          currentCalEvent.attendance.length - 1
+                        ].attendanceDate.find(
+                          (currentStudent) =>
+                            currentStudent.name === student.name
+                        ).feedback
+                      }
+                      onInput={auto_height}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+            <button
+              className="save-feedback-button"
+              onClick={saveAttendance}
+              id="save-feedback-button"
+            >
+              Save Attendance/Feedback
+            </button>
           </div>
+        </div>
       </div>
     </div>
   );

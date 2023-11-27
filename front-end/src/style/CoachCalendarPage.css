@@ -1,22 +1,24 @@
 .coach-calendar-rbc {
-    width: 80%;
+    width: 78vw;
     float: left;
 }
 
 .student-list {
+    overflow: scroll;
     position: relative;
-    width: 20%;
-    height:100%;
+    width: 17vw;
+    height: 75vh;
+    margin-bottom: 10px;
     float: right;
-    background-color: darkgray;
+    background-color: #d8d9d9;
+    margin: 1.5vw;
+    padding: 0.95vw;
+
+
 }
 
 .attendance-checkbox{
     cursor: pointer;
-    /* background-color: red;
-    color: red */
-
-    /* position: absolute; */
     top: 0;
     left: 0;
     height: 15px;
@@ -36,13 +38,15 @@
     padding-left: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
+    border: 2px solid #2c3c4c;
+    background-color: #7d8f97;
+    color: white;
 }
 
 .student-feedback{
     margin-left: 10px;
-    background-color: rgb(100, 100, 100, 0.125);
-    width: 250px;
-    height: 20px;
+    width: 10vw;
+    height: 3vh;
     resize: none;
     background-color: white;
 }
@@ -56,18 +60,38 @@
 }
 
 .save-feedback-button{
-    margin-left: 80px;
+    /* margin-left: 2.6vw; */
     margin-top: 10px;
     border: 2px solid transparent;
     text-align: center;
     font-size: 18px;
     transition-duration: 0.4s;
-    background-color: #5ba996;
-    color: black;
+    background-color: #db936f;
+    color: white;
     display: none;
 }
 
 .save-feedback-button:hover {
     color: white;
+    padding-right: 1.5vw;
+    background-color: #a9745a;
   }
+
+  .student-attendance-header{
+    font-weight: bold;
+    color: #2c3c4c;
+    display: flex;
+
+  }
+
+  .coach-courseName-header{
+    margin-bottom: 1vh;
+    color: #2c3c4c;
+    display: flex;
+  }
+
+  .student-list-header{
+    display: block;
+  }
+
 
