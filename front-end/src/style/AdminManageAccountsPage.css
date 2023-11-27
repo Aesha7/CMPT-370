@@ -113,8 +113,8 @@
 }
 
   .admin-button-div .edit-button {
-    margin-left: 29px;
-    margin-right: 28px;
+    margin-left: 57px;
+    /* margin-right: 28px; */
     width: 6vw;
     margin-top: 30px;
   }
