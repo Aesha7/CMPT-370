@@ -4,6 +4,70 @@
 }
 
 .student-list {
+    position: relative;
     width: 20%;
+    height:100%;
     float: right;
+    background-color: darkgray;
 }
+
+.attendance-checkbox{
+    cursor: pointer;
+    /* background-color: red;
+    color: red */
+
+    /* position: absolute; */
+    top: 0;
+    left: 0;
+    height: 15px;
+    background-color: #eee;
+}
+
+.attendance-checkbox:hover{
+    background-color: red;
+}
+
+.attendance-checkbox:checked{
+    background-color: red;
+}
+
+.student-feedback-div{
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.student-feedback{
+    margin-left: 10px;
+    background-color: rgb(100, 100, 100, 0.125);
+    width: 250px;
+    height: 20px;
+    resize: none;
+    background-color: white;
+}
+
+.feedback-input-div{
+    padding-left: 23px;
+}
+
+.feedback-label{
+    float: inline-start;
+}
+
+.save-feedback-button{
+    margin-left: 80px;
+    margin-top: 10px;
+    border: 2px solid transparent;
+    text-align: center;
+    font-size: 18px;
+    transition-duration: 0.4s;
+    background-color: #5ba996;
+    color: black;
+    display: none;
+}
+
+.save-feedback-button:hover {
+    color: white;
+  }
+
