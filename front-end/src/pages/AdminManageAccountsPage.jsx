@@ -38,6 +38,9 @@ const AdminManageAccountsPage = () => {
   let accountRenders;
   let staffRenders;
 
+  /**
+   * upgrade an account to staff level
+   */
   const modifyAccountsStaff = () => {
     try {
       fetch(server_URL + "change_staff_level", {
@@ -103,10 +106,10 @@ const AdminManageAccountsPage = () => {
         },
       })
         .then((response) => {
-          return response.text(); // Get the response text
+          return response.text(); // get the response text
         })
         .then((text) => {
-          // Parse the text as JSON
+          // parse the text as JSON
           const data = JSON.parse(text);
           setStaffLevel(data.staffLevel);
         });
@@ -131,10 +134,10 @@ const AdminManageAccountsPage = () => {
         },
       })
         .then((response) => {
-          return response.text(); // Get the response text
+          return response.text(); // get the response text
         })
         .then((text) => {
-          // Parse the text as JSON
+          // parse the text as JSON
           let data = JSON.parse(text);
 
           setListedUsers(data);
@@ -205,7 +208,9 @@ const AdminManageAccountsPage = () => {
     return re.test(input_str);
   }
 
-// SAVING INFO ##############
+/**
+* saving modified account info
+*/
 const saveInfo = (e) =>{
   e.preventDefault();
   let error = false;
@@ -234,7 +239,7 @@ const saveInfo = (e) =>{
     newStaffLevel = currentStaffLevel
   }
 
-  // All input checking
+  // all input checking
 
   // name can be anything?
 
@@ -272,7 +277,6 @@ const saveInfo = (e) =>{
   }
 }
 
-
   // uncovering the page if a valid account
   if (staffLevel >= 3) {
     document.getElementById("overlay").style.display = "none";
@@ -298,7 +302,7 @@ const saveInfo = (e) =>{
                   value={[userIndex, childIndex]}
                   onClick={openInfoPopup}
                 >
-                  info
+                  Info
                 </button>
               </div>
             );
@@ -316,7 +320,7 @@ const saveInfo = (e) =>{
                 value={[userIndex, 0]}
                 onClick={openInfoPopup}
               >
-                info
+                Info
               </button>
             </div>
             <div>{innerAccountRenders}</div>
@@ -336,12 +340,14 @@ const saveInfo = (e) =>{
             return (
               <div className="all-accounts-child-row">
                 <label>{child.name}</label>
+                {/* darkening overlay for adding a family member */}
+                <div className="myForm-overlay"></div>
                 <button
                   className="all-accounts-info-button"
                   value={[userIndex, childIndex]}
                   onClick={openInfoPopup}
                 >
-                  info
+                  Info
                 </button>
               </div>
             );
@@ -354,12 +360,14 @@ const saveInfo = (e) =>{
           <div className="all-accounts-family">
             <div className="all-accounts-parent-row">
               <label>{user.users[0].name}</label>
+              {/* darkening overlay for adding a family member */}
+              <div className="myForm-overlay"></div>
               <button
                 className="all-accounts-info-button"
                 value={[userIndex, 0]}
                 onClick={openInfoPopup}
               >
-                info
+                Info
               </button>
             </div>
             <div>{innerAccountRenders}</div>
@@ -370,8 +378,8 @@ const saveInfo = (e) =>{
 };
 
   /**
-   * show user info
-   */
+  * show user account info
+  */
   const openInfoPopup = (e) => {
     // console.log(e.target.value);
     let string = e.target.value;
@@ -398,10 +406,12 @@ const saveInfo = (e) =>{
 
     // from user.users name, birthday, phone,
     document.getElementById("edit-accout-info").style.display = "block";
+    document.querySelector(".myForm-overlay").style.display = "block";
   };
 
   const closeForm = () => {
     document.getElementById("edit-accout-info").style.display = "none";
+    document.querySelector(".myForm-overlay").style.display = "none";
 
     document.getElementById("edit-name").disabled = true
     document.getElementById("edit-birthday").prefentOpenOnFocus = true
@@ -612,11 +622,9 @@ const saveInfo = (e) =>{
           {/* <div className="family-info">
            */}
           <div className="">
-            <button className="edit-button" onClick={closeForm}>
-              Close
-            </button>
             <button className="edit-button" onClick={unlockInput}>Edit</button>
             <button className="edit-button" onClick={saveInfo}>Save</button>
+            <button className="edit-button" onClick={closeForm}>Close</button>
           </div>
         </div>
       </div>
@@ -628,9 +636,11 @@ const saveInfo = (e) =>{
       {/* rendering the accounts */}
       <div className="admin-parent-div">
         <div className="admin-account-div">
+          <label className="client-heading">CLIENTS</label>
           {accountRenders}
         </div>
         <div className="admin-account-div">
+        <label className="staff-heading">STAFF</label>
           {staffRenders}
         </div>
       </div>

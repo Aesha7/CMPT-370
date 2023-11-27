@@ -468,6 +468,7 @@
   padding: 0.7vh;
   position: absolute;
   margin-left: 5.5vw;
+  width: 12.5vw;
 }
 
 .account-label {
@@ -703,7 +704,6 @@
   margin-top: 2vh;
   margin-left: 59.5vw;
   position: absolute;
-  
 }
 
 .currentMemberPanel .edit-family-info {
@@ -754,8 +754,8 @@
   color: white;
   margin-left: 2vw;
   margin-right: -1vw;
-  width:5vw;
-  height:5vh;
+  width: 5vw;
+  height: 5vh;
   /* position: absolute; */
   /* padding-top: 1vh;
   padding-bottom: 1vh;

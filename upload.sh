@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "implemented api route + front-end for manage account page"
+git commit -m "completed manage accounts page"
 
 git push
