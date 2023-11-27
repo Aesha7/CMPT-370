@@ -486,7 +486,7 @@ const saveInfo = (e) =>{
             </label>
   
             <DatePicker 
-            className="manage-account-edit-dp" 
+            className="manage-account-edit" 
             id="edit-birthday"
             placeholderText={currentBirthday}
             selected={newBirthday}

@@ -69,15 +69,13 @@
 .admin-edit-div{
     margin-bottom: 15px;
     margin-top: 5px;
+    display: flex;
+    justify-content: space-between;    
 }
 
 .manage-account-edit{
     width: 17vw;
-    float: right;
-}
-
-.manage-account-edit-dp{
-    float: right;
+    height: 2vh
 }
 
 
