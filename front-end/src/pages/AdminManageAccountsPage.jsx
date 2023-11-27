@@ -621,7 +621,7 @@ const saveInfo = (e) =>{
 
           {/* <div className="family-info">
            */}
-          <div className="">
+          <div className="admin-button-div">
             <button className="edit-button" onClick={unlockInput}>Edit</button>
             <button className="edit-button" onClick={saveInfo}>Save</button>
             <button className="edit-button" onClick={closeForm}>Close</button>
