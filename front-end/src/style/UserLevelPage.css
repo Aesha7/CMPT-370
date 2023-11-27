@@ -33,7 +33,7 @@
 }
 
 
-.buttonBack{
+.user-level-page .buttonBack{
         width: 7.5vw;
         height: 6vh;
         color: white;
@@ -48,7 +48,7 @@
         margin-left: 60vw;
         position: absolute;
 }
-.buttonBack:hover{
+.user-level-page .buttonBack:hover{
     background-color: #2c3c4c;
     width: 8vw;
 }
