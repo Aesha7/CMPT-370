@@ -285,7 +285,6 @@ const AdminCalendarPage = () => {
 
   const displayConfirmPopup = () => {
     document.getElementById("confirmDeletionPopup").style.display = "block";
-    document.getElementById("myForm-overlay").style.display = "block";
   };
 
   // closes all popups
@@ -532,9 +531,9 @@ const AdminCalendarPage = () => {
   return (
     <div className="admin-calendar">
       <div className="top-bar">
-        Gym Schedule
+        &nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
-          <button className="top-bar-button" onClick={openEventCreateForm}>
+          <button className="top-bar-buttons" onClick={openEventCreateForm}>
             Add Event
           </button>
           <button className="top-bar-button" onClick={goBack}>
@@ -742,12 +741,14 @@ const AdminCalendarPage = () => {
 
             // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
 
             return { className: "", style: newStyle };

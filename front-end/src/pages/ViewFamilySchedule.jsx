@@ -186,6 +186,7 @@ const ViewFamilySchedule = () => {
 
   const openForm = () => {
     document.getElementById("myForm").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
@@ -196,6 +197,7 @@ const ViewFamilySchedule = () => {
 
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
   };
 
   const openConfirmationForm = (e) => {
@@ -234,10 +236,9 @@ const ViewFamilySchedule = () => {
 
   return (
     <div className="view-family-schedule">
-      <div className="top-bar">
-        Family Schedule
+      <div className="top-bar">&nbsp;&nbsp;FAMILY SCHEDULE
         <div className="allButtons">
-          <select className="top-bar-button" onChange={handleUserChange}>
+          <select className="top-bar-buttons" onChange={handleUserChange}>
             {nameDropDowns}
           </select>
           <button className="top-bar-button" onClick={goBack}>
@@ -267,6 +268,8 @@ const ViewFamilySchedule = () => {
           </button>
         </form>
       </div>
+
+      <div className="myForm-overlay" id="myForm-overlay"></div>
 
       <div className="confirm-form-popup" id="confirmationForm">
         <h4>Are you sure you would like to un-enroll?</h4>
@@ -302,13 +305,16 @@ const ViewFamilySchedule = () => {
               borderRadius: "0px",
               border: "none",
             };
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
             return { className: "", style: newStyle };
           }}

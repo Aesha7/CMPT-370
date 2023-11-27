@@ -7,35 +7,36 @@
     float: right;
   }
 
+  .gymForm-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(114, 114, 114, 0.925);
+    z-index: 2;
+  }
 
   
 /* The popup form - hidden by default */
 .form-popup {
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: normal;
     display: none;
     position: fixed;
     bottom: 0;
     right: 15px;
-    border: 3px solid #f1f1f1;
+    border: 3px solid #e4e2de;
     z-index: 9;
   }
-
-  .confirm-form-popup {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 15px;
-    border: 3px solid #f1f1f1;
-    z-index: 1000 !important;
-    background-color: lightgray;
-  }
-
-
   
   /* Add styles to the form container */
   .form-container {
     max-width: 400px;
     padding: 10px;
     background-color: white;
+    font-weight: normal;
   }
   
   /* Full-width input fields */
@@ -47,6 +48,7 @@
     max-width: 90%;
     border: none;
     background: #f1f1f1;
+    font-weight: normal;
   }
 
   .add-course-popup {
@@ -112,7 +114,10 @@
   
   /* Set a style for the submit/login button */
   .form-container .btn {
-    background-color: green;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 2.1vh;
+    background-color: #5ba996;
     color: white;
     padding: 16px 20px;
     border: none;
@@ -123,7 +128,16 @@
     opacity: 1;
   }
 
+  .form-container .btn:hover {
+    background-color: #4c786d;
+  }
+
+
   /* Add a red background color to the cancel button */
 .form-container .cancel {
-    background-color: red;
+    background-color: #db936f;
+  }
+
+  .form-container .cancel:hover {
+    background-color: #a9745a;
   }
