@@ -84,6 +84,7 @@
 .admin-parent-div{
     display: flex;
     padding: 20px;
+    overflow: scroll;
 }
 
 .admin-account-div{
