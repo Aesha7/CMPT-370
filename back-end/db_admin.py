@@ -285,6 +285,7 @@ def change_level(request_data, accounts_collection):
     resp.data=dumps("Error: user not found")
     return resp
 
+# TODO: email checking/name checking
 def change_account_info(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
@@ -315,9 +316,13 @@ def change_account_info(request_data, accounts_collection):
     if not (request_data["phone"]==""):
          accounts_collection.update_one({"email": request_data["old_email"]}, 
                                                     {"$set":{"phone" : request_data["phone"]}})
-
-    if not (request_data["new_email"] == ""):
-        accounts_collection.update_one({"email": request_data["old_email"]}, 
+    
+    if accounts_collection.find_one({"email": request_data["new_email"]}):
+       resp.status_code=400
+       resp.data = dumps("Email already in use!")
+    else:
+        if not (request_data["new_email"] == ""):
+            accounts_collection.update_one({"email": request_data["old_email"]}, 
                                                     {"$set":{"email" : request_data["new_email"]}})
     return resp
 
@@ -343,8 +348,23 @@ def change_user_info(request_data, accounts_collection):
     
     # Finds user and edits their level
     users = user_account["users"]
+
+    if not (request_data["new_name"]==""):
+        # Searches through account's list of family members to find if name already used
+        name_exists = False
+        for user in users:
+            if user["name"] == request_data["new_name"]:
+                name_exists = True
+                break
+
+        if name_exists:
+            resp.status_code=400
+            resp.data=dumps("Error: name already in use")
+            return resp
+    
     for user in users:
         if user["name"] == request_data["old_name"]:
+            
             if not (request_data["level"]==""):
                 accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["old_name"]}, 
                                                {"$set":{"users.$.level" : request_data["level"]}})
