@@ -109,12 +109,14 @@
     padding-right: 1.5vw;
     background-color: #a9745a;
 }
+.admin-button-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 2vw;
+}
 
   .admin-button-div .edit-button {
-    margin-left: 57px;
-    /* margin-right: 28px; */
     width: 6vw;
-    margin-top: 30px;
   }
 
   .client-heading, .staff-heading {
