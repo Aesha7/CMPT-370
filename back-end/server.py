@@ -651,6 +651,19 @@ def ToggleSkills():
         "Error: admin account not found"
     """
     return sk.toggle_skills(request.get_json(), accounts_collection)
+
+@app.route('/edit_account', methods=["POST"])
+@cross_origin(origins='*')
+def EditAccount():
+    """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
+    Required request parameters: email, password
+
+    Returns:
+        Response: contains _id of database document with given email if successful, else has status_code 400
+        Possible error messages: "Password does not match.", "Email not found."
+    """
+    return ac.edit_account(request.get_json(), accounts_collection)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #
