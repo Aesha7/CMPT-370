@@ -1,13 +1,22 @@
-from flask import Response
+from flask import Response, Request
 from bson.objectid import ObjectId
 from bson.json_util import dumps
+import bcrypt
+import db_accounts as ac
 
 def add_admin (accounts_collection):
+    # Password hashing
+    salt = bcrypt.gensalt()
+    password="password"
+    bytes = password.encode('utf-8')
+    hashed = bcrypt.hashpw(bytes, salt)
     account_details = {
         "_id": ObjectId("000000000000000000000000"),
         "email": "admin@test.com",
         "waiver": True,
-        "password": "password",
+        "hashed": hashed,
+        "salt": salt,
+        "password": "placeholder",
         "phone": "1112222222",
         "staffLevel": 3,
         "news": False,
@@ -33,11 +42,18 @@ def add_admin (accounts_collection):
     return resp
 
 def add_skill_test_account (accounts_collection):
+    # Password hashing
+    salt = bcrypt.gensalt()
+    password="password"
+    bytes = password.encode('utf-8')
+    hashed = bcrypt.hashpw(bytes, salt)
     account_details = {
         "_id": ObjectId("000000000000000000000001"),
         "email": "skills@test.com",
         "waiver": True,
-        "password": "password",
+        "hashed": hashed,
+        "password": "placeholder",
+        "salt": salt,
         "phone": "1112222222",
         "staffLevel": 0,
         "news": False,
@@ -47,6 +63,7 @@ def add_skill_test_account (accounts_collection):
             "_id": ObjectId(),
             "name": "user1",
             "level": 1,
+            "birthday":"old",
             "isParent": True,
             "courses":[],
             "events":[],
@@ -94,4 +111,34 @@ def clear_collection(col):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
     col.delete_many({})
+    return resp
+
+def create_password_test_accounts(col):
+    resp = Response()
+    i=0
+    for password in ["#$()*!&@$#","HJSd w83dISUE KC2udkcvlwe","''asdxe'",'"-',"","      "]:
+        email="passhash"+str(i)+"@test.com"
+        salt = bcrypt.gensalt()
+        bytes = password.encode('utf-8') 
+        hashed = bcrypt.hashpw(bytes, salt)
+        account_details = {
+            "_id": ObjectId("00000000000000000000001"+str(i)),
+            "email": email,
+            "hashed": hashed,
+            "salt": salt}
+        i=i+1
+        col.insert_one(account_details)
+    return resp
+
+def get_account_ids_test(col):
+    plist=["#$()*!&@$#","HJSd w83dISUE KC2udkcvlwe","''asdxe'",'"-',"","      "]
+    resp = Response()
+    for i in range(len(plist)):
+        req = Request()
+        req["password"]=plist[i]
+        req["email"]="passhash"+str(i)+"@test.com"
+        resp1 = ac.get_account_id(req,col)
+        if not resp1.status_code==200:
+            resp.status_code=400
+            return resp
     return resp
