@@ -43,7 +43,7 @@
   text-align: left;
   font-size: 8vh;
   font-weight:normal;
-  height: 100vh;  
+  height: 200vh;  
   width: 100vw;
   /* background: linear-gradient(to bottom right, transparent 0%, transparent 50%, #20f320 50%, #20f320 100%); */
   background: linear-gradient(to top, #8b8b8b83 0%, white 20%, transparent 50%);
@@ -64,7 +64,7 @@
 }
 .rectangleButtons{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #2f2f2f;  
   color: black; 
   margin-left: 1vw;
@@ -74,7 +74,7 @@
 }
 .rectangleFamReg{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #dbd9bf;  
   color: #ddd; 
   margin-top: 0vh;
@@ -84,7 +84,7 @@
 }
 .rectangleFamInf{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #dbd9bf;  
   color: #ddd; 
   margin-top: 0vh;
@@ -94,7 +94,7 @@
 }
 .rectangleMembers{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #d8d9d9;  
   color: #ddd; 
   margin-top: 0vh;
@@ -104,7 +104,7 @@
 }
 .rectangleCurrent{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #6a6969;  
   color: #ddd; 
   margin-top: 0vh;
@@ -114,7 +114,7 @@
 }
 .rectangleSubs{
   width: 0.25vw; 
-  height: 84.4vh;
+  height: 184.8vh;
   background-color: #d8d9d9;  
   color: #ddd; 
   margin-top: 0vh;

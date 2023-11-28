@@ -152,14 +152,16 @@ const forgotPasswordDummy = (e) => {
         <form>
             <div className="emailLine">
               <input onChange={handleEmail} className="fieldEmailHome" value={email} type="email" id="email" />
-              <div class="triangle"></div>  
-              <button onClick={null} className="buttonEm" type="button">Email</button>   
+              <div class="triangle"></div>
+              <label className = "labelEmailLogin">Email</label>  
+              {/* <button onClick={null} className="buttonEm" type="button">Email</button>    */}
             </div>
 
             <div className="passLine">
               <input onChange={handlePassword} className="fieldPass" value={password} type="password" id="password" />
               <div class="triangle2"></div>  
-              <button onClick={null} className="buttonPass" type="button">Password</button>
+              <label className = "labelPassLogin">Password</label>  
+              {/* <button onClick={null} className="buttonPass" type="button">Password</button> */}
             </div>
             
             <button onClick={handleSubmit} className="buttonLog" type="button">Login</button> 

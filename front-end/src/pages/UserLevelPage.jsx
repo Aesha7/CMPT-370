@@ -118,9 +118,9 @@ const UserLevelPage = () => {
       <label className="Name" htmlFor="name" type="name" id="name">{userName}</label>
     
     {/* buttons on the page */}
-      <button className="buttonBack" onClick={goBack}> Back </button>
+      <button className="buttonBackLevel" onClick={goBack}> Back </button>
       <button className="buttonSave" onClick={null}> Save </button>
-      <button className="buttonAddTip" onClick={null}> Add Tip </button>
+      {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
     
     {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
@@ -181,7 +181,7 @@ const UserLevelPage = () => {
         <span className="checkmarkSideways"></span>
       </label>
 
-      <label className="labelCoachTips">Coach Tips</label>
+      {/* <label className="labelCoachTips">Coach Tips</label> */}
 
 
     </div> 
