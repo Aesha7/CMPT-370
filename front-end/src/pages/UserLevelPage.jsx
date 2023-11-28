@@ -185,30 +185,18 @@ const UserLevelPage = () => {
 
   return (
     // <h1>test</h1>
-    <div className="user-level-page">
-      {" "}
-      My Progression
-      {/* // Member name labels at top of page */}
-      <label className="NLabel" htmlFor="name">
-        Name:{" "}
-      </label>
-      <label className="Name" htmlFor="name" type="name" id="name">
-        {userName}
-      </label>
-      {/* buttons on the page */}
-      <button className="buttonBack" onClick={goBack}>
-        {" "}
-        Back{" "}
-      </button>
-      <button className="buttonSave" id="coachSaveButton" onClick={null}>
-        {" "}
-        Save{" "}
-      </button>
-      <button className="buttonAddTip" id="coachAddTipButton" onClick={null}>
-        {" "}
-        Add Tip{" "}
-      </button>
-      {/* Skill checkboxes */}
+    <div className="user-level-page"> My Progression
+    
+    {/* // Member name labels at top of page */}
+      <label className="NLabel" htmlFor="name">Name:{" "}</label>
+      <label className="Name" htmlFor="name" type="name" id="name">{userName}</label>
+    
+    {/* buttons on the page */}
+      <button className="buttonBackLevel" onClick={goBack}> Back </button>
+      <button className="buttonSave" onClick={null}> Save </button>
+      {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
+    
+    {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
       <label className="labelVaults">Vaulting</label>
       <label className="checklistStepVault">
@@ -369,11 +357,16 @@ const UserLevelPage = () => {
         />
         <span className="checkmarkSideways"></span>
       </label>
-      <label className="labelCoachTips" id="CoachTips">
-        Coach Tips
-      </label>
-    </div>
-  );
+
+      {/* <label className="labelCoachTips">Coach Tips</label> */}
+
+
+    </div> 
+
+
+    
+  
+    );
 };
 
 export default UserLevelPage;

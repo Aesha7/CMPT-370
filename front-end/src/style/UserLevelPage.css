@@ -34,7 +34,8 @@
     position: absolute;
 }
 
-.user-level-page .buttonBack{
+
+.buttonBackLevel{
         width: 7.5vw;
         height: 6vh;
         color: white;
@@ -49,8 +50,7 @@
         margin-left: 60vw;
         position: absolute;
 }
-
-.user-level-page .buttonBack:hover{
+.buttonBackLevel:hover{
     background-color: #2c3c4c;
     width: 8vw;
 }
@@ -77,7 +77,8 @@
 background-color: #2c3c4c;
 width: 8vw;
 }
-.buttonAddTip{
+
+/* .buttonAddTip{
     width: 7.5vw;
     height: 6vh;
     color: white;
@@ -98,7 +99,8 @@ width: 8vw;
 .buttonAddTip:hover{
 background-color: #2c3c4c;
 width: 8vw;
-}
+} */
+
 
 .labelSkills{
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -116,14 +118,12 @@ width: 8vw;
     position: absolute;
     z-index: 1;
 }
-
-.labelCoachTips{
+/* .labelCoachTips{
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 4vh;
     text-align: left;
     padding-left: 1vw;
     padding-top: 1vh;
-    /* background-color: red; */
     color: black;
     background: linear-gradient(to bottom, rgba(177, 179, 177, 0.678) 0%, transparent 100%);
     height: 10vh;
@@ -132,8 +132,7 @@ width: 8vw;
     margin-left: -27vw;
     position: absolute;
     z-index: 1;
-}
-
+} */
 .labelVaults{
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 3vh;
@@ -1381,6 +1380,5 @@ width: 8vw;
     border-width: 0 0.2vw 0.4vh 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
   }
  
