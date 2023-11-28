@@ -338,3 +338,98 @@ def change_level(request_data, accounts_collection):
     resp.status_code=400
     resp.data=dumps("Error: user not found")
     return resp
+
+# TODO: email checking/name checking
+def change_account_info(request_data, accounts_collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    user_account = accounts_collection.find_one({"email": request_data["old_email"]})
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+
+    #Ensures admin account is found and that the admin account has a staffLevel of at least 3
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>2):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    # Ensures user account is found
+    if not user_account:
+        resp.status_code=400
+        resp.data=dumps("Error: user account not found")
+        return resp
+
+    #TODO: level checks
+    if not (request_data["staff_level"] == ""):
+        accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"staff_level" : int(request_data["staff_level"])}})
+
+    if not (request_data["phone"]==""):
+         accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"phone" : request_data["phone"]}})
+    
+    if accounts_collection.find_one({"email": request_data["new_email"]}):
+       resp.status_code=400
+       resp.data = dumps("Email already in use!")
+    else:
+        if not (request_data["new_email"] == ""):
+            accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"email" : request_data["new_email"]}})
+    return resp
+
+def change_user_info(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+    user_account = accounts_collection.find_one({"email": request_data["email"]})
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    if not user_account:
+        resp.data=dumps("Error: user account not found")
+        resp.status_code=400
+        return resp
+    
+    # Finds user and edits their level
+    users = user_account["users"]
+
+    if not (request_data["new_name"]==""):
+        # Searches through account's list of family members to find if name already used
+        name_exists = False
+        for user in users:
+            if user["name"] == request_data["new_name"]:
+                name_exists = True
+                break
+
+        if name_exists:
+            resp.status_code=400
+            resp.data=dumps("Error: name already in use")
+            return resp
+    
+    for user in users:
+        if user["name"] == request_data["old_name"]:
+            
+            if not (request_data["level"]==""):
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["old_name"]}, 
+                                               {"$set":{"users.$.level" : request_data["level"]}})
+            if not (request_data["birthday"]==""):
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["old_name"]}, 
+                                               {"$set":{"users.$.birthday" : request_data["birthday"]}})
+            if not (request_data["new_name"]==""):
+                accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["old_name"]}, 
+                                               {"$set":{"users.$.name" : request_data["new_name"]}})
+            return resp
+
+    resp.status_code=400
+    resp.data=dumps("Error: user not found")
+    return resp

@@ -652,18 +652,33 @@ def ToggleSkills():
     """
     return sk.toggle_skills(request.get_json(), accounts_collection)
 
-@app.route('/edit_account', methods=["POST"])
-@cross_origin(origins='*')
-def EditAccount():
-    """Retrieves the _id of an account from an email and password. An _id currently gives read/write access to most values in the account document. 
-    Required request parameters: email, password
+@app.route('/change_account_info', methods=["POST"])
+@cross_origin(origins="*")
+def ChangeAccountInfo():
+    """Changes account information. Send empty string to leave value the same.
+    Required request parameters: old_email, new_email, _id (of admin), phone, staff_level
 
-    Returns:
-        Response: contains _id of database document with given email if successful, else has status_code 400
-        Possible error messages: "Password does not match.", "Email not found."
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action"
+        "Error: user account not found"
+        "Error: admin account not found"
     """
-    return ac.edit_account(request.get_json(), accounts_collection)
+    return ad.change_account_info(request.get_json(), accounts_collection)
 
+@app.route('/change_user_info', methods=["POST"])
+@cross_origin(origins="*")
+def ChangeUserInfo():
+    """Changes user information. Send empty string to leave value the same.
+    Required request parameters: email, _id (of admin), old_name, new_name, level, birthday
+
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action"
+        "Error: user account not found"
+        "Error: admin account not found"
+    """
+    return ad.change_user_info(request.get_json(), accounts_collection)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 #
@@ -688,6 +703,16 @@ def TestClearCollection():
 @cross_origin(origins="*")
 def TestDelete():
     return internal.clear_user_schedule(request.get_json()["_id"],courses_collection,events_collection)
+
+@app.route("/get_account_ids_test", methods=["POST"])
+@cross_origin(origins="*")
+def GetAccountIDTest():
+    return TESTING.get_account_ids_test(testing_accounts_collection)
+
+@app.route("/create_password_test_accounts", methods=["POST"])
+@cross_origin(origins="*")
+def CreatePasswordTestAccounts():
+    return TESTING.create_password_test_accounts(testing_accounts_collection)
 
 def _corsify(response):
     response.headers.add("Access-Control-Allow-Origin", "*")
