@@ -12,6 +12,7 @@ const UserLevelPage = () => {
 
     let [ userID, setUserID ] = useState("");
     let [ userName, setUserName ] = useState("");
+    let [user, setUser] = useState();
     userID = location.state._id;
     userName = location.state.curUserName;
 
@@ -22,8 +23,49 @@ const UserLevelPage = () => {
       userID = window.localStorage.getItem("_id");
 
       
+
+ /**
+   * gets the account info from the database
+   */
+ const get_account_info = () => {
+  try {
+    fetch(server_URL + "get_account_info", {
+      method: "POST",
+      body: JSON.stringify({ _id: userID }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+      },
+    })
+      .then((response) => {
+        return response.text(); // get the response text
+      })
+      .then((text) => {
+        // Parse the text as JSON
+        // setting relevent info as react states
+        const data = JSON.parse(text);
+
+        user = data;
+        console.log(user)
+        if(userName == user.users[0].name && user.staffLevel >= 1){
+          document.getElementById("coachSaveButton").style.visibility = "visible"
+          document.getElementById("coachAddTipButton").style.visibility = "visible"
+        }
+        else{
+          // checkboxes disabled...
+
+        }
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
     useEffect(() =>{
-        // console.log(userID, userName)
+        get_account_info()
     }, [])
 
     const navigate = useNavigate();
@@ -33,25 +75,25 @@ const UserLevelPage = () => {
       navigate(path, { state: userID });
     };
 
-    const [stepVaultChecked, setStepVaultChecked] = React.useState(false);
-    const [lazyVaultChecked, setLazyVaultChecked] = React.useState(false);
-    const [turnVaultChecked, setTurnVaultChecked] = React.useState(false);
+    const [stepVaultChecked, setStepVaultChecked] = useState(false);
+    const [lazyVaultChecked, setLazyVaultChecked] = useState(false);
+    const [turnVaultChecked, setTurnVaultChecked] = useState(false);
     
-    const [standingChecked, setStandingChecked] = React.useState(false);
-    const [strideChecked, setStrideChecked] = React.useState(false);
-    const [plyoChecked, setPlyoChecked] = React.useState(false);
+    const [standingChecked, setStandingChecked] = useState(false);
+    const [strideChecked, setStrideChecked] = useState(false);
+    const [plyoChecked, setPlyoChecked] = useState(false);
     
-    const [hipCatchChecked, setHipCatchChecked] = React.useState(false);
-    const [climbDownChecked, setClimbDownChecked] = React.useState(false);
-    const [dashDownChecked, setDashDownChecked] = React.useState(false);
+    const [hipCatchChecked, setHipCatchChecked] = useState(false);
+    const [climbDownChecked, setClimbDownChecked] = useState(false);
+    const [dashDownChecked, setDashDownChecked] = useState(false);
     
-    const [reGripChecked, setReGripChecked] = React.useState(false);
-    const [dismountChecked, setDismountChecked] = React.useState(false);
-    const [lacheChecked, setLacheChecked] = React.useState(false);
+    const [reGripChecked, setReGripChecked] = useState(false);
+    const [dismountChecked, setDismountChecked] = useState(false);
+    const [lacheChecked, setLacheChecked] = useState(false);
 
-    const [forwardsChecked, setForwardsChecked] = React.useState(false);
-    const [backwardsChecked, setBackwardsChecked] = React.useState(false);
-    const [sidewaysChecked, setSidewaysChecked] = React.useState(false);
+    const [forwardsChecked, setForwardsChecked] = useState(false);
+    const [backwardsChecked, setBackwardsChecked] = useState(false);
+    const [sidewaysChecked, setSidewaysChecked] = useState(false);
 
     const handleStepVaultChange = () => {
       setStepVaultChecked(!stepVaultChecked);
@@ -109,6 +151,8 @@ const UserLevelPage = () => {
     };
 
 
+
+    
   return (
     // <h1>test</h1>
     <div className="user-level-page"> My Progression
@@ -119,8 +163,8 @@ const UserLevelPage = () => {
     
     {/* buttons on the page */}
       <button className="buttonBack" onClick={goBack}> Back </button>
-      <button className="buttonSave" onClick={null}> Save </button>
-      <button className="buttonAddTip" onClick={null}> Add Tip </button>
+      <button className="buttonSave" id="coachSaveButton" onClick={null}> Save </button>
+      <button className="buttonAddTip" id="coachAddTipButton" onClick={null}> Add Tip </button>
     
     {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
@@ -181,7 +225,7 @@ const UserLevelPage = () => {
         <span className="checkmarkSideways"></span>
       </label>
 
-      <label className="labelCoachTips">Coach Tips</label>
+      <label className="labelCoachTips" id="CoachTips">Coach Tips</label>
 
 
     </div> 
