@@ -46,7 +46,8 @@ const UserLevelPage = () => {
           const data = JSON.parse(text);
 
           user = data;
-          console.log(user);
+
+          // disabling buttons and checkboxes based on stafflevel
           if (userName == user.users[0].name && user.staffLevel >= 1) {
             document.getElementById("coachSaveButton").style.visibility =
               "visible";
