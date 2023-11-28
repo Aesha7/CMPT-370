@@ -445,4 +445,26 @@ def edit_subscriptions(request_data, accounts_collection):
     return resp
     
 
+def edit_account(request_data, accounts_collection):
+
+     # Checks if email is already in database
+     # Response
     
+
+    account = accounts_collection.find({"_id": ObjectId(request_data["userID"])})
+    print(account["email"])
+
+
+
+
+        #accounts_collection.update_one({"email": request_data["userID"]}, {"$set": {"email": request_data["email"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"staffLevel": request_data["staffLevel"]}})
+
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"name": request_data["name"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"birthday": request_data["birthday"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"phone": request_data["phone"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"level": request_data["level"]}})
+
+    
+
+    return "Returned"

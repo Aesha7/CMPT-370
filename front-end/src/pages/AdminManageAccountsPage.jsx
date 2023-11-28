@@ -266,9 +266,52 @@ const saveInfo = (e) =>{
   else{
     // all variables you will need
     console.log("NEW ", newName, newBirthday, newLevel, newPhone, newEmail, newStaffLevel)
+    
     // API CALL GOES HERE
     // CAN SEND ALL INFO, Might need new route
     // can probably use currentAccountID to get to the right user
+    try {
+      fetch(server_URL + "edit_account", {
+        method: "POST",
+        body: JSON.stringify({ userID: userID, name: newName, birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text();
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          const data = JSON.parse(text);
+
+          if (text == '"Error: admin account not found"') {
+            alert('"Error: admin account not found"');
+          }
+          if (data == '"Error: user account not found"') {
+            alert('"Error: user account not found"');
+          }
+          if (
+            data == '"Error: you do not have permission to perform this action"'
+          ) {
+            alert('"Error: you do not have permission to perform this action"');
+          }
+          if (
+            data ==
+            '"Error: target account\'s staff level is too high to change."'
+          ) {
+            alert(
+              '"Error: target account\'s staff level is too high to change."'
+            );
+          }
+        });
+    } catch (exception) {
+      console.log(exception);
+    }
+
   }
 }
 
