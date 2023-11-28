@@ -29,7 +29,7 @@ const CoachCalendarPage = () => {
     navigate(path, { state: userID });
   };
 
-  // prevent crash from undefined student array before selecting a class
+  /// prevent crash from undefined student array before selecting a class
   if (currentCalEvent.enrolled == undefined) {
     currentCalEvent.enrolled = [];
   }
@@ -151,15 +151,21 @@ const CoachCalendarPage = () => {
     if (calEvent.attendance == undefined) {
       calEvent.attendance = [];
     }
-    if (calEvent.attendance.length == 0) {
-      calEvent.attendance.push({ date: moment(), attendanceDate: [] });
-
-      calEvent.enrolled.forEach((enrolledStudent) =>
-        calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.push(
-          { name: enrolledStudent.name, present: false, feedback: "" }
-        )
-      );
+    if (calEvent.attendance.find(day => day.date == moment().startOf("day").toString()) === undefined) {
+      calEvent.attendance.push({ date: moment().startOf("day").toString(), attendanceDate: [] });
     }
+
+    // populate attendance data with empty entries for each student
+    for (var i = 0; i < calEvent.enrolled.length; i++) {
+      if (calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.find(
+        attendanceStudent => attendanceStudent.name == calEvent.enrolled[i].name) == undefined) {
+  
+        calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.push(
+          { name: calEvent.enrolled[i].name, present: false, feedback: "" }
+        )
+      }
+    }
+    
 
     setCurrentCalEvent(calEvent);
     if (calEvent.enrolled.length != 0) {
@@ -229,8 +235,6 @@ const CoachCalendarPage = () => {
   };
 
   useEffect(() => {
-    //inti calendar
-    // get_coach_name();
     get_db_events();
     forceUpdate(updateDummy + 1);
   }, []);
