@@ -407,17 +407,6 @@ const saveInfo = (e) =>{
     // from user.users name, birthday, phone,
     document.getElementById("edit-accout-info").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
-
-    if(indicies[1] == 0){
-      document.getElementById("edit-email-div").style.display = "flex";
-      document.getElementById("edit-phone-div").style.display = "flex";
-      document.getElementById("edit-staff-level-div").style.display = "flex";
-    }
-    else{
-      document.getElementById("edit-email-div").style.display = "none";
-      document.getElementById("edit-phone-div").style.display = "none";
-      document.getElementById("edit-staff-level-div").style.display = "none";
-    }
   };
 
   const closeForm = () => {
