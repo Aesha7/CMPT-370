@@ -4,6 +4,7 @@ from flask import Response
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 import internal
+import bcrypt
 
 def _build_cors_preflight_response():
     response = Response()
@@ -13,10 +14,18 @@ def _build_cors_preflight_response():
     return response
 
 def submit_account(request_data, accounts_collection):
+    # Password hashing
+    salt = bcrypt.gensalt()
+    password=request_data["password"]
+    bytes = password.encode('utf-8')
+    hashed = bcrypt.hashpw(bytes, salt)
+    hashed = bcrypt.hashpw(bytes, salt)
+
     account_details = {
         "email": request_data["email"],
         "waiver": request_data["waiver"],
-        "password": request_data["password"],
+        "hashed": hashed,
+        "salt": salt,
         "phone": request_data["phone"],
         "staffLevel": 0,
         "news": False,
@@ -50,15 +59,24 @@ def submit_account(request_data, accounts_collection):
     return resp
 
 def get_account_id(request_data, accounts_collection):
-    # TODO: assumes password is stored in plaintext 
     resp = Response()
     account = accounts_collection.find_one({"email": request_data["email"]})
     if account:
-        if account["password"] == request_data["password"]:
-            resp.data = dumps(str(account["_id"]))
-        else:
-            resp.data=dumps("Password does not match.")
-            resp.status_code=400
+        if "hashed" in account:
+            salt = account["salt"]
+            bytes = request_data["password"].encode('utf-8') 
+            hashed = bcrypt.hashpw(bytes, salt)
+            if account["hashed"] == hashed:
+                resp.data = dumps(str(account["_id"]))
+            else:
+                resp.data=dumps("Password does not match.")
+                resp.status_code=400
+        else: #legacy password
+            if account["password"] == request_data["password"]:
+                resp.data = dumps(str(account["_id"]))
+            else:
+                resp.data=dumps("Password does not match.")
+                resp.status_code=400
     else:
         resp.data=dumps("Email not found.")
         resp.status_code=400
@@ -73,7 +91,10 @@ def get_account_info(request_data, accounts_collection):
         return resp
     account.pop("_id")
     # account.pop("users")
-    account.pop("password")
+    if "hashed" in account:
+        account.pop("hashed")
+    if "password" in account:
+        account.pop("password")
     resp.data=dumps(account)
     return resp
 
