@@ -407,6 +407,17 @@ const saveInfo = (e) =>{
     // from user.users name, birthday, phone,
     document.getElementById("edit-accout-info").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
+
+    if(indicies[1] == 0){
+      document.getElementById("edit-email-div").style.display = "flex";
+      document.getElementById("edit-phone-div").style.display = "flex";
+      document.getElementById("edit-staff-level-div").style.display = "flex";
+    }
+    else{
+      document.getElementById("edit-email-div").style.display = "none";
+      document.getElementById("edit-phone-div").style.display = "none";
+      document.getElementById("edit-staff-level-div").style.display = "none";
+    }
   };
 
   const closeForm = () => {
@@ -529,7 +540,7 @@ const saveInfo = (e) =>{
           </div>
 
           {/* phone */}
-          <div className="admin-edit-div">
+          <div className="admin-edit-div" id="edit-phone-div">
             <label className="account-label" htmlFor="phone" id="info-phone">
               {" "}
               Phone:{" "}
@@ -546,7 +557,7 @@ const saveInfo = (e) =>{
           </div>
 
           {/* Email */}
-          <div className="admin-edit-div">
+          <div className="admin-edit-div" id="edit-email-div">
             <label className="account-label" htmlFor="email" id="info-email">
               {" "}
               Email:{" "}
@@ -599,7 +610,7 @@ const saveInfo = (e) =>{
           </div>
 
           {/* staffLevel */}
-          <div className="admin-edit-div">
+          <div className="admin-edit-div" id="edit-staff-level-div">
             <label
               className="account-label"
               htmlFor="staffLevel"
