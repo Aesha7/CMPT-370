@@ -13,14 +13,55 @@ const UserLevelPage = () => {
   let [userID, setUserID] = useState("");
   let [userName, setUserName] = useState("");
   let [user, setUser] = useState();
-  userID = location.state._id;
-  userName = location.state.curUserName;
+  let studentID = location.state.studentID;
+  // userName = location.state.curUserName;
+  let isCoach = location.state.isCoach;
 
-  if (userID != null) {
-    window.localStorage.setItem("_id", userID);
+  console.log(studentID, isCoach)
+
+  // if (userID != null) {
+  //   window.localStorage.setItem("_id", userID);
+  // }
+  // // getting it from local storage
+  // userID = window.localStorage.getItem("_id");
+
+
+  const get_user_info = () =>{
+    try {
+      fetch(server_URL + "get_user_info", {
+        method: "POST",
+        body: JSON.stringify({ user_id: studentID }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Headers": "Content-Type",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+        },
+      })
+        .then((response) => {
+          return response.text(); // get the response text
+        })
+        .then((text) => {
+          // Parse the text as JSON
+          // setting relevent info as react states
+          const data = JSON.parse(text);
+
+          console.log(data)
+          // user = data;
+
+          // disabling buttons and checkboxes based on stafflevel
+          // if (userName == user.users[0].name && user.staffLevel >= 1) {
+
+          //   unlock_checkbox()
+          // } else {
+          //   // checkboxes disabled...
+          //   lock_checkbox()
+          // }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   }
-  // getting it from local storage
-  userID = window.localStorage.getItem("_id");
 
   /**
    * gets the account info from the database
@@ -62,7 +103,8 @@ const UserLevelPage = () => {
   };
 
   useEffect(() => {
-    get_account_info();
+    // get_account_info();
+    get_user_info();
   }, []);
 
   const navigate = useNavigate();

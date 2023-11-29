@@ -113,7 +113,8 @@ const AccountView = () => {
     let path = "/user-level";
     let user = users[e.target.value];
     let name = user.name;
-    navigate(path, { state: { _id: userID, curUserName: name } });
+    let studentID = user._id["$oid"];
+    navigate(path, { state: { isCoach: false, studentID: studentID} });
   };
 
   /**

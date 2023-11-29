@@ -13,8 +13,6 @@
     background-color: #d8d9d9;
     margin: 1.5vw;
     padding: 0.95vw;
-
-
 }
 
 .attendance-checkbox{
@@ -41,6 +39,7 @@
     border: 2px solid #2c3c4c;
     background-color: #7d8f97;
     color: white;
+    overflow: hidden;
 }
 
 .student-feedback{
@@ -93,5 +92,24 @@
   .student-list-header{
     display: block;
   }
+
+  .coach-level-info-button{
+    color: white;
+    background-color: #e7bf6a;
+    float: right;
+    width: 3.5vw;
+    border: 2px solid #e7bf6a;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition-duration: 0.4s;
+  }
+
+  .coach-level-info-button:hover{
+    width: 4.5vw;
+    background-color: #b3975a;
+    border: 2px solid #b3975a;
+  }
+
 
 

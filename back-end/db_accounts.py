@@ -98,6 +98,19 @@ def get_account_info(request_data, accounts_collection):
     resp.data=dumps(account)
     return resp
 
+
+def get_user_info(request_data, accounts_collection):
+    resp = Response()
+    for account in accounts_collection.find():
+        for user in account["users"]:
+            if(user["_id"] == request_data["user_id"]):
+                resp.data=dumps(account)
+                return resp
+    resp.data=dumps("Error: user does not exist")
+    resp.status_code=400
+    return resp
+
+
 def add_family(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'

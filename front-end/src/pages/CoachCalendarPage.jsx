@@ -29,6 +29,14 @@ const CoachCalendarPage = () => {
     navigate(path, { state: userID });
   };
 
+  const levelInfoRoute = (e) =>{
+    let studentID = e.target.value
+    let path = "/user-level";
+
+    navigate(path, {state:{isCoach: true, studentID: studentID}})
+
+  }
+
   /// prevent crash from undefined student array before selecting a class
   if (currentCalEvent.enrolled == undefined) {
     currentCalEvent.enrolled = [];
@@ -343,6 +351,10 @@ const CoachCalendarPage = () => {
                       }
                       onInput={auto_height}
                     />
+                  </div>
+                  <div>
+                    {/* value is the students userID (NOT accountID) */}
+                    <button className="coach-level-info-button" value={student._id["$oid"]} onClick={levelInfoRoute}>Level Info</button>
                   </div>
                 </div>
               );

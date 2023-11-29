@@ -110,6 +110,21 @@ def GetAccountInfo():
     """
     return ac.get_account_info(request.get_json(), accounts_collection)
 
+@app.route("/get_user_info", methods=["POST"])
+@cross_origin(origins="*")
+def GetUserInfo():
+    """Retrieves accounts info excluding password, using a childs ID
+    
+    
+    Returns:
+        Response
+
+    Possible error messages:
+        "Error: user does not exist"
+    """
+    return ac.get_user_info(request.get_json(), accounts_collection)
+
+
 @app.route('/edit_subscriptions',methods=["POST"])
 @cross_origin(origins='*')
 def EditSubscriptions():
