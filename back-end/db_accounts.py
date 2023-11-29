@@ -103,7 +103,11 @@ def get_user_info(request_data, accounts_collection):
     resp = Response()
     for account in accounts_collection.find():
         for user in account["users"]:
-            if(user["_id"] == request_data["user_id"]):
+            if(user["_id"] == ObjectId(request_data["user_id"])):
+                if "hashed" in account:
+                    account.pop("hashed")
+                if "password" in account:
+                    account.pop("password")
                 resp.data=dumps(account)
                 return resp
     resp.data=dumps("Error: user does not exist")
