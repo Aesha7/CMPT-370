@@ -312,6 +312,17 @@ const saveInfo = (e) =>{
               '"Error: target account\'s staff level is too high to change."'
             );
           }
+          else{
+            alert("Info has been saved.")
+
+            document.getElementById("edit-name").disabled = true
+            document.getElementById("edit-birthday").prefentOpenOnFocus = true
+            document.getElementById("edit-level").disabled = true
+            document.getElementById("edit-phone").disabled = true
+            document.getElementById("edit-email").disabled = true
+            document.getElementById("edit-staff-level").disabled = true
+
+          }
         });
     } catch (exception) {
       console.log(exception);
