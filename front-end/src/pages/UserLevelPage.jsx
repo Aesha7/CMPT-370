@@ -18,12 +18,14 @@ const UserLevelPage = () => {
   // userName = location.state.curUserName;
   let isCoach = location.state.isCoach;
   let coachID = location.state.coachID;
-  let coachName = location.state.coachName
+  let coachName = location.state.coachName;
 
-  console.log(studentID, isCoach, coachID, coachName)
+  // prevents refresh on useEffect
+  let checklistBool = false;
 
+  console.log(studentID, isCoach, coachID, coachName);
 
-  const get_user_info = () =>{
+  const get_user_info = () => {
     try {
       fetch(server_URL + "get_user_info", {
         method: "POST",
@@ -43,43 +45,80 @@ const UserLevelPage = () => {
           // setting relevent info as react states
           const data = JSON.parse(text);
 
-          setAccount(data)
+          setAccount(data);
 
-          data.users.forEach((user) =>{
+          data.users.forEach((subUser) => {
             // console.log(user._id, studentID)
-            if(user._id["$oid"] == studentID){
-              setUserName(user.name)
-
-              console.log("USER", user)
-              console.log(user.skills)
+            if (subUser._id["$oid"] == studentID) {
+              setUserName(subUser.name);
+              user = subUser;
             }
-          })
+          });
 
-
-          // user = data;
-
+          if(!checklistBool){
+            get_skill_checklist()
+            checklistBool = !checklistBool
+          }
 
           if (isCoach) {
             // checkboxes enabled (and save button)...
-            unlock_checkbox()
+            unlock_checkbox();
           } else {
             // checkboxes disabled...
-            lock_checkbox()
+            lock_checkbox();
           }
         });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  /**
-   * gets the account info from the database
-   */
-  const get_account_info = () => {
-    try {
-      fetch(server_URL + "get_account_info", {
+  const saveChecks = () =>{
+    console.log(coachID, account)
+
+    let skillDict = {
+      "Step-Vault": stepVaultChecked,
+      "Lazy-Vault": lazyVaultChecked,
+      "Turn-Vault": turnVaultChecked,
+      "Standing": standingChecked,
+      "Stride": strideChecked,
+      "Plyo": plyoChecked,
+      "Hip-Catch": hipCatchChecked,
+      "Climb-Down":climbDownChecked,
+      "Dash-Down":dashDownChecked,
+      "Re-Grip": reGripChecked,
+      "Dismount": dismountChecked,
+      "Lache":lacheChecked,
+      "Forwards": forwardsChecked,
+      "Backwards": backwardsChecked,
+      "Sideways": sidewaysChecked
+    }
+
+    let checked = [];
+    let unchecked = [];
+
+    Object.keys(skillDict).forEach((skill) => {
+      if(skillDict[skill] == true){
+        checked.push(skill)
+      }
+      else{
+        unchecked.push(skill)
+      }
+    })
+
+    console.log(checked, unchecked)
+
+
+    try{
+      fetch(server_URL + "check_uncheck_skills", {
         method: "POST",
-        body: JSON.stringify({ _id: userID }),
+        body: JSON.stringify({
+           _id: coachID,
+           check_list: checked,
+           uncheck_list: unchecked,
+           email: account.email,
+           user_name: userName
+         }),
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Headers": "Content-Type",
@@ -90,20 +129,94 @@ const UserLevelPage = () => {
         .then((response) => {
           return response.text(); // get the response text
         })
-        .then((text) => {
-          // Parse the text as JSON
-          // setting relevent info as react states
-          const data = JSON.parse(text);
-
-          user = data;
-
-          // disabling buttons and checkboxes based on stafflevel
-
-        });
-    } catch (error) {
-      console.log(error);
+        .then((text) => { 
+          console.log(text)
+          if(text == "\"Error: you do not have permission to perform this action\""){
+            alert("You do not have permission to perform this action.")
+          }
+          else if(text == '"Error: account not found"'){
+            alert("Account not found.")
+          }
+          else if(text == '"Error: admin account not found"'){
+            alert("Coach account not found.")
+          }
+          else{
+            alert("Skills saved.")
+          }
+        })
+    }catch(exception){
+      console.log(exception)
     }
+  }
+
+  const get_skill_checklist = () => {
+    console.log(user);
+    let skillCategories = [
+      "Jumping",
+      "Vaulting",
+      "Climbing",
+      "Swinging",
+      "Landing",
+    ];
+
+    skillCategories.forEach((category) => {
+      user.skills[category].forEach((skill) => {
+        // , ", "Lache", "Forwards", "Backwards", "Sideways"
+
+        document.getElementById(skill.name).checked = skill.checked;
+        switch (skill.name) {
+          case "Step-Vault":
+            setStepVaultChecked(skill.checked);
+            break;
+          case "Lazy-Vault":
+            setLazyVaultChecked(skill.checked);
+            break;
+          case "Turn-Vault":
+            setTurnVaultChecked(skill.checked);
+            break;
+          case "Standing":
+            setStandingChecked(skill.checked);
+            break;
+          case "Stride":
+            setStrideChecked(skill.checked);
+            break;
+          case "Plyo":
+            setPlyoChecked(skill.checked);
+            break;
+          case "Hip-Catch":
+            setHipCatchChecked(skill.checked);
+            break;
+          case "Climb-Down":
+            setClimbDownChecked(skill.checked);
+            break;
+          case "Dash-Down":
+            setDashDownChecked(skill.checked);
+            break;
+          case "Re-Grip":
+            setReGripChecked(skill.checked);
+            break;
+          case "Dismount":
+            setDismountChecked(skill.checked);
+            break;
+          case "Lache":
+            setLacheChecked(skill.checked);
+            break;
+          case "Forwards":
+            setForwardsChecked(skill.checked);
+            break;
+          case "Backwards":
+            setBackwardsChecked(skill.checked);
+            break;
+          case "Sideways":
+            setSidewaysChecked(skill.checked);
+            break;
+        }
+      });
+    });
   };
+
+
+  // updating the skill checklist
 
   useEffect(() => {
     // get_account_info();
@@ -113,53 +226,51 @@ const UserLevelPage = () => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    if(!isCoach){
+    if (!isCoach) {
       let path = "/my-account";
       navigate(path, { state: userID });
-    } else{
-      let path = "/coach-schedule"
-      navigate(path, {state:{userID: coachID, coachName: coachName}});
+    } else {
+      let path = "/coach-schedule";
+      navigate(path, { state: { userID: coachID, coachName: coachName } });
     }
   };
 
-  const lock_checkbox = () =>{
-    document.getElementById("checkboxSave").style.visibility = "hidden"
-    document.getElementById("step-vault").disabled = true
-    document.getElementById("lazy-vault").disabled = true
-    document.getElementById("turn-vault").disabled = true
-    document.getElementById("standing").disabled = true
-    document.getElementById("stride").disabled = true
-    document.getElementById("plyo").disabled = true
-    document.getElementById("hip-catch").disabled = true
-    document.getElementById("climb-down").disabled = true
-    document.getElementById("dash-down").disabled = true
-    document.getElementById("re-grip").disabled = true
-    document.getElementById("dismount").disabled = true
-    document.getElementById("lache").disabled = true
-    document.getElementById("forwards").disabled = true
-    document.getElementById("backwards").disabled = true
-    document.getElementById("sideways").disabled = true
-  }
-
-  const unlock_checkbox = () =>{
-    document.getElementById("checkboxSave").style.visibility = "visible"
-    document.getElementById("step-vault").disabled = false
-    document.getElementById("lazy-vault").disabled = false
-    document.getElementById("turn-vault").disabled = false
-    document.getElementById("standing").disabled = false
-    document.getElementById("stride").disabled = false
-    document.getElementById("plyo").disabled = false
-    document.getElementById("hip-catch").disabled = false
-    document.getElementById("climb-down").disabled = false
-    document.getElementById("dash-down").disabled = false
-    document.getElementById("re-grip").disabled = false
-    document.getElementById("dismount").disabled = false
-    document.getElementById("lache").disabled = false
-    document.getElementById("forwards").disabled = false
-    document.getElementById("backwards").disabled = false
-    document.getElementById("sideways").disabled = false
-  }
-
+  const lock_checkbox = () => {
+    document.getElementById("checkboxSave").style.visibility = "hidden";
+    document.getElementById("Step-Vault").disabled = true;
+    document.getElementById("Lazy-Vault").disabled = true;
+    document.getElementById("Turn-Vault").disabled = true;
+    document.getElementById("Standing").disabled = true;
+    document.getElementById("Stride").disabled = true;
+    document.getElementById("Plyo").disabled = true;
+    document.getElementById("Hip-Catch").disabled = true;
+    document.getElementById("Climb-Down").disabled = true;
+    document.getElementById("Dash-Down").disabled = true;
+    document.getElementById("Re-Grip").disabled = true;
+    document.getElementById("Dismount").disabled = true;
+    document.getElementById("Lache").disabled = true;
+    document.getElementById("Forwards").disabled = true;
+    document.getElementById("Backwards").disabled = true;
+    document.getElementById("Sideways").disabled = true;
+  };
+  const unlock_checkbox = () => {
+    document.getElementById("checkboxSave").style.visibility = "visible";
+    document.getElementById("Step-Vault").disabled = false;
+    document.getElementById("Lazy-Vault").disabled = false;
+    document.getElementById("Turn-Vault").disabled = false;
+    document.getElementById("Standing").disabled = false;
+    document.getElementById("Stride").disabled = false;
+    document.getElementById("Plyo").disabled = false;
+    document.getElementById("Hip-Catch").disabled = false;
+    document.getElementById("Climb-Down").disabled = false;
+    document.getElementById("Dash-Down").disabled = false;
+    document.getElementById("Re-Grip").disabled = false;
+    document.getElementById("Dismount").disabled = false;
+    document.getElementById("Lache").disabled = false;
+    document.getElementById("Forwards").disabled = false;
+    document.getElementById("Backwards").disabled = false;
+    document.getElementById("Sideways").disabled = false;
+  };
   const [stepVaultChecked, setStepVaultChecked] = useState(false);
   const [lazyVaultChecked, setLazyVaultChecked] = useState(false);
   const [turnVaultChecked, setTurnVaultChecked] = useState(false);
@@ -234,18 +345,27 @@ const UserLevelPage = () => {
 
   return (
     // <h1>test</h1>
-    <div className="user-level-page"> My Progression
-    
-    {/* // Member name labels at top of page */}
-      <label className="NLabel" htmlFor="name">Name:{" "}</label>
-      <label className="Name" htmlFor="name" type="name" id="name">{userName}</label>
-    
-    {/* buttons on the page */}
-      <button className="buttonBackLevel" onClick={goBack}> Back </button>
-      <button className="buttonSave" id="checkboxSave" onClick={null}> Save </button>
+    <div className="user-level-page">
+      {" "}
+      My Progression
+      {/* // Member name labels at top of page */}
+      <label className="NLabel" htmlFor="name">
+        Name:{" "}
+      </label>
+      <label className="Name" htmlFor="name" type="name" id="name">
+        {userName}
+      </label>
+      {/* buttons on the page */}
+      <button className="buttonBackLevel" onClick={goBack}>
+        {" "}
+        Back{" "}
+      </button>
+      <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
+        {" "}
+        Save{" "}
+      </button>
       {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
-    
-    {/* Skill checkboxes */}
+      {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
       <label className="labelVaults">Vaulting</label>
       <label className="checklistStepVault">
@@ -254,7 +374,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={stepVaultChecked}
           onChange={handleStepVaultChange}
-          id="step-vault"
+          id="Step-Vault"
         />
         <span className="checkmarkStepVault"></span>
       </label>
@@ -264,7 +384,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={lazyVaultChecked}
           onChange={handleLazyVaultChange}
-          id="lazy-vault"
+          id="Lazy-Vault"
         />
         <span className="checkmarkLazyVault"></span>
       </label>
@@ -274,7 +394,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={turnVaultChecked}
           onChange={handleTurnVaultChange}
-          id="turn-vault"
+          id="Turn-Vault"
         />
         <span className="checkmarkTurnVault"></span>
       </label>
@@ -285,7 +405,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={standingChecked}
           onChange={handleStandingChange}
-          id="standing"
+          id="Standing"
         />
         <span className="checkmarkStanding"></span>
       </label>
@@ -295,7 +415,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={strideChecked}
           onChange={handleStrideChange}
-          id="stride"
+          id="Stride"
         />
         <span className="checkmarkStride"></span>
       </label>
@@ -305,7 +425,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={plyoChecked}
           onChange={handlePlyoChange}
-          id="plyo"
+          id="Plyo"
         />
         <span className="checkmarkPlyo"></span>
       </label>
@@ -316,7 +436,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={hipCatchChecked}
           onChange={handleHipCatchChange}
-          id="hip-catch"
+          id="Hip-Catch"
         />
         <span className="checkmarkHipCatch"></span>
       </label>
@@ -326,7 +446,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={climbDownChecked}
           onChange={handleClimbDownChange}
-          id="climb-down"
+          id="Climb-Down"
         />
         <span className="checkmarkClimbDown"></span>
       </label>
@@ -336,7 +456,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={dashDownChecked}
           onChange={handleDashDownChange}
-          id="dash-down"
+          id="Dash-Down"
         />
         <span className="checkmarkDashDown"></span>
       </label>
@@ -347,7 +467,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={reGripChecked}
           onChange={handleReGripChange}
-          id="re-grip"
+          id="Re-Grip"
         />
         <span className="checkmarkReGrip"></span>
       </label>
@@ -357,8 +477,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={dismountChecked}
           onChange={handleDismountChange}
-          id="dismount"
-
+          id="Dismount"
         />
         <span className="checkmarkDismount"></span>
       </label>
@@ -368,7 +487,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={lacheChecked}
           onChange={handleLacheChange}
-          id="lache"
+          id="Lache"
         />
         <span className="checkmarkLache"></span>
       </label>
@@ -379,8 +498,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={forwardsChecked}
           onChange={handleForwardsChange}
-          id="forwards"
-
+          id="Forwards"
         />
         <span className="checkmarkForwards"></span>
       </label>
@@ -390,8 +508,7 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={backwardsChecked}
           onChange={handleBackwardsChange}
-          id="backwards"
-
+          id="Backwards"
         />
         <span className="checkmarkBackwards"></span>
       </label>
@@ -401,21 +518,13 @@ const UserLevelPage = () => {
           type="checkbox"
           checked={sidewaysChecked}
           onChange={handleSidewaysChange}
-          id="sideways"
-
+          id="Sideways"
         />
         <span className="checkmarkSideways"></span>
       </label>
-
       {/* <label className="labelCoachTips">Coach Tips</label> */}
-
-
-    </div> 
-
-
-    
-  
-    );
+    </div>
+  );
 };
 
 export default UserLevelPage;

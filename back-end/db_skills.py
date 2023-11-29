@@ -109,6 +109,7 @@ def toggle_skills(request_data, accounts_collection):
                                     {"$set":{"users.$.skills": updated_skill_dict}})   
     return resp 
 
+
 def check_skills(request_data, accounts_collection):
     resp = Response()
     resp.headers['Access-Control-Allow-Headers']="*"
