@@ -21,7 +21,7 @@ def update_skill_template(request_data, templates_collection, accounts_collectio
     for account in accounts_collection.find({}):
         for user in account["users"]:
             user_skills = user.get("skills")
-            updated_skills = {"Jumping":[], "Vaulting":[], "Climbing":[], "Swinging":[], "Landing":[],  } # blank skills list to fill
+            updated_skills = {"Jumping":[], "Vaulting":[], "Climbing":[], "Swinging":[], "Landing":[]} # blank skills list to fill
             if user_skills == None: # If user didn't have skills initialized, initializes
                 accounts_collection.update_one({"_id": account["_id"],"users._id": user["_id"]}, 
                                                         {"$set":{"users.$.skills" : template}})
@@ -97,7 +97,7 @@ def toggle_skills(request_data, accounts_collection):
             break
 
     updated_skill_dict = {} # Dict to store updated info
-    for skill_lv in ["lv_1", "lv_2","lv_3","lv_4","lv_5"]: # Goes through all skill levels (objects)
+    for skill_lv in ["Jumping", "Vaulting", "Climbing", "Swinging", "Landing"]: # Goes through all skill levels (objects)
         skill_list = skill_dict[skill_lv]
         for skill in skill_list:
             if skill["name"] in request_data["toggle_list"]: # Checks each skill to see if it should be toggled
@@ -136,7 +136,7 @@ def check_skills(request_data, accounts_collection):
             break
 
     updated_skill_dict = {} # Dict to store updated info
-    for skill_lv in ["lv_1", "lv_2","lv_3","lv_4","lv_5"]: # Goes through all skill levels (objects)
+    for skill_lv in ["Jumping", "Vaulting", "Climbing", "Swinging", "Landing"]: # Goes through all skill levels (objects)
         skill_list = skill_dict[skill_lv]
         for skill in skill_list:
             if skill["name"] in request_data["check_list"]:
