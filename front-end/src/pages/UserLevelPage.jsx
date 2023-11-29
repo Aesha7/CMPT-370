@@ -58,14 +58,14 @@ const UserLevelPage = () => {
 
           // user = data;
 
-          // disabling buttons and checkboxes based on stafflevel
-          // if (userName == user.users[0].name && user.staffLevel >= 1) {
 
-          //   unlock_checkbox()
-          // } else {
-          //   // checkboxes disabled...
-          //   lock_checkbox()
-          // }
+          if (isCoach) {
+            // checkboxes enabled (and save button)...
+            unlock_checkbox()
+          } else {
+            // checkboxes disabled...
+            lock_checkbox()
+          }
         });
     } catch (error) {
       console.log(error);
@@ -98,12 +98,7 @@ const UserLevelPage = () => {
           user = data;
 
           // disabling buttons and checkboxes based on stafflevel
-          if (isCoach) {
-            unlock_checkbox()
-          } else {
-            // checkboxes disabled...
-            lock_checkbox()
-          }
+
         });
     } catch (error) {
       console.log(error);
@@ -128,6 +123,7 @@ const UserLevelPage = () => {
   };
 
   const lock_checkbox = () =>{
+    document.getElementById("checkboxSave").style.visibility = "hidden"
     document.getElementById("step-vault").disabled = true
     document.getElementById("lazy-vault").disabled = true
     document.getElementById("turn-vault").disabled = true
@@ -146,6 +142,7 @@ const UserLevelPage = () => {
   }
 
   const unlock_checkbox = () =>{
+    document.getElementById("checkboxSave").style.visibility = "visible"
     document.getElementById("step-vault").disabled = false
     document.getElementById("lazy-vault").disabled = false
     document.getElementById("turn-vault").disabled = false
@@ -245,7 +242,7 @@ const UserLevelPage = () => {
     
     {/* buttons on the page */}
       <button className="buttonBackLevel" onClick={goBack}> Back </button>
-      <button className="buttonSave" onClick={null}> Save </button>
+      <button className="buttonSave" id="checkboxSave" onClick={null}> Save </button>
       {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
     
     {/* Skill checkboxes */}

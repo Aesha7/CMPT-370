@@ -67,7 +67,8 @@
     transition-duration: 0.4s;
     background-color: #db936f;
     color: white;
-    display: none;
+    visibility: hidden;
+    /* display: none; */
 }
 
 .save-feedback-button:hover {
