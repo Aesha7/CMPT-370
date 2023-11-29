@@ -1,3 +1,3 @@
 Set-ExecutionPolicy Unrestricted -Scope Process
-../../newVenv\Scripts\activate
+../../370Team25Venv\Scripts\activate
 py server.py
