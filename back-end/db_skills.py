@@ -21,7 +21,7 @@ def update_skill_template(request_data, templates_collection, accounts_collectio
     for account in accounts_collection.find({}):
         for user in account["users"]:
             user_skills = user.get("skills")
-            updated_skills = {"Jumping":[], "Vaulting":[], "Climbing":[], "Swinging":[], "Landing":[],  } # blank skills list to fill
+            updated_skills = {"Jumping":[], "Vaulting":[], "Climbing":[], "Swinging":[], "Landing":[]} # blank skills list to fill
             if user_skills == None: # If user didn't have skills initialized, initializes
                 accounts_collection.update_one({"_id": account["_id"],"users._id": user["_id"]}, 
                                                         {"$set":{"users.$.skills" : template}})
@@ -97,7 +97,7 @@ def toggle_skills(request_data, accounts_collection):
             break
 
     updated_skill_dict = {} # Dict to store updated info
-    for skill_lv in ["lv_1", "lv_2","lv_3","lv_4","lv_5"]: # Goes through all skill levels (objects)
+    for skill_lv in ["Jumping", "Vaulting", "Climbing", "Swinging", "Landing"]: # Goes through all skill levels (objects)
         skill_list = skill_dict[skill_lv]
         for skill in skill_list:
             if skill["name"] in request_data["toggle_list"]: # Checks each skill to see if it should be toggled
@@ -108,3 +108,44 @@ def toggle_skills(request_data, accounts_collection):
     accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["user_name"]}, 
                                     {"$set":{"users.$.skills": updated_skill_dict}})   
     return resp 
+
+def check_skills(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+
+    # Check admin account credentials
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+    
+    account = accounts_collection.find_one({"email": request_data["email"],"users.name":request_data["user_name"]})
+    if not account:
+        resp.status_code=400
+        resp.data=dumps("Error: account not found")
+        return resp
+    
+    for user in account["users"]:
+        if user["name"]==request_data["user_name"]:
+            skill_dict = user["skills"]
+            break
+
+    updated_skill_dict = {} # Dict to store updated info
+    for skill_lv in ["Jumping", "Vaulting", "Climbing", "Swinging", "Landing"]: # Goes through all skill levels (objects)
+        skill_list = skill_dict[skill_lv]
+        for skill in skill_list:
+            if skill["name"] in request_data["check_list"]:
+                skill["checked"]=True # check on
+            elif skill["name"] in request_data["uncheck_list"]:
+                skill["checked"]=False # check off
+
+        updated_skill_dict[skill_lv]=skill_list # Adds updated skill list to dict
+
+    accounts_collection.update_one({"email": request_data["email"], "users.name" :request_data["user_name"]}, 
+                                    {"$set":{"users.$.skills": updated_skill_dict}})   
+    return resp

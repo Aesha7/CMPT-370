@@ -667,6 +667,24 @@ def ToggleSkills():
     """
     return sk.toggle_skills(request.get_json(), accounts_collection)
 
+#TODO: UNTESTED 
+@app.route('/check_uncheck_skills', methods=["POST"])
+@cross_origin(origins="*")
+def CheckUncheckSkills():
+    """Changes the True/False state of skills. 
+    Required request parameters: email, _id, user_name, check_list, uncheck_list
+    check_list is a [list] of skill names (strings) that should be turned on
+    uncheck_list is a [list] of skill names (strings) that should be turned off
+
+
+    Returns: response
+    Possible error messages:
+        "Error: you do not have permission to perform this action"
+        "Error: account not found" #This can happen if the user isn't in the account
+        "Error: admin account not found"
+    """
+    return sk.check_skills(request.get_json(), accounts_collection)
+
 @app.route('/change_account_info', methods=["POST"])
 @cross_origin(origins="*")
 def ChangeAccountInfo():

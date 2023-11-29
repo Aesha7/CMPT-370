@@ -339,7 +339,6 @@ def change_level(request_data, accounts_collection):
     resp.data=dumps("Error: user not found")
     return resp
 
-# TODO: email checking/name checking
 def change_account_info(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
