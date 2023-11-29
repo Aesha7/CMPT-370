@@ -16,14 +16,10 @@ const UserLevelPage = () => {
   let studentID = location.state.studentID;
   // userName = location.state.curUserName;
   let isCoach = location.state.isCoach;
+  let coachID = location.state.coachID;
+  let coachName = location.state.coachName
 
-  console.log(studentID, isCoach)
-
-  // if (userID != null) {
-  //   window.localStorage.setItem("_id", userID);
-  // }
-  // // getting it from local storage
-  // userID = window.localStorage.getItem("_id");
+  console.log(studentID, isCoach, coachID, coachName)
 
 
   const get_user_info = () =>{
@@ -89,8 +85,7 @@ const UserLevelPage = () => {
           user = data;
 
           // disabling buttons and checkboxes based on stafflevel
-          if (userName == user.users[0].name && user.staffLevel >= 1) {
-
+          if (isCoach) {
             unlock_checkbox()
           } else {
             // checkboxes disabled...
@@ -110,8 +105,13 @@ const UserLevelPage = () => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    let path = "/my-account";
-    navigate(path, { state: userID });
+    if(!isCoach){
+      let path = "/my-account";
+      navigate(path, { state: userID });
+    } else{
+      let path = "/coach-schedule"
+      navigate(path, {state:{userID: coachID, coachName: coachName}});
+    }
   };
 
   const lock_checkbox = () =>{

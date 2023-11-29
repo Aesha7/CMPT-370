@@ -114,7 +114,7 @@ const AccountView = () => {
     let user = users[e.target.value];
     let name = user.name;
     let studentID = user._id["$oid"];
-    navigate(path, { state: { isCoach: false, studentID: studentID} });
+    navigate(path, {state:{isCoach: false, coachName: "", coachID: "", studentID: studentID}})
   };
 
   /**
@@ -208,6 +208,7 @@ const AccountView = () => {
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
     navigate(path, {state:{userID: userID, coachName: name}});
+    
   };
 
 

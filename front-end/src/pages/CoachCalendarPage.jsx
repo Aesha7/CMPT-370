@@ -33,7 +33,7 @@ const CoachCalendarPage = () => {
     let studentID = e.target.value
     let path = "/user-level";
 
-    navigate(path, {state:{isCoach: true, studentID: studentID}})
+    navigate(path, {state:{isCoach: true, coachName: coachName, coachID: userID, studentID: studentID}})
 
   }
 
