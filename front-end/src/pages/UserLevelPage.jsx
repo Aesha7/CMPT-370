@@ -13,6 +13,7 @@ const UserLevelPage = () => {
   let [userID, setUserID] = useState("");
   let [userName, setUserName] = useState("");
   let [user, setUser] = useState();
+  let [account, setAccount] = useState();
   let studentID = location.state.studentID;
   // userName = location.state.curUserName;
   let isCoach = location.state.isCoach;
@@ -42,7 +43,19 @@ const UserLevelPage = () => {
           // setting relevent info as react states
           const data = JSON.parse(text);
 
-          console.log(data)
+          setAccount(data)
+
+          data.users.forEach((user) =>{
+            // console.log(user._id, studentID)
+            if(user._id["$oid"] == studentID){
+              setUserName(user.name)
+
+              console.log("USER", user)
+              console.log(user.skills)
+            }
+          })
+
+
           // user = data;
 
           // disabling buttons and checkboxes based on stafflevel
