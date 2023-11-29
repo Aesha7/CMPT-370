@@ -1,3 +1,3 @@
 Set-ExecutionPolicy Unrestricted -Scope Process
-.\windowsVenv\Scripts\activate
+../../newVenv\Scripts\activate
 py server.py

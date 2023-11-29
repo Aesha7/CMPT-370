@@ -49,10 +49,7 @@ const UserLevelPage = () => {
 
           // disabling buttons and checkboxes based on stafflevel
           if (userName == user.users[0].name && user.staffLevel >= 1) {
-            document.getElementById("coachSaveButton").style.visibility =
-              "visible";
-            document.getElementById("coachAddTipButton").style.visibility =
-              "visible";
+
             unlock_checkbox()
           } else {
             // checkboxes disabled...
