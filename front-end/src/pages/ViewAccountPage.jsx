@@ -11,10 +11,10 @@ const AccountView = () => {
   let renders;
 
   // use these variables to set proper data
-  let [name, setName] = useState("John Doe");
-  let [phone, setPhone] = useState("(306) 123-4567");
-  let [email, setEmail] = useState("email@domain.com");
-  let [birthday, setBirthday] = useState("month/day/year");
+  let [name, setName] = useState("");
+  let [phone, setPhone] = useState("");
+  let [email, setEmail] = useState("");
+  let [birthday, setBirthday] = useState("");
   let [userID, setUserID] = useState("");
   let [staffLevel, setStaffLevel] = useState("");
 
@@ -107,24 +107,26 @@ const AccountView = () => {
   };
 
   /**
-   * goes to level page for the user selected 
+   * goes to level page for the user selected
    */
-  const goToLevelInfo = (e) =>{
+  const goToLevelInfo = (e) => {
     let path = "/user-level";
     let user = users[e.target.value];
     let name = user.name;
-    navigate(path, { state: { _id: userID, curUserName: name } });
-  }
+    let studentID = user._id["$oid"];
+    navigate(path, { state: { isCoach: false, studentID: studentID} });
+  };
 
   /**
    * Display info for current user (parent or child)
    */
   const displayInfo = (e) => {
-    setCurrentUserIndex(e.target.value);
-    setCurrentName(users[currentUserIndex].name);
-    setCurrentBirthday(users[currentUserIndex].birthday);
-    setCurrentLevel(users[currentUserIndex].level);
-  };
+    let index = e.target.value
+    setCurrentUserIndex(index);
+    setCurrentName(users[index].name);
+    setCurrentBirthday(users[index].birthday);
+    setCurrentLevel(users[index].level);
+    };
 
   /**
    * getting a list of html elements to display for each user
@@ -205,16 +207,9 @@ const AccountView = () => {
    */
   const coachCalendarPageRoute = () => {
     let path = "/coach-schedule";
-    navigate(path, { state: userID });
+    navigate(path, {state:{userID: userID, coachName: name}});
   };
 
-  /**
-   * page route to coaches students list
-   */
-  const studentsListPageRoute = () => {
-    let path = "/students-list";
-    navigate(path, { state: userID });
-  };
 
   // handles news checkbox
   const handleNewsChange = () => {
@@ -305,6 +300,8 @@ const AccountView = () => {
       }
       setCurrentName(changedName);
       document.getElementById("edit-name").disabled = true;
+      document.getElementById("edit-name").value = "";
+
 
       // updating data
       get_account_info();
@@ -399,7 +396,7 @@ const AccountView = () => {
 
   // check if user account is coach
   if (staffLevel >= 1) {
-    document.getElementById("studentsList").style.visibility = "visible";
+    // document.getElementById("studentsList").style.visibility = "visible";
     document.getElementById("coachCalendar").style.visibility = "visible";
   }
 
@@ -413,39 +410,84 @@ const AccountView = () => {
       <div class="rectangleButtons"></div>
       <div class="rectangleFamReg"></div>
       <div class="rectangleFamInf"></div>
-
       <div class="rectangleMembers"></div>
       <div class="rectangleCurrent"></div>
       <div class="rectangleSubs"></div>
-      <label className="emailSubs">Email Subscriptions</label> 
-      <label className="ownerNLabel" htmlFor="name">Owner:{" "}</label>
-      <label className="ownerName" htmlFor="name" type="name" id="name">{name}</label>
-      <label className="ownerELabel" htmlFor="email">Email:</label>
-      <label className="ownerEmail" htmlFor="email" type="email"id="email">{email}</label>
-      <label className="checklistNews">Newsletter<input type="checkbox" checked={newsChecked} onChange={handleNewsChange}/>
+      <label className="emailSubs">Email Subscriptions</label>
+      <label className="ownerNLabel" htmlFor="name">
+        Owner:{" "}
+      </label>
+      <label className="ownerName" htmlFor="name" type="name" id="name">
+        {name}
+      </label>
+      <label className="ownerELabel" htmlFor="email">
+        Email:
+      </label>
+      <label className="ownerEmail" htmlFor="email" type="email" id="email">
+        {email}
+      </label>
+      <label className="checklistNews">
+        Newsletter
+        <input
+          type="checkbox"
+          checked={newsChecked}
+          onChange={handleNewsChange}
+        />
         <span className="checkmarkNews"></span>
       </label>
-      <label className="checklistPromotions">Promotions<input type="checkbox" checked={promChecked} onChange={handlePromChange} />
+      <label className="checklistPromotions">
+        Promotions
+        <input
+          type="checkbox"
+          checked={promChecked}
+          onChange={handlePromChange}
+        />
         <span className="checkmarkPromotions"></span>
       </label>
       <button className="buttonSaveSubs" onClick={editSubscriptions}>
-                  Save
-                </button>
-      <button className="buttonLogout" onClick={goBackToLogin}>Logout</button>
-      <button className="buttonManAcc" htmlFor="manageAccounts" id="manageAccounts" onClick={manageAccountsPageRoute}> Manage Accounts</button>
-      <button className="buttonAdmCal" htmlFor="adminCalendar" id="adminCalendar" onClick={adminCalendarPageRoute}>Admin Calendar</button>
-      <button className="buttonStuList" htmlFor="studentsList" id="studentsList" onClick={studentsListPageRoute}>Students List</button>
-      <button className="buttonCoCal" htmlFor="coachCalendar" id="coachCalendar" onClick={coachCalendarPageRoute}>Coach Calendar</button>
+        Save
+      </button>
+      <button className="buttonLogout" onClick={goBackToLogin}>
+        Logout
+      </button>
+      <button
+        className="buttonManAcc"
+        htmlFor="manageAccounts"
+        id="manageAccounts"
+        onClick={manageAccountsPageRoute}
+      >
+        {" "}
+        Manage Accounts
+      </button>
+      <button
+        className="buttonAdmCal"
+        htmlFor="adminCalendar"
+        id="adminCalendar"
+        onClick={adminCalendarPageRoute}
+      >
+        Admin Calendar
+      </button>
+
+      <button
+        className="buttonCoCal"
+        htmlFor="coachCalendar"
+        id="coachCalendar"
+        onClick={coachCalendarPageRoute}
+      >
+        Coach Calendar
+      </button>
       <button className="family-button" onClick={addFamilyMemberPopup}>
-                  Add Family Member
-                </button>
-      <button className="schedule-button" onClick={viewFamilyScheduleRouteChange}>
-                  View Family Schedule
+        Add Family Member
+      </button>
+      <button
+        className="schedule-button"
+        onClick={viewFamilyScheduleRouteChange}
+      >
+        View Family Schedule
       </button>
       <label className="family-bar">Family Members</label>
       <div class="triangleFamMems"></div>
       <div className="familyContainer">{renders}</div>
-     
       <div className="currentMemberPanel">
         <div className="edit-family-info">
           <div className="view-account-column-entry">
@@ -456,7 +498,7 @@ const AccountView = () => {
 
           {/* name */}
           <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="name">
+            <label className="account-label" htmlFor="name" id="info-name">
               {" "}
               Name:{" "}
             </label>
@@ -473,7 +515,7 @@ const AccountView = () => {
 
           {/* birthday */}
           <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="birthday">
+            <label className="account-label" htmlFor="birthday" id="info-birthday">
               {" "}
               Birthday:{" "}
             </label>
@@ -489,7 +531,7 @@ const AccountView = () => {
 
           {/* level */}
           <div className="view-account-column-entry">
-            <label className="account-label" htmlFor="level">
+            <label className="account-label" htmlFor="level" id="info-level">
               {" "}
               Level:{" "}
             </label>
@@ -502,7 +544,7 @@ const AccountView = () => {
               placeholder={currentLevel}
             ></input>
           </div>
-          {/* edit the routers !!! */}
+
           <div className="family-info">
             <button className="edit-button" onClick={unlockInfo}>
               Edit
@@ -513,7 +555,6 @@ const AccountView = () => {
           </div>
         </div>
 
-
         {/* darkening overlay for adding a family member */}
         <div className="myForm-overlay"></div>
 
@@ -521,15 +562,17 @@ const AccountView = () => {
         <div className="add-family-popup" id="myForm">
           <form className="family-form-container">
             <label className="add-family-label-name" htmlFor="name">
-            <b>Name</b>
+            <b>Name:</b>
             </label>
             <input type="name" onChange={handleNewName}></input>
 
             <label className="add-family-label-bday" htmlFor="birthday">
-              <b>Birthday</b>
+              <b>Birthday:</b>
             </label>
             <DatePicker
               className="custom-datepicker-addFamily"
+              portalId="root-portal"
+              showPopperArrow={false}
               selected={newBirthday}
               onChange={handleNewBirthday}
               dateFormat="MM/dd/yyyy"
@@ -540,8 +583,27 @@ const AccountView = () => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
+
+              popperPlacement="right-end"
+              // popperPlacement="top"
+
+              popperModifiers={{
+                offset: {
+                  enabled: true,
+                  offset: [5, 40]
+                },
+                preventOverflow: {
+                  enabled: true,
+                  escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                  boundariesElement: 'viewport'
+                }
+              }}
             />
-            <button type="submit" className="btn-sub" onClick={submitFamilyMember}>
+            <button
+              type="submit"
+              className="btn-sub"
+              onClick={submitFamilyMember}
+            >
               Register
             </button>
             <button type="button" className="btn-cancel" onClick={closeForm}>

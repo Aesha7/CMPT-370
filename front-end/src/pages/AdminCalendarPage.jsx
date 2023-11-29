@@ -104,6 +104,7 @@ const AdminCalendarPage = () => {
               level: level,
               enrolled: enrolled,
               coach: coach,
+              capacity: event.capacity
             };
 
             // adding to the array
@@ -273,19 +274,23 @@ const AdminCalendarPage = () => {
     document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("createEventForm").style.display = "block";
   };
-
   const openEventInfoForm = (calEvent) => {
     // setting html for event info & displaying the form
 
     document.getElementById("clickInformation").style.display = "block";
     document.getElementById("eventTitle").innerHTML = calEvent.name;
-    document.getElementById("eventDescription").innerHTML = calEvent.desc;
-    document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length;
+    if(calEvent.desc == ""){
+      document.getElementById("eventDescription").innerHTML = "N/A"
+    }
+    else{
+      document.getElementById("eventDescription").innerHTML = calEvent.desc;
+    }
+    document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length + "/" + calEvent.capacity;
+    // document.getElementById("eventCapacity").innerHTML = calEvent.capacity;
   };
 
   const displayConfirmPopup = () => {
     document.getElementById("confirmDeletionPopup").style.display = "block";
-    document.getElementById("myForm-overlay").style.display = "block";
   };
 
   // closes all popups
@@ -532,9 +537,9 @@ const AdminCalendarPage = () => {
   return (
     <div className="admin-calendar">
       <div className="top-bar">
-        Gym Schedule
+        &nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
-          <button className="top-bar-button" onClick={openEventCreateForm}>
+          <button className="top-bar-buttons" onClick={openEventCreateForm}>
             Add Event
           </button>
           <button className="top-bar-button" onClick={goBack}>
@@ -546,22 +551,24 @@ const AdminCalendarPage = () => {
       <div className="">
         <div className="form-popup" id="clickInformation">
           <form className="form-container">
-            <label for="title">
-              <b>Title</b>
-            </label>
-            <h5 id="eventTitle">{}</h5>
+            <div className="info-text-div">
+              <label for="title" className="event-info-label">
+                <b>Title</b>
+              </label>
+              <h5 className="info-data-label" id="eventTitle">{}</h5>
 
-            <label for="desc">
-              <b>Description</b>
-            </label>
+              <label for="desc" className="event-info-label">
+                <b>Description</b>
+              </label>
 
-            <h5 id="eventDescription">{}</h5>
+              <h5 id="eventDescription" className="info-data-label">{}</h5>
 
-            <label for="enrolled">
-              <b>Enrolled Count</b>
-            </label>
+              <label for="enrolled" className="event-info-label">
+                <b>Enrolled Count</b>
+              </label>
 
-            <h5 id="eventEnroll">{}</h5>
+              <h5 id="eventEnroll" className="info-data-label">{}</h5>
+            </div>
 
             <button type="button" className="btn cancel" onClick={deleteEvent}>
               Delete Event
@@ -613,7 +620,7 @@ const AdminCalendarPage = () => {
             </label>
             <input
               type="title"
-              placeholder="Enter Title"
+              placeholder="Enter title"
               name="title"
               onChange={handleTitle}
               required
@@ -624,7 +631,7 @@ const AdminCalendarPage = () => {
             </label>
             <input
               type="description"
-              placeholder="Enter Description"
+              placeholder="Enter description"
               name="desc"
               onChange={handleDesc}
               required
@@ -667,7 +674,7 @@ const AdminCalendarPage = () => {
               type="number"
               min="1"
               max="100"
-              placeholder="Please enter the Capacity"
+              placeholder="Please enter the capacity"
               name="capacity"
               onChange={handleCapacity}
               required
@@ -675,6 +682,8 @@ const AdminCalendarPage = () => {
 
             <DatePicker
               className="custom-datepicker"
+              portalId="root-portal"
+              showPopperArrow={false}
               selected={date}
               onChange={handleDate}
               dateFormat="MM/dd/yyyy"
@@ -691,7 +700,7 @@ const AdminCalendarPage = () => {
               <b>Start Time*</b>
             </label>
             <input
-              placeholder="Hour:Minute"
+              placeholder="23:59"
               onChange={handleStartTime}
               type="startTime"
               name="startTime"
@@ -701,7 +710,7 @@ const AdminCalendarPage = () => {
               <b>Duration*</b>
             </label>
             <input
-              placeholder="Hour:Minute"
+              placeholder="23:59"
               onChange={handleDuration}
               type="duration"
               name="duration"
@@ -742,12 +751,14 @@ const AdminCalendarPage = () => {
 
             // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
 
             return { className: "", style: newStyle };

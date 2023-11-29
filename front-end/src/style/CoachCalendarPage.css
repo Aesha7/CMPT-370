@@ -1,9 +1,115 @@
 .coach-calendar-rbc {
-    width: 80%;
+    width: 77vw;
     float: left;
 }
 
 .student-list {
-    width: 20%;
+    overflow: scroll;
+    position: relative;
+    width: 17vw;
+    height: 75vh;
+    margin-bottom: 10px;
     float: right;
+    background-color: #d8d9d9;
+    margin: 1.5vw;
+    padding: 0.95vw;
 }
+
+.attendance-checkbox{
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    height: 15px;
+    background-color: #eee;
+}
+
+.attendance-checkbox:hover{
+    background-color: red;
+}
+
+.attendance-checkbox:checked{
+    background-color: red;
+}
+
+.student-feedback-div{
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid #2c3c4c;
+    background-color: #7d8f97;
+    color: white;
+    overflow: hidden;
+}
+
+.student-feedback{
+    margin-left: 10px;
+    width: 10vw;
+    height: 3vh;
+    resize: none;
+    background-color: white;
+}
+
+.feedback-input-div{
+    padding-left: 23px;
+}
+
+.feedback-label{
+    float: inline-start;
+}
+
+.save-feedback-button{
+    /* margin-left: 2.6vw; */
+    margin-top: 10px;
+    border: 2px solid transparent;
+    text-align: center;
+    font-size: 18px;
+    transition-duration: 0.4s;
+    background-color: #db936f;
+    color: white;
+    display: none;
+}
+
+.save-feedback-button:hover {
+    color: white;
+    padding-right: 1.5vw;
+    background-color: #a9745a;
+  }
+
+  .student-attendance-header{
+    font-weight: bold;
+    color: #2c3c4c;
+    display: flex;
+
+  }
+
+  .coach-courseName-header{
+    margin-bottom: 1vh;
+    color: #2c3c4c;
+    display: flex;
+  }
+
+  .student-list-header{
+    display: block;
+  }
+
+  .coach-level-info-button{
+    color: white;
+    background-color: #e7bf6a;
+    float: right;
+    width: 3.5vw;
+    border: 2px solid #e7bf6a;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-top: 10px;
+    transition-duration: 0.4s;
+  }
+
+  .coach-level-info-button:hover{
+    width: 4.5vw;
+    background-color: #b3975a;
+    border: 2px solid #b3975a;
+  }
+
+
+

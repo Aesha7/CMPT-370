@@ -45,6 +45,10 @@ const AccountCreatePage = (props) => {
 
   }
 
+  /**
+   * @param {} email the email string
+   * @returns true if its a valid email
+   */
   function validEmail(email) {
     // Regular expression for a valid email address
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
@@ -52,6 +56,10 @@ const AccountCreatePage = (props) => {
     return emailRegex.test(email);
   }
 
+  /**
+   * @param {} input_str phone number
+   * @returns true if its a valid phone number
+   */
   function validatePhoneNumber(input_str) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
   
@@ -230,7 +238,7 @@ const AccountCreatePage = (props) => {
   const handleBirthDay = (inputDate) => {
     setDate(inputDate)
     let arr = inputDate.toString().split(" ")
-    setBirthday(arr[1] + " " + arr[2] + " "+ arr[3]);
+    setBirthday(arr[1] + " " + arr[2] + " " + arr[3]);
     setSubmitted(false);
   };
 
@@ -288,7 +296,7 @@ const AccountCreatePage = (props) => {
               <div class="trianglePhone"></div>
               <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123) 456 7890"/>
             </div>
-
+            
             <div className="entryBirthday">
               <button onClick={null} className="labelBirthday" type="button">Birthday:</button> 
               <div class="triangleBirthday"></div>
@@ -296,6 +304,8 @@ const AccountCreatePage = (props) => {
               
             <DatePicker
               className="custom-datepicker-createAccount"
+              portalId="root-portal"
+              showPopperArrow={false} //getting rid of 
               selected={date}
               onChange={handleBirthDay}
               dateFormat="MM/dd/yyyy"
@@ -306,6 +316,21 @@ const AccountCreatePage = (props) => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
+
+              // popperPlacement="top-start"
+              popperPlacement= "right-start"
+
+              popperModifiers={{
+                offset: {
+                  enabled: false,
+                  offset: [0, 0]
+                },
+                preventOverflow: {
+                  enabled: false,
+                  escapeWithReference: false, // force popper to stay in viewport (even when input is scrolled out of view)
+                  boundariesElement: 'viewport'
+                }
+              }}
             />
             
             </div>

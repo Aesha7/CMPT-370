@@ -1,0 +1,1384 @@
+.user-level-page{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+    text-align: left;
+    font-size: 8vh;
+    font-weight:normal;
+    height: 100vh;  
+    width: 100vw;
+    /* background-color: red; */
+    background: linear-gradient(to bottom, rgb(2, 187, 2) 0%, transparent 20%);
+    z-index: 0;
+    /* position: absolute; */
+}
+
+.NLabel{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 4vh;
+    text-align: left;
+    /* background-color: aqua; */
+    position: absolute;
+    /* width: 12vw; */
+    z-index: 1;
+    margin-top: 4vh;
+    margin-left: 5vw;
+}
+
+.Name{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 4vh;
+    text-align: left;
+    z-index: 2;
+    margin-top: 4vh;
+    margin-left: 11vw;
+    position: absolute;
+}
+
+
+.buttonBackLevel{
+        width: 7.5vw;
+        height: 6vh;
+        color: white;
+        background-color: #4b7588;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        font-size: 2.5vh;
+        font-weight: bold;
+        z-index: 1;
+        text-align: center;
+        transition-duration: 0.2s;
+        border: 2px solid transparent;
+        margin-left: 60vw;
+        position: absolute;
+}
+.buttonBackLevel:hover{
+    background-color: #2c3c4c;
+    width: 8vw;
+}
+
+.buttonSave{
+    width: 7.5vw;
+    height: 6vh;
+    color: white;
+    background-color: #4b7588;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 2.5vh;
+    font-weight: bold;
+    z-index: 2;
+    text-align: center;
+    transition-duration: 0.2s;
+    border: 2px solid transparent;
+    margin-left: 26vw;
+    margin-top: 20vh;
+    position: absolute;
+    visibility: hidden;
+}
+
+.buttonSave:hover{
+background-color: #2c3c4c;
+width: 8vw;
+}
+
+/* .buttonAddTip{
+    width: 7.5vw;
+    height: 6vh;
+    color: white;
+    background-color: #4b7588;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 2.5vh;
+    font-weight: bold;
+    z-index: 1;
+    text-align: center;
+    transition-duration: 0.2s;
+    border: 2px solid transparent;
+    margin-left: -0.5vw;
+    margin-top: 60vh;
+    position: absolute;
+    visibility: hidden;
+}
+
+.buttonAddTip:hover{
+background-color: #2c3c4c;
+width: 8vw;
+} */
+
+
+.labelSkills{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 4vh;
+    text-align: left;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    /* background-color: red; */
+    color: black;
+    background: linear-gradient(to bottom, rgba(177, 179, 177, 0.678) 0%, transparent 100%);
+    height: 10vh;
+    width: 52vw;
+    margin-top: 20vh;
+    margin-left: -27.3vw;
+    position: absolute;
+    z-index: 1;
+}
+/* .labelCoachTips{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 4vh;
+    text-align: left;
+    padding-left: 1vw;
+    padding-top: 1vh;
+    color: black;
+    background: linear-gradient(to bottom, rgba(177, 179, 177, 0.678) 0%, transparent 100%);
+    height: 10vh;
+    width: 25vw;
+    margin-top: 60vh;
+    margin-left: -27vw;
+    position: absolute;
+    z-index: 1;
+} */
+.labelVaults{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3vh;
+    text-align: center;
+    background-color: #7d8f97;
+    /* background: linear-gradient(to bottom, rgb(177, 179, 177) 0%, transparent 100%); */
+    height: 5vh;
+    width: 8.6vw;
+    margin-top: 30vh;
+    margin-left: -27.3vw;
+    position: absolute;
+    z-index: 1;
+}
+
+.labelJumps{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3vh;
+    text-align: center;
+    background-color: #7d8f97;
+    /* background: linear-gradient(to bottom, rgb(177, 179, 177) 0%, transparent 100%); */
+    height: 5vh;
+    width: 8.6vw;
+    margin-top: 30vh;
+    margin-left: -16.3vw;
+    position: absolute;
+    z-index: 1;
+}
+
+.labelClimbs{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3vh;
+    text-align: center;
+    background-color: #7d8f97;
+    /* background: linear-gradient(to bottom, rgb(177, 179, 177) 0%, transparent 100%); */
+    height: 5vh;
+    width: 8.6vw;
+    margin-top: 30vh;
+    margin-left: -5.3vw;
+    position: absolute;
+    z-index: 1;
+}
+
+.labelSwings{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3vh;
+    text-align: center;
+    background-color: #7d8f97;
+    /* background: linear-gradient(to bottom, rgb(177, 179, 177) 0%, transparent 100%); */
+    height: 5vh;
+    width: 8.6vw;
+    margin-top: 30vh;
+    margin-left: 5.7vw;
+    position: absolute;
+    z-index: 1;
+}
+
+.labelLandings{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 3vh;
+    text-align: center;
+    background-color: #7d8f97;
+    /* background: linear-gradient(to bottom, rgb(177, 179, 177) 0%, transparent 100%); */
+    height: 5vh;
+    width: 8.6vw;
+    margin-top: 30vh;
+    margin-left: 16.7vw;
+    position: absolute;
+    z-index: 1;
+}
+.checklistStepVault {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 26vh;
+    margin-left: 0vw;
+    font-size: 2vh;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistStepVault input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkStepVault {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistStepVault:hover input ~ .checkmarkStepVault {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistStepVault input:checked ~ .checkmarkStepVault {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkStepVault:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistStepVault input:checked ~ .checkmarkStepVault:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistStepVault .checkmarkStepVault:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistLazyVault {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 32vh;
+    margin-left: 0vw;
+    font-size: 2vh;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistLazyVault input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkLazyVault {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistLazyVault:hover input ~ .checkmarkLazyVault {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistLazyVault input:checked ~ .checkmarkLazyVault {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkLazyVault:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistLazyVault input:checked ~ .checkmarkLazyVault:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistLazyVault .checkmarkLazyVault:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistTurnVault {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 38vh;
+    margin-left: 0vw;
+    font-size: 2vh;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistTurnVault input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkTurnVault {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistTurnVault:hover input ~ .checkmarkTurnVault {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistTurnVault input:checked ~ .checkmarkTurnVault {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkTurnVault:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistTurnVault input:checked ~ .checkmarkTurnVault:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistTurnVault .checkmarkTurnVault:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistStanding {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 26vh;
+    margin-left: 11vw;
+    font-size: 2vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistStanding input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkStanding {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistStanding:hover input ~ .checkmarkStanding {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistStanding input:checked ~ .checkmarkStanding {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkStanding:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistStanding input:checked ~ .checkmarkStanding:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistStanding .checkmarkStanding:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistPlyo {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 32vh;
+    margin-left: 11vw;
+    font-size: 2vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistPlyo input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkPlyo {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistPlyo:hover input ~ .checkmarkPlyo {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistPlyo input:checked ~ .checkmarkPlyo {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkPlyo:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistPlyo input:checked ~ .checkmarkPlyo:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistPlyo .checkmarkPlyo:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistStride {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 38vh;
+    margin-left: 11vw;
+    font-size: 2vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistStride input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkStride {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistStride:hover input ~ .checkmarkStride {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistStride input:checked ~ .checkmarkStride {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkStride:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistStride input:checked ~ .checkmarkStride:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistStride .checkmarkStride:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistHipCatch {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 26vh;
+    margin-left: 22vw;
+    font-size: 2vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistHipCatch input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkHipCatch {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistHipCatch:hover input ~ .checkmarkHipCatch {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistHipCatch input:checked ~ .checkmarkHipCatch {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkHipCatch:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistHipCatch input:checked ~ .checkmarkHipCatch:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistHipCatch .checkmarkHipCatch:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistClimbDown {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 32vh;
+    margin-left: 22vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistClimbDown input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkClimbDown {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistClimbDown:hover input ~ .checkmarkClimbDown {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistClimbDown input:checked ~ .checkmarkClimbDown {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkClimbDown:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistClimbDown input:checked ~ .checkmarkClimbDown:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistClimbDown .checkmarkClimbDown:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistDashDown {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 38vh;
+    margin-left: 22vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistDashDown input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkDashDown {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistDashDown:hover input ~ .checkmarkDashDown {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistDashDown input:checked ~ .checkmarkDashDown {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkDashDown:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistDashDown input:checked ~ .checkmarkDashDown:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistDashDown .checkmarkDashDown:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistReGrip {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 26vh;
+    margin-left: 33vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistReGrip input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkReGrip {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistReGrip:hover input ~ .checkmarkReGrip {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistReGrip input:checked ~ .checkmarkReGrip {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkReGrip:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistReGrip input:checked ~ .checkmarkReGrip:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistReGrip .checkmarkReGrip:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistDismount {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 32vh;
+    margin-left: 33vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistDismount input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkDismount {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistDismount:hover input ~ .checkmarkDismount {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistDismount input:checked ~ .checkmarkDismount {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkDismount:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistDismount input:checked ~ .checkmarkDismount:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistDismount .checkmarkDismount:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistLache {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 38vh;
+    margin-left: 33vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistLache input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkLache {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistLache:hover input ~ .checkmarkLache {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistLache input:checked ~ .checkmarkLache {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkLache:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistLache input:checked ~ .checkmarkLache:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistLache .checkmarkLache:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistForwards {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 26vh;
+    margin-left: 44vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistForwards input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkForwards {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistForwards:hover input ~ .checkmarkForwards {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistForwards input:checked ~ .checkmarkForwards {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkForwards:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistForwards input:checked ~ .checkmarkForwards:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistForwards .checkmarkForwards:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistBackwards {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 32vh;
+    margin-left: 44vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistBackwards input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkBackwards {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistBackwards:hover input ~ .checkmarkBackwards {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistBackwards input:checked ~ .checkmarkBackwards {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkBackwards:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistBackwards input:checked ~ .checkmarkBackwards:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistBackwards .checkmarkBackwards:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+ 
+
+  .checklistSideways {
+    background-color: #7d8f97;
+    display: block;
+    position: absolute;
+    padding-top: 1vh;
+    padding-left: 3vw;
+    padding-right:1vw;
+    padding-bottom: 1vh;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 38vh;
+    margin-left: 44vw;
+    font-size: 1.7vh;
+    width: 4.6vw;
+    /* height: 1vh; */
+    /* margin-bottom: 0px;
+    padding-bottom: 20px; */
+    /* background-color: aqua; */
+  }
+
+  /* Hide the browser's default checkbox */
+   .checklistSideways input {
+    /* margin-left: 1vw; */
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    /* background-color: red; */
+  }
+
+  /* Create a custom checkbox */
+  .checkmarkSideways {
+    margin-top: 1vh;
+    margin-left: 1vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2.7vh;
+    width: 1.4vw;
+    background-color: white;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .checklistSideways:hover input ~ .checkmarkSideways {
+    background-color: #0e3421;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .checklistSideways input:checked ~ .checkmarkSideways {
+    background-color: #34624d;
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkSideways:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .checklistSideways input:checked ~ .checkmarkSideways:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .checklistSideways .checkmarkSideways:after {
+    left: 0.5vw;
+    top: 0.5vh;
+    width: 0.3vw;
+    height: 1vh;
+    border: solid white;
+    border-width: 0 0.2vw 0.4vh 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+  }
+ 

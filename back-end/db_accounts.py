@@ -98,6 +98,19 @@ def get_account_info(request_data, accounts_collection):
     resp.data=dumps(account)
     return resp
 
+
+def get_user_info(request_data, accounts_collection):
+    resp = Response()
+    for account in accounts_collection.find():
+        for user in account["users"]:
+            if(user["_id"] == request_data["user_id"]):
+                resp.data=dumps(account)
+                return resp
+    resp.data=dumps("Error: user does not exist")
+    resp.status_code=400
+    return resp
+
+
 def add_family(request_data, accounts_collection):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
@@ -466,4 +479,26 @@ def edit_subscriptions(request_data, accounts_collection):
     return resp
     
 
+def edit_account(request_data, accounts_collection):
+
+     # Checks if email is already in database
+     # Response
     
+
+    account = accounts_collection.find({"_id": ObjectId(request_data["userID"])})
+    print(account["email"])
+
+
+
+
+        #accounts_collection.update_one({"email": request_data["userID"]}, {"$set": {"email": request_data["email"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"staffLevel": request_data["staffLevel"]}})
+
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"name": request_data["name"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"birthday": request_data["birthday"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"phone": request_data["phone"]}})
+        #accounts_collection.update_one({"email": request_data["email"]}, {"$set": {"level": request_data["level"]}})
+
+    
+
+    return "Returned"

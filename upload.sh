@@ -4,6 +4,6 @@ git status
 
 git add .
 
-git commit -m "updated UI for login + create account + view account"
+git commit -m "completed manage accounts page"
 
 git push

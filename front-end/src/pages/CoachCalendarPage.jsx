@@ -7,40 +7,47 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
 
-
 const CoachCalendarPage = () => {
   const location = useLocation();
   const localizer = momentLocalizer(moment);
 
   const [staffLevel, setStaffLevel] = useState("");
-  const [coachName, setcoachName] = useState("");
+  let [coachName, setcoachName] = useState("");
   const [calEvents, setCalEvents] = useState([]);
   const [currentCalEvent, setCurrentCalEvent] = useState([]);
   const [updateDummy, forceUpdate] = useState(0);
 
   let [userID, setUserID] = useState("");
-  userID = location.state;
-  
+  userID = location.state.userID;
+  coachName = location.state.coachName;
+
+
   let navigate = useNavigate();
 
-  const goBack = () =>{
+  const goBack = () => {
     let path = "/my-account";
-    navigate(path, {state:userID})
+    navigate(path, { state: userID });
+  };
+
+  const levelInfoRoute = (e) =>{
+    let studentID = e.target.value
+    let path = "/user-level";
+
+    navigate(path, {state:{isCoach: true, studentID: studentID}})
+
   }
 
-  // prevent crash from undefined student array before selecting a class
-  if(currentCalEvent.enrolled == undefined){
+  /// prevent crash from undefined student array before selecting a class
+  if (currentCalEvent.enrolled == undefined) {
     currentCalEvent.enrolled = [];
   }
-  if(currentCalEvent.attendance == undefined){
+  if (currentCalEvent.attendance == undefined) {
     currentCalEvent.attendance = [];
   }
-  
 
-  if(staffLevel >= 1){
+  if (staffLevel >= 1) {
     document.getElementById("overlay").style.display = "none";
   }
-
 
   const get_coach_name = () => {
     try {
@@ -89,10 +96,8 @@ const CoachCalendarPage = () => {
           const data = JSON.parse(text);
           // parsing through each event in the db
           data.forEach((event) => {
-
             // getting the actual data
-            if(event.coach == coachName){
-              
+            if (event.coach == coachName) {
               let name = event.name;
               let desc = event.desc;
               let start = new Date(
@@ -114,17 +119,16 @@ const CoachCalendarPage = () => {
               let level = event.level;
               let enrolled = event.enrolled;
               let coach = event.coach;
-              let attendance
-              try{
+              let attendance;
+              try {
                 attendance = event.attendance;
-              } catch{
+              } catch {
                 attendance = [];
               }
 
-              if(enrolled === undefined){
+              if (enrolled === undefined) {
                 enrolled = [];
               }
-              
 
               //// creating the new event to use in the array
               let newEvent = {
@@ -135,11 +139,10 @@ const CoachCalendarPage = () => {
                 level: level,
                 enrolled: enrolled,
                 coach: coach,
-                attendance: attendance
+                attendance: attendance,
               };
               tempEvents.push(newEvent);
             }
-
           });
 
           /// setting the events
@@ -153,29 +156,52 @@ const CoachCalendarPage = () => {
 
   const onSelectEvent = (calEvent) => {
     /// handle no attendance data
-    if(calEvent.attendance == undefined){
+    if (calEvent.attendance == undefined) {
       calEvent.attendance = [];
     }
-    if(calEvent.attendance.length == 0){
-      calEvent.attendance.push({date: moment(), attendanceDate: []})
-      
-      calEvent.enrolled.forEach(enrolledStudent => calEvent.attendance[(calEvent.attendance).length-1].attendanceDate.push({name: enrolledStudent.name, present: false, feedback: ""}));
+    if (calEvent.attendance.find(day => day.date == moment().startOf("day").toString()) === undefined) {
+      calEvent.attendance.push({ date: moment().startOf("day").toString(), attendanceDate: [] });
+    }
+
+    // populate attendance data with empty entries for each student
+    for (var i = 0; i < calEvent.enrolled.length; i++) {
+      if (calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.find(
+        attendanceStudent => attendanceStudent.name == calEvent.enrolled[i].name) == undefined) {
+  
+        calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.push(
+          { name: calEvent.enrolled[i].name, present: false, feedback: "" }
+        )
+      }
     }
     
+
     setCurrentCalEvent(calEvent);
-  }
+    if (calEvent.enrolled.length != 0) {
+      document.getElementById("save-feedback-button").style.display = "block";
+    } else {
+      document.getElementById("save-feedback-button").style.display = "none";
+    }
+  };
 
   const onCheckChange = (student) => (event) => {
     //update checkboxes
-    currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student).present = event.target.checked;
+    currentCalEvent.attendance[
+      currentCalEvent.attendance.length - 1
+    ].attendanceDate.find(
+      (currentStudent) => currentStudent.name === student
+    ).present = event.target.checked;
     forceUpdate(updateDummy + 1);
-  }
+  };
 
   const onFeedbackChange = (student) => (event) => {
     //read feedback
-    currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student).feedback = event.target.value;
+    currentCalEvent.attendance[
+      currentCalEvent.attendance.length - 1
+    ].attendanceDate.find(
+      (currentStudent) => currentStudent.name === student
+    ).feedback = event.target.value;
     forceUpdate(updateDummy + 1);
-  }
+  };
 
   const saveAttendance = (event) => {
     //push attendance info to database
@@ -185,7 +211,7 @@ const CoachCalendarPage = () => {
         body: JSON.stringify({
           account_ID: userID,
           name: currentCalEvent.name,
-          attendance: currentCalEvent.attendance
+          attendance: currentCalEvent.attendance,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -193,32 +219,51 @@ const CoachCalendarPage = () => {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
         },
-      })
-        .then((response) => {
-          return response.text();
-        })
+      }).then((response) => {
+        return response.text();
+
+      }).then((data) =>{
+        if(data == "\"Error: you do not have permission to perform this action\""){
+
+          alert("Error: you do not have permission to perform this action")
+        }
+        else if(data == "\"Error: target coach account is not a staff account\""){
+          alert("Error: target coach account is not a staff account")
+        }
+        else if(data == "\"Error: coach account not found\""){
+          alert("Error: coach account not found")
+        }
+        else{
+          alert("Attendance and feedback saved.")
+        }
+      });
     } catch (exception) {
       console.log(exception);
     }
-  }
-
+  };
 
   useEffect(() => {
-    //inti calendar
-    get_coach_name();
     get_db_events();
     forceUpdate(updateDummy + 1);
-  }, [])
+  }, []);
+
+  // automatically increasing height
+
+  function auto_height(e) {
+    e.target.style.height = "1px";
+    e.target.style.height = `${e.target.scrollHeight}px`;
+  }
 
   return (
-
     <div className="coach-calendar">
-    <div className="top-bar">
-      Gym Schedule
-      <div className="allButtons">
-      <button className="top-bar-button" onClick={goBack}>Back</button>
+      <div className="top-bar">
+        &nbsp;&nbsp;GYM SCHEDULE
+        <div className="allButtons">
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
+        </div>
       </div>
-    </div>
       <div>
         <Calendar
           className="coach-calendar-rbc"
@@ -229,7 +274,7 @@ const CoachCalendarPage = () => {
           defaultView="week"
           views={["month", "week", "day"]}
           popup={false}
-          style={{ height: 700}}
+          style={{ height: 700 }}
           onSelectEvent={onSelectEvent}
           min={new Date(0, 0, 0, 10, 0, 0)}
           max={new Date(0, 0, 0, 22, 0, 0)}
@@ -241,53 +286,91 @@ const CoachCalendarPage = () => {
               border: "none",
             };
 
-            /// setting event colours depending on level
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
 
             return { className: "", style: newStyle };
           }}
         ></Calendar>
-        <div className="student-list">
-          Student Attendance
-          <div>
-            {"Course: " + currentCalEvent.name}
+        <div>
+
+          <div className="student-list">
+            <div className="student-list-header">
+              <label className="student-attendance-header">
+                Student Attendance
+              </label>
+              <label className="coach-courseName-header">
+                {"Course: " + currentCalEvent.name}
+
+              </label>
+            </div>
+
+            {currentCalEvent.enrolled.map((student) => {
+              return (
+                <div className="student-feedback-div">
+                  <div>
+                    <input
+                      type="checkbox"
+                      className="attendance-checkbox"
+                      checked={
+                        currentCalEvent.attendance[
+                          currentCalEvent.attendance.length - 1
+                        ].attendanceDate.find(
+                          (currentStudent) =>
+                            currentStudent.name === student.name
+                        ).present
+                      }
+                      onChange={onCheckChange(student.name)}
+                    />
+
+                    {student.name}
+                  </div>
+                  <div className="feedback-input-div">
+                    <label className="feedback-label">feedback: </label>
+                    <textarea
+                      className="student-feedback"
+                      onChange={onFeedbackChange(student.name)}
+                      rows="40"
+                      cols="4"
+                      value={
+                        currentCalEvent.attendance[
+                          currentCalEvent.attendance.length - 1
+                        ].attendanceDate.find(
+                          (currentStudent) =>
+                            currentStudent.name === student.name
+                        ).feedback
+                      }
+                      onInput={auto_height}
+                    />
+                  </div>
+                  <div>
+                    {/* value is the students userID (NOT accountID) */}
+                    <button className="coach-level-info-button" value={student._id["$oid"]} onClick={levelInfoRoute}>Level Info</button>
+                  </div>
+                </div>
+              );
+            })}
+            <button
+              className="save-feedback-button"
+              onClick={saveAttendance}
+              id="save-feedback-button"
+            >
+              Save Attendance/Feedback
+            </button>
           </div>
-          {currentCalEvent.enrolled.map(student => {
-            return (
-              <div>
-                <div>
-                  <input
-                    type="checkbox"
-                    checked={currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student.name).present}
-                    onChange={onCheckChange(student.name)}
-                  />
-                  {student.name}
-                </div>
-                <div>
-                  feedback
-                  <input onChange={onFeedbackChange(student.name)} 
-                  value={currentCalEvent.attendance[(currentCalEvent.attendance).length-1].attendanceDate.find(currentStudent => currentStudent.name === student.name).feedback}/>
-                </div>
-              </div>
-            )
-          })
-        }
-          <button onClick={saveAttendance}>
-            Save Attendance/Feedback
-          </button>
         </div>
       </div>
     </div>
-
   );
-  
-  };
+};
 
 export default CoachCalendarPage;

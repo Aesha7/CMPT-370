@@ -116,7 +116,12 @@ const GymSchedule = () => {
           // Parse the text as JSON
           const data = JSON.parse(text);
           setUsers(data.users);
-          setCurUser(data.users[0]);
+          // set cur user to corresponding curUserName
+          data.users.forEach(user =>{
+            if(user.name == curUserName){
+              setCurUser(user);
+            }
+          })
         });
     } catch (error) {
       console.log(error);
@@ -166,7 +171,6 @@ const GymSchedule = () => {
   };
 
   const unregister = () => {
-
     try {
       fetch(server_URL + "remove_course_user", {
         method: "POST",
@@ -197,7 +201,7 @@ const GymSchedule = () => {
           } else {
             alert("Unregistration successful!");
             closeForm();
-            closeConfirmation()
+            closeConfirmation();
             get_db_events();
           }
         });
@@ -228,9 +232,9 @@ const GymSchedule = () => {
   };
 
   const openForm = () => {
+    document.getElementById("myForm-overlay").style.display = "block";
     let enrolledList = currentEvent.enrolled.map(a => a.name)
-    console.log(enrolledList)
-    console.log(curUser.name)
+
 
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -251,16 +255,19 @@ const GymSchedule = () => {
     }
   };
 
-  const openConfirmationForm = () =>{
+  const openConfirmationForm = () => {
     document.getElementById("confirmationForm").style.display = "block";
-  }
+    document.getElementById("myForm-overlay").style.display = "block";
+  };
 
-  const closeConfirmation = () =>{
+  const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
-  }
+    document.getElementById("myForm-overlay").style.display = "none";
+  };
 
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
 
     currentEvent = null;
   };
@@ -273,15 +280,13 @@ const GymSchedule = () => {
 
     if (currentEvent.enrolled.find((user) => user.name == curUser.name)) {
       // unregister();
-      openConfirmationForm()
+      openConfirmationForm();
     } else {
       register_for_event();
       document.getElementById("myForm").style.display = "none";
-
     }
 
     // document.getElementById("myForm").style.display = "none";
-
   };
 
   const handleCurUser = (e) => {
@@ -307,30 +312,24 @@ const GymSchedule = () => {
   // handling the filter
   const handleFilter = (e) => {
     e.preventDefault();
-    // setFilter(e.target.value)
     filter = e.target.value;
     get_db_events();
   };
 
   return (
     <div className="view-gym-schedule">
-      <div className="top-bar">
-        Gym Schedule
+      <div className="top-bar">&nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
-          <button className="top-bar-button" onClick={goBack}>
-            Back
-          </button>
-        </div>
-        {/* dropdown of children names (does nothing right now)*/}
+        {/* dropdown of children names*/}
         <select
-          className="childDropDown"
+          className="top-bar-buttons"
           id="childDropDown"
           onChange={handleCurUser}
         >
           {nameDropDowns}
         </select>
         <select
-          className="childDropDown"
+          className="top-bar-buttons"
           id="levelDropDown"
           onChange={handleFilter}
         >
@@ -339,23 +338,30 @@ const GymSchedule = () => {
           <option value="1">Level: 2-3</option>
           <option value="2">Level: 3-4</option>
         </select>
+
+        <button className="top-bar-button" onClick={goBack}>
+            Back
+        </button>
+        </div>
       </div>
 
       <div className="form-popup" id="myForm">
         <form className="form-container">
-          <h4>{curUser.name}</h4>
-          <label for="title">
-            <b>Title</b>
-          </label>
-          <h5 id="eventTitle">{currentEvent.name}</h5>
+          <div className="info-text-div">
+            <h4 className="info-name-label">{curUser.name}</h4>
+            <label for="title" className="event-info-label">
+              <b>Title</b>
+            </label>
+            <h5 className="info-data-label" id="eventTitle">{currentEvent.name}</h5>
 
-          <label for="desc">
-            <b>Description</b>
-          </label>
+            <label for="desc" className="event-info-label">
+              <b>Description</b>
+            </label>
 
-          <h5 id="eventDescription">{currentEvent.desc}</h5>
+            <h5 className="info-data-label" id="eventDescription">{currentEvent.desc}</h5>
 
-          <h5 id="registrationChecker"></h5>
+            <h5 className="info-data-label" id="registrationChecker" style={{color: "black"}}></h5>
+          </div>
 
           <button
             type="submit"
@@ -371,25 +377,24 @@ const GymSchedule = () => {
         </form>
       </div>
 
+      <div className="myForm-overlay" id="myForm-overlay"></div>
 
       <div className="confirm-form-popup" id="confirmationForm">
         {/* <form className="form-container"> */}
-          <h4>Are you sure you would like to un-enroll?</h4>
-          <button
-            type="submit"
-            className="btn"
-            onClick={unregister}
-          >
-            Un-enroll
-          </button>
+        <h4>Are you sure you would like to un-enroll?</h4>
+        <button type="submit" className="btn" onClick={unregister}>
+          Un-enroll
+        </button>
 
-          <button type="button" className="btn cancel" onClick={closeConfirmation}>
-            Cancel
-          </button>
+        <button
+          type="button"
+          className="btn cancel"
+          onClick={closeConfirmation}
+        >
+          Cancel
+        </button>
         {/* </form> */}
       </div>
-
-      
 
       <div className="">
         <Calendar
@@ -412,15 +417,18 @@ const GymSchedule = () => {
               border: "none",
             };
 
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
-
+            
             return { className: "", style: newStyle };
           }}
         ></Calendar>

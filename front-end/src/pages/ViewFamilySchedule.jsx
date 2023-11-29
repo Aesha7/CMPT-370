@@ -58,7 +58,7 @@ const ViewFamilySchedule = () => {
   };
 
   /**
-   * gets list of all events and filters the ones where 
+   * gets list of all events and filters the ones where
    * the current username is included in the enrolled list
    */
   const get_user_events = () => {
@@ -82,7 +82,6 @@ const ViewFamilySchedule = () => {
           let tempEvents = [];
           data.forEach((event) => {
             let enrolledList = event.enrolled.map((a) => a.name);
-
             if (enrolledList.includes(curUser.name)) {
               let name = event.name;
               let desc = event.desc;
@@ -186,6 +185,7 @@ const ViewFamilySchedule = () => {
 
   const openForm = () => {
     document.getElementById("myForm").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
@@ -196,19 +196,23 @@ const ViewFamilySchedule = () => {
 
   const closeForm = () => {
     document.getElementById("myForm").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
   };
 
   const openConfirmationForm = (e) => {
     e.preventDefault();
     document.getElementById("confirmationForm").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block";
   };
 
   const closeConfirmation = () => {
     document.getElementById("confirmationForm").style.display = "none";
+    document.getElementById("myForm-overlay").style.display = "none";
   };
 
   const handleUserChange = (e) => {
     curUser = users[e.target.value];
+    setCurUser(users[e.target.value]);
     get_user_events();
   };
 
@@ -235,9 +239,9 @@ const ViewFamilySchedule = () => {
   return (
     <div className="view-family-schedule">
       <div className="top-bar">
-        Family Schedule
+        &nbsp;&nbsp;FAMILY SCHEDULE
         <div className="allButtons">
-          <select className="top-bar-button" onChange={handleUserChange}>
+          <select className="top-bar-buttons" onChange={handleUserChange}>
             {nameDropDowns}
           </select>
           <button className="top-bar-button" onClick={goBack}>
@@ -248,16 +252,23 @@ const ViewFamilySchedule = () => {
 
       <div className="form-popup" id="myForm">
         <form className="form-container">
-          <label for="title">
-            <b>Title</b>
-          </label>
-          <h5 id="eventTitle">{currentEvent.name}</h5>
+          <div className="info-text-div">
+            <h4 className="info-name-label">{curUser.name}</h4>
+            <label for="title">
+              <b>Title</b>
+            </label>
+            <h5 className="info-data-label" id="eventTitle">
+              {currentEvent.name}
+            </h5>
 
-          <label for="desc">
-            <b>Description</b>
-          </label>
+            <label for="desc">
+              <b>Description</b>
+            </label>
 
-          <h5 id="eventDescription">{currentEvent.desc}</h5>
+            <h5 className="info-data-label" id="eventDescription">
+              {currentEvent.desc}
+            </h5>
+          </div>
 
           <button type="submit" className="btn" onClick={openConfirmationForm}>
             Un-Register
@@ -268,9 +279,13 @@ const ViewFamilySchedule = () => {
         </form>
       </div>
 
+      <div className="myForm-overlay" id="myForm-overlay"></div>
+
       <div className="confirm-form-popup" id="confirmationForm">
-        <h4>Are you sure you would like to un-enroll?</h4>
-        <button type="submit" className="btn" onClick={unregister}>
+        <h4 className="confirm-form-popup-header">
+          Are you sure you would like to un-enroll?
+        </h4>
+        <button type="" className="btn" onClick={unregister}>
           Un-enroll
         </button>
         <button
@@ -302,13 +317,16 @@ const ViewFamilySchedule = () => {
               borderRadius: "0px",
               border: "none",
             };
+            // setting event colours depending on level
             if (event.level == 0) {
-              newStyle.backgroundColor = "#4e9b6f";
+              newStyle.backgroundColor = "#34624d";
+              newStyle.color = "white";
             } else if (event.level == 1) {
-              newStyle.backgroundColor = "#f3c26e";
+              newStyle.backgroundColor = "#e7bf6a";
               newStyle.color = "white";
             } else if (event.level == 2) {
-              newStyle.backgroundColor = "#75caef";
+              newStyle.backgroundColor = "#4b7588";
+              newStyle.color = "white";
             }
             return { className: "", style: newStyle };
           }}

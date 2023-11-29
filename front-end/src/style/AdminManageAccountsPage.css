@@ -15,3 +15,113 @@
     color: blue;
     font-size: 20px;
 }
+
+.all-accounts-info-button{
+    float: right;
+}
+
+.all-accounts-child-row{
+    /* background-color: red; */
+    padding-left: 2vw;
+    padding-bottom: 3vh;
+    display: flex;
+    align-items: center;
+    font-size: 2.2vh;
+}
+
+.all-accounts-parent-row{
+    /* background-color: blue; */
+    padding-bottom: 3vh;
+    font-size: 2.5vh;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.all-accounts-family{
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /* background-color: purple; */
+    flex: 2;
+    margin-bottom: 4vh;
+    margin-top: 3vh;
+    border: 2px solid #2c3c4c;
+    color: white;
+    background-color: #7d8f97;
+    padding-left: 1.5vw;
+    padding-top: 3vh;
+    padding-right: 1.5vw;
+}
+
+.admin-edit-account{
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    position: fixed;
+    bottom: 0;
+    width: 30vw;
+    height: 55vh;
+    padding: 30px;
+    border: 3px solid #2c3c4c;
+    background-color: white;  
+    z-index: 9;
+}
+
+.admin-edit-div{
+    margin-bottom: 15px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;    
+}
+
+.manage-account-edit{
+    width: 17vw;
+    height: 2vh
+}
+
+
+.admin-parent-div{
+    display: flex;
+    padding: 20px;
+    overflow: scroll;
+}
+
+.admin-account-div{
+    flex: 1;
+    margin: 10px;
+    padding: 30px;
+    background-color: #d8d9d9;
+}
+
+.all-accounts-info-button{
+    display: flex;  
+    align-items: center; 
+    padding: 1vh 1vw;
+    margin-left: auto;
+    text-align: center;
+    font-size: 2.1vh;
+    font-weight: bold;
+    transition-duration: 0.4s;
+    background-color: #db936f;
+    border: 2px solid transparent;
+    color: white;
+}
+  .all-accounts-info-button:hover{
+    padding-right: 1.5vw;
+    background-color: #a9745a;
+}
+.admin-button-div{
+    display: flex;
+    justify-content: space-between;
+    padding: 2vw;
+}
+
+  .admin-button-div .edit-button {
+    width: 6vw;
+  }
+
+  .client-heading, .staff-heading {
+    font-size: 4.5vh;
+    font-weight: bold;
+    color: #2c3c4c;
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }

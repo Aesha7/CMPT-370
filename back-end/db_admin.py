@@ -237,6 +237,60 @@ def get_all_accounts(request_data, accounts_collection):
     resp.data=dumps(account_list)
     return resp
 
+
+# same as get_all_accounts but for more info
+# def get_all_accounts_all_info(request_data, accounts_collection):
+#     resp = Response()
+#     resp.headers['Access-Control-Allow-Headers']="*"
+#     admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+#     if not admin_account:
+#         resp.status_code=400
+#         resp.data=dumps("Error: admin account not found")
+#         return resp
+#     if not (admin_account["staffLevel"]>0):
+#         resp.status_code=400
+#         resp.data=dumps("Error: you do not have permission to perform this action")
+#         return resp
+    
+#         # Goes through all accounts in collection, takes their email and stafflevel and adds them to a new dict, then adds that dict to the response list
+#     account_list = []
+#     accounts = accounts_collection.find()
+#     for account in accounts:
+#         account_dict = {}
+#         account_dict["name"] = account.pop("name")
+#         account_dict["email"] = account.pop("email")
+#         account_dict["staffLevel"] = account.pop("staffLevel")
+#         account_list.append(account_dict)
+
+#     resp.data=dumps(account_list)
+#     return resp
+
+# get list of account_ID's
+def get_account_object_list(request_data, accounts_collection):
+    resp = Response()
+    resp.headers['Access-Control-Allow-Headers']="*"
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["admin_ID"])})
+
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>0):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+    
+    accountObjList = []
+    accounts = accounts_collection.find()
+    for account in accounts:
+        accountObjList.append(account)
+    
+    resp.data=dumps(accountObjList)
+    return resp
+            
+
+
 def change_level(request_data, accounts_collection):
     resp = Response()
     resp.headers['Access-Control-Allow-Headers']="*"

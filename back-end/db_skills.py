@@ -17,17 +17,17 @@ def update_skill_template(request_data, templates_collection, accounts_collectio
         resp.data=dumps("Error: you do not have permission to perform this action")
         return resp
 
-    template = templates_collection.find_one({"_id":ObjectId("655f999ef7b243b45b4919f1")}) #ObjectId of skill template in db
+    template = templates_collection.find_one({"_id":ObjectId("656686ce75f84c1fa4a0126a")}) #ObjectId of skill template in db
     for account in accounts_collection.find({}):
         for user in account["users"]:
             user_skills = user.get("skills")
-            updated_skills = {"lv_1":[],"lv_2":[],"lv_3":[],"lv_4":[],"lv_5":[]} # blank skills list to fill
+            updated_skills = {"Jumping":[], "Vaulting":[], "Climbing":[], "Swinging":[], "Landing":[],  } # blank skills list to fill
             if user_skills == None: # If user didn't have skills initialized, initializes
                 accounts_collection.update_one({"_id": account["_id"],"users._id": user["_id"]}, 
                                                         {"$set":{"users.$.skills" : template}})
             # Standard case
             else:
-                for skill_lv in ["lv_1", "lv_2","lv_3","lv_4","lv_5"]: # Goes through all skill levels (objects)
+                for skill_lv in ["Jumping", "Vaulting", "Climbing", "Swinging", "Landing"]: # Goes through all skill levels (objects)
                     for template_skill in template[skill_lv]:
                         skill_found = False # haven't found this skill in the user's old list yet
                         for user_skill in user_skills[skill_lv]:
