@@ -16,13 +16,18 @@ const ViewFamilySchedule = () => {
   const [calEvents, setCalEvents] = useState([]);
   let temp = [];
 
-  let [currentEvent, setCurrentEvent] = useState("");
+  let [currentEvent, setCurrentEvent] = useState([]);
+  const [currentFeedback, setCurrentFeedback] = useState("");
 
   let [userID, setUserID] = useState("");
   userID = location.state;
 
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
+  }
+
+  if (currentEvent.feedbackArray == undefined) {
+    currentEvent.feedbackArray = [];
   }
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
@@ -103,6 +108,15 @@ const ViewFamilySchedule = () => {
               );
               let level = event.level;
               let enrolled = event.enrolled;
+              let feedbackArray;
+              try {
+               feedbackArray = event.feedbackArray;
+              } catch {
+                feedbackArray = [];
+              }
+              if (feedbackArray === undefined) {
+                feedbackArray = [];
+              }
 
               let newEvent = {
                 name: name,
@@ -111,8 +125,9 @@ const ViewFamilySchedule = () => {
                 end: end,
                 level: level,
                 enrolled: enrolled,
+                feedbackArray: feedbackArray,
               };
-
+              
               tempEvents.push(newEvent);
             }
           });
@@ -179,7 +194,16 @@ const ViewFamilySchedule = () => {
     if (calEvent != currentEvent) {
       currentEvent = calEvent;
     }
-
+    
+    try {
+      setCurrentFeedback(currentEvent.feedbackArray.find(
+        (currentStudent) =>
+          currentStudent.name === curUser.name
+      ).feedback);
+    } catch {
+      setCurrentFeedback("");
+    }
+    
     openForm();
   };
 
@@ -267,6 +291,13 @@ const ViewFamilySchedule = () => {
 
             <h5 className="info-data-label" id="eventDescription">
               {currentEvent.desc}
+            </h5>
+
+            <label className="feedback-diplay-label">
+              <b>Feedback:</b>
+            </label>
+            <h5>
+              {currentFeedback}
             </h5>
           </div>
 
