@@ -10,7 +10,6 @@ const AdminManageAccountsPage = () => {
   const location = useLocation();
   let userID = location.state;
   const [staffLevel, setStaffLevel] = useState("");
-  let tempUsers = [];
   const [listedUsers, setListedUsers] = useState([]);
 
   let [currentDisplayName, setCurrentDisplayName] = useState("");
@@ -24,7 +23,6 @@ const AdminManageAccountsPage = () => {
 
   let [oldName, setOldName] = useState("");
 
-
   let [newName, setNewName] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
   let [newLevel, setNewLevel] = useState("");
@@ -32,60 +30,8 @@ const AdminManageAccountsPage = () => {
   let [newEmail, setNewEmail] = useState("");
   let [newStaffLevel, setNewStaffLevel] = useState("");
 
-
-  let staffLevelDiv = null;
-
-  let userEmail;
-
   let accountRenders;
   let staffRenders;
-
-  /**
-   * upgrade an account to staff level
-   */
-  const modifyAccountsStaff = () => {
-    try {
-      fetch(server_URL + "change_staff_level", {
-        method: "POST",
-        body: JSON.stringify({ admin_ID: userID, email: userEmail, level: 1 }),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-      })
-        .then((response) => {
-          return response.text();
-        })
-        .then((text) => {
-          // Parse the text as JSON
-          const data = JSON.parse(text);
-
-          if (text == '"Error: admin account not found"') {
-            alert('"Error: admin account not found"');
-          }
-          if (data == '"Error: user account not found"') {
-            alert('"Error: user account not found"');
-          }
-          if (
-            data == '"Error: you do not have permission to perform this action"'
-          ) {
-            alert('"Error: you do not have permission to perform this action"');
-          }
-          if (
-            data ==
-            '"Error: target account\'s staff level is too high to change."'
-          ) {
-            alert(
-              '"Error: target account\'s staff level is too high to change."'
-            );
-          }
-        });
-    } catch (exception) {
-      console.log(exception);
-    }
-  };
 
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
@@ -162,32 +108,29 @@ const AdminManageAccountsPage = () => {
     navigate(path, { state: userID });
   };
 
-
   const handleNewName = (e) => {
     setNewName(e.target.value);
-  }
+  };
 
-  const handleNewBirthday = (date) =>{
+  const handleNewBirthday = (date) => {
     setNewBirthday(date);
-  }
+  };
 
-  const handleNewLevel = (e) =>{
-    setNewLevel(e.target.value)
-  }
+  const handleNewLevel = (e) => {
+    setNewLevel(e.target.value);
+  };
 
-  const handleNewPhone = (e) =>{
-    setNewPhone(e.target.value)
-  }
+  const handleNewPhone = (e) => {
+    setNewPhone(e.target.value);
+  };
 
-  const handleNewEmail = (e) =>{
-    setNewEmail(e.target.value)
-  }
+  const handleNewEmail = (e) => {
+    setNewEmail(e.target.value);
+  };
 
-  const handleNewStaffLevel = (e) =>{
-    setNewStaffLevel(e.target.value)
-  }
-
-
+  const handleNewStaffLevel = (e) => {
+    setNewStaffLevel(e.target.value);
+  };
 
   /**
    * @param {} email the email string
@@ -206,133 +149,145 @@ const AdminManageAccountsPage = () => {
    */
   function validatePhoneNumber(input_str) {
     var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
-  
+
     return re.test(input_str);
   }
 
-/**
-* saving modified account info
-*/
-const saveInfo = (e) =>{
-  e.preventDefault();
-  let error = false;
-  // case where they dont modify a field
+  /**
+   * saving modified account info
+   */
+  const saveInfo = (e) => {
+    e.preventDefault();
+    let error = false;
+    // case where they dont modify a field
 
-  if(newName == ""){
-    newName = currentDisplayName;
-  }
-  if(newBirthday == ""){
-    newBirthday = currentBirthday;
-  }
-  else{
-    let arr = newBirthday.toString().split(" ")
-    newBirthday = arr[1] + " " + arr[2] + " " + arr[3]
-  }
-  if(newLevel == ""){
-    newLevel = currentLevel;
-  }
-  if(newPhone == ""){
-    newPhone = currentPhoneNumber
-  }
-  if(newEmail == ""){
-    newEmail = currentEmail;
-  }
-  if(newStaffLevel == ""){
-    newStaffLevel = currentStaffLevel
-  }
-
-  // all input checking
-
-  // name can be anything?
-
-  // level is a number
-  if(isNaN(newLevel)){
-    alert("Please enter a number for the new level.")
-    error = true
-  }
-  else if(newLevel > 3 || newLevel < 0){
-    alert("Please ensure the new level is between 3 and 0.")
-    error = true
-  }
-  else if(!validatePhoneNumber(newPhone)){
-    alert("Please ensure the new phone number is in the form \"(123) 456 7890\".")
-    error = true
-  }
-  else if(!validEmail(newEmail)){
-    alert("Please ensure the new email is valid.")
-    error = true
-  }
-  else if(isNaN(newStaffLevel)){
-    alert("Please enter a number for the staff level.")
-    error = true
-  }
-  else if(newStaffLevel > 3 || newStaffLevel < 0){
-    alert("Please ensure the new staff level is between 3 and 0.")
-    error = true
-  }
-  else{
-    // all variables you will need
-    console.log("NEW ", newName, newBirthday, newLevel, newPhone, newEmail, newStaffLevel)
-  
-    try {
-      fetch(server_URL + "change_user_info", {
-        method: "POST",
-        body: JSON.stringify({ _id: userID, new_name: newName, old_name: oldName, birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel}),
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Headers": "Content-Type",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
-        },
-      })
-        .then((response) => {
-          return response.text();
-        })
-        .then((text) => {
-          // Parse the text as JSON
-          const data = JSON.parse(text);
-
-          if (text == '"Error: admin account not found"') {
-            alert('"Error: admin account not found"');
-          }
-          if (data == '"Error: user account not found"') {
-            alert('"Error: user account not found"');
-          }
-          if (
-            data == '"Error: you do not have permission to perform this action"'
-          ) {
-            alert('"Error: you do not have permission to perform this action"');
-          }
-          if (
-            data ==
-            '"Error: target account\'s staff level is too high to change."'
-          ) {
-            alert(
-              '"Error: target account\'s staff level is too high to change."'
-            );
-          }
-          else{
-            alert("Info has been saved.")
-
-            document.getElementById("edit-name").disabled = true
-            document.getElementById("edit-birthday").prefentOpenOnFocus = true
-            document.getElementById("edit-level").disabled = true
-            document.getElementById("edit-phone").disabled = true
-            document.getElementById("edit-email").disabled = true
-            document.getElementById("edit-staff-level").disabled = true
-
-            get_user_obj_list();
-
-
-            
-          }
-        });
-    } catch (exception) {
-      console.log(exception);
+    if (newName == "") {
+      newName = currentDisplayName;
+    }
+    if (newBirthday == "") {
+      newBirthday = currentBirthday;
+    } else {
+      let arr = newBirthday.toString().split(" ");
+      newBirthday = arr[1] + " " + arr[2] + " " + arr[3];
+    }
+    if (newLevel == "") {
+      newLevel = currentLevel;
+    }
+    if (newPhone == "") {
+      newPhone = currentPhoneNumber;
+    }
+    if (newEmail == "") {
+      newEmail = currentEmail;
+    }
+    if (newStaffLevel == "") {
+      newStaffLevel = currentStaffLevel;
     }
 
-  }
-}
+    // all input checking
+
+    // name can be anything?
+
+    // level is a number
+    if (isNaN(newLevel)) {
+      alert("Please enter a number for the new level.");
+      error = true;
+    } else if (newLevel > 3 || newLevel < 0) {
+      alert("Please ensure the new level is between 3 and 0.");
+      error = true;
+    } else if (!validatePhoneNumber(newPhone)) {
+      alert(
+        'Please ensure the new phone number is in the form "(123) 456 7890".'
+      );
+      error = true;
+    } else if (!validEmail(newEmail)) {
+      alert("Please ensure the new email is valid.");
+      error = true;
+    } else if (isNaN(newStaffLevel)) {
+      alert("Please enter a number for the staff level.");
+      error = true;
+    } else if (newStaffLevel > 3 || newStaffLevel < 0) {
+      alert("Please ensure the new staff level is between 3 and 0.");
+      error = true;
+    } else {
+      // all variables you will need
+      console.log(
+        "NEW ",
+        newName,
+        newBirthday,
+        newLevel,
+        newPhone,
+        newEmail,
+        newStaffLevel
+      );
+
+      try {
+        fetch(server_URL + "change_user_info", {
+          method: "POST",
+          body: JSON.stringify({
+            _id: userID,
+            new_name: newName,
+            old_name: oldName,
+            birthday: newBirthday,
+            phone: newPhone,
+            staffLevel: newStaffLevel,
+            email: newEmail,
+            level: newLevel,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        })
+          .then((response) => {
+            return response.text();
+          })
+          .then((text) => {
+            // Parse the text as JSON
+            const data = JSON.parse(text);
+
+            if (text == '"Error: admin account not found"') {
+              alert('"Error: admin account not found"');
+            }
+            if (data == '"Error: user account not found"') {
+              alert('"Error: user account not found"');
+            }
+            if (
+              data ==
+              '"Error: you do not have permission to perform this action"'
+            ) {
+              alert(
+                '"Error: you do not have permission to perform this action"'
+              );
+            }
+            if (
+              data ==
+              '"Error: target account\'s staff level is too high to change."'
+            ) {
+              alert(
+                '"Error: target account\'s staff level is too high to change."'
+              );
+            } else {
+              alert("Info has been saved.");
+
+              document.getElementById("edit-name").disabled = true;
+              document.getElementById(
+                "edit-birthday"
+              ).prefentOpenOnFocus = true;
+              document.getElementById("edit-level").disabled = true;
+              document.getElementById("edit-phone").disabled = true;
+              document.getElementById("edit-email").disabled = true;
+              document.getElementById("edit-staff-level").disabled = true;
+
+              get_user_obj_list();
+            }
+          });
+      } catch (exception) {
+        console.log(exception);
+      }
+    }
+  };
 
   // uncovering the page if a valid account
   if (staffLevel >= 3) {
@@ -386,10 +341,10 @@ const saveInfo = (e) =>{
       }
     });
 
-      userIndex = -1;
-      staffRenders = listedUsers.map(function (user) {
-        userIndex++;
-        if (user.staffLevel >= 1) {
+    userIndex = -1;
+    staffRenders = listedUsers.map(function (user) {
+      userIndex++;
+      if (user.staffLevel >= 1) {
         let childIndex = -1;
         let innerAccountRenders = user.users.map(function (child) {
           childIndex++;
@@ -431,12 +386,12 @@ const saveInfo = (e) =>{
           </div>
         );
       }
-  })
-};
+    });
+  };
 
   /**
-  * show user account info
-  */
+   * show user account info
+   */
   const openInfoPopup = (e) => {
     // console.log(e.target.value);
     let string = e.target.value;
@@ -446,7 +401,7 @@ const saveInfo = (e) =>{
 
     // name, birthday, phone number, email, staff level, level, both id's
     setCurrentDisplayName(subUser.name);
-    setOldName(subUser.name)
+    setOldName(subUser.name);
     setCurrentPhoneNumber(parentUser.phone);
     setCurrentEmail(parentUser.email);
     setCurrentBirthday(subUser.birthday);
@@ -471,27 +426,25 @@ const saveInfo = (e) =>{
     document.getElementById("edit-accout-info").style.display = "none";
     document.querySelector(".myForm-overlay").style.display = "none";
 
-    document.getElementById("edit-name").disabled = true
-    document.getElementById("edit-birthday").prefentOpenOnFocus = true
-    document.getElementById("edit-level").disabled = true
-    document.getElementById("edit-phone").disabled = true
-    document.getElementById("edit-email").disabled = true
-    document.getElementById("edit-staff-level").disabled = true
+    document.getElementById("edit-name").disabled = true;
+    document.getElementById("edit-birthday").prefentOpenOnFocus = true;
+    document.getElementById("edit-level").disabled = true;
+    document.getElementById("edit-phone").disabled = true;
+    document.getElementById("edit-email").disabled = true;
+    document.getElementById("edit-staff-level").disabled = true;
   };
 
-  const unlockInput = () =>{
-    document.getElementById("edit-name").disabled = false
+  const unlockInput = () => {
+    document.getElementById("edit-name").disabled = false;
     // document.getElementById("edit-birthday").disabled = false
 
+    document.getElementById("edit-birthday").prefentOpenOnFocus = false;
 
-    document.getElementById("edit-birthday").prefentOpenOnFocus = false
-
-    document.getElementById("edit-level").disabled = false
-    document.getElementById("edit-phone").disabled = false
-    document.getElementById("edit-email").disabled = false
-    document.getElementById("edit-staff-level").disabled = false
-
-  }
+    document.getElementById("edit-level").disabled = false;
+    document.getElementById("edit-phone").disabled = false;
+    document.getElementById("edit-email").disabled = false;
+    document.getElementById("edit-staff-level").disabled = false;
+  };
 
   // users is set
   getAccountRenders();
@@ -542,31 +495,27 @@ const saveInfo = (e) =>{
               {" "}
               Birthday:{" "}
             </label>
-  
-            <DatePicker 
-            className="manage-account-edit" 
-            id="edit-birthday"
-            placeholderText={currentBirthday}
-            selected={newBirthday}
-            onChange={handleNewBirthday}
 
-            portalId="root-portal"
-            showPopperArrow={true} //getting rid of arrow
-            dateFormat="MM/dd/yyyy"
-            minDate={new Date(1900, 0, 1)}
-            maxDate={new Date(2099, 11, 31)}
-            showMonthDropdown={true}
-            showYearDropdown={true}
-            todayButton="Today"
-            dropdownMode="select"
-            inputReadOnly={true}
-            // readOnly={true}
-            preventOpenOnFocus = {true}
-
-
-            popperPlacement="auto"
+            <DatePicker
+              className="manage-account-edit"
+              id="edit-birthday"
+              placeholderText={currentBirthday}
+              selected={newBirthday}
+              onChange={handleNewBirthday}
+              portalId="root-portal"
+              showPopperArrow={true} //getting rid of arrow
+              dateFormat="MM/dd/yyyy"
+              minDate={new Date(1900, 0, 1)}
+              maxDate={new Date(2099, 11, 31)}
+              showMonthDropdown={true}
+              showYearDropdown={true}
+              todayButton="Today"
+              dropdownMode="select"
+              inputReadOnly={true}
+              // readOnly={true}
+              preventOpenOnFocus={true}
+              popperPlacement="auto"
             ></DatePicker>
-            
           </div>
 
           {/* level */}
@@ -680,9 +629,15 @@ const saveInfo = (e) =>{
           {/* <div className="family-info">
            */}
           <div className="admin-button-div">
-            <button className="edit-button" onClick={unlockInput}>Edit</button>
-            <button className="edit-button" onClick={saveInfo}>Save</button>
-            <button className="edit-button" onClick={closeForm}>Close</button>
+            <button className="edit-button" onClick={unlockInput}>
+              Edit
+            </button>
+            <button className="edit-button" onClick={saveInfo}>
+              Save
+            </button>
+            <button className="edit-button" onClick={closeForm}>
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -698,7 +653,7 @@ const saveInfo = (e) =>{
           {accountRenders}
         </div>
         <div className="admin-account-div">
-        <label className="staff-heading">STAFF</label>
+          <label className="staff-heading">STAFF</label>
           {staffRenders}
         </div>
       </div>
