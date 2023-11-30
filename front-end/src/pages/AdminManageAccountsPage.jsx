@@ -100,6 +100,8 @@ const AdminManageAccountsPage = () => {
   useEffect(() => {
     get_account_info();
     get_user_obj_list();
+    getAccountRenders();
+
   }, []);
 
   let navigate = useNavigate();
@@ -221,6 +223,8 @@ const AdminManageAccountsPage = () => {
         newStaffLevel
       );
 
+      console.log(oldName, newName)
+
       try {
         fetch(server_URL + "change_user_info", {
           method: "POST",
@@ -245,7 +249,9 @@ const AdminManageAccountsPage = () => {
           })
           .then((text) => {
             // Parse the text as JSON
-            const data = JSON.parse(text);
+            // const data = JSON.parse(text);
+            const data = text;
+
 
             if (text == '"Error: admin account not found"') {
               alert('"Error: admin account not found"');
@@ -281,6 +287,8 @@ const AdminManageAccountsPage = () => {
               document.getElementById("edit-staff-level").disabled = true;
 
               get_user_obj_list();
+              getAccountRenders();
+
             }
           });
       } 
@@ -310,7 +318,9 @@ const AdminManageAccountsPage = () => {
           })
           .then((text) => {
             // Parse the text as JSON
-            const data = JSON.parse(text);
+            // const data = JSON.parse(text);
+            const data = text;
+
 
             if (text == '"Error: admin account not found"') {
               alert('"Error: admin account not found"');
@@ -333,8 +343,8 @@ const AdminManageAccountsPage = () => {
               alert(
                 '"Error: target account\'s staff level is too high to change."'
               );
-            } else {
-              alert("Info has been saved.");
+            } else if(data == ""){
+              // alert("Info has been saved.");
 
               document.getElementById("edit-name").disabled = true;
               document.getElementById(
@@ -346,6 +356,10 @@ const AdminManageAccountsPage = () => {
               document.getElementById("edit-staff-level").disabled = true;
 
               get_user_obj_list();
+              getAccountRenders();
+            }
+            else{
+              alert("There was an error while modifying account info.")
             }
           });
       }
