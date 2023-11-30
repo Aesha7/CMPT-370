@@ -22,6 +22,7 @@ const AdminManageAccountsPage = () => {
   let [currentBirthday, setCurrentBirthday] = useState("");
 
   let [oldName, setOldName] = useState("");
+  let [oldEmail, setOldEmail] = useState("")
 
   let [newName, setNewName] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
@@ -224,13 +225,12 @@ const AdminManageAccountsPage = () => {
         fetch(server_URL + "change_user_info", {
           method: "POST",
           body: JSON.stringify({
+            // email, _id (of admin), old_name, new_name, level, birthday
             _id: userID,
             new_name: newName,
             old_name: oldName,
             birthday: newBirthday,
-            phone: newPhone,
-            staffLevel: newStaffLevel,
-            email: newEmail,
+            email: oldEmail,
             level: newLevel,
           }),
           headers: {
@@ -245,9 +245,29 @@ const AdminManageAccountsPage = () => {
           })
           .then((text) => {
             // Parse the text as JSON
-            if (text != "") {
-              const data = JSON.parse(text);
-              alert(data);
+            const data = JSON.parse(text);
+
+            if (text == '"Error: admin account not found"') {
+              alert('"Error: admin account not found"');
+            }
+            if (data == '"Error: user account not found"') {
+              alert('"Error: user account not found"');
+            }
+            if (
+              data ==
+              '"Error: you do not have permission to perform this action"'
+            ) {
+              alert(
+                '"Error: you do not have permission to perform this action"'
+              );
+            }
+            if (
+              data ==
+              '"Error: target account\'s staff level is too high to change."'
+            ) {
+              alert(
+                '"Error: target account\'s staff level is too high to change."'
+              );
             } else {
               alert("Info has been saved.");
 
@@ -263,7 +283,73 @@ const AdminManageAccountsPage = () => {
               get_user_obj_list();
             }
           });
-      } catch (exception) {
+      } 
+      catch (exception) {
+        console.log(exception);
+      }
+      try{
+        fetch(server_URL + "change_account_info", {
+          method: "POST",
+          body: JSON.stringify({
+            // old_email, new_email, _id (of admin), phone, staff_level
+            _id: userID,
+            new_email: newEmail,
+            old_email: oldEmail,
+            phone: newPhone,
+            staff_level: newStaffLevel,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        })
+          .then((response) => {
+            return response.text();
+          })
+          .then((text) => {
+            // Parse the text as JSON
+            const data = JSON.parse(text);
+
+            if (text == '"Error: admin account not found"') {
+              alert('"Error: admin account not found"');
+            }
+            if (data == '"Error: user account not found"') {
+              alert('"Error: user account not found"');
+            }
+            if (
+              data ==
+              '"Error: you do not have permission to perform this action"'
+            ) {
+              alert(
+                '"Error: you do not have permission to perform this action"'
+              );
+            }
+            if (
+              data ==
+              '"Error: target account\'s staff level is too high to change."'
+            ) {
+              alert(
+                '"Error: target account\'s staff level is too high to change."'
+              );
+            } else {
+              alert("Info has been saved.");
+
+              document.getElementById("edit-name").disabled = true;
+              document.getElementById(
+                "edit-birthday"
+              ).prefentOpenOnFocus = true;
+              document.getElementById("edit-level").disabled = true;
+              document.getElementById("edit-phone").disabled = true;
+              document.getElementById("edit-email").disabled = true;
+              document.getElementById("edit-staff-level").disabled = true;
+
+              get_user_obj_list();
+            }
+          });
+      }
+      catch (exception) {
         console.log(exception);
       }
     }
@@ -384,6 +470,7 @@ const AdminManageAccountsPage = () => {
     setOldName(subUser.name);
     setCurrentPhoneNumber(parentUser.phone);
     setCurrentEmail(parentUser.email);
+    setOldEmail(parentUser.email)
     setCurrentBirthday(subUser.birthday);
     setCurrentLevel(subUser.level);
 
@@ -557,7 +644,7 @@ const AdminManageAccountsPage = () => {
               id="info-parentID"
             >
               {" "}
-              Account ID:{" "}
+              Parent Account ID:{" "}
             </label>
             <input
               className="manage-account-edit"
@@ -573,7 +660,7 @@ const AdminManageAccountsPage = () => {
           <div className="admin-edit-div">
             <label className="account-label" htmlFor="userID" id="info-userID">
               {" "}
-              User ID:{" "}
+              Account ID:{" "}
             </label>
             <input
               className="manage-account-edit"

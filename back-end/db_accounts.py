@@ -508,6 +508,45 @@ def edit_account(request_data, accounts_collection):
     return "Returned"
 
 
+def change_account_info(request_data, accounts_collection):
+    resp=Response()
+    resp.headers['Access-Control-Allow-Headers'] = '*'
+    user_account = accounts_collection.find_one({"email": request_data["old_email"]})
+    admin_account= accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+
+    #Ensures admin account is found and that the admin account has a staffLevel of at least 3
+    if not admin_account:
+        resp.status_code=400
+        resp.data=dumps("Error: admin account not found")
+        return resp
+    if not (admin_account["staffLevel"]>2):
+        resp.status_code=400
+        resp.data=dumps("Error: you do not have permission to perform this action")
+        return resp
+
+    # Ensures user account is found
+    if not user_account:
+        resp.status_code=400
+        resp.data=dumps("Error: user account not found")
+        return resp
+
+    #TODO: level checks
+    if not (request_data["staff_level"] == ""):
+        accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"staff_level" : int(request_data["staff_level"])}})
+
+    if not (request_data["phone"]==""):
+         accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"phone" : request_data["phone"]}})
+    if ((not (request_data["old_email"]==request_data["new_email"])) and (accounts_collection.find_one({"email": request_data["new_email"]}))):
+       resp.status_code=400
+       resp.data = dumps("Email already in use!")
+    else:
+        if not (request_data["new_email"] == ""):
+            accounts_collection.update_one({"email": request_data["old_email"]}, 
+                                                    {"$set":{"email" : request_data["new_email"]}})
+    return resp
+
 
 def change_user_info(request_data, accounts_collection):
     resp = Response()
