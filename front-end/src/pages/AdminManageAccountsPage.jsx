@@ -255,7 +255,6 @@ const AdminManageAccountsPage = () => {
             if (data != "") {
               alert(data);
             } else {
-              alert("Info has been saved.");
 
               document.getElementById("edit-name").disabled = true;
               document.getElementById(
@@ -302,28 +301,10 @@ const AdminManageAccountsPage = () => {
             const data = text;
 
 
-            if (text == '"Error: admin account not found"') {
-              alert('"Error: admin account not found"');
+            if (data != '') {
+              alert(data);
             }
-            if (data == '"Error: user account not found"') {
-              alert('"Error: user account not found"');
-            }
-            if (
-              data ==
-              '"Error: you do not have permission to perform this action"'
-            ) {
-              alert(
-                '"Error: you do not have permission to perform this action"'
-              );
-            }
-            if (
-              data ==
-              '"Error: target account\'s staff level is too high to change."'
-            ) {
-              alert(
-                '"Error: target account\'s staff level is too high to change."'
-              );
-            } else if(data == ""){
+            else {
               // alert("Info has been saved.");
 
               document.getElementById("edit-name").disabled = true;
@@ -337,9 +318,6 @@ const AdminManageAccountsPage = () => {
 
               get_user_obj_list();
               getAccountRenders();
-            }
-            else{
-              alert("There was an error while modifying account info.")
             }
           });
       }
