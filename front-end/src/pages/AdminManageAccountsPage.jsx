@@ -276,9 +276,9 @@ const saveInfo = (e) =>{
     // CAN SEND ALL INFO, Might need new route
     // can probably use currentAccountID to get to the right user
     try {
-      fetch(server_URL + "edit_account", {
+      fetch(server_URL + "change_user_info", {
         method: "POST",
-        body: JSON.stringify({ userID: userID, name: newName, birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel }),
+        body: JSON.stringify({ _id: userID, new_name: newName, old_nameL , birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel}),
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Headers": "Content-Type",
