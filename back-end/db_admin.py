@@ -369,8 +369,7 @@ def change_account_info(request_data, accounts_collection):
     if not (request_data["phone"]==""):
          accounts_collection.update_one({"email": request_data["old_email"]}, 
                                                     {"$set":{"phone" : request_data["phone"]}})
-    
-    if accounts_collection.find_one({"email": request_data["new_email"]}):
+    if ((not (request_data["old_email"]==request_data["new_email"])) and (accounts_collection.find_one({"email": request_data["new_email"]}))):
        resp.status_code=400
        resp.data = dumps("Email already in use!")
     else:
@@ -402,7 +401,7 @@ def change_user_info(request_data, accounts_collection):
     # Finds user and edits their level
     users = user_account["users"]
 
-    if not (request_data["new_name"]==""):
+    if not ((request_data["new_name"]=="") or (request_data["old_name"] == request_data["new_name"])):
         # Searches through account's list of family members to find if name already used
         name_exists = False
         for user in users:

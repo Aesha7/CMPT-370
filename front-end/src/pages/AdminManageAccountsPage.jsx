@@ -245,29 +245,9 @@ const AdminManageAccountsPage = () => {
           })
           .then((text) => {
             // Parse the text as JSON
-            const data = JSON.parse(text);
-
-            if (text == '"Error: admin account not found"') {
-              alert('"Error: admin account not found"');
-            }
-            if (data == '"Error: user account not found"') {
-              alert('"Error: user account not found"');
-            }
-            if (
-              data ==
-              '"Error: you do not have permission to perform this action"'
-            ) {
-              alert(
-                '"Error: you do not have permission to perform this action"'
-              );
-            }
-            if (
-              data ==
-              '"Error: target account\'s staff level is too high to change."'
-            ) {
-              alert(
-                '"Error: target account\'s staff level is too high to change."'
-              );
+            if (text != "") {
+              const data = JSON.parse(text);
+              alert(data);
             } else {
               alert("Info has been saved.");
 
@@ -577,7 +557,7 @@ const AdminManageAccountsPage = () => {
               id="info-parentID"
             >
               {" "}
-              Parent Account ID:{" "}
+              Account ID:{" "}
             </label>
             <input
               className="manage-account-edit"
@@ -593,7 +573,7 @@ const AdminManageAccountsPage = () => {
           <div className="admin-edit-div">
             <label className="account-label" htmlFor="userID" id="info-userID">
               {" "}
-              Account ID:{" "}
+              User ID:{" "}
             </label>
             <input
               className="manage-account-edit"
