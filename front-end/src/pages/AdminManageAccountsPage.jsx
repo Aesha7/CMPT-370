@@ -22,6 +22,8 @@ const AdminManageAccountsPage = () => {
   let [currentChildID, setCurrentChildID] = useState("");
   let [currentBirthday, setCurrentBirthday] = useState("");
 
+  let [oldName, setOldName] = useState("");
+
 
   let [newName, setNewName] = useState("");
   let [newBirthday, setNewBirthday] = useState("");
@@ -271,14 +273,11 @@ const saveInfo = (e) =>{
   else{
     // all variables you will need
     console.log("NEW ", newName, newBirthday, newLevel, newPhone, newEmail, newStaffLevel)
-    
-    // API CALL GOES HERE
-    // CAN SEND ALL INFO, Might need new route
-    // can probably use currentAccountID to get to the right user
+  
     try {
       fetch(server_URL + "change_user_info", {
         method: "POST",
-        body: JSON.stringify({ _id: userID, new_name: newName, old_nameL , birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel}),
+        body: JSON.stringify({ _id: userID, new_name: newName, old_name: oldName, birthday: newBirthday, phone: newPhone, staffLevel: newStaffLevel, email: newEmail, level: newLevel}),
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Headers": "Content-Type",
@@ -322,6 +321,10 @@ const saveInfo = (e) =>{
             document.getElementById("edit-email").disabled = true
             document.getElementById("edit-staff-level").disabled = true
 
+            get_user_obj_list();
+
+
+            
           }
         });
     } catch (exception) {
@@ -443,6 +446,7 @@ const saveInfo = (e) =>{
 
     // name, birthday, phone number, email, staff level, level, both id's
     setCurrentDisplayName(subUser.name);
+    setOldName(subUser.name)
     setCurrentPhoneNumber(parentUser.phone);
     setCurrentEmail(parentUser.email);
     setCurrentBirthday(subUser.birthday);
