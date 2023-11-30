@@ -361,10 +361,17 @@ def change_account_info(request_data, accounts_collection):
         resp.data=dumps("Error: user account not found")
         return resp
 
-    #TODO: level checks
-    if not (request_data["staff_level"] == ""):
+    if not ((request_data["staff_level"] == "") or (request_data["staff_level"]==user_account["staffLevel"])):
+        if not ((admin_account["staffLevel"]>2)and(int(admin_account["staffLevel"])>int(request_data["staff_level"]))):
+            resp.status_code=400
+            resp.data=dumps("Error: you do not have permission to perform this action")
+            return resp
+        if user_account["staffLevel"]>2:
+            resp.status_code=400
+            resp.data=dumps("Error: target account's staff level is too high to change.")
+            return resp
         accounts_collection.update_one({"email": request_data["old_email"]}, 
-                                                    {"$set":{"staff_level" : int(request_data["staff_level"])}})
+                                                    {"$set":{"staffLevel" : int(request_data["staff_level"])}})
 
     if not (request_data["phone"]==""):
          accounts_collection.update_one({"email": request_data["old_email"]}, 
