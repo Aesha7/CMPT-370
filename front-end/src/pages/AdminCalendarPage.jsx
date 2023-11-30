@@ -291,6 +291,7 @@ const AdminCalendarPage = () => {
 
   const displayConfirmPopup = () => {
     document.getElementById("confirmDeletionPopup").style.display = "block";
+    document.getElementById("myForm-overlay").style.display = "block"
   };
 
   // closes all popups
@@ -586,7 +587,7 @@ const AdminCalendarPage = () => {
 
         <div className="myForm-overlay" id="myForm-overlay"></div>
 
-        <div className="add-family-popup" id="confirmDeletionPopup">
+        <div className="confirm-delete-popup" id="confirmDeletionPopup">
           <form className="form-container">
             <h4>
               This event has enrolled members. Are you sure you would like to
