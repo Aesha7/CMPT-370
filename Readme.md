@@ -1,5 +1,5 @@
 ######## BackEnd ########
-1. create a python virtual environment 
+1. create a python virtual environment in the projects parent directory
 2. pip install flask, flask-cors, pymongo, bcrypt in the venv
 3. cd into backend directory
 4. start the venv
