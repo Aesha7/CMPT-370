@@ -284,6 +284,8 @@ const GymSchedule = () => {
     } else {
       register_for_event();
       document.getElementById("myForm").style.display = "none";
+      document.getElementById("myForm-overlay").style.display = "none";
+
     }
 
     // document.getElementById("myForm").style.display = "none";
