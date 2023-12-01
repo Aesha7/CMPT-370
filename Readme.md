@@ -11,3 +11,9 @@
 2. cd into front-end directory of the project
 3. run npm install (might need to set react-scripts-start in package.json to get the right command for your machine. "set" on Windows, "export" on Mac)
 4. run "npm start" in the front-end directory
+
+
+
+
+You can sign into a coaches account with email: "coach@coach.com" password: "password"
+You can sign into an admin account with email: "admin@admin.com" password: "password"

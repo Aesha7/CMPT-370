@@ -201,7 +201,7 @@ const ViewFamilySchedule = () => {
           currentStudent.name === curUser.name
       ).feedback);
     } catch {
-      setCurrentFeedback("");
+      setCurrentFeedback("There is no feedback for this course yet.");
     }
     
     openForm();
@@ -211,6 +211,28 @@ const ViewFamilySchedule = () => {
     document.getElementById("myForm").style.display = "block";
     document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
+
+    let clickedEventFeedback
+    try {
+      console.log(currentEvent.feedbackArray)
+      clickedEventFeedback = (currentEvent.feedbackArray.find(
+        (currentStudent) =>
+          currentStudent.name === curUser.name
+      ).feedback);
+    } catch {
+      // setCurrentFeedback("There is no feedback for this course yet.");
+      clickedEventFeedback = "There is no feedback for this course yet."
+    }
+
+    if(clickedEventFeedback == ""){
+      clickedEventFeedback = "There is no feedback for this course yet.";
+    }
+
+    console.log(clickedEventFeedback)
+
+    document.getElementById("eventFeedback").innerHTML = clickedEventFeedback
+
+
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
     } else {
@@ -293,11 +315,11 @@ const ViewFamilySchedule = () => {
               {currentEvent.desc}
             </h5>
 
-            <label className="feedback-diplay-label">
+            <label className="feedback-diplay-label" >
               <b>Feedback:</b>
             </label>
-            <h5>
-              {currentFeedback}
+            <h5 className="info-data-label" id="eventFeedback">
+              {/* {currentFeedback} */}
             </h5>
           </div>
 
