@@ -292,21 +292,26 @@ const AccountView = () => {
             ) {
               alert("Error: user with name already exists in account");
             }
+            else{
+
+              if (currentUserIndex == 0) {
+                setName(changedName); // updates name displayed in Account Info column if parent was edited
+              }
+              setCurrentName(changedName);
+              document.getElementById("edit-name").disabled = true;
+              document.getElementById("edit-name").value = "";
+        
+        
+              // updating data
+              get_account_info();
+              getRenders();
+
+            }
           });
       } catch (error) {
         console.log(error);
       }
-      if (currentUserIndex == 0) {
-        setName(changedName); // updates name displayed in Account Info column if parent was edited
-      }
-      setCurrentName(changedName);
-      document.getElementById("edit-name").disabled = true;
-      document.getElementById("edit-name").value = "";
-
-
-      // updating data
-      get_account_info();
-      getRenders();
+     
     }
   };
 
