@@ -349,6 +349,7 @@ const UserLevelPage = () => {
       {" "}
       My Progression
       {/* // Member name labels at top of page */}
+      <label className="labelBackground"> MY PROGRESSION</label>
       <label className="NLabel" htmlFor="name">
         Name:{" "}
       </label>
