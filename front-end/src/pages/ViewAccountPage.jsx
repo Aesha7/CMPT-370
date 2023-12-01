@@ -175,7 +175,7 @@ const AccountView = () => {
    */
   const viewFamilyScheduleRouteChange = () => {
     let path = "/family-schedule";
-    navigate(path, { state: userID });
+    navigate(path, { state: {_id: userID, name: name }});
   };
 
   /**

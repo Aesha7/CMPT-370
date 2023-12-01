@@ -15,12 +15,13 @@ const ViewFamilySchedule = () => {
   let [curUser, setCurUser] = useState("");
   const [calEvents, setCalEvents] = useState([]);
   let temp = [];
+  let userName = location.state.name
 
   let [currentEvent, setCurrentEvent] = useState([]);
   const [currentFeedback, setCurrentFeedback] = useState("");
 
   let [userID, setUserID] = useState("");
-  userID = location.state;
+  userID = location.state.id;
 
   if (userID != null) {
     window.localStorage.setItem("_id", userID);
@@ -29,6 +30,9 @@ const ViewFamilySchedule = () => {
   if (currentEvent.feedbackArray == undefined) {
     currentEvent.feedbackArray = [];
   }
+
+  let nameChange = false;
+  console.log(nameChange)
 
   // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
@@ -87,7 +91,7 @@ const ViewFamilySchedule = () => {
           let tempEvents = [];
           data.forEach((event) => {
             let enrolledList = event.enrolled.map((a) => a.name);
-            if (enrolledList.includes(curUser.name)) {
+            if (enrolledList.includes(curUser.name) || (enrolledList.includes(userName) && !nameChange)) {
               let name = event.name;
               let desc = event.desc;
               let start = new Date(
@@ -260,6 +264,7 @@ const ViewFamilySchedule = () => {
     curUser = users[e.target.value];
     setCurUser(users[e.target.value]);
     get_user_events();
+    nameChange = true;
   };
 
   let j = -1;
