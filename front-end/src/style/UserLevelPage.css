@@ -104,6 +104,10 @@ width: 8vw;
 margin-left: 64.75vw;
 }
 
+/* .save-button .top-bar-button{
+  visibility: hidden;
+} */
+
 /* .buttonAddTip{
     width: 7.5vw;
     height: 6vh;

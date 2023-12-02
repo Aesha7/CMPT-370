@@ -350,9 +350,11 @@ const UserLevelPage = () => {
 
       &nbsp;&nbsp;MY PROGRESSION
       <div className="allButtons">
-          <button className="top-bar-buttons" onClick={saveChecks}>
+        {/* <div className="save-button"> */}
+          <button className="top-bar-buttons" id="checkboxSave" style={{visibility: "hidden"}} onClick={saveChecks}>
             Save
           </button>
+        {/* </div> */}
           <button className="top-bar-button" onClick={goBack}>
             Back
           </button>
