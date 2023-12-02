@@ -18,4 +18,5 @@ while in the back-end directory to activate the venv and start the server (or ju
 
 
 You can sign into a coaches account with email: "admin@admin.com" password: "password"
+
 You can sign into a coaches account with email: "coach@coach.com" password: "password"
