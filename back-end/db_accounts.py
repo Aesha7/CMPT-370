@@ -13,7 +13,7 @@ def _build_cors_preflight_response():
     response.headers.add('Access-Control-Allow-Methods', "*")
     return response
 
-def submit_account(request_data, accounts_collection):
+def submit_account(request_data, accounts_collection, templates):
     # Password hashing
     salt = bcrypt.gensalt()
     password=request_data["password"]
@@ -21,6 +21,11 @@ def submit_account(request_data, accounts_collection):
     hashed = bcrypt.hashpw(bytes, salt)
     hashed = bcrypt.hashpw(bytes, salt)
 
+    template = templates.find_one({"_id":ObjectId("656686ce75f84c1fa4a0126a")}) #skills template
+    if not template:
+        resp.status_code=400
+        resp.data=dumps("Error: skill template not found")
+        return resp
     account_details = {
         "email": request_data["email"],
         "waiver": request_data["waiver"],
@@ -40,6 +45,7 @@ def submit_account(request_data, accounts_collection):
             "isParent": True,
             "courses":[],
             "events":[],
+            "skills":template
         }]
     }
     
@@ -115,10 +121,15 @@ def get_user_info(request_data, accounts_collection):
     return resp
 
 
-def add_family(request_data, accounts_collection):
+def add_family(request_data, accounts_collection, templates):
     resp=Response()
     resp.headers['Access-Control-Allow-Headers'] = '*'
     account_doc = accounts_collection.find_one({"_id": ObjectId(request_data["_id"])})
+    skill_template = templates.find_one({"_id":ObjectId("656686ce75f84c1fa4a0126a")})
+    if not skill_template:
+        resp.status_code=400
+        resp.data=dumps("Error: skill template not found")
+        return resp
     user_details = {
         "_id": ObjectId(),
         "name": request_data["name"],
@@ -126,7 +137,8 @@ def add_family(request_data, accounts_collection):
         "level": 1,
         "isParent": False,
         "events": [],
-        "courses":[]
+        "courses":[],
+        "skills":skill_template
     }
 
     # Ensures account is found
