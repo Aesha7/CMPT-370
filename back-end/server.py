@@ -179,7 +179,7 @@ def SubmitAccount():
     Returns:
         Response
     """
-    return ac.submit_account(request.get_json(),accounts_collection)
+    return ac.submit_account(request.get_json(),accounts_collection,templates_collection)
     # return _corsify(ac.submit_account(request.get_json(),accounts_collection))
 
 @app.route("/add_family", methods=["POST"])
@@ -191,7 +191,7 @@ def AddFamily():
     Returns:
         Response
     """
-    return ac.add_family(request.get_json(),accounts_collection)
+    return ac.add_family(request.get_json(),accounts_collection,templates_collection)
 
 @app.route("/remove_family", methods=["POST"])
 @cross_origin(origins="*")
