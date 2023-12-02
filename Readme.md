@@ -5,7 +5,8 @@
 4. start the venv
 5. run py server.py
 
-5.1 if you create the venv in the projects parent directory and name it "370Team25Venv" you can use .Startup.ps1 while in the back-end directory to activate the venv and start the server (or just run the commands in the script)
+5.1 if you create the venv in the projects parent directory and name it "370Team25Venv" you can use .Startup.ps1 
+while in the back-end directory to activate the venv and start the server (or just run the commands in the script)
 
 
 ######## FrontEnd ########
