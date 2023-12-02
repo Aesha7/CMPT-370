@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
-import "../style/ViewFamilySchedule.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server

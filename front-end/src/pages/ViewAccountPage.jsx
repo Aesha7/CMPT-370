@@ -589,10 +589,7 @@ const AccountView = () => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
-
               popperPlacement="right-end"
-              // popperPlacement="top"
-
               popperModifiers={{
                 offset: {
                   enabled: true,
