@@ -43,8 +43,8 @@
 }
 
 .student-feedback{
-    margin-left: 10px;
-    width: 10vw;
+    margin-top: 1vh;
+    width: 13.4vw;
     height: 3vh;
     resize: none;
     background-color: white;
@@ -55,6 +55,7 @@
 }
 
 .feedback-label{
+    margin-top: 0.5vh;
     float: inline-start;
 }
 
@@ -64,6 +65,7 @@
     border: 2px solid transparent;
     text-align: center;
     font-size: 18px;
+    font-weight: bold;
     transition-duration: 0.4s;
     background-color: #db936f;
     color: white;
@@ -73,7 +75,6 @@
 
 .save-feedback-button:hover {
     color: white;
-    padding-right: 1.5vw;
     background-color: #a9745a;
   }
 
@@ -97,8 +98,9 @@
   .coach-level-info-button{
     color: white;
     background-color: #e7bf6a;
+    font-weight: bold;
     float: right;
-    width: 3.5vw;
+    width: 6vw;
     border: 2px solid #e7bf6a;
     margin-bottom: 5px;
     margin-right: 10px;
@@ -107,7 +109,6 @@
   }
 
   .coach-level-info-button:hover{
-    width: 4.5vw;
     background-color: #b3975a;
     border: 2px solid #b3975a;
   }

@@ -352,7 +352,7 @@ const CoachCalendarPage = () => {
                     {student.name}
                   </div>
                   <div className="feedback-input-div">
-                    <label className="feedback-label">feedback: </label>
+                    <label className="feedback-label">Feedback:</label>
                     <textarea
                       className="student-feedback"
                       onChange={onFeedbackChange(student.name)}
