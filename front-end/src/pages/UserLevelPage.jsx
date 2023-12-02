@@ -346,26 +346,45 @@ const UserLevelPage = () => {
   return (
     // <h1>test</h1>
     <div className="user-level-page">
-      {" "}
-      My Progression
+            <div className="top-bar">
+
+      &nbsp;&nbsp;MY PROGRESSION
+      <div className="allButtons">
+          <button className="top-bar-buttons" onClick={saveChecks}>
+            Save
+          </button>
+          <button className="top-bar-button" onClick={goBack}>
+            Back
+          </button>
+        </div>
       {/* // Member name labels at top of page */}
 
-        <label className="labelBackground"> MY PROGRESSION</label>
+        {/* <label className="labelBackground"> MY PROGRESSION</label> */}
+
         <label className="NLabel" htmlFor="name">
+        Owner:{" "}
+      </label>
+      <label className="Name" htmlFor="name" type="name" id="name">
+        {userName}
+      </label>
+
+
+        {/* <label className="NLabel" htmlFor="name">
           Name:{" "}
         </label>
         <label className="Name" htmlFor="name" type="name" id="name">
           {userName}
-        </label>
+        </label> */}
         {/* buttons on the page */}
-        <button className="buttonBackLevel" onClick={goBack}>
+        {/* <button className="buttonBackLevel" onClick={goBack}>
           {" "}
           Back{" "}
-        </button>
-        <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
+        </button> */}
+        {/* <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
           {" "}
           Save{" "}
-        </button>
+        </button> */}
+        </div>
       {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
       {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
