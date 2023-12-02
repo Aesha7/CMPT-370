@@ -47,7 +47,6 @@ const AdminCalendarPage = () => {
     window.localStorage.setItem("_id", userID);
   }
 
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
   // getting the database events
@@ -169,7 +168,6 @@ const AdminCalendarPage = () => {
         })
         .then((data) => {
           // getting the updated db events
-
           if (data == '"Error: account not found"') {
             alert("Account not found.");
           } else if (
@@ -270,7 +268,6 @@ const AdminCalendarPage = () => {
   // opens the create event popup
   const openEventCreateForm = () => {
     // opening the createEvent form
-    // get_coach_dropdown();
     document.getElementById("myForm-overlay").style.display = "block";
     document.getElementById("createEventForm").style.display = "block";
   };
@@ -286,7 +283,6 @@ const AdminCalendarPage = () => {
       document.getElementById("eventDescription").innerHTML = calEvent.desc;
     }
     document.getElementById("eventEnroll").innerHTML = calEvent.enrolled.length + "/" + calEvent.capacity;
-    // document.getElementById("eventCapacity").innerHTML = calEvent.capacity;
   };
 
   const displayConfirmPopup = () => {
@@ -477,9 +473,7 @@ const AdminCalendarPage = () => {
     e.preventDefault();
 
     if (currentEvent.enrolled.length > 0) {
-      // alert("this event has enrolled members")
       // check
-      // delete_event_call();
       displayConfirmPopup();
       // display the confirmation form
     } else {
@@ -764,7 +758,6 @@ const AdminCalendarPage = () => {
 
             return { className: "", style: newStyle };
           }}
-          // onDoubleClickEvent={onDoubleClickEvent}
         ></Calendar>
       </div>
       <div className="overlay" id="overlay">

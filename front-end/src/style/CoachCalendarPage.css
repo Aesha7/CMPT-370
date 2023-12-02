@@ -60,7 +60,6 @@
 }
 
 .save-feedback-button{
-    /* margin-left: 2.6vw; */
     margin-top: 10px;
     border: 2px solid transparent;
     text-align: center;
@@ -69,8 +68,6 @@
     transition-duration: 0.4s;
     background-color: #db936f;
     color: white;
-    /* visibility: hidden; */
-    /* display: none; */
 }
 
 .save-feedback-button:hover {

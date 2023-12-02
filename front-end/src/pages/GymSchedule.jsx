@@ -23,7 +23,6 @@ const GymSchedule = () => {
     window.localStorage.setItem("_id", userID);
   }
 
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
   const localizer = momentLocalizer(moment);
@@ -233,8 +232,6 @@ const GymSchedule = () => {
 
   const openForm = () => {
     document.getElementById("myForm-overlay").style.display = "block";
-    let enrolledList = currentEvent.enrolled.map(a => a.name)
-
 
     document.getElementById("myForm").style.display = "block";
     document.getElementById("eventTitle").innerHTML = currentEvent.name;
@@ -274,7 +271,6 @@ const GymSchedule = () => {
 
   const registerForEvent = (e) => {
     // add event to childs schedule (and probably family schedule)
-    // kidsEvents[kidsEvents.length] = currentEvent;
     // close form
     e.preventDefault();
 
@@ -287,8 +283,6 @@ const GymSchedule = () => {
       document.getElementById("myForm-overlay").style.display = "none";
 
     }
-
-    // document.getElementById("myForm").style.display = "none";
   };
 
   const handleCurUser = (e) => {
@@ -322,7 +316,6 @@ const GymSchedule = () => {
     <div className="view-gym-schedule">
       <div className="top-bar">&nbsp;&nbsp;GYM SCHEDULE
         <div className="allButtons">
-        {/* dropdown of children names*/}
         <select
           className="top-bar-buttons"
           id="childDropDown"
@@ -382,7 +375,6 @@ const GymSchedule = () => {
       <div className="myForm-overlay" id="myForm-overlay"></div>
 
       <div className="confirm-form-popup" id="confirmationForm">
-        {/* <form className="form-container"> */}
         <h4>Are you sure you would like to un-enroll?</h4>
         <button type="submit" className="btn" onClick={unregister}>
           Un-enroll
@@ -395,7 +387,6 @@ const GymSchedule = () => {
         >
           Cancel
         </button>
-        {/* </form> */}
       </div>
 
       <div className="">

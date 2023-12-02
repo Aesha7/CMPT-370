@@ -6,10 +6,7 @@
   font-weight:normal;
   height: 200vh;  
   width: 100vw;
-  /* background: linear-gradient(to bottom right, transparent 0%, transparent 50%, #20f320 50%, #20f320 100%); */
   background: linear-gradient(to top, #8b8b8b83 0%, white 20%, transparent 50%);
-/* padding-left: 2vw; */
-/* background-color: #f5ecec; */
   z-index: 0;
   padding-top: 2vh;
 }
@@ -21,7 +18,6 @@
   color: white;
   margin-top: -13.5vh;
   z-index: 0;
-  /* position: absolute; */
 }
 .rectangleButtons{
   width: 0.25vw; 
@@ -89,29 +85,21 @@
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 4vh;
   text-align: left;
-  /* background-color: #ddd; */
   position: absolute;
   width: 12vw;
   margin-left: 40%;
   margin-top: -13vh;
-  /* padding-top: 1vh; */
-  /* padding-bottom: 1vh; */
-  /* height: 5v */
   z-index: 1;
 }
 .ownerName{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 4vh;
-  /* padding-top: 1vh; */
   padding-left: 1vw;
   text-align: left;
-  /* background-color: white; */
   position: absolute;
   width: 25vw;
   margin-left: 46vw;
   margin-top: -13vh;
-  /* padding-top: 1vh; */
-  /* padding-bottom: 1vh; */
   z-index: 2;
 }
 
@@ -119,28 +107,20 @@
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 4vh;
   text-align: left;
-  /* background-color: #ddd; */
   position: absolute;
   width: 12vw;
   margin-left: 40%;
   margin-top: -8vh;
-  /* padding-top: 1vh;
-  padding-bottom: 1vh; */
   z-index: 1;
 }
 .ownerEmail{
-  /* background-color: #20f320; */
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 4vh;
   text-align: left;
-  /* padding-left: 1vw; */
-  /* background-color: white; */
   position: absolute;
   width: 25vw;
   margin-left: 46vw;
   margin-top: -8vh;
-  /* padding-top: 1vh;
-  padding-bottom: 1vh; */
   z-index: 1;
 }
 
@@ -149,15 +129,8 @@
   font-size: 2.7vh;
   font-weight: bold;
   position: absolute;
-  /* display: flex; */
-  /* align-items: center; */
   text-align: center;
-  /* flex-direction: row; */
-  /* padding-bottom: 30px; */
   background-color: #7d8f97;
-  /* padding-left: 0vw;
-  padding-top: 2vh;
-  padding-bottom: 2vh; */
   padding-top: 1.55vh;
   padding-bottom: 1.55vh;
   padding-left: 1vw;
@@ -178,21 +151,16 @@
   margin-top: 16vh;
   margin-left: 84.5vw;
   font-size: 2vh;
-  /* height: 1vh; */
-  /* margin-bottom: 0px;
-  padding-bottom: 20px; */
-  /* background-color: aqua; */
 }
 /* Hide the browser's default checkbox */
  .checklistPromotions input {
-  /* margin-left: 1vw; */
   position: absolute;
   opacity: 0;
   cursor: pointer;
   height: 0;
   width: 0;
-  /* background-color: red; */
 }
+
 /* Create a custom checkbox */
 .checkmarkPromotions {
   margin-top: 1vh;
@@ -204,24 +172,29 @@
   width: 1.4vw;
   background-color: white;
 }
+
 /* On mouse-over, add a grey background color */
 .checklistPromotions:hover input ~ .checkmarkPromotions {
   background-color: #0e3421;
 }
+
 /* When the checkbox is checked, add a blue background */
 .checklistPromotions input:checked ~ .checkmarkPromotions {
   background-color: #34624d;
 }
+
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmarkPromotions:after {
   content: "";
   position: absolute;
   display: none;
 }
+
 /* Show the checkmark when checked */
 .checklistPromotions input:checked ~ .checkmarkPromotions:after {
   display: block;
 }
+
 /* Style the checkmark/indicator */
 .checklistPromotions .checkmarkPromotions:after {
   left: 0.5vw;
@@ -235,10 +208,8 @@
   transform: rotate(45deg);
 } 
 
-
 .checklistNews {
   background-color: #7d8f97;
-  /* display: block; */
   position: absolute;
   padding-top: 1vh;
   padding-left: 3vw;
@@ -251,6 +222,7 @@
   font-size: 2vh;
   z-index: 2;
 }
+
 /* Hide the browser's default checkbox */
  .checklistNews input {
   position: absolute;
@@ -259,6 +231,7 @@
   height: 0;
   width: 0;
 }
+
 /* Create a custom checkbox */
 .checkmarkNews {
   margin-top: 1vh;
@@ -270,24 +243,29 @@
   width: 1.4vw;
   background-color: white;
 }
+
 /* On mouse-over, add a grey background color */
 .checklistNews:hover input ~ .checkmarkNews {
   background-color: #0e3421;
 }
+
 /* When the checkbox is checked, add a blue background */
 .checklistNews input:checked ~ .checkmarkNews {
   background-color: #34624d;
 }
+
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmarkNews:after {
   content: "";
   position: absolute;
   display: none;
 }
+
 /* Show the checkmark when checked */
 .checklistNews input:checked ~ .checkmarkNews:after {
   display: block;
 }
+
 /* Style the checkmark/indicator */
 .checklistNews .checkmarkNews:after {
   left: 0.5vw;
@@ -301,13 +279,9 @@
   transform: rotate(45deg);
 } 
 
-
-
 .emailOptions {
-  /* flex: 1; */
   display: flex;
   flex-direction: row;
-  /* margin: 25px; */
   padding-left: 1vw;
   padding-top: 2vh;
   padding-bottom: 2vh;
@@ -331,10 +305,9 @@
   margin-top: 22vh;
   position: absolute;
 }
+
 .buttonSaveSubs:hover{
   width: 5.5vw;
-  /* height: 6.5vh; */
-  /* color: black; */
   background-color: #b3975a;
 }
 
@@ -354,10 +327,9 @@
   margin-top: 2vh;
   position: absolute;
 }
+
 .buttonLogout:hover{
   width: 8vw;
-  /* height: 6.5vh; */
-  /* color: black; */
   background-color: #2c3c4c;
 }
 
@@ -381,7 +353,6 @@
 }
 .buttonManAcc:hover{
   width: 8vw;
-  /* height: 8vh; */
   background-color: #2c3c4c;
 }
 
@@ -406,7 +377,6 @@
 
 .buttonAdmCal:hover{
   width: 8vw;
-  /* height: 8vh; */
   background-color: #2c3c4c;
 }
 
@@ -426,12 +396,10 @@
   margin-top: 26vh;
   position: absolute;
   visibility: hidden;
-
-  /* visibility: hidden; */
 }
+
 .buttonStuList:hover{
   width: 8vw;
-  /* height: 8vh; */
   background-color: #2c3c4c;
 }
 
@@ -454,13 +422,11 @@
 }
 .buttonCoCal:hover{
   width: 8vw;
-  /* height: 8vh; */
   background-color: #2c3c4c;
 }
 
 .view-account-column-entry .info-label {
   background-color: white;
-  /* padding: 7px; */
 }
 
 .view-account-column-entry .edit-label {
@@ -475,7 +441,6 @@
   font-size: 2.2vh;
   font-weight: bold;
   text-align: left;
-  /* margin-bottom: 10px; */
   max-width: 100%;
 }
 
@@ -491,7 +456,6 @@
   margin-bottom: 10px;
   font-size: 16px;
   border: 2px solid red;
-  /* margin-left: 20vw; */
 }
 
 .familyContainer{
@@ -503,7 +467,6 @@
 .family-member-row {
   display: flex;
   flex-direction: row; 
-  /* justify-content: space-between; */
   align-items: center;
   padding-top: 2vh;
   padding-bottom: 2vh;
@@ -519,15 +482,8 @@
   font-size: 2.7vh;
   font-weight: bold;
   position: absolute;
-  /* display: flex; */
-  /* align-items: center; */
   text-align: center;
-  /* flex-direction: row; */
-  /* padding-bottom: 30px; */
   background-color: #7d8f97;
-  /* padding-left: 0vw;
-  padding-top: 2vh;
-  padding-bottom: 2vh; */
   padding-top: 1.55vh;
   padding-bottom: 1.55vh;
   padding-left: 1vw;
@@ -549,14 +505,9 @@
   background-color: #4b7588;
   border: 2px solid transparent;
   color: white;
-  /* margin: auto; */
   position: absolute;
   margin-left: 0.5vw;
   margin-top: 10vh;
-  /* padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 2vw; */
 }
 .schedule-button{
   font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -568,46 +519,27 @@
   background-color: #4b7588;
   border: 2px solid transparent;
   color: white;
-  /* margin: auto; */
   position: absolute;
   margin-left: 0.5vw;
   margin-top: 18vh;
   height: 6vh;
   width: 7.5vw;
-  /* padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw; */
 }
 
 .family-button:hover{
   background-color: #2c3c4c;
   width: 8vw;
-  /* color: white; */
-  /* padding-left: 4.5vw; */
 }
 .schedule-button:hover {
   background-color: #2c3c4c;
   width: 8vw;
 }
 
-/* .heading{
-  font-size: 24px;
-  font-weight: bold;
-  margin-left: 0px;
-  
-  text-align: center;
-  max-width: 100%;
-  
-} */
 .headingCurrMem{
   font-size: 2.7vh;
   font-weight: bold;
-  /* margin-left: 0px; */
-  /* float: left; */
   text-align: left;
   max-width: 100%;
-  /* background-color: orange; */
 }
 
 .level-button{
@@ -626,7 +558,6 @@
 
 .level-button:hover {
   padding-right: 1.5vw;
-  /* margin-left: 24.5vw; */
   background-color: #a2a24d;
 }
 
@@ -642,7 +573,6 @@
   background-color: #5ba996;
   border: 2px solid transparent;
   color: white;
-  /* margin-top: 10vh; */
   margin-left: 25vw;
   position: absolute;
 }
@@ -665,7 +595,6 @@
   background-color: #db936f;
   border: 2px solid transparent;
   color: white;
-  /* margin-top: 10vh; */
   margin-left: 33.7vw;
   position: absolute;
 }
@@ -682,17 +611,13 @@
   margin-left: 0.5vw;
   padding-left: 1vw;
   padding-right: 1vw;
-  /* background-color: #ddd; */
 }
 
 .view-account-column-entry {
-  /* flex: 1; */
   background-color: #a48c7c;
   display: flex;
-  /* flex-direction: column; */
   margin-bottom: 5vh;
   position: relative;
-  /* margin-top: 20vh; */
 }
 
 .currentMemberPanel {
@@ -726,7 +651,6 @@
 }
 
 .edit-button{
-  /* padding: 10px 25px; */
   text-align: center;
   font-size: 2vh;
   font-weight: bold;
@@ -744,7 +668,6 @@
 }
 
 .save-button{
-  /* padding: 10px 25px; */
   text-align: center;
   font-size: 2vh;
   font-weight: bold;
@@ -756,16 +679,9 @@
   margin-right: -1vw;
   width: 5vw;
   height: 5vh;
-  /* position: absolute; */
-  /* padding-top: 1vh;
-  padding-bottom: 1vh;
-  padding-left: 1vw;
-  padding-right: 1vw; */
-
 }
 .save-button:hover {
   background-color: #b3975a;
-  /* height: 4.5vh; */
   color: white;
 }
 
@@ -791,19 +707,6 @@
   display: block;
 }
 
-/* Style the checkmark/indicator */
-/* .checklist .checkmark:after {
-  
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}    */
 
 .myForm-overlay {
   display: none;
@@ -830,21 +733,7 @@
   z-index: 9;
 }
 
-/* Add styles to the form container */
-/* .add-family-container {
-   display: flex;
-  flex-direction: row; 
-  max-width: 400px;
-  padding: 10px;
-  background-color: white;
-}  */
-
 .family-form-container input[type=name], .family-form-container input[type=phone], .family-form-container input[type=birthday], .family-form-container input[type=startTime], .family-form-container input[type=endTime] {
-  /* width: 100%; */
-  /* padding: 15px; */
-  /* margin: 5px 0 22px 0; */
-  /* margin-right: 10px; */
-  /* max-width: 90%; */
   border: none;
   background-color: white;
   border: 2px solid #2c3c4c;
@@ -882,11 +771,8 @@
   font-weight: bold;
   background-color: #e7bf6a;
   color: white;
-  /* padding: 16px 20px; */
   border: none;
   cursor: pointer;
-  /* width: 100%; */
-  /* margin-bottom:0px; */
   margin-top: 23vh;
   margin-left: 2vw;
   width: 10vw;
@@ -895,7 +781,6 @@
   z-index: 10;
 }
 .btn-sub:hover{
-  /* width:10.5vw; */
   background-color: #b3975a;
 }
 
@@ -917,7 +802,6 @@
   height: 5vh;
 }
 .btn-cancel:hover{
-  /* width:10.5vw; */
   background-color: #b3975a;
 }
 
@@ -931,10 +815,8 @@
   background-color: white;
   border: 2px solid darkgray;
   color: black;
-  /* margin:auto; */
   margin-top: 3vh;
   margin-left: 7vw;
-  /* width: 60%; */
   height:2vh;
   position: absolute;
   width: 13vw;
@@ -946,36 +828,3 @@
   cursor: pointer
 
 }
-
-
-
-/* Media query for smaller screens */
-/* @media (max-width: 768px) {
-  .view-account-container {
-    flex-direction: column;
-    margin: 10px;
-  }
-
-  .view-account-column-entry, .view-user-info-1,
-  .view-user-info-2, .view-user-info-3,
-  .view-user-info-3 .edit-label,
-  .view-user-info-3 .email-list {
-    flex: 1;
-    margin: 10px;
-  }
-
-  .register-button,
-  .info-button,
-  .schedule-button, 
-  .save-button,
-  .edit-button {
-    margin-left: 10px;
-  }
-
-  .family-schedule {
-    padding-top: 0;
-    margin-top: 10px;
-    justify-content: center;
-  } */
-/* } */
-

@@ -104,33 +104,6 @@ width: 8vw;
 margin-left: 64.75vw;
 }
 
-/* .save-button .top-bar-button{
-  visibility: hidden;
-} */
-
-/* .buttonAddTip{
-    width: 7.5vw;
-    height: 6vh;
-    color: white;
-    background-color: #4b7588;
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 2.5vh;
-    font-weight: bold;
-    z-index: 1;
-    text-align: center;
-    transition-duration: 0.2s;
-    border: 2px solid transparent;
-    margin-left: -0.5vw;
-    margin-top: 60vh;
-    position: absolute;
-    visibility: hidden;
-}
-
-.buttonAddTip:hover{
-background-color: #2c3c4c;
-width: 8vw;
-} */
-
 
 .labelSkills{
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -138,9 +111,7 @@ width: 8vw;
     text-align: left;
     padding: 1vw;
     padding-top: 1vh;
-    /* background-color: red; */
     color: black;
-    /* background: linear-gradient(to bottom, rgba(177, 179, 177, 0.678) 0%, transparent 100%); */
     height: 10vh;
     width: 99vw;
     margin-top: 20vh;
@@ -148,21 +119,7 @@ width: 8vw;
     position: absolute;
     z-index: 1;
 }
-/* .labelCoachTips{
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 4vh;
-    text-align: left;
-    padding-left: 1vw;
-    padding-top: 1vh;
-    color: black;
-    background: linear-gradient(to bottom, rgba(177, 179, 177, 0.678) 0%, transparent 100%);
-    height: 10vh;
-    width: 25vw;
-    margin-top: 60vh;
-    margin-left: -27vw;
-    position: absolute;
-    z-index: 1;
-} */
+
 .labelVaults{
     font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 3vh;
@@ -281,13 +238,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistStepVault input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -358,13 +313,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistLazyVault input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -441,7 +394,6 @@ width: 8vw;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -518,7 +470,6 @@ width: 8vw;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -589,13 +540,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistPlyo input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -666,13 +615,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistStride input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -743,13 +690,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistHipCatch input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -820,13 +765,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistClimbDown input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -897,13 +840,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistDashDown input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -974,13 +915,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistReGrip input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -1051,13 +990,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistDismount input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -1128,13 +1065,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistLache input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -1205,13 +1140,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistForwards input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -1282,13 +1215,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistBackwards input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */
@@ -1359,13 +1290,11 @@ width: 8vw;
 
   /* Hide the browser's default checkbox */
    .checklistSideways input {
-    /* margin-left: 1vw; */
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    /* background-color: red; */
   }
 
   /* Create a custom checkbox */

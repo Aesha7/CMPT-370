@@ -32,9 +32,7 @@ const ViewFamilySchedule = () => {
   }
 
   let nameChange = false;
-  console.log(nameChange)
 
-  // setUserID(JSON.parse(window.localStorage.getItem('_id')));
   userID = window.localStorage.getItem("_id");
 
   const get_account_info = () => {
@@ -218,13 +216,11 @@ const ViewFamilySchedule = () => {
 
     let clickedEventFeedback
     try {
-      console.log(currentEvent.feedbackArray)
       clickedEventFeedback = (currentEvent.feedbackArray.find(
         (currentStudent) =>
           currentStudent.name === curUser.name
       ).feedback);
     } catch {
-      // setCurrentFeedback("There is no feedback for this course yet.");
       clickedEventFeedback = "There is no feedback for this course yet."
     }
 
@@ -232,10 +228,7 @@ const ViewFamilySchedule = () => {
       clickedEventFeedback = "There is no feedback for this course yet.";
     }
 
-    console.log(clickedEventFeedback)
-
     document.getElementById("eventFeedback").innerHTML = clickedEventFeedback
-
 
     if (currentEvent.desc != "") {
       document.getElementById("eventDescription").innerHTML = currentEvent.desc;
@@ -324,7 +317,6 @@ const ViewFamilySchedule = () => {
               <b>Feedback:</b>
             </label>
             <h5 className="info-data-label" id="eventFeedback">
-              {/* {currentFeedback} */}
             </h5>
           </div>
 

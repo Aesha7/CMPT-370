@@ -82,8 +82,6 @@ const AccountCreatePage = (props) => {
     ) {
       setError(true);
       alert("Please fill out every field.");
-    // } else if(!waiver){
-    //   alert("Please agree to the waiver.")
     } 
     else if (!validEmail(email)) {
       alert("Please enter a valid email.");
@@ -138,7 +136,7 @@ const AccountCreatePage = (props) => {
                   // Data will be serialized and sent as json
                   body: JSON.stringify({
                     email: email,
-                    password: password, //TODO: stores password in plain text! add proper password management
+                    password: password, 
                   }),
                   // tell the server we're sending JSON
                   headers: {
@@ -166,7 +164,7 @@ const AccountCreatePage = (props) => {
               setError(true);
               alert("Email already in use.");
             } else {
-              //Unexpected message or error in response
+              // Unexpected message or error in response
               setSubmitted(false);
               setError(true);
               alert("Invalid response!");
@@ -186,11 +184,9 @@ const AccountCreatePage = (props) => {
     e.preventDefault();
     if (!waiver) {
       e.target.style.backgroundColor = "green";
-      //  e.target.style.color = 'black';
       setWaiver(true);
     } else {
       e.target.style.backgroundColor = "white";
-      //  e.target.style.color = 'black';
       setWaiver(false);
     }
   };
@@ -253,22 +249,14 @@ const AccountCreatePage = (props) => {
 
   return (
     <div className="account-creation-page">&nbsp;CREATE ACCOUNT
-      {/* <div className="top-bar">Create Account</div> */}
-
-      {/* <div className="account-create-container"> */}
         <form>
-          
-          {/* <div className="account-create-container-toprow"> */}
-            <div className="entryName">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
-            
+            <div className="entryName">            
               <button onClick={null} className="labelName" type="button">Name:</button> 
               <div class="triangleName"></div>
               <input onChange={handleName} className="fieldName" value={name} type="name" id="name" placeholder="First / Last"/>
             </div>
 
             <div className="entryEmail">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
             
               <button onClick={null} className="labelEmail" type="button">Email:</button> 
               <div class="triangleEmail"></div>
@@ -276,14 +264,12 @@ const AccountCreatePage = (props) => {
             </div>
 
             <div className="entryPword">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
               <button onClick={null} className="labelPword" type="button">Password:</button> 
               <div class="trianglePword"></div>
               <input onChange={handlePassword} className="fieldPword" value={password} type="password" id="password" placeholder="openSesame1!"/>
             </div>
 
             <div className="entryConf">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
            
               <button onClick={null} className="labelConf" type="button">Confirm Password:</button> 
               <div class="triangleConf"></div>
@@ -291,7 +277,6 @@ const AccountCreatePage = (props) => {
             </div>
 
             <div className="entryPhone">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
               <button onClick={null} className="labelPhone" type="button">Phone:</button> 
               <div class="trianglePhone"></div>
               <input onChange={handlePhone} className="fieldPhone" value={phone} type="phone" id="phone" placeholder="(123) 456 7890"/>
@@ -300,7 +285,6 @@ const AccountCreatePage = (props) => {
             <div className="entryBirthday">
               <button onClick={null} className="labelBirthday" type="button">Birthday:</button> 
               <div class="triangleBirthday"></div>
-              {/* <input onChange={handleBirthDay} className="fieldBirthday" value={birthday} type="birthday" id="birthday" placeholder="Day/Month/Year"/> */}
               
             <DatePicker
               className="custom-datepicker-createAccount"
@@ -316,8 +300,6 @@ const AccountCreatePage = (props) => {
               todayButton="Today"
               dropdownMode="select"
               placeholderText="Select a date"
-
-              // popperPlacement="top-start"
               popperPlacement= "right-start"
 
               popperModifiers={{
@@ -336,20 +318,14 @@ const AccountCreatePage = (props) => {
             </div>
 
             <div className="entrySignature">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
               <button onClick={null} className="labelSignature" type="button">Signature:</button> 
               <div class="triangleSignature"></div>
               <input onChange={handleSignature} className="fieldSignature" value={signature} type="signature" id="signature" placeholder="Fullname"/>
-              {/* <button onClick={null} className="labelSigNote" type="button">*Signing states that you accept the terms and conditions  of the waiver*</button>         */}
             </div>
 
             <div className="entryWaiver">
-              {/* <label className="labelName" htmlFor="name">Name:</label> */}
-              {/* <button onClick={null} className="labelWaiver" type="button">Waiver:</button>  */}
               <div class="triangleWaiver"></div>
               <button className="waiver-button" onClick={goToWaiver}>Open Waiver</button>
-            
-              {/* <button className="buttonAccept" onClick={null}>I Accept</button> */}
             </div>
 
             <div className="entrySubmit">

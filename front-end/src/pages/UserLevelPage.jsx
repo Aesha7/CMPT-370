@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import "../style/UserLevelPage.css";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const server_URL = "http://127.0.0.1:5000/"; //URL to access server
@@ -22,8 +21,6 @@ const UserLevelPage = () => {
 
   // prevents refresh on useEffect
   let checklistBool = false;
-
-  console.log(studentID, isCoach, coachID, coachName);
 
   const get_user_info = () => {
     try {
@@ -48,7 +45,6 @@ const UserLevelPage = () => {
           setAccount(data);
 
           data.users.forEach((subUser) => {
-            // console.log(user._id, studentID)
             if (subUser._id["$oid"] == studentID) {
               setUserName(subUser.name);
               user = subUser;
@@ -74,7 +70,6 @@ const UserLevelPage = () => {
   };
 
   const saveChecks = () =>{
-    console.log(coachID, account)
 
     let skillDict = {
       "Step-Vault": stepVaultChecked,
@@ -130,7 +125,6 @@ const UserLevelPage = () => {
           return response.text(); // get the response text
         })
         .then((text) => { 
-          console.log(text)
           if(text == "\"Error: you do not have permission to perform this action\""){
             alert("You do not have permission to perform this action.")
           }
@@ -150,7 +144,6 @@ const UserLevelPage = () => {
   }
 
   const get_skill_checklist = () => {
-    console.log(user);
     let skillCategories = [
       "Jumping",
       "Vaulting",
@@ -219,7 +212,6 @@ const UserLevelPage = () => {
   // updating the skill checklist
 
   useEffect(() => {
-    // get_account_info();
     get_user_info();
   }, []);
 
@@ -344,24 +336,19 @@ const UserLevelPage = () => {
   const editSkills = (e) => {};
 
   return (
-    // <h1>test</h1>
     <div className="user-level-page">
             <div className="top-bar">
 
       &nbsp;&nbsp;MY PROGRESSION
       <div className="allButtons">
-        {/* <div className="save-button"> */}
           <button className="top-bar-buttons" id="checkboxSave" style={{visibility: "hidden"}} onClick={saveChecks}>
             Save
           </button>
-        {/* </div> */}
           <button className="top-bar-button" onClick={goBack}>
             Back
           </button>
         </div>
       {/* // Member name labels at top of page */}
-
-        {/* <label className="labelBackground"> MY PROGRESSION</label> */}
 
         <label className="NLabel" htmlFor="name">
         Owner:{" "}
@@ -370,24 +357,7 @@ const UserLevelPage = () => {
         {userName}
       </label>
 
-
-        {/* <label className="NLabel" htmlFor="name">
-          Name:{" "}
-        </label>
-        <label className="Name" htmlFor="name" type="name" id="name">
-          {userName}
-        </label> */}
-        {/* buttons on the page */}
-        {/* <button className="buttonBackLevel" onClick={goBack}>
-          {" "}
-          Back{" "}
-        </button> */}
-        {/* <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
-          {" "}
-          Save{" "}
-        </button> */}
         </div>
-      {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
       {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>
       <label className="labelVaults">Vaulting</label>
@@ -545,7 +515,6 @@ const UserLevelPage = () => {
         />
         <span className="checkmarkSideways"></span>
       </label>
-      {/* <label className="labelCoachTips">Coach Tips</label> */}
     </div>
   );
 };

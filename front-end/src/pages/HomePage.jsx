@@ -65,7 +65,7 @@ const HomePage = () => {
             // Data will be serialized and sent as json
             body: JSON.stringify({
                 email: email,
-                password: password, //TODO: stores password in plain text! add proper password management
+                password: password,
             }),
             // tell the server we're sending JSON
             headers: {
@@ -154,14 +154,12 @@ const forgotPasswordDummy = (e) => {
               <input onChange={handleEmail} className="fieldEmailHome" value={email} type="email" id="email" />
               <div class="triangle"></div>
               <label className = "labelEmailLogin">Email</label>  
-              {/* <button onClick={null} className="buttonEm" type="button">Email</button>    */}
             </div>
 
             <div className="passLine">
               <input onChange={handlePassword} className="fieldPass" value={password} type="password" id="password" />
               <div class="triangle2"></div>  
               <label className = "labelPassLogin">Password</label>  
-              {/* <button onClick={null} className="buttonPass" type="button">Password</button> */}
             </div>
             
             <button onClick={handleSubmit} className="buttonLog" type="button">Login</button> 

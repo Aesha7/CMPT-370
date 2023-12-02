@@ -212,24 +212,11 @@ const AdminManageAccountsPage = () => {
       alert("Please ensure the new staff level is between 3 and 0.");
       error = true;
     } else {
-      // all variables you will need
-      console.log(
-        "NEW ",
-        newName,
-        newBirthday,
-        newLevel,
-        newPhone,
-        newEmail,
-        newStaffLevel
-      );
-
-      console.log(oldName, newName)
 
       try {
         fetch(server_URL + "change_user_info", {
           method: "POST",
           body: JSON.stringify({
-            // email, _id (of admin), old_name, new_name, level, birthday
             _id: userID,
             new_name: newName,
             old_name: oldName,
@@ -267,7 +254,6 @@ const AdminManageAccountsPage = () => {
 
               get_user_obj_list();
               getAccountRenders();
-
             }
           });
       } 
@@ -278,7 +264,6 @@ const AdminManageAccountsPage = () => {
         fetch(server_URL + "change_account_info", {
           method: "POST",
           body: JSON.stringify({
-            // old_email, new_email, _id (of admin), phone, staff_level
             _id: userID,
             new_email: newEmail,
             old_email: oldEmail,
@@ -305,8 +290,6 @@ const AdminManageAccountsPage = () => {
               alert(data);
             }
             else {
-              // alert("Info has been saved.");
-
               document.getElementById("edit-name").disabled = true;
               document.getElementById(
                 "edit-birthday"
@@ -431,13 +414,11 @@ const AdminManageAccountsPage = () => {
    * show user account info
    */
   const openInfoPopup = (e) => {
-    // console.log(e.target.value);
     let string = e.target.value;
     let indicies = string.split(",");
     let parentUser = listedUsers[indicies[0]];
     let subUser = parentUser.users[indicies[1]];
 
-    // name, birthday, phone number, email, staff level, level, both id's
     setCurrentDisplayName(subUser.name);
     setOldName(subUser.name);
     setCurrentPhoneNumber(parentUser.phone);
@@ -456,7 +437,6 @@ const AdminManageAccountsPage = () => {
     setCurrentParentID(parentUser._id["$oid"]);
     setCurrentChildID(subUser._id["$oid"]);
 
-    // from user.users name, birthday, phone,
     document.getElementById("edit-accout-info").style.display = "block";
     document.querySelector(".myForm-overlay").style.display = "block";
   };
@@ -475,10 +455,7 @@ const AdminManageAccountsPage = () => {
 
   const unlockInput = () => {
     document.getElementById("edit-name").disabled = false;
-    // document.getElementById("edit-birthday").disabled = false
-
     document.getElementById("edit-birthday").prefentOpenOnFocus = false;
-
     document.getElementById("edit-level").disabled = false;
     document.getElementById("edit-phone").disabled = false;
     document.getElementById("edit-email").disabled = false;
@@ -551,7 +528,6 @@ const AdminManageAccountsPage = () => {
               todayButton="Today"
               dropdownMode="select"
               inputReadOnly={true}
-              // readOnly={true}
               preventOpenOnFocus={true}
               popperPlacement="auto"
             ></DatePicker>
@@ -665,8 +641,6 @@ const AdminManageAccountsPage = () => {
             ></input>
           </div>
 
-          {/* <div className="family-info">
-           */}
           <div className="admin-button-div">
             <button className="edit-button" onClick={unlockInput}>
               Edit

@@ -136,7 +136,7 @@ const CoachCalendarPage = () => {
                 enrolled = [];
               }
 
-              //// creating the new event to use in the array
+              // creating the new event to use in the array
               let newEvent = {
                 name: name,
                 desc: desc,
@@ -152,7 +152,7 @@ const CoachCalendarPage = () => {
             }
           });
 
-          /// setting the events
+          // setting the events
           setCalEvents(tempEvents);
         });
     } catch (exception) {
@@ -162,7 +162,7 @@ const CoachCalendarPage = () => {
   };
 
   const onSelectEvent = (calEvent) => {
-    /// handle no attendance data
+    // handle no attendance data
     if (calEvent.attendance == undefined) {
       calEvent.attendance = [];
     }
