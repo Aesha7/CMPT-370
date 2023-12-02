@@ -6,6 +6,7 @@
 5. run py server.py
 5.1 if you create the venv in the projects parent directory and name it "370Team25Venv" you can use .Startup.ps1 while in the back-end directory to activate the venv and start the server (or just run the commands in the script)
 
+
 ######## FrontEnd ########
 1. install node.js
 2. cd into front-end directory of the project
@@ -13,5 +14,6 @@
 4. run "npm start" in the front-end directory
 5. go to http://localhost:3000/
 
+
+You can sign into a coaches account with email: "admin@admin.com" password: "password"
 You can sign into a coaches account with email: "coach@coach.com" password: "password"
-You can sign into an admin account with email: "admin@admin.com" password: "password"
