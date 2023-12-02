@@ -349,21 +349,23 @@ const UserLevelPage = () => {
       {" "}
       My Progression
       {/* // Member name labels at top of page */}
-      <label className="NLabel" htmlFor="name">
-        Name:{" "}
-      </label>
-      <label className="Name" htmlFor="name" type="name" id="name">
-        {userName}
-      </label>
-      {/* buttons on the page */}
-      <button className="buttonBackLevel" onClick={goBack}>
-        {" "}
-        Back{" "}
-      </button>
-      <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
-        {" "}
-        Save{" "}
-      </button>
+
+        <label className="labelBackground"> MY PROGRESSION</label>
+        <label className="NLabel" htmlFor="name">
+          Name:{" "}
+        </label>
+        <label className="Name" htmlFor="name" type="name" id="name">
+          {userName}
+        </label>
+        {/* buttons on the page */}
+        <button className="buttonBackLevel" onClick={goBack}>
+          {" "}
+          Back{" "}
+        </button>
+        <button className="buttonSave" id="checkboxSave" onClick={saveChecks}>
+          {" "}
+          Save{" "}
+        </button>
       {/* <button className="buttonAddTip" onClick={null}> Add Tip </button> */}
       {/* Skill checkboxes */}
       <label className="labelSkills"> Skills</label>

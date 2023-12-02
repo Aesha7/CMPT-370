@@ -171,4 +171,5 @@ def edit_attendance(request_data, accounts_collection, events_collection, course
         return resp
 
     courses_collection.update_one({"name": request_data["name"]}, {"$set": {"attendance": request_data["attendance"]}})
+    courses_collection.update_one({"name": request_data["name"]}, {"$set": {"feedbackArray": request_data["feedbackArray"]}})
     return resp

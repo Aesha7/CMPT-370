@@ -67,7 +67,7 @@
     transition-duration: 0.4s;
     background-color: #db936f;
     color: white;
-    visibility: hidden;
+    /* visibility: hidden; */
     /* display: none; */
 }
 

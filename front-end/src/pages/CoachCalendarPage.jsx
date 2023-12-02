@@ -125,6 +125,12 @@ const CoachCalendarPage = () => {
               } catch {
                 attendance = [];
               }
+              let feedbackArray;
+              try {
+                feedbackArray = event.feedbackArray;
+              } catch {
+                feedbackArray = [];
+              }
 
               if (enrolled === undefined) {
                 enrolled = [];
@@ -140,6 +146,7 @@ const CoachCalendarPage = () => {
                 enrolled: enrolled,
                 coach: coach,
                 attendance: attendance,
+                feedbackArray: feedbackArray,
               };
               tempEvents.push(newEvent);
             }
@@ -159,6 +166,9 @@ const CoachCalendarPage = () => {
     if (calEvent.attendance == undefined) {
       calEvent.attendance = [];
     }
+    if (calEvent.feedbackArray == undefined) {
+      calEvent.feedbackArray = [];
+    }
     if (calEvent.attendance.find(day => day.date == moment().startOf("day").toString()) === undefined) {
       calEvent.attendance.push({ date: moment().startOf("day").toString(), attendanceDate: [] });
     }
@@ -169,7 +179,14 @@ const CoachCalendarPage = () => {
         attendanceStudent => attendanceStudent.name == calEvent.enrolled[i].name) == undefined) {
   
         calEvent.attendance[calEvent.attendance.length - 1].attendanceDate.push(
-          { name: calEvent.enrolled[i].name, present: false, feedback: "" }
+          {name: calEvent.enrolled[i].name, present: false}
+        )
+      }
+      if (calEvent.feedbackArray.find(
+        attendanceStudent => attendanceStudent.name == calEvent.enrolled[i].name) == undefined) {
+  
+        calEvent.feedbackArray.push(
+          {name: calEvent.enrolled[i].name, feedback: ""}
         )
       }
     }
@@ -195,11 +212,10 @@ const CoachCalendarPage = () => {
 
   const onFeedbackChange = (student) => (event) => {
     //read feedback
-    currentCalEvent.attendance[
-      currentCalEvent.attendance.length - 1
-    ].attendanceDate.find(
+    currentCalEvent.feedbackArray.find(
       (currentStudent) => currentStudent.name === student
     ).feedback = event.target.value;
+
     forceUpdate(updateDummy + 1);
   };
 
@@ -212,6 +228,7 @@ const CoachCalendarPage = () => {
           account_ID: userID,
           name: currentCalEvent.name,
           attendance: currentCalEvent.attendance,
+          feedbackArray: currentCalEvent.feedbackArray
         }),
         headers: {
           "Content-Type": "application/json",
@@ -342,9 +359,7 @@ const CoachCalendarPage = () => {
                       rows="40"
                       cols="4"
                       value={
-                        currentCalEvent.attendance[
-                          currentCalEvent.attendance.length - 1
-                        ].attendanceDate.find(
+                        currentCalEvent.feedbackArray.find(
                           (currentStudent) =>
                             currentStudent.name === student.name
                         ).feedback
